@@ -26,6 +26,14 @@ def plate_csv(filename):
     For example, a plate's plateID can be called as plate[5]['plateID']
     """
 
+    # with open(filename, 'r') as f:
+    #     plates =[]
+
+    #     try:
+    #         plist = csv.DictReader(f)
+    #         for record in plist:
+    #             plates.append(record)
+
     f = open(filename,'r')
     plates = []
 
@@ -55,8 +63,8 @@ def main():
             ):
             plt.append([i['ra'], i['dec'], i['plate'], flag])
 
-    # ignore duplicate plate id, because some plate may have more
-    # than one time tag thus have duplicates in the Plates table
+    # ignore duplicate plate id, because some plates may have more
+    # than one time tag and thus have duplicates in the Plates table
     for i in range(len(plt)):
         for j in range(i + 1, len(plt)):
             if plt[j][2] == plt[i][2]:
@@ -86,15 +94,22 @@ def main():
     # output
     fout = open(rawdata_dir + 'pointing_list.txt', 'w')
     fout.write('# reduced plate pointings\' coordinates\n')
-    fout.write('# pointingID ra dec x y z plate [plate]\n')
+    fout.write('# pointingID ra(deg) dec(deg) x y z plate [plate]\n')
 
+    #
     n = 0
     for i in plt:
         if i[6] != 1:
             i.remove(0)
             i.insert(0, str(n)) # Add a pointing ID
             n += 1
-            fout.write(string.join([x for x in i]) + "\n")
+
+            for j in range(len(i)):
+                fout.write(i[j] + " ")
+
+            fout.write("\n")
+
+            # fout.write(string.join([x for x in i]) + "\n")                      #I don't understand this line and it doesn't work in 3 at least
 
     fout.close
 
@@ -110,41 +125,47 @@ def main():
     fout.write('# plate pointing\n')
 
     for i in plt2ptg:
-        fout.write(string.join([x for x in i]) + "\n")
+        for j in range(len(i)):
+            fout.write(i[j] + " ")
+
+        fout.write("\n")
 
     fout.close
 
 
     # read the txt pointing_list file and pickle it
     pointing_list = []
-    for line in file(rawdata_dir + 'pointing_list.txt'):
-        if line.lstrip().startswith('#'):
-            continue
-        record = line.split()
+    with open(rawdata_dir + 'pointing_list.txt') as p_data:
 
-        p = Pointing() # create a pointing instance
 
-        p.ID = record[0]
-        p.ra_deg = float(record[1])
-        p.dec_deg = float(record[2])
-        p.ra_rad = math.radians(p.ra_deg)
-        p.dec_rad = math.radians(p.dec_deg)
-        p.cartesian_x = float(record[3])
-        p.cartesian_y = float(record[4])
-        p.cartesian_z = float(record[5])
+        for line in p_data:
+            if line.lstrip().startswith('#'):
+                continue
+            record = line.split()
 
-        p.galactic_l_rad, p.galactic_b_rad = eq2gal(p.ra_rad, p.dec_rad)
-        p.galactic_l_deg = math.degrees(p.galactic_l_rad)
-        p.galactic_b_deg = math.degrees(p.galactic_b_rad)
+            p = Pointing() # create a pointing instance
 
-        p.plate = []
-        for i in range(len(record) - 6):
-            p.plate.append(record[6 + i])
+            p.ID = record[0]
+            p.ra_deg = float(record[1])
+            p.dec_deg = float(record[2])
+            p.ra_rad = math.radians(p.ra_deg)
+            p.dec_rad = math.radians(p.dec_deg)
+            p.cartesian_x = float(record[3])
+            p.cartesian_y = float(record[4])
+            p.cartesian_z = float(record[5])
 
-        pointing_list.append(p)
+            p.galactic_l_rad, p.galactic_b_rad = eq2gal(p.ra_rad, p.dec_rad)
+            p.galactic_l_deg = math.degrees(p.galactic_l_rad)
+            p.galactic_b_deg = math.degrees(p.galactic_b_rad)
+
+            p.plate = []
+            for i in range(len(record) - 6):
+                p.plate.append(record[6 + i])
+
+            pointing_list.append(p)
 
     output_filename = rawdata_dir + 'pointing_list.dat'
-    output_file = open(output_filename, 'w')
+    output_file = open(output_filename, 'wb')
     pickle.dump(pointing_list, output_file)
     output_file.close()
     sys.stderr.write('Pickle dump pointing list to {} .\n'

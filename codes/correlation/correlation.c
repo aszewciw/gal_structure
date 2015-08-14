@@ -1,6 +1,7 @@
-/* 
+/*
+   Qingqing's code for correlation. My (working) version is based on this.
    Calculating the correlation function between data and random catalog.
-   Directly pair counting is used. 
+   Directly pair counting is used.
 */
 
 #include <stdlib.h>
@@ -34,15 +35,15 @@ double cross_pairs(DATA data1, DATA data2, double r1, double r2){
   int i, j;
 
   POINT p1, p2;
-  
+
   for(i = 0; i < data1.N; i++){
 
     p1 = data1.points[i];
-    
+
     for(j = 0; j < data2.N; j++){
-    
+
       p2 = data2.points[j];
-      
+
       dx = fabs(p1.x - p2.x);
       if(dx >= r2) continue;
 
@@ -56,25 +57,25 @@ double cross_pairs(DATA data1, DATA data2, double r1, double r2){
 
       if(ds >= rs1 && ds < rs2)
 	counts += p1.weight * p2.weight;
-    
+
     }
   }
-  
+
   return counts;
 }
 
 /* ------------------------------------------------------------------------- */
 double cross_pairs_norm(DATA data1, DATA data2){
-  
+
   double total = 0.0;
   int i, j;
-  
+
   for(i = 0; i < data1.N; i++){
     for(j = 0; j < data2.N; j++){
       total += data1.points[i].weight * data2.points[j].weight;
     }
   }
-  
+
   return total;
 }
 
@@ -92,7 +93,7 @@ double self_pairs(DATA data, double r1, double r2){
   int i, j;
 
   POINT p1, p2;
-  
+
   for(i = 0; i < data.N; i++){
 
     p1 = data.points[i];
@@ -100,7 +101,7 @@ double self_pairs(DATA data, double r1, double r2){
     for(j = i + 1; j < data.N; j++){
 
       p2 = data.points[j];
-      
+
       dx = fabs(p1.x - p2.x);
       if(dx >= r2) continue;
 
@@ -114,26 +115,26 @@ double self_pairs(DATA data, double r1, double r2){
 
       if(ds >= rs1 && ds < rs2)
 	counts += p1.weight * p2.weight;
-    
+
     }
   }
-  
+
   return counts;
 }
 
 
 /* ------------------------------------------------------------------------- */
 double self_pairs_norm(DATA data){
-  
+
   double total = 0.0;
   int i, j;
-  
+
   for(i = 0; i < data.N; i++){
     for(j = i + 1; j < data.N; j++){
       total += data.points[i].weight * data.points[j].weight;
     }
   }
-  
+
   return total;
 }
 
@@ -149,7 +150,7 @@ double pairs(DATA data1, DATA data2, double r1, double r2){
     counts = cross_pairs(data1, data2, r1, r2);
 
   return counts;
-  
+
 }
 
 /* ------------------------------------------------------------------------- */
@@ -163,7 +164,7 @@ double pairs_norm(DATA data1, DATA data2){
     total = cross_pairs_norm(data1, data2);
 
   return total;
-  
+
 }
 
 
@@ -193,7 +194,7 @@ int main(int argc, char **argv){
   sscanf(argv[5], "%d", &nbins);
 
   if(rmin >= rmax){
-    fprintf(stderr, 
+    fprintf(stderr,
 	    "Error: rmin is greater than rmax. Nothing will be calculated. \n");
     exit(EXIT_FAILURE);
   }
@@ -204,20 +205,20 @@ int main(int argc, char **argv){
   }
 
   if(nbins <= 0){
-    fprintf(stderr, 
+    fprintf(stderr,
 	    "Error: nbins is not positive. No bin will be calculated. \n");
     exit(EXIT_FAILURE);
   }
 
   double rmax_log, rmin_log, dr_log;
-  
+
   rmax_log = log(rmax) / log(10.0);
   rmin_log = log(rmin) / log(10.0);
   dr_log = (rmax_log - rmin_log) / nbins;
 
   fprintf(stderr, "data file is: %s\n random file is %s\n", argv[1], argv[2]);
   fprintf(stderr, "log(rmin) = %lf,\t log(rmax) = %lf,\t log(dr) = %f\n", rmin_log, rmax_log, dr_log);
-  
+
   fprintf(stderr, "Start reading data and random. \n");
 
   int i;
@@ -254,7 +255,7 @@ int main(int argc, char **argv){
   // read in the random file
   n = Nfetch;
   data2.points = (POINT *)calloc(n, sizeof (POINT));
-    
+
   i = 0;
   np = 0;
   while(fscanf(file2, "%lf", &data2.points[i].x) == 1){
@@ -272,7 +273,7 @@ int main(int argc, char **argv){
   data2.points = (POINT *)realloc(data2.points, np * sizeof (POINT));
   fprintf( stderr, "Done reading %s. %lu particles read. \n", argv[2], np );
   data2.N = np;
-  
+
   // calculate the correlation
   fprintf(stderr, "Start calculating the correlation function... \n");
   double r_log;
@@ -283,8 +284,8 @@ int main(int argc, char **argv){
   DR_norm = pairs_norm(data1, data2);
 
   for(r_log = rmin_log; r_log < rmax_log; r_log += dr_log){
-    
-    double DD, RR, DR; 
+
+    double DD, RR, DR;
     double correlation;
 
     double r1, r2;
@@ -297,7 +298,7 @@ int main(int argc, char **argv){
     DR = pairs(data1, data2, r1, r2);
 
     //fprintf(stderr, "DD = %lf, \t RR = %lf, \t DR = %lf \n", DD, RR, DR);
-    //fprintf(stderr, "DD_norm = %le, \t RR_norm = %le, \t DR_norm = %le \n", 
+    //fprintf(stderr, "DD_norm = %le, \t RR_norm = %le, \t DR_norm = %le \n",
     //         DD_norm, RR_norm, DR_norm);
 
     DD /= DD_norm;
@@ -309,10 +310,10 @@ int main(int argc, char **argv){
 
     // fprintf(stderr, "r = %lf, \tcorrelation = %lf\n", r1, correlation);
 
-    fprintf(stdout, "%lf\t%lf\t%lf\t%le\t%le\t%le\t%le\n", 
-	    r1, correlation, pow(10.0, dr_log), 
+    fprintf(stdout, "%lf\t%lf\t%lf\t%le\t%le\t%le\t%le\n",
+	    r1, correlation, pow(10.0, dr_log),
 	    DD, DD_norm, RR, RR_norm);
-    
+
   }
 
   fprintf(stderr, "Done calculation and output. \n");

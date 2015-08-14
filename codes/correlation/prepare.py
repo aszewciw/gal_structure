@@ -8,7 +8,7 @@ def main():
     # load pointing list
     input_filename = rawdata_dir + 'pointing_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
+    input_file = open(input_filename, 'rb')
     pointing_list = pickle.load(input_file)
     input_file.close()
 
@@ -26,8 +26,8 @@ def main():
         if os.path.getsize(star_filename) == 0:
             continue
 
-        star_file = open(star_filename, 'r')
-        star_list = pickle.load(star_file)
+        with open(star_filename, 'rb') as star_file:
+            star_list = pickle.load(star_file)
 
         # calculate the weights
         for s in star_list:
@@ -45,7 +45,7 @@ def main():
         r2 = OUTER_DISTANCE_LIMIT
         rlist = [s.distance for s in star_list]
         if min(rlist) > r1 or max(rlist) < r2:
-            continue # skip pointing with stars only in too narrow range                                                            I don't understand this.
+            continue # skip pointing with stars only in too narrow range                                I don't understand this.
 
         # only use stars within the range
         star_list = [s for s in star_list if s.distance > r1 and s.distance < r2]
@@ -57,7 +57,7 @@ def main():
 
         # output a repacked data file
         output_filename = data_dir + 'star_' + p.ID + '.dat'
-        output_file = open(output_filename, "w")
+        output_file = open(output_filename, 'wb')
         pickle.dump(star_list, output_file)
         output_file.close()
 
@@ -74,7 +74,7 @@ def main():
 
     # output the todo list
     output_filename = data_dir + 'todo_list.dat'
-    output_file = open(output_filename, 'w')
+    output_file = open(output_filename, 'wb')
     pickle.dump(todo_list, output_file)
     sys.stderr.write('The todo list is output to {} .\n'.format(output_filename))
 

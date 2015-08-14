@@ -1,8 +1,15 @@
 #!/usr/bin/env python
+'''
+Contains several repeatedly used directories and functions. To be
+imported by essentially every other script. My data structure on Bender
+is slightly different than on my local machine. Thus, the data directories
+should be changed.
+
+'''
 
 import os, sys, math, random
 import string, csv
-import pickle, cPickle
+import pickle
 
 class Point:
     pass
@@ -21,9 +28,10 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir = '../data/'
+rawdata_dir = '../../data/'
 data_dir = './data/'
 plots_dir = './plots/'
+MW_dir = rawdata_dir + 'MW_best_fit/'
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
@@ -64,6 +72,102 @@ def cart2eq(x, y, z):
     dec = math.asin(z / r)
 
     return ra, dec, r
+#------------------------------------------------------------------------------
+# RA(radians),Dec(radians),distance(kpc) of Galactic center in J2000
+Galactic_Center_Equatorial=(math.radians(266.40510), math.radians(-28.936175), 8.33)
+
+# RA(radians),Dec(radians) of Galactic Northpole in J2000
+Galactic_Northpole_Equatorial=(math.radians(192.859508), math.radians(27.128336))
+Galactic_Ascending_Node = math.radians(32.932)
+#------------------------------------------------------------------------------
+def eq2gal(ra,dec):
+    """
+    Convert Equatorial coordinates to Galactic Coordinates in the epch J2000.
+
+    Keywords arguments:
+    ra  -- Right Ascension (in radians)
+    dec -- Declination (in radians)
+
+    Return a tuple (l, b):
+    l -- Galactic longitude (in radians)
+    b -- Galactic latitude (in radians)
+    """
+
+    alpha = Galactic_Northpole_Equatorial[0]
+    delta = Galactic_Northpole_Equatorial[1]
+    la = Galactic_Ascending_Node
+
+    b = math.asin(math.sin(dec) * math.sin(delta) +
+                  math.cos(dec) * math.cos(delta) * math.cos(ra - alpha))
+
+    l = math.atan2(math.sin(dec) * math.cos(delta) -
+                   math.cos(dec) * math.sin(delta) * math.cos(ra - alpha),
+                   math.cos(dec) * math.sin(ra - alpha)
+                   ) + la
+
+    l = l if l >= 0 else (l + math.pi * 2.0)
+
+    l = l % (2.0 * math.pi)
+
+    return l, b
+#------------------------------------------------------------------------------
+def gal2eq(l, b):
+    """
+    Convert Galatic coordinates to Equatorial Coordinates in the epch J2000.
+
+    Keywords arguments:
+    l -- Galactic longitude (in radians)
+    b -- Galactic latitude (in radians)
+
+    Return a tuple (ra, dec):
+    ra  -- Right Ascension (in radians)
+    dec -- Declination (in radians)
+    """
+
+    alpha = Galactic_Northpole_Equatorial[0]
+    delta = Galactic_Northpole_Equatorial[1]
+    la = Galactic_Ascending_Node
+
+    dec = math.asin(math.sin(b) * math.sin(delta) +
+                    math.cos(b) * math.cos(delta) * math.sin(l - la))
+
+    ra = math.atan2(math.cos(b) * math.cos(l - la),
+                    math.sin(b) * math.cos(delta) -
+                    math.cos(b) * math.sin(delta) * math.sin(l - la)
+                    ) + alpha
+
+    ra = ra if ra>=0 else (ra + math.pi * 2.0)
+
+    ra = ra % (2.0 * math.pi)
+
+    return ra, dec
+#------------------------------------------------------------------------------
+# sun's distance away from the galactic center
+Galactic_Sun_Position = 8.0
+
+def gal2ZR(l, b, distance):
+    """
+    Transfer helio-centered galactic coordinates to galactic center based
+    z and r (cylinder coordinates).
+    Used to put into the galactic disk model to calculate the density.
+
+    Keywords arguments:
+    l -- Galactic longitude (in radians)
+    b -- Galactic latitude (in radians)
+
+    Return a tuple (Z, R):
+    Z  -- absolute distance above/below the galactic disk
+    R -- distance away from the galactic center axis
+    """
+
+    # z projection
+    Z = abs(distance * math.sin(b))
+    # Law of cosines
+    x = distance * math.cos(b)
+    y = Galactic_Sun_Position
+    R = math.sqrt(x * x + y * y - 2.0 * x * y * math.cos(l))
+
+    return Z, R
 #------------------------------------------------------------------------------
 def dot(vec1, vec2):
     """

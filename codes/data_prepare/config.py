@@ -16,7 +16,9 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir = '../data/'
+# rawdata_dir = '../data/'
+# Changed from line above to mimic local machine
+rawdata_dir = '../../data/'
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):

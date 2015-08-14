@@ -1,26 +1,41 @@
 #!/usr/bin/env python
 
-from collections import defaultdict
-
 from config import *
+import numpy as np
+
+'''
+This calculates the mean, standard deviation, and error of the
+correlation between data and MW model points. It reads in correlation
+files and writes a single data file containing the statistical information.
+
+'''
 
 def main():
-
 
     # load the todo pointing list
     input_filename = data_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
-    todo_list = pickle.load(input_file)
-    input_file.close()
+    with open(input_filename, 'rb') as todo:
+        todo_list = pickle.load(todo)
 
-    # calculate the average, standard deviation, and error
-    cor = defaultdict(list)
 
-    # calculate correlation function for each plate
+    #Initialize an array to be filled with all correlation values
+
+    # Use a single file to determine in how many bins corr was calculated
+    test_file = MW_dir + 'correlation_' + todo_list[0].ID + '.dat'
+    some_column = np.genfromtxt(test_file, unpack = True, usecols = [0])
+    N_cols = len(some_column)
+
+    N_rows = len(todo_list)
+
+    data_array = np.zeros((N_rows, N_cols))
+
+    #
     for p in todo_list:
+        index = todo_list.index(p)
 
-        cor_file = data_dir + 'correlation_' + p.ID + '.dat'
+        # cor_file = data_dir + 'correlation_' + p.ID + '.dat'
+        cor_file = MW_dir + 'correlation_' + p.ID + '.dat'
 
         if not os.path.isfile(cor_file):
             sys.stderr.write('Warning: ' + cor_file + ' does not exist.\n')
@@ -30,42 +45,31 @@ def main():
             continue
 
         # read in correlations of each plate
-        for line in file(cor_file):
-            if line.lstrip().startswith('#'):
+        temp = np.genfromtxt(cor_file, unpack = True, usecols = [1])
+
+        # Each column of data_array contains a list of all (every plate)
+        # correlation values for a particular bin.
+        for i in range(len(temp)):
+
+            if math.isnan(temp[i]):
                 continue
-            index = float(line.split()[0])
-            x = line.split()[1]
-            x = 0.0 if x == 'inf' or x == 'nan' else float(x)
-            # each dictionary item has a list of correlations
-            cor[index].append(x)
 
-    # take average
-    out = defaultdict(list)
+            data_array[index, i] = temp[i]
 
-    for k in cor:
+    # Calculate mean, std, and err for each bin
+    mean = np.sum(data_array, axis = 0) / N_rows
+    std = (data_array - mean) * (data_array - mean)
+    std = np.sum(std, axis = 0) / (N_rows - 1)
+    std = np.sqrt(std)
+    err = std / math.sqrt(N_rows)
 
-        n, mean, std, err = len(cor[k]), 0, 0, 0
-        mean = float(sum(cor[k])) / n
+    # Prepare data to be output and output
+    out_data = np.column_stack((mean, std))
+    out_data = np.column_stack((out_data, err))
+    output_file = MW_dir + 'stat_data.dat'
+    np.savetxt(output_file, out_data)
 
-        for i in cor[k]:
-            std += (i - mean) * (i - mean)
+    sys.stderr.write('Results output to {}. \n'.format(output_file))
 
-        std = math.sqrt(std / (n - 1))
-        err = std / math.sqrt(n)
-
-        out[k] = [mean, std, err]
-
-    # output
-    output_filename = data_dir + 'correlation.dat'
-    output_file = open(output_filename, 'w')
-
-    for k in sorted(out.iterkeys()):
-
-        output_file.write("{0}\t{1}\t{2}\t{3}\n"
-                          .format(str(k), str(out[k][0]), str(out[k][1]), str(out[k][2])))
-
-    output_file.close()
-    sys.stderr.write('Results output to {} . \n'.format(output_filename))
-
-if __name__ == '__main__' :
+if __name__ == '__main__':
     main()

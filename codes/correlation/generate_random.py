@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-
+'''
+Reads in each pointing from SEGUE and generates a random
+sample with 100 times the number density for each line of sight.
+The cartesian coordinates and a weight (1 for random sample)
+for each random star in the pointing are then output to a data
+file.
+'''
 from config import *
 
 #------------------------------------------------------------------------------
@@ -74,20 +80,6 @@ def random_unit(Ntot, pointing):
 
     return random_sample
 #-------------------------------------------------------------------------
-# def assign_distance(random_sample, star_list):
-
-#     # assign each star's distance to couple of random points
-#     for n in range(len(random_sample)):
-#         random_sample[n].distance = star_list[n % len(star_list)].distance
-#         random_sample[n].weight = star_list[n % len(star_list)].weight
-
-#     # recalculate the x, y, z of random points based on the assigned distance.
-#     for p in random_sample:
-#         p.cartesian_x, p.cartesian_y, p.cartesian_z = eq2cart(p.ra, p.dec, p.distance)
-
-#     return random_sample
-
-#--------------------------------------------------------------------------
 def assign_distance(random_sample, r1, r2):
     """
     Assign distances to random points.
@@ -123,9 +115,8 @@ def main():
     # load the todo pointing list
     input_filename = data_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
-    todo_list = pickle.load(input_file)
-    input_file.close()
+    with open(input_filename, 'rb') as input_file:
+        todo_list = pickle.load(input_file)
 
     sys.stderr.write('Generating random samples..\n')
     sys.stderr.write('{} line-of-sight to generate..\n'.format(len(todo_list)))
@@ -159,7 +150,7 @@ def main():
 
         # output
         output_filename = data_dir + 'random_' + p.ID + '.dat'
-        output_file = open(output_filename, "w")
+        output_file = open(output_filename, "wb")
         pickle.dump(random_sample, output_file)
         output_file.close()
 
