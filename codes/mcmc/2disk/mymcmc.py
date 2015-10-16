@@ -121,7 +121,7 @@ def chi2(todo_list, N_files, MODEL):
 
 #############################################################
 
-@profile
+# @profile
 def main():
 
     np.random.seed()
