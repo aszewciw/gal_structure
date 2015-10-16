@@ -7,7 +7,6 @@ Data input and output is x, y, z, and weight.
 from config import *
 import numpy as np
 
-@profile
 def gal_weights(Z, R):
     '''
     Returns a weight based on a particular model of the MW.
@@ -33,7 +32,6 @@ def gal_weights(Z, R):
         * math.exp(-R / thick_s_length))
 
     return weight
-@profile
 
 def main():
 

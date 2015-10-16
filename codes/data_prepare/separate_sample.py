@@ -8,15 +8,15 @@ def main():
     # read pickled G star sample
     input_filename = rawdata_dir + 'gstar_sample.dat'
     sys.stderr.write('Reading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'rb')
-    gstar_list = pickle.load(input_file)
+    input_file     = open(input_filename, 'rb')
+    gstar_list     = pickle.load(input_file)
     input_file.close()
 
     # load pointing list
     input_filename = rawdata_dir + 'pointing_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'rb')
-    pointing_list = pickle.load(input_file)
+    input_file     = open(input_filename, 'rb')
+    pointing_list  = pickle.load(input_file)
     input_file.close()
 
     # the cos of the plate size
@@ -55,7 +55,7 @@ def main():
             continue # skip empty or very few stars pointing
 
         output_filename = rawdata_dir + 'gstar_' + p.ID + '.dat'
-        output_file = open(output_filename, 'wb')
+        output_file     = open(output_filename, 'wb')
         pickle.dump(p.star_list, output_file)
         output_file.close()
 

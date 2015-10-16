@@ -34,7 +34,7 @@ def plate_csv(filename):
     #         for record in plist:
     #             plates.append(record)
 
-    f = open(filename,'r')
+    f      = open(filename,'r')
     plates = []
 
     try:
@@ -51,7 +51,7 @@ def main():
 
     plates = plate_csv(rawdata_dir + 'segue.plates.csv')
 
-    plt = []
+    plt  = []
     flag = 0
     # picking plates as needed
     for i in plates:
@@ -73,9 +73,9 @@ def main():
     # Calculate the Cartesian coordinates of centers
     for i in range(len(plt)):
 
-        ra = math.radians(float(plt[i][0]))
-        dec = math.radians(float(plt[i][1]))
-        r = 1.0
+        ra   = math.radians(float(plt[i][0]))
+        dec  = math.radians(float(plt[i][1]))
+        r    = 1.0
         cart = eq2cart(ra, dec, r);
         plt[i].insert(2, str(cart[0]));
         plt[i].insert(3, str(cart[1]));
@@ -143,20 +143,20 @@ def main():
                 continue
             record = line.split()
 
-            p = Pointing() # create a pointing instance
+            p                                  = Pointing() # create a pointing instance
 
-            p.ID = record[0]
-            p.ra_deg = float(record[1])
-            p.dec_deg = float(record[2])
-            p.ra_rad = math.radians(p.ra_deg)
-            p.dec_rad = math.radians(p.dec_deg)
-            p.cartesian_x = float(record[3])
-            p.cartesian_y = float(record[4])
-            p.cartesian_z = float(record[5])
+            p.ID                               = record[0]
+            p.ra_deg                           = float(record[1])
+            p.dec_deg                          = float(record[2])
+            p.ra_rad                           = math.radians(p.ra_deg)
+            p.dec_rad                          = math.radians(p.dec_deg)
+            p.cartesian_x                      = float(record[3])
+            p.cartesian_y                      = float(record[4])
+            p.cartesian_z                      = float(record[5])
 
             p.galactic_l_rad, p.galactic_b_rad = eq2gal(p.ra_rad, p.dec_rad)
-            p.galactic_l_deg = math.degrees(p.galactic_l_rad)
-            p.galactic_b_deg = math.degrees(p.galactic_b_rad)
+            p.galactic_l_deg                   = math.degrees(p.galactic_l_rad)
+            p.galactic_b_deg                   = math.degrees(p.galactic_b_rad)
 
             p.plate = []
             for i in range(len(record) - 6):
@@ -165,7 +165,7 @@ def main():
             pointing_list.append(p)
 
     output_filename = rawdata_dir + 'pointing_list.dat'
-    output_file = open(output_filename, 'wb')
+    output_file     = open(output_filename, 'wb')
     pickle.dump(pointing_list, output_file)
     output_file.close()
     sys.stderr.write('Pickle dump pointing list to {} .\n'

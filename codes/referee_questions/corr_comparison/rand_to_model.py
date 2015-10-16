@@ -7,7 +7,6 @@ Data input and output is x, y, z, and weight.
 from config import *
 import numpy as np
 
-@profile
 def gal_weights(Z, R):
     '''
     Returns a weight based on a particular model of the MW.
@@ -24,7 +23,7 @@ def gal_weights(Z, R):
     thick_s_length = 2.51
     thin_s_height = 0.233
     thin_s_length = 2.34
-    a = 0.12                            #Taken from a paper (indicate which one)
+    a = 0.09                            #Taken from a paper (indicate which one)
 
 
     weight = ( ( ( math.cosh(Z / 2 / thin_s_height) ) ** (-2) )
@@ -33,7 +32,6 @@ def gal_weights(Z, R):
         * math.exp(-R / thick_s_length))
 
     return weight
-@profile
 
 def main():
 
@@ -44,7 +42,7 @@ def main():
 
     for p in todo_list:
 
-        rand_file = data_dir + 'random_' + p.ID + '.xyzw.dat'
+        rand_file = MW_dir + 'MW_datarandom_' + p.ID + '.xyzw.dat'
 
         if not os.path.isfile(rand_file):
 

@@ -1,9 +1,10 @@
 import numpy as np
 from config import *
 import matplotlib.pyplot as plt
+import matplotlib
 
 '''
-Read files of correlation data and plot them, including errors
+Read files of correlation data and plot them, including errors in mean
 '''
 
 def main():
@@ -16,6 +17,20 @@ def main():
 
     with open(input_filename, 'rb') as input_file:
         todo_list = pickle.load(input_file)
+
+    fig = plt.figure(figsize = (10, 8))
+    ax = fig.add_subplot(1,1,1, axisbg = 'white')
+    ax.set_xlabel('r (kpc)')
+    ax.set_ylabel(r'$\displaystyle\frac{DD}{MM}$(r) - 1')
+    ax.set_title('Two-point Correlation of SEGUE G-Dwarfs')
+    ax.set_xscale('log')
+    # ax.set_xticks([0.01, 0.1, 1])
+    ax.set_xticklabels(['0.01', '0.1', '1'])
+    ax.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+
+    ax.grid(True, color='k', linestyle = '--')
+    # ax.set_zorder(1)
+    # ax.set_axisbelow(True)
 
 
     for p in todo_list:
@@ -31,11 +46,15 @@ def main():
 
         count += 1
 
-        plt.semilogx(bins, corr, '0.75', zorder = -42)
-        plt.grid(True)
-        plt.xlabel('r (kpc)')
-        plt.ylabel('DD/MM - 1')
-        plt.title('Two-point Correlation of SEGUE G-Dwarfs')
+        # plt.semilogx(bins, corr, '0.75', zorder = -42)
+        # ax.semilogx(bins, corr, '0.75', zorder = -42)
+        ax.plot(bins, corr, '0.75', zorder = -42)
+        # ax.set_zorder(10)
+        # plt.grid(True)
+        # plt.xlabel(r'\ r (kpc)')
+        # plt.ylabel(r'$\displaystyle\frac{DD}{MM}$(r) - 1')
+
+        # plt.title('Two-point Correlation of SEGUE G-Dwarfs')
         plt.axis([0.005, 2, -1, 1.5])
 
     sys.stderr.write('Total number of plots is {}\n'.format(count))
@@ -43,7 +62,10 @@ def main():
     # Adding error bars
     stat_file = MW_dir + 'stat_data.dat'
     mean, error = np.genfromtxt(stat_file, unpack = True, usecols = [0, 2])
-    plt.errorbar(bins, mean, error, fmt = 'ro', ecolor = 'r', elinewidth = 2, capthick = 2)
+    # plt.errorbar(bins, mean, error, fmt = 'ro', ecolor = 'r', elinewidth = 1.5, capthick = 1.5)
+    ax.errorbar(bins, mean, error, fmt = 'ro', ecolor = 'r', elinewidth = 1.5, capthick = 1.5, capsize = 7)
+    # ax.set_zorder(20)
+
     plt.show()
 
 if __name__ == '__main__':

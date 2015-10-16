@@ -1,6 +1,8 @@
 import os, sys, math
 import string, csv
 import pickle
+import random
+import numpy as np
 
 class Star:
     pass
@@ -8,15 +10,35 @@ class Star:
 class Pointing:
     pass
 
+class Point:
+    pass
+
 
 PLATE_RADIUS_DEGREES = 1.49 # the radius of the plate, in degrees
 PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 
-#control the inner and outer limit of the sample to be used.
+# control the inner and outer limit of the sample to be used. Distances in kpc
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir = '../../data/data_raw/'
+# rawdata_dir = '../data/'
+# Changed from line above to mimic local machine
+data_dir      = '../../../data/'
+rawdata_dir   = data_dir + 'data_raw/'
+xyzw_dir      = data_dir + 'data_xyzw/'
+mcmc_dir      = data_dir + 'mcmc/'
+jk_dir        = mcmc_dir + 'jk_both/'
+DD_dir        = mcmc_dir + 'data_DD/'
+uni_pairs_dir = mcmc_dir + 'uni_pairs/'
+uni100_dir    = data_dir + 'uni100_xyzw/'
+uni10_dir     = data_dir + 'uni10_xyzw/'
+
+# create array of bins evenly spaced in log
+Nbins   = 12
+bin_min = 0.005
+bin_max = 2
+bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
+bins    = np.power(10, bins)
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
@@ -52,9 +74,9 @@ def cart2eq(x, y, z):
     r   -- Distance in the same unit of input (x, y, z)
     """
 
-    r = math.sqrt(x * x + y * y + z * z)
-    ra = math.atan2(y, x)
-    ra = ra if ra >= 0 else (2.0 * math.pi + ra)
+    r   = math.sqrt(x * x + y * y + z * z)
+    ra  = math.atan2(y, x)
+    ra  = ra if ra >= 0 else (2.0 * math.pi + ra)
     dec = math.asin(z / r)
 
     return ra, dec, r
@@ -81,7 +103,7 @@ def eq2gal(ra,dec):
 
     alpha = Galactic_Northpole_Equatorial[0]
     delta = Galactic_Northpole_Equatorial[1]
-    la = Galactic_Ascending_Node
+    la    = Galactic_Ascending_Node
 
     b = math.asin(math.sin(dec) * math.sin(delta) +
                   math.cos(dec) * math.cos(delta) * math.cos(ra - alpha))
@@ -112,7 +134,7 @@ def gal2eq(l, b):
 
     alpha = Galactic_Northpole_Equatorial[0]
     delta = Galactic_Northpole_Equatorial[1]
-    la = Galactic_Ascending_Node
+    la    = Galactic_Ascending_Node
 
     dec = math.asin(math.sin(b) * math.sin(delta) +
                     math.cos(b) * math.cos(delta) * math.sin(l - la))
