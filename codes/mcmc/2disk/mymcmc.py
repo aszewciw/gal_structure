@@ -14,7 +14,7 @@ needs to be calculated once (and it has).'''
 
 #############################################################
 
-# @profile
+@profile
 def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
     '''
@@ -35,7 +35,7 @@ def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
 #############################################################
 
-# @profile
+@profile
 def norm_weights(w):
 
     '''
@@ -51,7 +51,7 @@ def norm_weights(w):
 
 #############################################################
 
-# @profile
+@profile
 def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
 
     '''
@@ -88,7 +88,7 @@ def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
 
 #############################################################
 
-# @profile
+@profile
 def chi2(todo_list, N_files, MODEL):
 
     '''Calculates chi-square for given model'''
@@ -121,7 +121,7 @@ def chi2(todo_list, N_files, MODEL):
 
 #############################################################
 
-# @profile
+@profile
 def main():
 
     np.random.seed()
