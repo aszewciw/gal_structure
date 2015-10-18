@@ -76,11 +76,11 @@ def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
 
     else:
 
-        a     = np.random.normal(a, a_std)
+        a       = np.random.normal(a, a_std)
         z_thick = np.random.normal(z_thick, z_thick_std)
         r_thick = np.random.normal(r_thick, r_thick_std)
-        z_thin = np.random.normal(z_thin, z_thin_std)
-        r_thin = np.random.normal(r_thin, r_thin_std)
+        z_thin  = np.random.normal(z_thin, z_thin_std)
+        r_thin  = np.random.normal(r_thin, r_thin_std)
 
     return(a, z_thick, r_thick, z_thin, r_thin)
 
@@ -169,7 +169,7 @@ def main():
     input_file     = open(input_filename, 'rb')
     todo_list      = pickle.load(input_file)
     input_file.close()
-    N_los = len(todo_list)
+    N_los          = len(todo_list)
 
 
     # Loading data into dictionaries and subdictionaries
@@ -207,7 +207,7 @@ def main():
 
         for j in range(Nbins):
 
-            bin = 'bin_' + str(j)
+            bin             = 'bin_' + str(j)
 
             MODEL[los][bin] = {}
             DATA[los][bin]  = {}
@@ -313,10 +313,6 @@ def main():
                 MODEL[los][bin]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][bin]['ind1']] *
                     MODEL_ZRW[los]['W'][MODEL[los][bin]['ind2']] ) / MODEL_ZRW[los]['norm']
 
-                # I could probably move this next line to earlier in the code to skip doing anything
-                # for los with 0 data counts.
-
-                MODEL[los][bin]['DD/MM'] = DATA[los][bin]['DD'] / MODEL[los][bin]['MM']
 
                 if DATA[los][bin]['DD'] <= 0 or MODEL[los][bin]['MM'] <= 0:
 
@@ -327,7 +323,7 @@ def main():
                     MODEL[los][bin]['DD/MM'] = DATA[los][bin]['DD'] / MODEL[los][bin]['MM']
 
 
-        CHI2[k] = chi2(todo_list, N_files, MODEL)
+        CHI2[k]    = chi2(todo_list, N_files, MODEL)
 
         delta_chi2 = CHI2[k] - CHI2[k - 1]
 
