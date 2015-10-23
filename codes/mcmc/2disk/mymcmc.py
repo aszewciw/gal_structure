@@ -14,7 +14,7 @@ needs to be calculated once (and it has).'''
 
 #############################################################
 
-@profile
+# @profile
 def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
     '''
@@ -35,7 +35,7 @@ def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
 #############################################################
 
-@profile
+# @profile
 def norm_weights(w):
 
     '''
@@ -51,7 +51,7 @@ def norm_weights(w):
 
 #############################################################
 
-@profile
+# @profile
 def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
 
     '''
@@ -60,11 +60,17 @@ def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
     init will have value 0 if we are initializing
     values.
     '''
-    a_std     = 0.005
-    z_thick_std = 0.016
-    r_thick_std = 0.19
-    z_thin_std = 0.007
-    r_thin_std = 0.48
+    # a_std     = 0.005
+    # z_thick_std = 0.016
+    # r_thick_std = 0.19
+    # z_thin_std = 0.007
+    # r_thin_std = 0.48
+
+    a_std     = 0.002
+    z_thick_std = 0.005
+    r_thick_std = 0.05
+    z_thin_std = 0.005
+    r_thin_std = 0.05
 
     if init == 0:
 
@@ -88,7 +94,7 @@ def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
 
 #############################################################
 
-@profile
+# @profile
 def chi2(todo_list, N_files, MODEL):
 
     '''Calculates chi-square for given model'''
@@ -121,7 +127,7 @@ def chi2(todo_list, N_files, MODEL):
 
 #############################################################
 
-@profile
+# @profile
 def main():
 
     np.random.seed()
@@ -352,11 +358,16 @@ def main():
     # print('Accept Rate:', accept_rate / N_loops)
     # print(A, Z_THC, Z_THN, R_THC, R_THN)
 
-    np.savetxt('A.dat', A)
-    np.savetxt('Z_THICK.dat', Z_THICK)
-    np.savetxt('Z_THIN.dat', Z_THIN)
-    np.savetxt('R_THICK.dat', R_THICK)
-    np.savetxt('R_THIN.dat', R_THIN)
+    # np.savetxt('A.dat', A)
+    # np.savetxt('Z_THICK.dat', Z_THICK)
+    # np.savetxt('Z_THIN.dat', Z_THIN)
+    # np.savetxt('R_THICK.dat', R_THICK)
+    # np.savetxt('R_THIN.dat', R_THIN)
 
+    np.savetxt('a1.dat', A)
+    np.savetxt('z_thick1.dat', Z_THICK)
+    np.savetxt('z_thin1.dat', Z_THIN)
+    np.savetxt('r_thick1.dat', R_THICK)
+    np.savetxt('r_thin1.dat', R_THIN)
 if __name__ == '__main__':
     main()
