@@ -52,7 +52,7 @@ def norm_weights(w):
 #############################################################
 
 # @profile
-def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1):
+def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0):
 
     '''
     Assigns new parameters based on current values
@@ -163,7 +163,7 @@ def main():
 
     # Arrays of parameter values for each mcmc step
     A, Z_THICK, R_THICK, Z_THIN, R_THIN = np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops)
-    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(a, z_thick, r_thick, z_thin, r_thin, 0)
+    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
 
     CHI2   = np.zeros(N_loops)
     CHI2_TEST = np.zeros(N_loops)
