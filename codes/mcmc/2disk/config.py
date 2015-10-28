@@ -32,6 +32,7 @@ DD_dir        = mcmc_dir + 'data_DD/'
 uni_pairs_dir = mcmc_dir + 'uni_pairs/'
 uni100_dir    = data_dir + 'uni100_xyzw/'
 uni10_dir     = data_dir + 'uni10_xyzw/'
+mcmcdata_dir  = './data/'
 
 # create array of bins evenly spaced in log
 Nbins   = 12
@@ -45,8 +46,7 @@ z_thick = 0.674
 r_thick = 2.51
 z_thin  = 0.233
 r_thin  = 2.34
-a       = 0.12
-N_std   = 5         # Number of std away to begin
+a       = 0.10
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
