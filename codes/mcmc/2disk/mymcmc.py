@@ -26,7 +26,7 @@ def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
     weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
         * np.exp(-R / r_thin) +
         a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
-        * np.exp(-R / r_thick))
+        * np.exp(-R / r_thick) )
 
     return weight
 
@@ -142,6 +142,9 @@ def main():
 
     N_loops  = int(input('Enter number of mcmc loops: '))   # Number of mcmc loops
     N_files  = int(input('Enter maximum number of files to test: '))        # should probably fix this so it prompts until you give an int
+    outfile  = str(input('Enter filename with .npz extension: '))
+    outfile  = mcmcdata_dir + outfile
+    N_std    = int(input('Enter number of std away to begin each parameter: '))
 
     ####################_PARAMETERS_########################
 
@@ -162,7 +165,10 @@ def main():
     A, Z_THICK, R_THICK, Z_THIN, R_THIN = np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops)
     A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(a, z_thick, r_thick, z_thin, r_thin, 0)
 
-    CHI2 = np.zeros(N_loops)
+    CHI2   = np.zeros(N_loops)
+    CHI2_TEST = np.zeros(N_loops)
+    EFF    = np.zeros(N_loops)
+    EFF[0] = 0
 
     ###################_INITIALIZATION_#####################
 
@@ -278,9 +284,11 @@ def main():
                 N_dof += 1
 
 
+    print('Number of degrees of freedom: ', N_dof, '\n')
     # Calculate initial chi2
 
     CHI2[0] = chi2(todo_list, N_files, MODEL)
+    CHI2_TEST[0] = CHI2[0]
 
     #################_MODEL_INITIALIZATION_#################
 
@@ -330,6 +338,7 @@ def main():
 
 
         CHI2[k]    = chi2(todo_list, N_files, MODEL)
+        CHI2_TEST[k] = CHI2[k]
 
         delta_chi2 = CHI2[k] - CHI2[k - 1]
 
@@ -344,7 +353,7 @@ def main():
 
             test = math.exp(-delta_chi2 / 2)
 
-            if rnd < test:  #Why less than?
+            if rnd < test:
 
                 N_acc += 1
 
@@ -352,6 +361,7 @@ def main():
 
                 CHI2[k], A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k] = CHI2[k - 1], A[k-1], Z_THICK[k-1], R_THICK[k-1], Z_THIN[k-1], R_THIN[k-1]
 
+        EFF[k] = N_acc / k
         k += 1
 
 
@@ -364,10 +374,16 @@ def main():
     # np.savetxt('R_THICK.dat', R_THICK)
     # np.savetxt('R_THIN.dat', R_THIN)
 
-    np.savetxt('a1.dat', A)
-    np.savetxt('z_thick1.dat', Z_THICK)
-    np.savetxt('z_thin1.dat', Z_THIN)
-    np.savetxt('r_thick1.dat', R_THICK)
-    np.savetxt('r_thin1.dat', R_THIN)
+    # np.savetxt('a1.dat', A)
+    # np.savetxt('z_thick1.dat', Z_THICK)
+    # np.savetxt('z_thin1.dat', Z_THIN)
+    # np.savetxt('r_thick1.dat', R_THICK)
+    # np.savetxt('r_thin1.dat', R_THIN)
+
+    np.savez(outfile, CHI2=CHI2, CHI2_TEST=CHI2_TEST, EFF=EFF, A=A, Z_THICK=Z_THICK,
+        Z_THIN=Z_THIN, R_THICK=R_THICK, R_THIN=R_THIN)
+
+    print('MCMC done. Data output to: ', outfile)
+
 if __name__ == '__main__':
     main()
