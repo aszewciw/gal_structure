@@ -2,8 +2,9 @@ import numpy as np
 from config import *
 import matplotlib.pyplot as plt
 
-filename = mcmcdata_dir + 'testdata.npz'
+filename = str(input('Enter filename with .npz extension: '))
 
+filename = mcmcdata_dir + filename
 
 with np.load(filename) as d:
     a         = d['A']
