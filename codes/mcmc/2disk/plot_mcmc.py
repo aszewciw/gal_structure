@@ -44,3 +44,5 @@ plt.figure(3)
 plt.xlabel('Loop Number')
 plt.ylabel('a')
 plt.scatter(loop, a, s=1)
+
+plt.show()
