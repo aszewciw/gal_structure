@@ -103,8 +103,6 @@ def assign_distance(random_sample, r1, r2):
     # recalculate the x, y, z of random points based on the assigned distance.
     for p in random_sample:
         p.cartesian_x, p.cartesian_y, p.cartesian_z = eq2cart(p.ra_rad, p.dec_rad, p.distance)
-        p.gal_l, p.gal_b = eq2gal(p.ra_rad, p.dec_rad)
-        p.gal_Z, p.gal_R
 
     return random_sample
 
