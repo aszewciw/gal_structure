@@ -24,7 +24,7 @@ with np.load(filename) as d:
     else:
         print('Incorrect parameter input')
 
-loop = np.arange(len(a))
+loop = np.arange(len(pltparam))
 
 plt.figure(1)
 plt.xlabel(param)
