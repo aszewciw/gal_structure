@@ -9,30 +9,22 @@ filename = mcmcdata_dir + filename
 param = str(input('Which parameter? '))
 
 with np.load(filename) as d:
-    a         = d['A']
-    eff       = d['EFF']
     chi2      = d['CHI2']
-    z_thick   = d['Z_THICK']
-    z_thin    = d['Z_THIN']
-    r_thick   = d['R_THICK']
-    r_thin    = d['R_THIN']
-    chi2_test = d['CHI2_TEST']
+
+    if param == 'a':
+        pltparam = d['A']
+    elif param == 'z_thick':
+        pltparam = d['Z_THICK']
+    elif param == 'z_thin':
+        pltparam = d['Z_THIN']
+    elif param == 'r_thin':
+        pltparam = d['R_THIN']
+    elif param == 'r_thick':
+        pltparam = d['R_THICK']
+    else:
+        print('Incorrect parameter input')
 
 loop = np.arange(len(a))
-
-if param == 'a':
-    pltparam = a
-elif param == 'z_thick':
-    pltparam = z_thick
-elif param == 'z_thin':
-    pltparam = z_thin
-elif param == 'r_thin':
-    pltparam = r_thin
-elif param == 'r_thick':
-    pltparam = r_thick
-else:
-    print('Incorrect parameter input')
-
 
 plt.figure(1)
 plt.xlabel(param)
