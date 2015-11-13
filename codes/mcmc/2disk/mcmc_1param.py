@@ -52,7 +52,7 @@ def norm_weights(w):
 #############################################################
 
 # @profile
-def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0, param):
+def assign_params(a, z_thick, r_thick, z_thin, r_thin, param, init=1, N_std=0):
 
     '''
     Assigns new parameters based on current values
@@ -200,7 +200,7 @@ def main():
 
     # Arrays of parameter values for each mcmc step
     A, Z_THICK, R_THICK, Z_THIN, R_THIN = np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops)
-    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(a, z_thick, r_thick, z_thin, r_thin, 0, N_std, param)
+    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(a, z_thick, r_thick, z_thin, r_thin, param, 0, N_std)
 
     CHI2   = np.zeros(N_loops)
     CHI2_TEST = np.zeros(N_loops)
@@ -340,7 +340,7 @@ def main():
 
         # Assign new params
         A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k] = assign_params(
-            A[k-1], Z_THICK[k-1], R_THICK[k-1], Z_THIN[k-1], R_THIN[k-1], 1, N_std, param)
+            A[k-1], Z_THICK[k-1], R_THICK[k-1], Z_THIN[k-1], R_THIN[k-1], param, 1, N_std)
 
         for p in todo_list:
 
