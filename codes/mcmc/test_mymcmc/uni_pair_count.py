@@ -18,7 +18,7 @@ def main():
 
     for p in todo_list:
 
-        in_file = jk_dir + 'uniform_' + p.ID + '_jk_all.dat'
+        in_file = uni_dir + 'uniform_' + p.ID + 'xyzw.dat'
 
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
