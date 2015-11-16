@@ -16,7 +16,7 @@ def main():
 
     for p in todo_list:
 
-        star_filename = mock_dir + 'uniform_' + p.ID + '.dat'
+        star_filename = uni_dir + 'uniform_' + p.ID + '.dat'
         star_file = open(star_filename, 'rb')
         star_list = pickle.load(star_file)
         star_file.close()
@@ -37,7 +37,7 @@ def main():
         N = len(star_list) / N_jackknife
 
         for i in range(N_jackknife):
-            output_list = star_list[:(N * i)] + star_list[(N * i + N):]
+            output_list = star_list[:int(N * i)] + star_list[int(N * i + N):]
 
             output_filename = jk_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.dat'
             output_file = open(output_filename, 'w')
