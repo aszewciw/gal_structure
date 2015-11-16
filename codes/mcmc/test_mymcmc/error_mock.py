@@ -31,7 +31,7 @@ def main():
         cmd = ('./counts ' + data_filename + ' ' + bins_filename
                + ' > ' + counts_filename)
         os.system(cmd)
-        counts_all = numpy.loadtxt(counts_filename, comments='#')
+        counts_all = np.loadtxt(counts_filename, comments='#')
 
         # counting pairs for each jackknife sample
         for i in range(N_jackknife):
@@ -45,7 +45,7 @@ def main():
         counts_list = []
         for i in range(N_jackknife):
             counts_filename = jk_dir + 'mock_' + p.ID + '_jk_' + str(i) + '.counts.dat'
-            counts_list.append(numpy.loadtxt(counts_filename, comments='#'))
+            counts_list.append(np.loadtxt(counts_filename, comments='#'))
 
         N_rbins = len(bins_list)
         N_jk = N_jackknife
