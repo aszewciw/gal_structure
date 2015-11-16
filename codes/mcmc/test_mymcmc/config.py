@@ -13,6 +13,9 @@ class Pointing:
 class Point:
     pass
 
+class R_Bin:
+    pass
+
 
 PLATE_RADIUS_DEGREES = 1.49 # the radius of the plate, in degrees
 PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
