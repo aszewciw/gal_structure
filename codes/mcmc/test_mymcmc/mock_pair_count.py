@@ -26,7 +26,7 @@ def main():
 
         output_file = mock_dir + 'DD_' + p.ID + '.dat'
 
-        cmd = './data_pair_count ' + in_file + ' ' + param + ' > ' + output_file
+        cmd = './mock_pair_count ' + in_file + ' ' + param + ' > ' + output_file
 
         os.system(cmd)
 
