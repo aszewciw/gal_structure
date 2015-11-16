@@ -143,7 +143,7 @@ def main():
     N_loops  = int(input('Enter number of mcmc loops: '))   # Number of mcmc loops
     N_files  = int(input('Enter maximum number of files to test: '))        # should probably fix this so it prompts until you give an int
     outfile  = str(input('Enter filename with .npz extension: '))
-    outfile  = outdir_dir + outfile
+    outfile  = out_dir + outfile
     N_std    = int(input('Enter number of std away to begin each parameter: '))
 
     ####################_PARAMETERS_########################
