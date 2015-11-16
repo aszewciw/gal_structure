@@ -25,11 +25,12 @@ INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
 # Changed from line above to mimic local machine
-data_dir      = '../../../data/'
-rawdata_dir   = data_dir + 'data_raw/'
-mock_dir = './data/mock_data/'
-uni_dir = './data/uniform_data/'
-jk_dir = './data/jk_data/'
+data_dir    = '../../../data/'
+rawdata_dir = data_dir + 'data_raw/'
+mock_dir    = './data/mock_data/'
+uni_dir     = './data/uniform_data/'
+jk_dir      = './data/jk_data/'
+out_dir     = './data/'
 
 # create array of bins evenly spaced in log
 N_jackknife = 10
