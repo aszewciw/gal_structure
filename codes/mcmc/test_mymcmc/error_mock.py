@@ -18,7 +18,7 @@ def main():
     input_file = open(input_filename, 'rb')
     bins_list = pickle.load(input_file)
     input_file.close()
-    if len(bins_list) != config.N_rbins:
+    if len(bins_list) != Nbins:
         sys.stderr.write("Error: Inconsistent R bins. Check set_rbins and config. \n")
         sys.exit()
 
