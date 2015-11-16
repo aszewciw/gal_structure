@@ -34,10 +34,6 @@ def main():
                               .format(s.cartesian_x, s.cartesian_y, s.cartesian_z, s.weight))
         output_file.close()
 
-
-        # make jackknife samples
-        N_jackknife = config.N_jackknife # number of jackknife samples
-
         N = len(star_list) / N_jackknife
 
         for i in range(N_jackknife):
