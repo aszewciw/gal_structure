@@ -29,6 +29,7 @@ uni_dir = './data/uniform_data/'
 jk_dir = './data/jk_data/'
 
 # create array of bins evenly spaced in log
+N_jackknife = 10
 Nbins   = 12
 bin_min = 0.005
 bin_max = 2
