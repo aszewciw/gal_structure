@@ -121,6 +121,9 @@ def main():
     # Loading data into dictionaries and subdictionaries
     for p in todo_list:
 
+        print('Loading Pointing #', p.ID)
+
+
         # Subdictionaries for each los
         los            = 'los_' + p.ID
         MODEL[los]     = {}
@@ -176,7 +179,6 @@ def main():
     ax.set_title('Two-point Correlation of SEGUE G-Dwarfs')
     ax.set_xscale('log')
     ax.set_xticklabels(['0.01', '0.1', '1'])
-    ax.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 
 
     for p in todo_list:
