@@ -218,6 +218,7 @@ def main():
 
     plt.xlabel('r (kpc)')
     plt.ylabel('Correlation')
+    plt.axis([0.005, 2, -1, 1.5])
     plt.savefig(outfile)
     chi2 = calc_chi2(todo_list, MODEL)
 
