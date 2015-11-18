@@ -174,13 +174,13 @@ def main():
 
                 MODEL[los][bin]['err2_temp'] = err2_temp[j]
 
-    fig = plt.figure(figsize = (10, 8))
-    ax = fig.add_subplot(1,1,1, axisbg = 'white')
-    ax.set_xlabel('r (kpc)')
-    ax.set_ylabel(r'$\displaystyle\frac{DD}{MM}$(r) - 1')
-    ax.set_title('Two-point Correlation of SEGUE G-Dwarfs')
-    ax.set_xscale('log')
-    ax.set_xticklabels(['0.01', '0.1', '1'])
+    # fig = plt.figure(figsize = (10, 8))
+    # ax = fig.add_subplot(1,1,1, axisbg = 'white')
+    # ax.set_xlabel('r (kpc)')
+    # ax.set_ylabel(r'$\displaystyle\frac{DD}{MM}$(r) - 1')
+    # ax.set_title('Two-point Correlation of SEGUE G-Dwarfs')
+    # ax.set_xscale('log')
+    # ax.set_xticklabels(['0.01', '0.1', '1'])
 
 
     for p in todo_list:
@@ -214,7 +214,10 @@ def main():
                 MODEL[los][bin]['DD/MM'] = DATA[los][bin]['DD'] / MODEL[los][bin]['MM']
                 corr[j] = MODEL[los][bin]['DD/MM'] - 1
 
-        ax.plot(binplt, corr, '0.75')
+        plt.plot(binplt, corr, '0.75')
+
+    plt.xlabel('r (kpc)')
+    plt.ylabel('Correlation')
     plt.savefig(outfile)
     chi2 = calc_chi2(todo_list, MODEL)
 
