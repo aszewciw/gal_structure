@@ -53,7 +53,7 @@ def norm_weights(w):
 #############################################################
 
 # @profile
-def chi2(todo_list, MODEL):
+def calc_chi2(todo_list, MODEL):
 
     '''Calculates chi-square for given model'''
 
@@ -215,11 +215,11 @@ def main():
                 corr[j] = MODEL[los][bin]['DD/MM'] - 1
 
         ax.plot(binplt, corr, '0.75')
-
-    chi2 = chi2(todo_list, MODEL)
+    plt.savefig(outfile)
+    chi2 = calc_chi2(todo_list, MODEL)
 
     print(chi2)
-    plt.savefig(outfile)
+    # plt.savefig(outfile)
 
 if __name__ == '__main__':
     main()
