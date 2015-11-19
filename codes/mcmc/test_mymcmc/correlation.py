@@ -21,7 +21,7 @@ def main():
 
         random_xyzw_filename = uni_dir + 'weighted_' + p.ID + '.dat'
 
-        star_xyzw_filename = data_dir + 'mock_' + p.ID + '.xyzw.dat'
+        star_xyzw_filename = mock_dir + 'mock_' + p.ID + '.xyzw.dat'
 
         if not os.path.isfile(random_xyzw_filename) or not os.path.isfile(star_xyzw_filename):
             sys.stderr.write('Error: ' + random_xyzw_filename
