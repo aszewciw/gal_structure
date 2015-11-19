@@ -2,6 +2,7 @@ import numpy as np
 from config import *
 import matplotlib.pyplot as plt
 import matplotlib
+matplotlib.use("Agg")
 
 '''
 Read files of correlation data and plot them, including errors in mean
