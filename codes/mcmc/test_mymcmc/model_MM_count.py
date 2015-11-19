@@ -146,7 +146,7 @@ def main():
 
         # Load normalized and weighted DD counts
         DD_file     = mock_dir + 'DD_' + p.ID + '.dat'
-        DD          = np.genfromtxt(DD_file, usecols=[0])
+        DD          = np.genfromtxt(DD_file, usecols=[2])
 
 
         for j in range(Nbins):
