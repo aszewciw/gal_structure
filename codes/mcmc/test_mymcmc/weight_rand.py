@@ -42,7 +42,7 @@ def main():
             sys.stderr.write('Error: ' + random_file + ' does not exist.\n')
             continue
 
-        out_file   = uni_dir + 'weighted_' + p.ID + '.xyzw.dat'
+        out_file   = corr_dir + 'weighted_' + p.ID + '.xyzw.dat'
 
         x, y, z = np.genfromtxt(random_file, unpack = True, usecols=[0,1,2])
 
