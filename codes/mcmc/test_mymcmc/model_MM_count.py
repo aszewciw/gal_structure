@@ -146,7 +146,7 @@ def main():
 
         # Load normalized and weighted DD counts
         DD_file     = mock_dir + 'DD_' + p.ID + '.dat'
-        DD          = np.genfromtxt(DD_file, usecols=[2])
+        DD          = np.genfromtxt(DD_file, usecols=[0])
 
 
         for j in range(Nbins):
@@ -217,7 +217,7 @@ def main():
     # plt.savefig(outfile)
     # chi2 = calc_chi2(todo_list, MODEL)
 
-    print(chi2)
+    # print(chi2)
     # plt.savefig(outfile)
 
 if __name__ == '__main__':
