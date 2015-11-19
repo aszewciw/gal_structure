@@ -19,7 +19,7 @@ def main():
     # calculate correlation function for each plate
     for p in todo_list:
 
-        random_xyzw_filename = corr_dir + 'weighted_' + p.ID + 'xyzw.dat'
+        random_xyzw_filename = corr_dir + 'weighted_' + p.ID + '.xyzw.dat'
 
         star_xyzw_filename = corr_dir + 'mock_' + p.ID + '.xyzw.dat'
 
