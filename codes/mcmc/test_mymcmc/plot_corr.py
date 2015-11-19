@@ -2,6 +2,7 @@ import numpy as np
 from config import *
 import matplotlib.pyplot as plt
 import matplotlib
+matplotlib.use("Agg")
 
 '''
 Read files of correlation data and plot them, including errors in mean
@@ -66,7 +67,8 @@ def main():
     # ax.errorbar(bins, mean, error, fmt = 'ro', ecolor = 'r', elinewidth = 1.5, capthick = 1.5, capsize = 7)
     # # ax.set_zorder(20)
 
-    plt.show()
+    outfile = corr_dir + 'model_model.png'
+    plt.savefig(outfile)
 
 if __name__ == '__main__':
     main()
