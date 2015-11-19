@@ -30,7 +30,8 @@ rawdata_dir = data_dir + 'data_raw/'
 mock_dir    = './data/mock_data/'
 uni_dir     = './data/uniform_data/'
 jk_dir      = './data/jk_data/'
-out_dir     = './data/'
+out_dir     = './data/output_data/'
+corr_dir    = './data/corr_data/'
 
 # create array of bins evenly spaced in log
 N_jackknife = 10
