@@ -283,7 +283,7 @@ int main(int argc, char **argv){
   RR_norm = pairs_norm(data2, data2);
   DR_norm = pairs_norm(data1, data2);
 
-  for(r_log = rmin_log; r_log < rmax_log; r_log += dr_log){
+  for(r_log = rmin_log; r_log <= rmax_log; r_log += dr_log){
 
     double DD, RR, DR;
     double correlation;
