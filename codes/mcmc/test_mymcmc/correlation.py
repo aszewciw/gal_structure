@@ -31,7 +31,8 @@ def main():
         output_file = corr_dir + 'correlation_' + p.ID + '.dat'
 
         # parameters rmin, rmax, nbins
-        param = '0.001 2.0 12'
+        param = str(bin_min) + ' ' + str(bin_max) + ' ' + str(Nbins)
+
 
         cmd = './correlation ' + star_xyzw_filename + ' ' + random_xyzw_filename + ' ' + param + ' > ' + output_file
 
