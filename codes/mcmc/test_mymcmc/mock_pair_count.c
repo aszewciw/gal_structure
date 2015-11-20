@@ -178,7 +178,7 @@ int main(int argc, char **argv){
     DD = pairs(data, r1, r2);
     DD_N = DD / DD_norm;
 
-    fprintf(stdout, "%lf\t%lf\t%lf\n", DD, DD_norm, DD_N);
+    fprintf(stdout, "%le\t%le\t%le\n", DD, DD_norm, DD_N);
   }
 
   fprintf(stderr, "Done calculation and output. \n");
