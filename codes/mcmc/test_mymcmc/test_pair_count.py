@@ -216,6 +216,7 @@ def main():
 
         plt.plot(binplt, corr, '0.75')
 
+
     plt.xlabel('r (kpc)')
     plt.ylabel('Correlation')
     plt.axis([0.005, 2, -1, 1.5])
