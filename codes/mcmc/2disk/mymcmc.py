@@ -14,7 +14,7 @@ needs to be calculated once (and it has).'''
 
 #############################################################
 
-# @profile
+@profile
 def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
     '''
@@ -35,7 +35,7 @@ def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
 #############################################################
 
-# @profile
+@profile
 def norm_weights(w):
 
     '''
@@ -51,7 +51,7 @@ def norm_weights(w):
 
 #############################################################
 
-# @profile
+@profile
 def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0):
 
     '''
@@ -94,7 +94,7 @@ def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0):
 
 #############################################################
 
-# @profile
+@profile
 def chi2(todo_list, N_files, MODEL):
 
     '''Calculates chi-square for given model'''
@@ -127,7 +127,7 @@ def chi2(todo_list, N_files, MODEL):
 
 #############################################################
 
-# @profile
+@profile
 def main():
 
     np.random.seed()
@@ -203,7 +203,7 @@ def main():
         # File containing ascii data for uniform samples (has Z and R; W is 1)
         ZRW_file = jk_dir + 'uniform_' + p.ID + '.ascii.dat'
         MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'], MODEL_ZRW[los]['W'] = np.genfromtxt(
-            ZRW_file, unpack=True, skiprows=1, usecols=[5, 6, 10])
+            ZRW_file, unpack=True, skiprows=1, usecols=[5, 6, 10], dtype=None)
 
         # Load jackknife errors as numpy arrays: one error for each bin
         uni_jk_file = jk_dir + 'uniform_' + p.ID + '_jk_error.dat'
@@ -233,7 +233,7 @@ def main():
             DATA[los][bin]['DD'] = DD[j]
 
             #We want to skip any los with DD = 0 (also with MM = 0, but these don't exist)
-            if DATA[los][bin]['DD'] == 0:
+            if DD[j] == 0:
 
                 # We won't count these when calculating chi2
                 MODEL[los][bin]['err2_temp'] = 0
@@ -241,6 +241,9 @@ def main():
             else:
 
                 MODEL[los][bin]['err2_temp'] = err2_temp[j]
+
+
+
 
     ####################_DATA_INPUT_########################
 
