@@ -385,7 +385,7 @@ def main():
 
             else:
 
-                CHI2[k]    = CHI[k-1]
+                CHI2[k]    = CHI2[k-1]
                 A[k]       = A[k-1]
                 Z_THICK[k] = Z_THICK[k-1]
                 Z_THIN[k]  = Z_THIN[k-1]
