@@ -23,10 +23,10 @@ def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
     parameters.
     '''
 
-    weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
-        * np.exp(-R / r_thin) +
-        a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
-        * np.exp(-R / r_thick) )
+    weight = ( ( ( np.cosh(Z * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
+        * np.exp(-R * (r_thin ** -1)) +
+        a * ( ( np.cosh(Z * (2 * z_thick) ** (-1) ) ) ** (-2) )
+        * np.exp(-R * r_thick ** -1) )
 
     return weight
 
@@ -43,7 +43,7 @@ def norm_weights(w):
     factor.
     '''
 
-    norm = ( np.sum(w) ** 2 - np.inner(w,w)) / 2
+    norm = ( np.sum(w) ** 2 - np.inner(w,w)) * 2**-1
 
     return norm
 
@@ -118,7 +118,7 @@ def chi2(todo_list, N_files, MODEL):
 
             sig2 = ( MODEL[los][BIN]['DD/MM'] ** 2 ) * MODEL[los][BIN]['err2_temp']
 
-            chi2 += ((MODEL[los][BIN]['DD/MM'] - 1) ** 2) / sig2
+            chi2 += ((MODEL[los][BIN]['DD/MM'] - 1) ** 2) * sig2 ** -1
 
     return(chi2)
 
@@ -273,7 +273,7 @@ def main():
 
             # normalized sum of product of weights for each pair
             MODEL[los][BIN]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind1']] *
-                MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) / MODEL_ZRW[los]['norm']
+                MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) * MODEL_ZRW[los]['norm'] ** -1
 
 
             # Skip any pairs with 0 DD or MM
@@ -284,7 +284,7 @@ def main():
             else:
 
                 # Write division as multiplication to the -1 power
-                MODEL[los][BIN]['DD/MM'] = DATA[los][BIN]['DD'] / MODEL[los][BIN]['MM']
+                MODEL[los][BIN]['DD/MM'] = DATA[los][BIN]['DD'] * MODEL[los][BIN]['MM'] **-1
 
                 N_dof += 1
 
@@ -334,7 +334,7 @@ def main():
 
                 # normalized sum of product of weights for each pair
                 MODEL[los][BIN]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind1']] *
-                    MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) / MODEL_ZRW[los]['norm']
+                    MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) * MODEL_ZRW[los]['norm'] ** -1
 
 
                 if DATA[los][BIN]['DD'] <= 0 or MODEL[los][BIN]['MM'] <= 0:
@@ -343,7 +343,7 @@ def main():
 
                 else:
 
-                    MODEL[los][BIN]['DD/MM'] = DATA[los][BIN]['DD'] / MODEL[los][BIN]['MM']
+                    MODEL[los][BIN]['DD/MM'] = DATA[los][BIN]['DD'] * MODEL[los][BIN]['MM']**-1
 
 
         CHI2[k]    = chi2(todo_list, N_files, MODEL)
