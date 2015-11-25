@@ -14,40 +14,40 @@ needs to be calculated once (and it has).'''
 
 #############################################################
 
-@profile
-def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
+# @profile
+# def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
 
-    '''
-    For numpy arrays of (Z,R) values of different star,
-    calculates the "weight" of each star based on the 5
-    parameters.
-    '''
+#     '''
+#     For numpy arrays of (Z,R) values of different star,
+#     calculates the "weight" of each star based on the 5
+#     parameters.
+#     '''
 
-    weight = ( ( ( np.cosh(Z * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
-        * np.exp(-R * (r_thin ** -1)) +
-        a * ( ( np.cosh(Z * (2 * z_thick) ** (-1) ) ) ** (-2) )
-        * np.exp(-R * r_thick ** -1) )
+#     weight = ( ( ( np.cosh(Z * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
+#         * np.exp(-R * (r_thin ** -1)) +
+#         a * ( ( np.cosh(Z * (2 * z_thick) ** (-1) ) ) ** (-2) )
+#         * np.exp(-R * r_thick ** -1) )
 
-    return weight
+#     return weight
 
-#############################################################
+# #############################################################
 
 
-#############################################################
+# #############################################################
 
-@profile
-def norm_weights(w):
+# @profile
+# def norm_weights(w):
 
-    '''
-    For an array of weights, calculates the normalization
-    factor.
-    '''
+#     '''
+#     For an array of weights, calculates the normalization
+#     factor.
+#     '''
 
-    norm = ( np.sum(w) ** 2 - np.inner(w,w)) * 2**-1
+#     norm = ( np.sum(w) ** 2 - np.inner(w,w)) * 2**-1
 
-    return norm
+#     return norm
 
-#############################################################
+# #############################################################
 
 #############################################################
 
@@ -202,8 +202,10 @@ def main():
 
         # File containing ascii data for uniform samples (has Z and R; W is 1)
         ZRW_file = jk_dir + 'uniform_' + p.ID + '.ascii.dat'
-        MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'], MODEL_ZRW[los]['W'] = np.genfromtxt(
-            ZRW_file, unpack=True, skiprows=1, usecols=[5, 6, 10], dtype=None)
+        # MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'], MODEL_ZRW[los]['W'] = np.genfromtxt(
+        #     ZRW_file, unpack=True, skiprows=1, usecols=[5, 6, 10], dtype=None)
+        MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'], = np.genfromtxt(
+            ZRW_file, unpack=True, skiprows=1, usecols=[5, 6], dtype=None)
 
         # Load jackknife errors as numpy arrays: one error for each bin
         uni_jk_file = jk_dir + 'uniform_' + p.ID + '_jk_error.dat'
@@ -262,19 +264,27 @@ def main():
         los = 'los_' + p.ID
 
         # don't actually need to store 'W' for each file
-        MODEL_ZRW[los]['W'] = gal_weights(MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'],
-            A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0])
+        # MODEL_ZRW[los]['W'] = gal_weights(MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'],
+        #     A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0])
 
-        MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
+        weight = ( ( ( np.cosh(MODEL_ZRW[los]['Z'] * ( 2 * Z_THIN[0] ) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZRW[los]['R'] * (R_THIN[0] ** -1)) +
+            A[0] * ( ( np.cosh(MODEL_ZRW[los]['Z'] * (2 * Z_THICK[0]) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZRW[los]['R'] * R_THICK[0] ** -1) )
+
+        # MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
+
+        norm = ( np.sum(weight) ** 2 - np.inner(weight, weight)) / 2
 
         for j in range(Nbins):
 
             BIN = 'bin_' + str(j)
 
             # normalized sum of product of weights for each pair
-            MODEL[los][BIN]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind1']] *
-                MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) * MODEL_ZRW[los]['norm'] ** -1
-
+            # MODEL[los][BIN]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind1']] *
+            #     MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) * MODEL_ZRW[los]['norm'] ** -1
+            MODEL[los][BIN]['MM'] = np.sum( weight[MODEL[los][BIN]['ind1']] *
+                weight[MODEL[los][BIN]['ind2']] ) / norm
 
             # Skip any pairs with 0 DD or MM
             if DATA[los][BIN]['DD'] <= 0 or MODEL[los][BIN]['MM'] <= 0:
@@ -283,7 +293,6 @@ def main():
 
             else:
 
-                # Write division as multiplication to the -1 power
                 MODEL[los][BIN]['DD/MM'] = DATA[los][BIN]['DD'] * MODEL[los][BIN]['MM'] **-1
 
                 N_dof += 1
@@ -318,23 +327,24 @@ def main():
 
             los = 'los_' + p.ID
 
-            # Write below explicitly and remove function
+            # MODEL_ZRW[los]['W'] = gal_weights(MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'],
+            #     A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k])
 
-            MODEL_ZRW[los]['W'] = gal_weights(MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'],
-                A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k])
+            weight = ( ( ( np.cosh(MODEL_ZRW[los]['Z'] * ( 2 * Z_THIN[k] ) ** (-1) ) ) ** (-2) )
+                * np.exp(-MODEL_ZRW[los]['R'] * (R_THIN[k] ** -1)) +
+                A[k] * ( ( np.cosh(MODEL_ZRW[los]['Z'] * (2 * Z_THICK[k]) ** (-1) ) ) ** (-2) )
+                * np.exp(-MODEL_ZRW[los]['R'] * R_THICK[k] ** -1) )
 
-
-            # Same with this below
-
-            MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
+            # MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
+            norm = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
 
             for j in range(Nbins):
 
                 BIN = 'bin_' + str(j)
 
                 # normalized sum of product of weights for each pair
-                MODEL[los][BIN]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind1']] *
-                    MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) * MODEL_ZRW[los]['norm'] ** -1
+                MODEL[los][BIN]['MM'] = np.sum( weight[MODEL[los][BIN]['ind1']] *
+                    weight[MODEL[los][BIN]['ind2']] ) / norm
 
 
                 if DATA[los][BIN]['DD'] <= 0 or MODEL[los][BIN]['MM'] <= 0:
@@ -368,26 +378,15 @@ def main():
 
             else:
 
-                CHI2[k], A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k] = CHI2[k - 1], A[k-1], Z_THICK[k-1], R_THICK[k-1], Z_THIN[k-1], R_THIN[k-1]
+                CHI2[k]    = CHI[k-1]
+                A[k]       = A[k-1]
+                Z_THICK[k] = Z_THICK[k-1]
+                Z_THIN[k]  = Z_THIN[k-1]
+                R_THICK[k] = R_THICK[k-1]
+                R_THIN[k]  = R_THIN[k-1]
 
         EFF[k] = N_acc / k
         k += 1
-
-
-    # print('Accept Rate:', accept_rate / N_loops)
-    # print(A, Z_THC, Z_THN, R_THC, R_THN)
-
-    # np.savetxt('A.dat', A)
-    # np.savetxt('Z_THICK.dat', Z_THICK)
-    # np.savetxt('Z_THIN.dat', Z_THIN)
-    # np.savetxt('R_THICK.dat', R_THICK)
-    # np.savetxt('R_THIN.dat', R_THIN)
-
-    # np.savetxt('a1.dat', A)
-    # np.savetxt('z_thick1.dat', Z_THICK)
-    # np.savetxt('z_thin1.dat', Z_THIN)
-    # np.savetxt('r_thick1.dat', R_THICK)
-    # np.savetxt('r_thin1.dat', R_THIN)
 
     np.savez(outfile, CHI2=CHI2, CHI2_TEST=CHI2_TEST, EFF=EFF, A=A, Z_THICK=Z_THICK,
         Z_THIN=Z_THIN, R_THICK=R_THICK, R_THIN=R_THIN)
