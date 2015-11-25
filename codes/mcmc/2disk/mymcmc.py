@@ -51,7 +51,7 @@ needs to be calculated once (and it has).'''
 
 #############################################################
 
-@profile
+# @profile
 def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0):
 
     '''
@@ -94,7 +94,7 @@ def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0):
 
 #############################################################
 
-@profile
+# @profile
 def chi2(todo_list, N_files, MODEL):
 
     '''Calculates chi-square for given model'''
@@ -130,7 +130,7 @@ def chi2(todo_list, N_files, MODEL):
 
 #############################################################
 
-@profile
+# @profile
 def main():
 
     np.random.seed()
