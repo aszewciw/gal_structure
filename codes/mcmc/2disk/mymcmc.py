@@ -140,11 +140,21 @@ def main():
     N_params = 5
     N_dof    -= N_params
 
-    N_loops  = int(input('Enter number of mcmc loops: '))   # Number of mcmc loops
-    N_files  = int(input('Enter maximum number of files to test: '))        # should probably fix this so it prompts until you give an int
-    outfile  = str(input('Enter filename with .npz extension: '))
-    outfile  = mcmcdata_dir + outfile
-    N_std    = int(input('Enter number of std away to begin each parameter: '))
+    # N_loops  = int(input('Enter number of mcmc loops: '))   # Number of mcmc loops
+    # N_files  = int(input('Enter maximum number of files to test: '))        # should probably fix this so it prompts until you give an int
+    # outfile  = str(input('Enter filename with .npz extension: '))
+    # outfile  = mcmcdata_dir + outfile
+    # N_std    = int(input('Enter number of std away to begin each parameter: '))
+
+    elements_needed = int(5)
+
+    args_array = np.array(sys.argv)
+    N_args = len(args_array)
+    assert(N_args == elements_needed)
+    N_loops = int(args_array[1])
+    N_files = int(args_array[2])
+    outfile = args_array[3]
+    N_std = int(args_array[4])
 
     ####################_PARAMETERS_########################
 
@@ -157,18 +167,23 @@ def main():
     # DATA (1 dict.): los (152 dict.): bin (12 dict.): DD, jk_err (floats)
     # MODEL_ZRW (1 dict): los (152 dict.): norm (float); Z, R, W (arrays)
 
-    MODEL     = {}
-    DATA      = {}
-    MODEL_ZRW = {}
+    MODEL    = {}
+    DATA     = {}
+    MODEL_ZR = {}
 
     # Arrays of parameter values for each mcmc step
-    A, Z_THICK, R_THICK, Z_THIN, R_THIN = np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops), np.zeros(N_loops)
-    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
+    A       = np.zeros(N_loops)
+    Z_THICK = np.zeros(N_loops)
+    R_THICK = np.zeros(N_loops)
+    Z_THIN  = np.zeros(N_loops)
+    R_THIN  = np.zeros(N_loops)
+    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(
+        a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
 
-    CHI2   = np.zeros(N_loops)
+    CHI2      = np.zeros(N_loops)
     CHI2_TEST = np.zeros(N_loops)
-    EFF    = np.zeros(N_loops)
-    EFF[0] = 0
+    EFF       = np.zeros(N_loops)
+    EFF[0]    = 0
 
     ###################_INITIALIZATION_#####################
 
@@ -195,28 +210,28 @@ def main():
         print('Loading Pointing #', p.ID)
 
         # Subdictionaries for each los
-        los            = 'los_' + p.ID
-        MODEL[los]     = {}
-        DATA[los]      = {}
-        MODEL_ZRW[los] = {}
+        los           = 'los_' + p.ID
+        MODEL[los]    = {}
+        # DATA[los]     = {}
+        MODEL_ZR[los] = {}
 
         # File containing ascii data for uniform samples (has Z and R; W is 1)
-        ZRW_file = jk_dir + 'uniform_' + p.ID + '.ascii.dat'
-        # MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'], MODEL_ZRW[los]['W'] = np.genfromtxt(
-        #     ZRW_file, unpack=True, skiprows=1, usecols=[5, 6, 10], dtype=None)
-        MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'], = np.genfromtxt(
-            ZRW_file, unpack=True, skiprows=1, usecols=[5, 6], dtype=None)
+        ZR_file = jk_dir + 'uniform_' + p.ID + '.ascii.dat'
+
+        MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'], = np.genfromtxt(
+            ZR_file, unpack=True, skiprows=1, usecols=[5, 6], dtype=None)
 
         # Load jackknife errors as numpy arrays: one error for each bin
         uni_jk_file = jk_dir + 'uniform_' + p.ID + '_jk_error.dat'
         uni_jk_err  = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
         dat_jk_file = jk_dir + 'star_' + p.ID + '_jk_error.dat'
         dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        err2_temp   = uni_jk_err ** 2 + dat_jk_err ** 2         #Multiply this by DD/MM **2 to get error2 in DD/MM
+        err2_temp   = uni_jk_err ** 2 + dat_jk_err ** 2
+        #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
 
         # Load normalized and weighted DD counts
-        DD_file     = DD_dir + 'DD_' + p.ID + '.dat'
-        DD          = np.genfromtxt(DD_file, usecols=[2])
+        DD_file         = DD_dir + 'DD_' + p.ID + '.dat'
+        MODEL[los]['DD'] = np.genfromtxt(DD_file, usecols=[2])
 
 
         for j in range(Nbins):
@@ -224,27 +239,11 @@ def main():
             BIN             = 'bin_' + str(j)
 
             MODEL[los][BIN] = {}
-            DATA[los][BIN]  = {}
 
             model_file      = uni_pairs_dir + 'counts_' + p.ID + '.bin_' + str(j + 1) + '.dat'
 
             MODEL[los][BIN]['ind1'], MODEL[los][BIN]['ind2'] = np.genfromtxt(
                 model_file, dtype=None, unpack=True)
-
-            # input DD counts here:
-            DATA[los][BIN]['DD'] = DD[j]
-
-            #We want to skip any los with DD = 0 (also with MM = 0, but these don't exist)
-            if DD[j] == 0:
-
-                # We won't count these when calculating chi2
-                MODEL[los][BIN]['err2_temp'] = 0
-
-            else:
-
-                MODEL[los][BIN]['err2_temp'] = err2_temp[j]
-
-
 
 
     ####################_DATA_INPUT_########################
@@ -267,10 +266,10 @@ def main():
         # MODEL_ZRW[los]['W'] = gal_weights(MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'],
         #     A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0])
 
-        weight = ( ( ( np.cosh(MODEL_ZRW[los]['Z'] * ( 2 * Z_THIN[0] ) ** (-1) ) ) ** (-2) )
-            * np.exp(-MODEL_ZRW[los]['R'] * (R_THIN[0] ** -1)) +
-            A[0] * ( ( np.cosh(MODEL_ZRW[los]['Z'] * (2 * Z_THICK[0]) ** (-1) ) ) ** (-2) )
-            * np.exp(-MODEL_ZRW[los]['R'] * R_THICK[0] ** -1) )
+        weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * Z_THIN[0] ) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZR[los]['R'] * (R_THIN[0] ** -1)) +
+            A[0] * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * Z_THICK[0]) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZR[los]['R'] * R_THICK[0] ** -1) )
 
         # MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
 
@@ -281,8 +280,6 @@ def main():
             BIN = 'bin_' + str(j)
 
             # normalized sum of product of weights for each pair
-            # MODEL[los][BIN]['MM'] = np.sum( MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind1']] *
-            #     MODEL_ZRW[los]['W'][MODEL[los][BIN]['ind2']] ) * MODEL_ZRW[los]['norm'] ** -1
             MODEL[los][BIN]['MM'] = np.sum( weight[MODEL[los][BIN]['ind1']] *
                 weight[MODEL[los][BIN]['ind2']] ) / norm
 
@@ -330,10 +327,10 @@ def main():
             # MODEL_ZRW[los]['W'] = gal_weights(MODEL_ZRW[los]['Z'], MODEL_ZRW[los]['R'],
             #     A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k])
 
-            weight = ( ( ( np.cosh(MODEL_ZRW[los]['Z'] * ( 2 * Z_THIN[k] ) ** (-1) ) ) ** (-2) )
-                * np.exp(-MODEL_ZRW[los]['R'] * (R_THIN[k] ** -1)) +
-                A[k] * ( ( np.cosh(MODEL_ZRW[los]['Z'] * (2 * Z_THICK[k]) ** (-1) ) ) ** (-2) )
-                * np.exp(-MODEL_ZRW[los]['R'] * R_THICK[k] ** -1) )
+            weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * Z_THIN[k] ) ** (-1) ) ) ** (-2) )
+                * np.exp(-MODEL_ZR[los]['R'] * (R_THIN[k] ** -1)) +
+                A[k] * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * Z_THICK[k]) ** (-1) ) ) ** (-2) )
+                * np.exp(-MODEL_ZR[los]['R'] * R_THICK[k] ** -1) )
 
             # MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
             norm = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
