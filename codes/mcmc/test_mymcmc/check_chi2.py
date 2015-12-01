@@ -84,7 +84,7 @@ def main():
     # Lists to be filled so I can see wtf is wrong with chi2
     MM = []
     LOS = []
-
+    BINS = []
     ###################_INITIALIZATION_#####################
 
 
@@ -175,6 +175,8 @@ def main():
         for j in range(Nbins):
 
             BIN = 'bin_' + str(j)
+            BINS.append(BIN + 1)
+            LOS.append(plate)
 
             if DD[j] > 0:
 
@@ -188,7 +190,6 @@ def main():
                     N_dof += 1
 
             MM.append(MM_temp[j])
-            LOS.append(plate)
 
         MODEL[los]['DD/MM'] = DD_MM
 
@@ -198,93 +199,7 @@ def main():
 
     CHI2, SIG2, DDMM = chi2(todo_list, N_files, MODEL)
 
-    #################_MODEL_INITIALIZATION_#################
-
-
-    ########################_MCMC_##########################
-
-    # k = 1   # start loop index at 1 because of initialization
-
-    # while k < (N_loops):
-
-    #     print('Loop number: ', k)
-
-    #     # Assign new params
-    #     A[k], Z_THICK[k], R_THICK[k], Z_THIN[k], R_THIN[k] = assign_params(
-    #         A[k-1], Z_THICK[k-1], R_THICK[k-1], Z_THIN[k-1], R_THIN[k-1])
-
-    #     for p in todo_list:
-
-    #         plate = int(p.ID)
-    #         if plate >= N_files:
-    #             continue
-
-    #         los = 'los_' + p.ID
-
-    #         weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * Z_THIN[k] ) ** (-1) ) ) ** (-2) )
-    #             * np.exp(-MODEL_ZR[los]['R'] * (R_THIN[k] ** -1)) +
-    #             A[k] * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * Z_THICK[k]) ** (-1) ) ) ** (-2) )
-    #             * np.exp(-MODEL_ZR[los]['R'] * R_THICK[k] ** -1) )
-
-    #         # MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
-    #         norm = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
-
-    #         MM_temp = np.zeros(Nbins)
-    #         DD      = MODEL[los]['DD']
-    #         DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
-
-    #         # This should maybe be replaced with list comprehension if possible
-    #         for j in range(Nbins):
-
-    #             BIN = 'bin_' + str(j)
-
-    #             if DD[j] > 0:
-
-    #                 MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
-    #                     weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
-
-    #                 if MM_temp[j] <=0:
-    #                     continue
-    #                 else:
-    #                     DD_MM[j] = DD[j] / MM_temp[j]
-
-
-    #         MODEL[los]['DD/MM'] = DD_MM
-
-
-    #     CHI2[k]    = chi2(todo_list, N_files, MODEL)
-    #     CHI2_TEST[k] = CHI2[k]
-
-    #     delta_chi2 = CHI2[k] - CHI2[k - 1]
-
-
-    #     if delta_chi2 < 0:
-
-    #         N_acc += 1
-
-    #     else:
-
-    #         rnd = random.random()
-
-    #         test = math.exp(-delta_chi2 / 2)
-
-    #         if rnd < test:
-
-    #             N_acc += 1
-
-    #         else:
-
-    #             CHI2[k]    = CHI2[k-1]
-    #             A[k]       = A[k-1]
-    #             Z_THICK[k] = Z_THICK[k-1]
-    #             Z_THIN[k]  = Z_THIN[k-1]
-    #             R_THICK[k] = R_THICK[k-1]
-    #             R_THIN[k]  = R_THIN[k-1]
-
-    #     EFF[k] = N_acc / k
-    #     k += 1
-
-    np.savez(outfile, CHI2=CHI2, LOS=LOS, MM=MM, SIG2=SIG2, DDMM=DDMM)
+    np.savez(outfile, CHI2=CHI2, LOS=LOS, MM=MM, SIG2=SIG2, DDMM=DDMM, BINS=BINS)
 
     print('MCMC done. Data output to: ', outfile)
 
