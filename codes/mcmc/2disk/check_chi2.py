@@ -178,7 +178,7 @@ def main():
             BIN = 'bin_' + str(j)
 
             LOS.append(plate)
-            BINS.append(BIN + 1)
+            BINS.append(j + 1)
 
             if DD[j] > 0:
 
