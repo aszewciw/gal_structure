@@ -33,8 +33,8 @@ def chi2(todo_list, N_files, MODEL):
         los = 'los_' + p.ID
 
         DDMM_array = MODEL[los]['DD/MM']
-        sig2_array = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
-        chi2_array = ( DD_MM - 1 )**2  * ( sig2 ** -1 )
+        sig2_array = ( DDMM_array ** 2 ) * MODEL[los]['err2_temp']
+        chi2_array = ( DDMM_array - 1 )**2  * ( sig2_array ** -1 )
 
         for j in range(len(chi2_array)):
             chi2.append(chi2_array[j])
