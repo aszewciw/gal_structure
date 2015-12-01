@@ -175,7 +175,8 @@ def main():
         for j in range(Nbins):
 
             BIN = 'bin_' + str(j)
-            BINS.append(BIN + 1)
+
+            BINS.append(j + 1)
             LOS.append(plate)
 
             if DD[j] > 0:
