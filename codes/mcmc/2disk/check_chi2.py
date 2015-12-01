@@ -129,7 +129,7 @@ def main():
         #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
 
         # Load normalized and weighted DD counts
-        DD_file         = mock_dir + 'DD_' + p.ID + '.dat'
+        DD_file         = DD_dir + 'DD_' + p.ID + '.dat'
         MODEL[los]['DD'] = np.genfromtxt(DD_file, usecols=[2])
 
 
