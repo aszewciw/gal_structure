@@ -164,7 +164,7 @@ def main():
         weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
             * np.exp(-MODEL_ZR[los]['R'] * (r_thin ** -1)) +
             a * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * z_thick ** (-1) ) ) ** (-2) )
-            * np.exp(-MODEL_ZR[los]['R'] * r_thick ** -1) )
+            * np.exp(-MODEL_ZR[los]['R'] * r_thick ** -1) ) )
 
         norm = ( np.sum(weight) ** 2 - np.inner(weight, weight)) / 2
 
