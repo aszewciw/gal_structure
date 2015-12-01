@@ -180,14 +180,15 @@ def main():
 
                 MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
                     weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
-                MM.append(MM_temp[j])
-                LOS.append(plate)
 
                 if MM_temp[j] <=0:
                     continue
                 else:
                     DD_MM[j] = DD[j] / MM_temp[j]
                     N_dof += 1
+
+            MM.append(MM_temp[j])
+            LOS.append(plate)
 
         MODEL[los]['DD/MM'] = DD_MM
 
