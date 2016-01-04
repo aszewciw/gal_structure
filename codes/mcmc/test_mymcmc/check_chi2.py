@@ -1,5 +1,7 @@
 from config import *
 
+# Does this work?
+
 '''This will be the main mcmc loop. I assume
 that I have already counted all pairs in all
 lines of site for data and random. I have
