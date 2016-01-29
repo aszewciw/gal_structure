@@ -191,7 +191,7 @@ def main():
                     DD_MM[j] = DD[j] / MM_temp[j]
                     N_dof += 1
 
-            MM.append(MM_temp[j])d
+            MM.append(MM_temp[j])
 
         MODEL[los]['DD/MM'] = DD_MM
 
