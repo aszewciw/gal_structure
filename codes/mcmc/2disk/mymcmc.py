@@ -120,8 +120,16 @@ def chi2(todo_list, N_files, MODEL):
 
         #     chi2 += ((MODEL[los][BIN]['DD/MM'] - 1) ** 2) * sig2 ** -1
         DD_MM = MODEL[los]['DD/MM']
-        sig2 = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
-        chi2 += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
+        sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
+        # chi2  += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
+
+
+        for i in range(len(DD_MM)):
+
+            if DD_MM[i] <= 0.0:
+                continue
+
+            chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
 
     return(chi2)
 
@@ -273,29 +281,23 @@ def main():
         norm = ( np.sum(weight) ** 2 - np.inner(weight, weight)) / 2
 
         MM_temp = np.zeros(Nbins)
-        DD_MM   = np.zeros(Nbins)
         DD      = MODEL[los]['DD']
+        DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
 
         for j in range(Nbins):
 
             BIN = 'bin_' + str(j)
 
+            if DD[j] > 0:
 
-            MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
-                weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
+                MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
+                    weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
 
-            # If DD/MM = 0, set DD/MM = 1 so it does not contribute to chi2
-            # This is because the expected value of DD/MM = 1
-
-            if DD[j] <= 0 or MM_temp[j] <= 0:
-
-                DD_MM[j] = 1
-
-            else:
-
-                DD_MM[j] = DD[j] / MM_temp[j]
-
-                N_dof += 1
+                if MM_temp[j] <=0:
+                    continue
+                else:
+                    DD_MM[j] = DD[j] / MM_temp[j]
+                    N_dof += 1
 
         MODEL[los]['DD/MM'] = DD_MM
 
@@ -303,7 +305,7 @@ def main():
     print('Number of degrees of freedom: ', N_dof, '\n')
     # Calculate initial chi2
 
-    CHI2[0] = chi2(todo_list, N_files, MODEL)
+    CHI2[0]      = chi2(todo_list, N_files, MODEL)
     CHI2_TEST[0] = CHI2[0]
 
     #################_MODEL_INITIALIZATION_#################
@@ -338,27 +340,24 @@ def main():
             norm = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
 
             MM_temp = np.zeros(Nbins)
-            DD_MM   = np.zeros(Nbins)
             DD      = MODEL[los]['DD']
+            DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
 
             # This should maybe be replaced with list comprehension if possible
             for j in range(Nbins):
 
                 BIN = 'bin_' + str(j)
 
-                MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
-                    weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
+                if DD[j] > 0:
 
-                # If DD/MM = 0, set DD/MM = 1 so it does not contribute to chi2
-                # This is because the expected value of DD/MM = 1
+                    MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
+                        weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
 
-                if DD[j] <= 0 or MM_temp[j] <= 0:
+                    if MM_temp[j] <=0:
+                        continue
+                    else:
+                        DD_MM[j] = DD[j] / MM_temp[j]
 
-                    DD_MM[j] = 1
-
-                else:
-
-                    DD_MM[j] = DD[j] / MM_temp[j]
 
             MODEL[los]['DD/MM'] = DD_MM
 
