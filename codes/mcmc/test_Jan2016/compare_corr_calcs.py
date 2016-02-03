@@ -24,7 +24,7 @@ def chi2(todo_list, N_files, MODEL):
 
         los   = 'los_' + p.ID
 
-        # DD_MM = MODEL[los]['DD/MM']
+        DD_MM = MODEL[los]['DD/MM']
         sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
         # chi2  += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
 
