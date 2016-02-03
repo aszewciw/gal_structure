@@ -10,7 +10,7 @@ then calculating DD/MM.
 
 #############################################################
 
-def chi2(todo_list, MODEL):
+def chi2(todo_list, N_files, MODEL):
 
     '''Calculates chi-square for given model'''
 
@@ -19,6 +19,8 @@ def chi2(todo_list, MODEL):
     for p in todo_list:
 
         plate = int(p.ID)
+        if plate >= N_files:
+            continue
 
         los   = 'los_' + p.ID
 
@@ -39,16 +41,15 @@ def main():
 
     ####################_PARAMETERS_########################
 
-    # elements_needed = int(5)
+    elements_needed = int(2)
 
-    # args_array    = np.array(sys.argv)
-    # N_args        = len(args_array)
-    # assert(N_args == elements_needed)
-    # outfile       = args_array[1]
+    args_array = np.array(sys.argv)
+    N_args = len(args_array)
+    assert(N_args == elements_needed)
+    N_files = int(args_array[1])
 
 
     MODEL    = {}
-    DATA     = {}
     MODEL_ZR = {}
 
 
@@ -64,6 +65,8 @@ def main():
 
         # Limit number of los
         plate = int(p.ID)
+        if plate >= N_files:
+            continue
 
         print('Loading Pointing #', p.ID)
 
@@ -106,6 +109,8 @@ def main():
     for p in todo_list:
 
         plate = int(p.ID)
+        if plate >= N_files:
+            continue
 
         los = 'los_' + p.ID
 
@@ -139,8 +144,8 @@ def main():
         MODEL[los]['DD/MM'] = DD_MM
 
         for j in range(len(DD_MM)):
-            if DD_MM[i]==1:
-                DD_MM[i] = 0
+            if DD_MM[j]==1:
+                DD_MM[j] = 0
 
         outfile = test_dir + 'mcmc_correlation_' + p.ID + '.dat'
         np.savetxt(outfile, DD_MM)
@@ -149,7 +154,7 @@ def main():
     print('Number of degrees of freedom: ', N_dof, '\n')
     # Calculate initial chi2
 
-    chi2 = chi2(todo_list, MODEL)
+    chi2 = chi2(todo_list, N_files, MODEL)
     print('Chi-squared is: ', chi2)
 
     #################_MODEL_INITIALIZATION_#################
