@@ -156,8 +156,8 @@ def main():
     print('Number of degrees of freedom: ', N_dof, '\n')
     # Calculate initial chi2
 
-    chi2 = chi2(todo_list, N_files, MODEL)
-    print('Chi-squared is: ', chi2)
+    CHI2 = chi2(todo_list, N_files, MODEL)
+    print('Chi-squared is: ', CHI2)
 
     #################_MODEL_INITIALIZATION_#################
 
