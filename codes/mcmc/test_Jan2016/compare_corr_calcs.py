@@ -1,97 +1,56 @@
 from config import *
 
-'''This will be the main mcmc loop. I assume
-that I have already counted all pairs in all
-lines of site for data and random. I have
-one file for each random sample storing pair
-counts (Z_i, R_i, w_i, Z_j, R_j, w_j). The
-plan is to load all 152 of these into 152
-separate dictionaries. I also have the
-jackknife errors for this catalogue already.
-I should note that the data correlation only
-needs to be calculated once (and it has).'''
-
-
+'''
+Check the difference between these two methods for calculating
+the correlation function:
+1. First weighting the model, then calculating DD/MM.
+2. First binning the pair indices, then weighting the model,
+then calculating DD/MM.
+'''
 
 #############################################################
 
-# @profile
-def chi2(todo_list, N_files, MODEL):
+def chi2(todo_list, MODEL):
 
     '''Calculates chi-square for given model'''
 
-    chi2 = []
-    sig2 = []
-    DDMM = []
+    chi2 = 0
 
     for p in todo_list:
 
         plate = int(p.ID)
-        if plate >= N_files:
-            continue
 
-        los = 'los_' + p.ID
+        los   = 'los_' + p.ID
 
-        DDMM_array = MODEL[los]['DD/MM']
-        sig2_array = ( DDMM_array ** 2 ) * MODEL[los]['err2_temp']
-        chi2_array = ( DDMM_array - 1 )**2  * ( sig2_array ** -1 )
+        DD_MM = MODEL[los]['DD/MM']
+        sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
+        chi2  += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
 
-        for j in range(len(chi2_array)):
-            chi2.append(chi2_array[j])
-            sig2.append(sig2_array[j])
-            DDMM.append(DDMM_array[j])
-
-    return(chi2, sig2, DDMM)
+    return(chi2)
 
 
 #############################################################
 
 #############################################################
 
-# @profile
 def main():
 
     np.random.seed()
 
     ####################_PARAMETERS_########################
 
-    N_acc    = 0    # Number of accepted steps
-    MCMC_eff = 0    # accepted / total
-    N_dof    = 0    # degrees of freedom
-    N_params = 5
-    N_dof    -= N_params
-
-
     elements_needed = int(5)
 
-    args_array = np.array(sys.argv)
-    N_args = len(args_array)
+    args_array    = np.array(sys.argv)
+    N_args        = len(args_array)
     assert(N_args == elements_needed)
-    N_loops = int(args_array[1])
-    N_files = int(args_array[2])
-    outfile = args_array[3]
-    N_std = int(args_array[4])
+    outfile       = args_array[1]
 
-    ####################_PARAMETERS_########################
-
-
-    ###################_INITIALIZATION_#####################
 
     MODEL    = {}
     DATA     = {}
     MODEL_ZR = {}
 
-    # Lists to be filled so I can see wtf is wrong with chi2
-    MM = []
-    LOS = []
-    BINS = []
-
-    ###################_INITIALIZATION_#####################
-
-
-    ####################_DATA_INPUT_########################
-
-    # Lines of sight
 
     input_filename = rawdata_dir + 'todo_list.dat'
     input_file     = open(input_filename, 'rb')
@@ -105,8 +64,6 @@ def main():
 
         # Limit number of los
         plate = int(p.ID)
-        if plate >= N_files:
-            continue
 
         print('Loading Pointing #', p.ID)
 
@@ -130,7 +87,7 @@ def main():
         #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
 
         # Load normalized and weighted DD counts
-        DD_file         = DD_dir + 'DD_' + p.ID + '.dat'
+        DD_file          = DD_dir + 'DD_' + p.ID + '.dat'
         MODEL[los]['DD'] = np.genfromtxt(DD_file, usecols=[2])
 
 
@@ -146,26 +103,16 @@ def main():
                 model_file, dtype=None, unpack=True)
 
 
-    ####################_DATA_INPUT_########################
-
-
-    #################_MODEL_INITIALIZATION_#################
-
-    # Weight model points and calculate DD/MM
-
     for p in todo_list:
 
         plate = int(p.ID)
-        if plate >= N_files:
-            continue
-
 
         los = 'los_' + p.ID
 
         weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
             * np.exp(-MODEL_ZR[los]['R'] * (r_thin ** -1)) +
-            a * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * z_thick ** (-1) ) ) ** (-2) )
-            * np.exp(-MODEL_ZR[los]['R'] * r_thick ** -1) ) )
+            a * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * z_thick) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZR[los]['R'] * r_thick ** -1) )
 
         norm = ( np.sum(weight) ** 2 - np.inner(weight, weight)) / 2
 
@@ -177,36 +124,38 @@ def main():
 
             BIN = 'bin_' + str(j)
 
-            LOS.append(plate)
-            BINS.append(j + 1)
-
             if DD[j] > 0:
 
                 MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
                     weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
 
-                if MM_temp[j] <=0:
+                if MM_temp[j] <= 0:
                     continue
                 else:
                     DD_MM[j] = DD[j] / MM_temp[j]
-                    N_dof += 1
+                    N_dof    += 1
 
-            MM.append(MM_temp[j])
 
         MODEL[los]['DD/MM'] = DD_MM
+
+        for j in range(len(DD_MM)):
+            if DD_MM[i]==1:
+                DD_MM[i] = 0
+
+        outfile = test_dir + 'mcmc_correlation_' + p.ID + '.dat'
+        np.savetxt(outfile, DD_MM)
 
 
     print('Number of degrees of freedom: ', N_dof, '\n')
     # Calculate initial chi2
 
-    CHI2, SIG2, DDMM = chi2(todo_list, N_files, MODEL)
+    chi2 = chi2(todo_list, MODEL)
+    print('Chi-squared is: ', chi2)
 
     #################_MODEL_INITIALIZATION_#################
 
 
-    np.savez(outfile, CHI2=CHI2, LOS=LOS, MM=MM, SIG2=SIG2, DDMM=DDMM, BINS=BINS)
-
-    print('MCMC done. Data output to: ', outfile)
+    # print('MCMC done. Data output to: ', outfile)
 
 if __name__ == '__main__':
     main()
