@@ -24,9 +24,17 @@ def chi2(todo_list, N_files, MODEL):
 
         los   = 'los_' + p.ID
 
-        DD_MM = MODEL[los]['DD/MM']
+        # DD_MM = MODEL[los]['DD/MM']
         sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
-        chi2  += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
+        # chi2  += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
+
+
+        for i in range(len(DD_MM)):
+
+            if DD_M[i] <= 0.0:
+                continue
+
+            chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
 
     return(chi2)
 
@@ -125,7 +133,8 @@ def main():
 
         MM_temp = np.zeros(Nbins)
         DD      = MODEL[los]['DD']
-        DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
+        # DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
+        DD_MM = np.zeros(Nbins)
 
         for j in range(Nbins):
 
@@ -137,20 +146,24 @@ def main():
                     weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
 
                 if MM_temp[j] <= 0:
-                    continue
+                    DD_MM[j] = 0
                 else:
                     DD_MM[j] = DD[j] / MM_temp[j]
                     N_dof    += 1
 
 
         MODEL[los]['DD/MM'] = DD_MM
-
-        for j in range(len(DD_MM)):
-            if DD_MM[j]==1:
-                DD_MM[j] = 0
-
         outfile = test_dir + 'mcmc_correlation_' + p.ID + '.dat'
+
+
         np.savetxt(outfile, DD_MM)
+
+        # corr = DD_MM - 1
+        # corr2 = np.genfromtxt(test_dir + 'correlation_0.dat', usecols=[1])
+
+        # print(corr)
+        # print("next")
+        # print(corr2)
 
 
     print('Number of degrees of freedom: ', N_dof, '\n')
