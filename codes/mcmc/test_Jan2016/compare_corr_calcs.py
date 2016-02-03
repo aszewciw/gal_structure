@@ -39,12 +39,12 @@ def main():
 
     ####################_PARAMETERS_########################
 
-    elements_needed = int(5)
+    # elements_needed = int(5)
 
-    args_array    = np.array(sys.argv)
-    N_args        = len(args_array)
-    assert(N_args == elements_needed)
-    outfile       = args_array[1]
+    # args_array    = np.array(sys.argv)
+    # N_args        = len(args_array)
+    # assert(N_args == elements_needed)
+    # outfile       = args_array[1]
 
 
     MODEL    = {}
