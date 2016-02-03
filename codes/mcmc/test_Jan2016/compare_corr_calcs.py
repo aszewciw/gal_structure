@@ -31,7 +31,7 @@ def chi2(todo_list, N_files, MODEL):
 
         for i in range(len(DD_MM)):
 
-            if DD_M[i] <= 0.0:
+            if DD_MM[i] <= 0.0:
                 continue
 
             chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
