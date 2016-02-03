@@ -48,6 +48,8 @@ def main():
     assert(N_args == elements_needed)
     N_files = int(args_array[1])
 
+    N_dof = 0
+
 
     MODEL    = {}
     MODEL_ZR = {}
