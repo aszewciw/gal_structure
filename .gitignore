@@ -41,7 +41,7 @@ Thumbs.db
 *.dat
 *.csv
 *.txt
-
+*.npz
 
 
 # Python recommendations #
