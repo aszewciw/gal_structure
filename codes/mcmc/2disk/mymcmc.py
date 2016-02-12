@@ -188,8 +188,11 @@ def main():
     R_THICK = np.zeros(N_loops)
     Z_THIN  = np.zeros(N_loops)
     R_THIN  = np.zeros(N_loops)
-    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(
-        a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
+    # A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(
+    #     a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
+
+    #Initializing params to continue mcmc chain for victor.npz file
+    A[0], Z_THIN[0], Z_THICK[0], R_THIN[0], R_THICK[0] = 0.275068801092, 0.225041096913, 0.6424758951, 7.7552228577, 3.6913949858
 
     CHI2      = np.zeros(N_loops)
     CHI2_TEST = np.zeros(N_loops)
