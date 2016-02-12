@@ -2,9 +2,11 @@ import numpy as np
 from config import *
 import matplotlib.pyplot as plt
 
-filename = str(input('Enter filename with .npz extension: '))
+# def main():
 
-filename = mcmcdata_dir + filename
+# filename = str(input('Enter filename with .npz extension: '))
+filename = 'victor_test.npz'
+# filename = mcmcdata_dir + filename
 
 with np.load(filename) as d:
     a         = d['A']
@@ -18,6 +20,13 @@ with np.load(filename) as d:
 
 loop = np.arange(len(a))
 
+diff = chi2_test - chi2
+
+# count = 0
+# for i in loop:
+#     if diff[i] == 0:
+#         print(i, diff[i])
+#         count +=1
 plt.figure(1)
 plt.subplot(211)
 plt.xlabel('Loop Number')
@@ -28,7 +37,7 @@ plt.subplot(212)
 plt.xlabel('Loop Number')
 plt.ylabel(r'$\ R_{0, thin}$ (kpc)')
 plt.scatter(loop, r_thin, s=1)
-plt.savefig('mock_rk_rn.png')
+# plt.savefig('mock_rk_rn.png')
 
 plt.figure(2)
 plt.subplot(211)
@@ -40,24 +49,37 @@ plt.subplot(212)
 plt.xlabel('Loop Number')
 plt.ylabel(r'$\ Z_{0, thin}$ (kpc)')
 plt.scatter(loop, z_thin, s=1)
-plt.savefig('mock_zk_zn.png')
+# plt.savefig('mock_zk_zn.png')
 
 plt.figure(3)
 plt.xlabel('Loop Number')
 plt.ylabel('a')
 plt.scatter(loop, a, s=1)
-plt.savefig('mock_a.png')
+# plt.savefig('mock_a.png')
 
-plt.figure(4)
-plt.xlabel('Loop Number')
-plt.ylabel('chi2 (red) and possible chi2')
-plt.scatter(loop, chi2, color='r', s=1)
-plt.scatter(loop, chi2_test, color='b', s=1)
-plt.savefig('mock_chi2.png')
+# plt.figure(1)
+# plt.xlabel('Loop Number')
+# plt.ylabel('chi2 proposed - chi2 accepted')
+# # plt.yscale('log')
+# plt.scatter(loop, chi2, s=1)
+# plt.axis([0, len(loop), 0, 1000])
+# # plt.savefig('mock_chi2.png')
 
+# plt.figure(4)
+# plt.xlabel('Loop')
+# plt.ylabel('chi2')
+# plt.scatter(loop, chi2, s=1)
 
-plt.figure(5)
-plt.xlabel('Loop Number')
-plt.ylabel('Efficiency')
-plt.scatter(loop, eff, s=1)
-plt.savefig('mock_eff.png')
+# plt.figure(5)
+# plt.xlabel('Loop Number')
+# plt.ylabel('Efficiency')
+# plt.scatter(loop, eff, s=1)
+# plt.savefig('mock_eff.png')
+
+plt.show()
+
+# print(chi2, chi2_test)
+
+# if __name__ == '__main__':
+#     main()
+

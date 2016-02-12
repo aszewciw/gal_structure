@@ -165,7 +165,7 @@ def main():
     N_loops = int(args_array[1])
     N_files = int(args_array[2])
     outfile = args_array[3]
-    N_std = int(args_array[4])
+    N_std   = int(args_array[4])
 
     ####################_PARAMETERS_########################
 
