@@ -43,6 +43,10 @@ Thumbs.db
 *.txt
 *.npz
 
+# Various image files #
+#######################
+*.png
+*.jpg
 
 # Python recommendations #
 # I don't know what these are. Some are already listed above.
