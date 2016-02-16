@@ -12,46 +12,6 @@ I should note that the data correlation only
 needs to be calculated once (and it has).'''
 
 
-#############################################################
-
-# @profile
-# def gal_weights(Z, R, a, z_thick, r_thick, z_thin, r_thin):
-
-#     '''
-#     For numpy arrays of (Z,R) values of different star,
-#     calculates the "weight" of each star based on the 5
-#     parameters.
-#     '''
-
-#     weight = ( ( ( np.cosh(Z * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
-#         * np.exp(-R * (r_thin ** -1)) +
-#         a * ( ( np.cosh(Z * (2 * z_thick) ** (-1) ) ) ** (-2) )
-#         * np.exp(-R * r_thick ** -1) )
-
-#     return weight
-
-# #############################################################
-
-
-# #############################################################
-
-# @profile
-# def norm_weights(w):
-
-#     '''
-#     For an array of weights, calculates the normalization
-#     factor.
-#     '''
-
-#     norm = ( np.sum(w) ** 2 - np.inner(w,w)) * 2**-1
-
-#     return norm
-
-# #############################################################
-
-#############################################################
-
-# @profile
 def assign_params(a, z_thick, r_thick, z_thin, r_thin, init=1, N_std=0):
 
     '''
@@ -109,20 +69,8 @@ def chi2(todo_list, N_files, MODEL):
 
         los = 'los_' + p.ID
 
-        # for j in range(Nbins):
-
-        #     BIN = 'bin_' + str(j)
-
-        #     if MODEL[los][BIN]['DD/MM'] <= 0:
-        #         continue
-
-        #     sig2 = ( MODEL[los][BIN]['DD/MM'] ** 2 ) * MODEL[los][BIN]['err2_temp']
-
-        #     chi2 += ((MODEL[los][BIN]['DD/MM'] - 1) ** 2) * sig2 ** -1
         DD_MM = MODEL[los]['DD/MM']
         sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
-        # chi2  += np.sum( ( ( DD_MM - 1 )**2 ) * ( sig2 ** -1 ) )
-
 
         for i in range(len(DD_MM)):
 
@@ -150,12 +98,6 @@ def main():
     N_dof    = 0    # degrees of freedom
     N_params = 5
     N_dof    -= N_params
-
-    # N_loops  = int(input('Enter number of mcmc loops: '))   # Number of mcmc loops
-    # N_files  = int(input('Enter maximum number of files to test: '))        # should probably fix this so it prompts until you give an int
-    # outfile  = str(input('Enter filename with .npz extension: '))
-    # outfile  = mcmcdata_dir + outfile
-    # N_std    = int(input('Enter number of std away to begin each parameter: '))
 
     elements_needed = int(5)
 
@@ -188,11 +130,8 @@ def main():
     R_THICK = np.zeros(N_loops)
     Z_THIN  = np.zeros(N_loops)
     R_THIN  = np.zeros(N_loops)
-    # A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(
-    #     a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
-
-    #Initializing params to continue mcmc chain for victor.npz file
-    A[0], Z_THIN[0], Z_THICK[0], R_THIN[0], R_THICK[0] = 0.275068801092, 0.225041096913, 0.6424758951, 7.7552228577, 3.6913949858
+    A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(
+        a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
 
     CHI2      = np.zeros(N_loops)
     CHI2_TEST = np.zeros(N_loops)
