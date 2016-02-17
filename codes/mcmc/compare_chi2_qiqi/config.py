@@ -21,12 +21,13 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-data_dir    = '../../../data/'
-rawdata_dir = data_dir + 'data_raw/'
-DD_dir      = data_dir + 'mcmc/data_DD/'
-qiqi_dir    = '/fs1/mqq/Projects/StarClustering/mcmc_archive/mcmc_2disks_model/data/'
-model_dir   = './data/binned_pair_indices/'
-out_dir     = './data/output_data/'
+data_dir     = '../../../data/'
+rawdata_dir  = data_dir + 'data_raw/'
+DD_dir       = data_dir + 'mcmc/data_DD/'
+qiqi_dir     = '/fs1/mqq/Projects/StarClustering/mcmc_archive/mcmc_2disks_model/data/'
+model_dir    = './data/binned_pair_indices/'
+out_dir      = './data/output_data/'
+weighted_dir = './data/weighted_randoms'
 
 # create array of bins evenly spaced in log
 Nbins   = 12
