@@ -164,7 +164,7 @@ def main():
         MODEL_ZR[los] = {}
 
         # File containing ascii data for uniform samples (has Z and R; W is 1)
-        ZR_file = jk_dir + 'uniform_' + p.ID + '.ascii.dat'
+        ZR_file = qiqi_dir + 'uniform_' + p.ID + '.ascii.dat'
 
         MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'], = np.genfromtxt(
             ZR_file, unpack=True, skiprows=1, usecols=[5, 6], dtype=None)
