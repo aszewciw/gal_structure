@@ -32,7 +32,7 @@ def main():
 
         '''Choose MW model files or random files.'''
         # output_file = data_dir + 'correlation_' + p.ID + '.dat'
-        output_file = MW_dir + 'correlation_' + p.ID + '.dat'
+        output_file = corr_dir + 'correlation_' + p.ID + '.dat'
 
         # parameters rmin, rmax, nbins
         param = '0.001 2.0 25'
