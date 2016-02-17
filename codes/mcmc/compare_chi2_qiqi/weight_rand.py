@@ -42,7 +42,7 @@ def main():
 
     for p in todo_list:
 
-        random_file = model_dir + 'random_' + p.ID + '.xyzw.dat'
+        random_file = model_dir + 'uniform_' + p.ID + '.xyzw.dat'
 
         if not os.path.isfile(random_file):
             sys.stderr.write('Error: ' + random_file + ' does not exist.\n')
