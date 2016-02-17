@@ -27,7 +27,7 @@ DD_dir       = data_dir + 'mcmc/data_DD/'
 qiqi_dir     = '/fs1/mqq/Projects/StarClustering/mcmc_archive/mcmc_2disks_model/data/'
 model_dir    = './data/binned_pair_indices/'
 out_dir      = './data/output_data/'
-weighted_dir = './data/weighted_randoms'
+weighted_dir = './data/weighted_randoms/'
 
 # create array of bins evenly spaced in log
 Nbins   = 12
@@ -41,12 +41,10 @@ def eq2cart(ra, dec, r):
     """
     Convert Equatorial coordinates to Cartesian coordinates.
     Return a tuple (x, y, z) in the same unit of the input distance.
-
     Keywords arguments:
     ra  -- Right Ascension (in radians)
     dec -- Declination (in radians)
     r   -- Distance
-
     """
 
     x = r * math.cos(ra) * math.cos(dec)
@@ -58,12 +56,10 @@ def eq2cart(ra, dec, r):
 def cart2eq(x, y, z):
     """
     Convert Cartesian coordinates to Equatorial coordinates
-
     Keywords arguments:
     x -- x coordinate
     y -- y coordinate
     z -- z coordinate
-
     Return a tuple (ra, dec, z):
     ra  -- Right Ascension (in radians)
     dec -- Declination (in radians)
@@ -87,11 +83,9 @@ Galactic_Ascending_Node = math.radians(32.932)
 def eq2gal(ra,dec):
     """
     Convert Equatorial coordinates to Galactic Coordinates in the epch J2000.
-
     Keywords arguments:
     ra  -- Right Ascension (in radians)
     dec -- Declination (in radians)
-
     Return a tuple (l, b):
     l -- Galactic longitude (in radians)
     b -- Galactic latitude (in radians)
@@ -118,11 +112,9 @@ def eq2gal(ra,dec):
 def gal2eq(l, b):
     """
     Convert Galatic coordinates to Equatorial Coordinates in the epch J2000.
-
     Keywords arguments:
     l -- Galactic longitude (in radians)
     b -- Galactic latitude (in radians)
-
     Return a tuple (ra, dec):
     ra  -- Right Ascension (in radians)
     dec -- Declination (in radians)
@@ -154,11 +146,9 @@ def gal2ZR(l, b, distance):
     Transfer helio-centered galactic coordinates to galactic center based
     z and r (cylinder coordinates).
     Used to put into the galactic disk model to calculate the density.
-
     Keywords arguments:
     l -- Galactic longitude (in radians)
     b -- Galactic latitude (in radians)
-
     Return a tuple (Z, R):
     Z  -- absolute distance above/below the galactic disk
     R -- distance away from the galactic center axis
@@ -177,11 +167,9 @@ def gal2ZR(l, b, distance):
 def dot(vec1, vec2):
     """
     Calculate the dot producs of 2 vectors in 3D Cartesian space.
-
     Keywords arguments:
     vec1 -- First vector in (x, y, z)
     vec2 -- Second vector in (x, y, z)
-
     Returns:
     dp -- the result of dot product
     """
@@ -199,11 +187,9 @@ def dot(vec1, vec2):
 def cross(vec1, vec2):
     """
     Calculate the cross producs of 2 vectors in 3D Cartesian space.
-
     Keywords arguments:
     vec1 -- First vector in (x, y, z)
     vec2 -- Second vector in (x, y, z)
-
     Returns:
     vec -- the result vector in (x, y, z)
     """
@@ -224,12 +210,10 @@ def rodrigues(axis, vec, theta):
     """
     Rotate a vector around an axis in 3D Cartesian space
     using Rodrigues' rotation formula.
-
     Keywords arguments:
     axis -- The vector of the axis in (x, y, z)
     vec  -- The vector to be rotated in (x, y, z)
     theta -- The rotation angle in radians.
-
     Return:
     vrot -- The rotated vector in (x, y, z)
     """
