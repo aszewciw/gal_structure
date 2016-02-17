@@ -130,7 +130,7 @@ def main():
     # CHI2_TEST = np.zeros(N_loops)
     # EFF       = np.zeros(N_loops)
     # EFF[0]    = 0
-    qiqi_file = qiqi_dir + 'mcmc.dat'
+    qiqi_file = qiqi_dir + 'mcmc_result.dat'
     R_THIN, Z_THIN, R_THICK, Z_THICK, A = np.genfromtxt(qiqi_file, unpack=True, usecols=[1,2,3,4,5])
 
 
