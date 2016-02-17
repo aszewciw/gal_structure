@@ -199,7 +199,7 @@ def main():
 
     ########################_MCMC_##########################
 
-    for k in range(len(N_values)):
+    for k in range(N_values):
 
         print('Loop number: ', k)
 
