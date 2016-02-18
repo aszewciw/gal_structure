@@ -18,18 +18,37 @@ def chi2(todo_list, MODEL):
 
     for p in todo_list:
 
-        los = 'los_' + p.ID
+        # los   = 'los_' + p.ID
 
-        corr = MODEL[los]['corr']
-        DD_MM = corr + 1
-        sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
+        # corr  = MODEL[los]['corr']
+        # DD_MM = corr + 1
+        # sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
 
-        for i in range(len(DD_MM)):
+        # for i in range(len(DD_MM)):
 
-            if DD_MM[i] <= 0.0:
+        #     if DD_MM[i] <= 0.0:
+        #         continue
+
+        #     chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
+
+        los       = 'los_' + p.ID
+        DD        = MODEL[los]['DD']
+        MM        = MODEL[los]['MM']
+        err_jk_DD = MODEL[los]['dat_jk_err']
+        err_jk_MM = MODEL[los]['uni_jk_err']
+        f         = DD / MM
+        sigma2_DD = ( DD * err_jk_DD ) * ( DD * err_jk_DD )
+        sigma2_MM = ( MM * err_jk_MM ) * ( MM * err_jk_MM )
+
+        for i in range(len(DD)):
+
+            if DD[i] == 0.0 or MM[i] == 0.0:
                 continue
 
-            chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
+            sigma2 = ( sigma2_DD[i] / (DD[i] * DD[i]) + sigma2_MM[i] / (MM[i] * MM[i]) ) * (f[i] * f[i])
+
+            chi2 += (f[i] - 1.0) * (f[i] - 1.0) / sigma2
+
 
     return(chi2)
 
@@ -80,16 +99,27 @@ def main():
         MODEL[los]    = {}
 
         # Load jackknife errors as numpy arrays: one error for each bin
-        uni_jk_file             = qiqi_dir + 'uniform_' + p.ID + '_jk_error.dat'
-        uni_jk_err              = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
-        dat_jk_file             = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
-        dat_jk_err              = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        MODEL[los]['err2_temp'] = uni_jk_err ** 2 + dat_jk_err ** 2
+        # uni_jk_file             = qiqi_dir + 'uniform_' + p.ID + '_jk_error.dat'
+        # uni_jk_err              = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
+        # dat_jk_file             = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
+        # dat_jk_err              = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
+        # MODEL[los]['err2_temp'] = uni_jk_err ** 2 + dat_jk_err ** 2
         #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
 
+
+        '''TRY SLIGHTLY DIFFERENT WAY OF CALCULATING CHI2'''
+
+        uni_jk_file                        = qiqi_dir + 'uniform_' + p.ID + '_jk_error.dat'
+        MODEL[los]['uni_jk_err']           = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
+        dat_jk_file                        = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
+        MODEL[los]['dat_jk_err']           = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
+        corr_file                          = corr_dir + 'correlation_' + p.ID + '.dat'
+        MODEL[los]['DD'], MODEL[los]['MM'] = np.genfromtxt(corr_file, usecols = [4, 6])
+
+
         # Load normalized and weighted DD counts
-        corr_file          = corr_dir + 'correlation_' + p.ID + '.dat'
-        MODEL[los]['corr'] = np.genfromtxt(corr_file, usecols=[1])
+        # corr_file          = corr_dir + 'correlation_' + p.ID + '.dat'
+        # MODEL[los]['corr'] = np.genfromtxt(corr_file, usecols=[1])
 
     CHI2               = chi2(todo_list, MODEL)
 
