@@ -72,6 +72,8 @@ def main():
 
     # Loading data into dictionaries and subdictionaries
     for p in todo_list:
+        los = 'los_' + p.ID
+        print(los)
 
         # Subdictionaries for each los
         los           = 'los_' + p.ID
