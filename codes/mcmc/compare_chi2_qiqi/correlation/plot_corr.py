@@ -12,14 +12,14 @@ def main():
     count = 0
 
     # Load todo list of pointings
-    input_filename = data_dir + 'todo_list.dat'
+    input_filename = rawdata_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
 
     with open(input_filename, 'rb') as input_file:
         todo_list = pickle.load(input_file)
 
     fig = plt.figure(figsize = (10, 8))
-    ax = fig.add_subplot(1,1,1, axisbg = 'white')
+    ax  = fig.add_subplot(1,1,1, axisbg = 'white')
     ax.set_xlabel('r (kpc)')
     ax.set_ylabel(r'$\displaystyle\frac{DD}{MM}$(r) - 1')
     ax.set_title('Two-point Correlation of SEGUE G-Dwarfs')
@@ -36,7 +36,7 @@ def main():
     for p in todo_list:
 
         # filename = data_dir + 'correlation_' + p.ID + '.dat'
-        filename = MW_dir + 'correlation_' + p.ID + '.dat'
+        filename = corr_dir + 'correlation_' + p.ID + '.dat'
 
         if not os.path.isfile(filename):
             sys.stderr.write('Error: ' + filename + ' does not exist.\n')
