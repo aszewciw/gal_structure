@@ -91,7 +91,7 @@ def main():
         corr_file          = corr_dir + 'correlation_' + p.ID + '.dat'
         MODEL[los]['corr'] = np.genfromtxt(corr_file, usecols=[1])
 
-        CHI2               = chi2(todo_list, MODEL)
+    CHI2               = chi2(todo_list, MODEL)
 
     print('Chi-squared is: ', CHI2)
 
