@@ -54,7 +54,7 @@ def chi2(todo_list, MODEL):
             chi2 += chi2_temp
 
             if chi2_temp > 50:
-            print(chi2_temp, los, i)
+                print(chi2_temp, los, i)
 
     print(DOF)
 
