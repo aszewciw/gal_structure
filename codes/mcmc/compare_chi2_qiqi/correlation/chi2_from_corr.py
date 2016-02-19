@@ -114,7 +114,7 @@ def main():
         dat_jk_file                        = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
         MODEL[los]['dat_jk_err']           = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
         corr_file                          = corr_dir + 'correlation_' + p.ID + '.dat'
-        MODEL[los]['DD'], MODEL[los]['MM'] = np.genfromtxt(corr_file, unpack=True, usecols = [4, 6])
+        MODEL[los]['DD'], MODEL[los]['MM'] = np.genfromtxt(corr_file, unpack=True, usecols = [3, 5])
 
 
         # Load normalized and weighted DD counts
