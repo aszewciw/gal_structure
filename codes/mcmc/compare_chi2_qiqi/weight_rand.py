@@ -17,16 +17,25 @@ def gal_weights(Z, R):
     parameters.
     '''
     #values from qingqing's first step in chain
-    r_thin  = 2.475508
-    z_thin  = 0.241209
-    r_thick = 2.417346
-    z_thick = 0.694395
-    a       = 0.106672
+    # r_thin  = 2.475508
+    # z_thin  = 0.241209
+    # r_thick = 2.417346
+    # z_thick = 0.694395
+    # a       = 0.106672
+
+
+    r_thin  = 2.797714
+    z_thin  = 0.234171
+    r_thick = 2.662694
+    z_thick = 0.680540
+    a       = 0.105509
 
     weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
         * np.exp(-R / r_thin) +
         a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
         * np.exp(-R / r_thick) )
+
+
 
     return weight
 
