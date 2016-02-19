@@ -30,11 +30,14 @@ def gal_weights(Z, R):
     z_thick = 0.680540
     a       = 0.105509
 
-    weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
-        * np.exp(-R / r_thin) +
-        a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
-        * np.exp(-R / r_thick) )
+    # weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
+    #     * np.exp(-R / r_thin) +
+    #     a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
+    #     * np.exp(-R / r_thick) )
 
+    thin_weight  = ( ( 1 / np.cosh(Z / 2.0 / z_thin) )**2 ) * np.exp( -R / r_thin )
+    thick_weight = ( ( 1 / np.cosh(Z / 2.0 / z_thick) )**2 ) * np.exp( -R / r_thick )
+    weight       = thin_weight + a * thick_weight
 
 
     return weight
