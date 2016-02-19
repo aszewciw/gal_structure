@@ -100,7 +100,7 @@ def eq2gal(ra,dec):
 
     l = math.atan2(math.sin(dec) * math.cos(delta) -
                    math.cos(dec) * math.sin(delta) * math.cos(ra - alpha),
-                   math.cos(dec) * math.sin(ra - alpha)`
+                   math.cos(dec) * math.sin(ra - alpha)
                    ) + la
 
     l = l if l >= 0 else (l + math.pi * 2.0)
