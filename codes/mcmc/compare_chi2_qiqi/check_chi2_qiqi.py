@@ -55,6 +55,7 @@ def chi2(todo_list, N_files, MODEL):
     '''Calculates chi-square for given model'''
 
     chi2 = 0
+    DOF = 0
 
     for p in todo_list:
 
@@ -69,10 +70,14 @@ def chi2(todo_list, N_files, MODEL):
 
         for i in range(len(DD_MM)):
 
-            if DD_MM[i] <= 0.0:
+            if DD_MM[i] <= 0.0 or sig2[i] <= 0.0:
                 continue
 
+            DOF +=1
+
             chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
+
+    print(DOF)
 
     return(chi2)
 
@@ -95,15 +100,15 @@ def main():
 
     elements_needed = int(5)
 
-    args_array = np.array(sys.argv)
-    N_args = len(args_array)
+    args_array    = np.array(sys.argv)
+    N_args        = len(args_array)
     assert(N_args == elements_needed)
-    N_values = int(args_array[1])
-    N_files = int(args_array[2])
-    outfile = args_array[3]
-    N_std   = int(args_array[4])
+    N_values      = int(args_array[1])
+    N_files       = int(args_array[2])
+    outfile       = args_array[3]
+    N_std         = int(args_array[4])
 
-    outfile = out_dir + outfile
+    outfile       = out_dir + outfile
 
     ####################_PARAMETERS_########################
 
@@ -174,7 +179,16 @@ def main():
         uni_jk_err              = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
         dat_jk_file             = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
         dat_jk_err              = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        MODEL[los]['err2_temp'] = uni_jk_err ** 2 + dat_jk_err ** 2
+        # MODEL[los]['err2_temp'] = uni_jk_err ** 2 + dat_jk_err ** 2
+        err2_temp = np.zeros(len(dat_jk_err))
+
+        for i in range(len(err2_temp)):
+            if uni_jk_err[i] == 0.0 or dat_jk_err[i] == 0.0:
+                continue
+            err2_temp[i] = uni_jk_err[i] ** 2 + dat_jk_err[i] ** 2
+
+        MODEL[los]['err2_temp'] = err2_temp
+
         #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
 
         # Load normalized and weighted DD counts
@@ -217,7 +231,7 @@ def main():
                 * np.exp(-MODEL_ZR[los]['R'] * R_THICK[k] ** -1) )
 
             # MODEL_ZRW[los]['norm'] = norm_weights(MODEL_ZRW[los]['W'])
-            norm = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
+            norm    = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
 
             MM_temp = np.zeros(Nbins)
             DD      = MODEL[los]['DD']
