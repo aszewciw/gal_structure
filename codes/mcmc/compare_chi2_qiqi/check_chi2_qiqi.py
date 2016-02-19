@@ -73,7 +73,7 @@ def chi2(todo_list, N_files, MODEL):
             if DD_MM[i] <= 0.0 or sig2[i] <= 0.0:
                 continue
 
-            DOF +=1
+            DOF += 1
 
             chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
 
@@ -235,23 +235,39 @@ def main():
 
             MM_temp = np.zeros(Nbins)
             DD      = MODEL[los]['DD']
-            DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
+            # DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
+            DD_MM = np.zeros(Nbins)
 
             # This should maybe be replaced with list comprehension if possible
+            # for j in range(Nbins):
+
+            #     BIN = 'bin_' + str(j)
+
+            #     if DD[j] > 0:
+
+            #         MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
+            #             weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
+
+            #         if MM_temp[j] <=0:
+            #             continue
+            #         else:
+            #             DD_MM[j] = DD[j] / MM_temp[j]
+
             for j in range(Nbins):
 
                 BIN = 'bin_' + str(j)
 
-                if DD[j] > 0:
+                if DD[j] <= 0.0:
 
-                    MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
-                        weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
+                    continue
 
-                    if MM_temp[j] <=0:
-                        continue
-                    else:
-                        DD_MM[j] = DD[j] / MM_temp[j]
+                MM_temp[j] = np.sum( weight[MODEL[los][BIN]['ind1']] *
+                    weight[MODEL[los][BIN]['ind2']] ) * (norm ** -1)
 
+                if MM_temp[j] <=0:
+                    continue
+
+                DD_MM[j] = DD[j] / MM_temp[j]
 
             MODEL[los]['DD/MM'] = DD_MM
 
