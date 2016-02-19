@@ -44,13 +44,12 @@ def chi2(todo_list, MODEL):
 
         for i in range(len(DD)):
 
-            if DD[i] == 0.0 or MM[i] == 0.0:
-                continue
-            if i == 0:
+            if DD[i] == 0.0 or MM[i] == 0.0 or sigma2_DD[i] == 0.0 or sigma2_MM[i] == 0.0:
                 continue
 
             sigma2 = ( sigma2_DD[i] / (DD[i] * DD[i]) + sigma2_MM[i] / (MM[i] * MM[i]) ) * (f[i] * f[i])
             chi2_temp = (f[i] - 1.0) * (f[i] - 1.0) / sigma2
+
             DOF += 1
 
             chi2 += chi2_temp
