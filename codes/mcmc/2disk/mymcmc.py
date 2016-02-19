@@ -94,8 +94,6 @@ def chi2(todo_list, N_files, MODEL):
             if DD_MM[i] <= 0.0 or sig2[i] <= 0.0:
                 continue
 
-            DOF += 1
-
             chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
 
     return(chi2)
