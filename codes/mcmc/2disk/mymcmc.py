@@ -61,6 +61,23 @@ def chi2(todo_list, N_files, MODEL):
 
     chi2 = 0
 
+    # for p in todo_list:
+
+    #     plate = int(p.ID)
+    #     if plate >= N_files:
+    #         continue
+
+    #     los = 'los_' + p.ID
+
+    #     DD_MM = MODEL[los]['DD/MM']
+    #     sig2  = ( DD_MM ** 2 ) * MODEL[los]['err2_temp']
+
+    #     for i in range(len(DD_MM)):
+
+    #         if DD_MM[i] <= 0.0:
+    #             continue
+
+    #         chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
     for p in todo_list:
 
         plate = int(p.ID)
@@ -74,8 +91,10 @@ def chi2(todo_list, N_files, MODEL):
 
         for i in range(len(DD_MM)):
 
-            if DD_MM[i] <= 0.0:
+            if DD_MM[i] <= 0.0 or sig2[i] <= 0.0:
                 continue
+
+            DOF += 1
 
             chi2 += (DD_MM[i] - 1)**2 * (sig2[i] ** -1)
 
@@ -179,8 +198,17 @@ def main():
         uni_jk_err              = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
         dat_jk_file             = jk_dir + 'star_' + p.ID + '_jk_error.dat'
         dat_jk_err              = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        MODEL[los]['err2_temp'] = uni_jk_err ** 2 + dat_jk_err ** 2
+        # MODEL[los]['err2_temp'] = uni_jk_err ** 2 + dat_jk_err ** 2
         #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
+
+        err2_temp = np.zeros(len(dat_jk_err))
+
+        for i in range(len(err2_temp)):
+            if uni_jk_err[i] == 0.0 or dat_jk_err[i] == 0.0:
+                continue
+            err2_temp[i] = uni_jk_err[i] ** 2 + dat_jk_err[i] ** 2
+
+        MODEL[los]['err2_temp'] = err2_temp
 
         # Load normalized and weighted DD counts
         DD_file         = DD_dir + 'DD_' + p.ID + '.dat'
