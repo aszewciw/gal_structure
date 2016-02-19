@@ -16,6 +16,8 @@ def chi2(todo_list, MODEL):
 
     chi2 = 0
 
+    DOF = 0
+
     for p in todo_list:
 
         # los   = 'los_' + p.ID
@@ -46,8 +48,14 @@ def chi2(todo_list, MODEL):
                 continue
 
             sigma2 = ( sigma2_DD[i] / (DD[i] * DD[i]) + sigma2_MM[i] / (MM[i] * MM[i]) ) * (f[i] * f[i])
+            chi2_temp = (f[i] - 1.0) * (f[i] - 1.0) / sigma2
+            DOF += 1
 
-            chi2 += (f[i] - 1.0) * (f[i] - 1.0) / sigma2
+            chi2 += chi2_temp
+
+            print(chi2_temp, los, i)
+
+    print(DOF)
 
 
     return(chi2)
