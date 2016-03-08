@@ -5,16 +5,13 @@ from config import *
 #find parameters for Qingqing's minimum chi2 value
 
 def main():
-    elements_needed = int(2)
+    elements_needed = int(3)
 
     args_array = np.array(sys.argv)
     N_args = len(args_array)
     assert(N_args == elements_needed)
     in_file = args_array[1]
-
-    raw_path = '/fs1/mqq/Projects/StarClustering/'
-
-    qiqi_file = raw_path + in_file
+    out_file = args_array[2]
 
     # qiqi_file = qiqi_dir + 'mcmc_result.dat'
 
@@ -30,7 +27,7 @@ def main():
     print('Best zthick is: ', zthick[min_index])
     print('Best a is:      ', a[min_index])
 
-    result_file = './data/' + in_file
+    result_file = './data/' + out_file
     result_data = np.array([chi2[min_index], rthin[min_index], zthin[min_index],
         rthick[min_index], zthick[min_index], a[min_index]])
     np.savetxt(result_file, result_data)
