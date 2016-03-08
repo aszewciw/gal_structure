@@ -1,5 +1,6 @@
 '''
-Convert the random ascii data files to xyzw for pair counting
+Convert Qingqing's ascii files to random xyzw files for pair counting.
+Here, w = 1 for the random sample until assigned a weight.
 '''
 
 from config import *
