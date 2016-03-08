@@ -4,8 +4,7 @@ from config import *
 
 #find parameters for Qingqing's minimum chi2 value
 
-qiqi_file = out_dir + 'mcmc_result.dat'
-my_file   = out_dir + 'test.dat'
+qiqi_file = qiqi_dir + 'mcmc_result.dat'
 
 rthin, zthin, rthick, zthick, a, chi2 = np.genfromtxt(qiqi_file, unpack=True, usecols=[1, 2, 3, 4, 5, 6])
 
