@@ -15,8 +15,17 @@ def main():
 
     qiqi_file = in_dir + '/mcmc_result.dat'
 
-    rthin, zthin, rthick, zthick, a, chi2 = np.genfromtxt(qiqi_file,
-        unpack=True, usecols=[1, 2, 3, 4, 5, 6])
+
+    '''
+    Some files have different ordering of these elements. Making
+    multiple lines because I really only care about getting the
+    minimum chi2 one time.
+    '''
+    # rthin, zthin, rthick, zthick, a, chi2 = np.genfromtxt(qiqi_file,
+    #     unpack=True, usecols=[1, 2, 3, 4, 5, 6])
+
+    chi2, rthin, zthin, rthick, zthick, a = np.genfromtxt(qiqi_file,
+        unpack=True, usecols=[2, 4, 5, 6, 7, 8])
 
     min_index = np.argmin(chi2)
 
