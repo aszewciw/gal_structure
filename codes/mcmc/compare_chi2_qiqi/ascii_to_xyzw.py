@@ -24,7 +24,7 @@ def main():
 
         out_file   = model_dir + 'uniform_' + p.ID + '.xyzw.dat'
 
-        x, y, z, w = np.genfromtxt(random_file, skiprows = 1, unpack = True, usecols = [7, 8, 9, 10])
+        x, y, z, w = np.genfromtxt(random_file, skip_header = 1, unpack = True, usecols = [7, 8, 9, 10])
 
         xy         = np.column_stack((x,y))
         zw         = np.column_stack((z,w))
