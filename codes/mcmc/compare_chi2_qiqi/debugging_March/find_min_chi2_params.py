@@ -10,10 +10,10 @@ def main():
     args_array = np.array(sys.argv)
     N_args = len(args_array)
     assert(N_args == elements_needed)
-    in_file = args_array[1]
+    in_dir = args_array[1]
     out_file = args_array[2]
 
-    # qiqi_file = qiqi_dir + 'mcmc_result.dat'
+    qiqi_file = in_dir + 'mcmc_result.dat'
 
     rthin, zthin, rthick, zthick, a, chi2 = np.genfromtxt(qiqi_file,
         unpack=True, usecols=[1, 2, 3, 4, 5, 6])
