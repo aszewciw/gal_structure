@@ -26,7 +26,7 @@ def main():
 
         output_file = weighted_dir + 'MM_' + p.ID + '.dat'
 
-        cmd = './data_pair_count ' + in_file + ' ' + param + ' > ' + output_file
+        cmd = './MM_pair_count ' + in_file + ' ' + param + ' > ' + output_file
 
         os.system(cmd)
 
