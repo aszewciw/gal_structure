@@ -16,29 +16,20 @@ def gal_weights(Z, R):
     calculates the "weight" of each star based on the 5
     parameters.
     '''
-    #values from qingqing's first step in chain
-    # r_thin  = 2.475508
-    # z_thin  = 0.241209
-    # r_thick = 2.417346
-    # z_thick = 0.694395
-    # a       = 0.106672
 
+    # Min chi2 results from /fs1/szewciw/gal_structure/codes/mcmc/compare_chi2_qiqi/debugging_March/data/mcmc_2disks_model.dat
+    # Min params were found from the mcmc_result.dat file in qiqi_dir
+    # As a side note, the chi2 value he measured was ~2860; it can be found in the above file
+    r_thin  = 2.02695
+    z_thin  = 0.233619
+    r_thick = 2.3965745
+    z_thick = 0.674525
+    a       = 0.052944
 
-    r_thin  = 2.797714
-    z_thin  = 0.234171
-    r_thick = 2.662694
-    z_thick = 0.680540
-    a       = 0.105509
-
-    # weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
-    #     * np.exp(-R / r_thin) +
-    #     a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
-    #     * np.exp(-R / r_thick) )
-
-    thin_weight  = ( ( 1 / np.cosh(Z / 2.0 / z_thin) )**2 ) * np.exp( -R / r_thin )
-    thick_weight = ( ( 1 / np.cosh(Z / 2.0 / z_thick) )**2 ) * np.exp( -R / r_thick )
-    weight       = thin_weight + a * thick_weight
-
+    weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
+        * np.exp(-R / r_thin) +
+        a * ( ( np.cosh(Z / 2 / z_thick) ) ** (-2) )
+        * np.exp(-R / r_thick) )
 
     return weight
 
@@ -78,9 +69,9 @@ def main():
 
         weight = gal_weights(Z, R)
 
-        xy         = np.column_stack((x,y))
-        zw         = np.column_stack((z, weight))
-        xyzw       = np.column_stack((xy,zw))
+        xy     = np.column_stack((x,y))
+        zw     = np.column_stack((z, weight))
+        xyzw   = np.column_stack((xy,zw))
 
         np.savetxt(out_file, xyzw)
 
