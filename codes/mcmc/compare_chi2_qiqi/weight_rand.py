@@ -53,7 +53,7 @@ def main():
 
         out_file   = weighted_dir + 'weighted_' + p.ID + '.xyzw.dat'
 
-        x, y, z = np.genfromtxt(random_file, skiprows = 1, unpack = True, usecols=[0,1,2])
+        x, y, z = np.genfromtxt(random_file, skip_header = 1, unpack = True, usecols=[0,1,2])
 
         # All my config equations are very unfortunately not set up to take in np arrays
         # And I don't feel like changing them.
