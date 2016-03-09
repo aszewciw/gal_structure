@@ -56,7 +56,7 @@ def main():
     args_array    = np.array(sys.argv)
     N_args        = len(args_array)
     assert(N_args == elements_needed)
-    outfile       = args_array[2]
+    outfile       = args_array[1]
     outfile       = out_dir + outfile
 
     MODEL    = {}
