@@ -32,6 +32,12 @@ def main():
     LOS_NUM = []
     BIN_NUM = []
 
+    r_thin  = 2.02695
+    z_thin  = 0.233619
+    r_thick = 2.3965745
+    z_thick = 0.674525
+    a       = 0.052944
+
     # Loading data into dictionaries and subdictionaries
     for p in todo_list:
 
@@ -48,10 +54,10 @@ def main():
         MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'], = np.genfromtxt(
             ZR_file, unpack=True, skip_header=1, usecols=[5, 6], dtype=None)
 
-        weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * Z_THIN[k] ) ** (-1) ) ) ** (-2) )
-            * np.exp(-MODEL_ZR[los]['R'] * (R_THIN[k] ** -1)) +
-            A[k] * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * Z_THICK[k]) ** (-1) ) ) ** (-2) )
-            * np.exp(-MODEL_ZR[los]['R'] * R_THICK[k] ** -1) )
+        weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * z_thin ) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZR[los]['R'] * (r_thin ** -1)) +
+            a * ( ( np.cosh(MODEL_ZR[los]['Z'] * (2 * z_thick) ** (-1) ) ) ** (-2) )
+            * np.exp(-MODEL_ZR[los]['R'] * r_thick ** -1) )
 
         norm    = ( np.sum(weight) ** 2 - np.inner(weight, weight) ) / 2
         MM_temp = np.zeros(Nbins)
