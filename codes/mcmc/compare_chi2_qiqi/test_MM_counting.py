@@ -46,7 +46,7 @@ def main():
         ZR_file = qiqi_dir + 'uniform_' + p.ID + '.ascii.dat'
 
         MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'], = np.genfromtxt(
-            ZR_file, unpack=True, skiprows=1, usecols=[5, 6], dtype=None)
+            ZR_file, unpack=True, skip_header=1, usecols=[5, 6], dtype=None)
 
         weight = ( ( ( np.cosh(MODEL_ZR[los]['Z'] * ( 2 * Z_THIN[k] ) ** (-1) ) ) ** (-2) )
             * np.exp(-MODEL_ZR[los]['R'] * (R_THIN[k] ** -1)) +
