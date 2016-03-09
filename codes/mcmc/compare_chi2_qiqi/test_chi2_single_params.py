@@ -72,8 +72,8 @@ def main():
     N_los          = len(todo_list)
 
     #Quantities to save
-    LOS          = []
-    BIN          = []
+    LOS_NUM      = []
+    BIN_NUM      = []
     UNI_JK_ERR   = []
     DAT_JK_ERR   = []
     ERR2_TEMP    = []
@@ -112,8 +112,8 @@ def main():
 
             UNI_JK_ERR.append(uni_jk_err[i])
             DAT_JK_ERR.append(dat_jk_err[i])
-            LOS.append(int(p.ID))
-            BIN.append(i + 1)
+            LOS_NUM.append(int(p.ID))
+            BIN_NUM.append(i + 1)
 
             if uni_jk_err[i] == 0.0 or dat_jk_err[i] == 0.0:
                 continue
@@ -209,8 +209,8 @@ def main():
 
     print('Degrees of Freedom: ', N_dof)
 
-    np.savez(outfile, CHI2_LOS_BIN=CHI2_LOS_BIN, MM=MM, DD=DD, LOS=LOS,
-        BIN=BIN, UNI_JK_ERR=UNI_JK_ERR, DAT_JK_ERR=DAT_JK_ERR)
+    np.savez(outfile, CHI2_LOS_BIN=CHI2_LOS_BIN, MM=MM, DD=DD, LOS_NUM=LOS_NUM,
+        BIN_NUM=BIN_NUM, UNI_JK_ERR=UNI_JK_ERR, DAT_JK_ERR=DAT_JK_ERR)
 
     print('Test done. Data output to: ', outfile)
 
