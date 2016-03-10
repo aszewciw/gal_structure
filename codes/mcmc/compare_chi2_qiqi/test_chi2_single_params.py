@@ -5,7 +5,7 @@ Using my mcmc code (with some modifications) to calculate
 chi2 for Qingqing's best fit found from this file:
 
 /fs1/szewciw/gal_structure/codes/mcmc/compare_chi2_qiqi/
-    debugging_March/data/mcmc_2disks_model.dat
+    debugging_March/data/<filename>
 
 His chi2 value is also found in that file.
 
