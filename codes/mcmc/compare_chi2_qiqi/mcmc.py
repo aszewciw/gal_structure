@@ -90,6 +90,15 @@ def main():
     MCMC_eff = 0    # accepted / total
     N_params = 5
 
+    '''
+    Command line input in order:
+
+    Number of mcmc loops
+    Number of files (make large if you want all)
+    Output file name .npz
+    Number of standard deviations away to start
+        (measured from values in config.py)
+    '''
     elements_needed = int(5)
     args_array      = np.array(sys.argv)
     N_args          = len(args_array)
@@ -98,6 +107,8 @@ def main():
     N_files = int(args_array[2])
     outfile = args_array[3]
     N_std   = int(args_array[4])
+    outfile = out_dir + outfile
+
 
     ####################_PARAMETERS_########################
 
