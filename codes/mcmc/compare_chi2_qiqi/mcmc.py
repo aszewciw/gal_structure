@@ -134,8 +134,11 @@ def main():
     # A[0], Z_THICK[0], R_THICK[0], Z_THIN[0], R_THIN[0] = assign_params(
     #     a, z_thick, r_thick, z_thin, r_thin, 0, N_std)
 
+    # R_THIN[0], Z_THIN[0], R_THICK[0], Z_THICK[0], A[0] = assign_params(
+    #     r_thin, z_thin, r_thick, z_thick, a, init=1, N_std=0)
+
     R_THIN[0], Z_THIN[0], R_THICK[0], Z_THICK[0], A[0] = assign_params(
-        r_thin, z_thin, r_thick, z_thick, a, init=1, N_std=0)
+        2.26926201758, 0.22763826074, 2.56059574061, 0.650823634461, 0.0673208724281, init=1, N_std=0)
 
 
     CHI2      = np.zeros(N_loops)
