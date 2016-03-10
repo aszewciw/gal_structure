@@ -318,8 +318,8 @@ def main():
 
             MODEL[los]['DD/MM'] = DD_MM
 
-        CHI2[k]    = chi2(todo_list, N_files, MODEL)
-        CHI2_TEST[k] = CHI2[k]
+        CHI2[k], DOF[k] = chi2(todo_list, N_files, MODEL)
+        CHI2_TEST[k]    = CHI2[k]
 
         delta_chi2 = CHI2[k] - CHI2[k - 1]
 
