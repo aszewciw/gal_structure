@@ -37,6 +37,12 @@ bin_max = 2
 bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
 bins    = np.power(10, bins)
 
+z_thick = 0.674
+r_thick = 2.51
+z_thin  = 0.233
+r_thin  = 2.34
+a       = 0.06
+
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
