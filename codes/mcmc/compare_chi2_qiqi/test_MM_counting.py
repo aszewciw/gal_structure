@@ -9,12 +9,18 @@ to MM obtained from direct pair counting.
 # @profile
 def main():
 
-    elements_needed = int(2)
+    elements_needed = int(3)
     args_array      = np.array(sys.argv)
     N_args          = len(args_array)
     assert(N_args   == elements_needed)
-    outfile         = args_array[1]
+    infile          = args_array[1]
+    infile          = chi2min_dir + infile
+    outfile         = args_array[2]
     outfile         = out_dir + outfile
+
+    chi2_qiqi, r_thin, z_thin, r_thick, z_thick, a = np.genfromtxt(infile, unpack=True)
+
+    print("Expected minimum chi2 is ", chi2_qiqi)
 
     MODEL    = {}
     MODEL_ZR = {}

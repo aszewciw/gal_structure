@@ -20,11 +20,11 @@ def gal_weights(Z, R):
     # Min chi2 results from /fs1/szewciw/gal_structure/codes/mcmc/compare_chi2_qiqi/debugging_March/data/mcmc_2disks_model.dat
     # Min params were found from the mcmc_result.dat file in qiqi_dir
     # As a side note, the chi2 value he measured was ~2860; it can be found in the above file
-    r_thin  = 2.02695
-    z_thin  = 0.233619
-    r_thick = 2.3965745
-    z_thick = 0.674525
-    a       = 0.052944
+    # r_thin  = 2.02695
+    # z_thin  = 0.233619
+    # r_thick = 2.3965745
+    # z_thick = 0.674525
+    # a       = 0.052944
 
     weight = ( ( ( np.cosh(Z / 2 / z_thin) ) ** (-2) )
         * np.exp(-R / r_thin) +
@@ -36,6 +36,18 @@ def gal_weights(Z, R):
 #############################################################
 
 def main():
+
+    elements_needed = int(2)
+    args_array      = np.array(sys.argv)
+    N_args          = len(args_array)
+    assert(N_args   == elements_needed)
+    infile          = args_array[1]
+    infile          = chi2min_dir + infile
+
+    chi2_qiqi, r_thin, z_thin, r_thick, z_thick, a = np.genfromtxt(infile, unpack=True)
+
+    print("Expected minimum chi2 is ", chi2_qiqi)
+
 
     input_filename = rawdata_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
