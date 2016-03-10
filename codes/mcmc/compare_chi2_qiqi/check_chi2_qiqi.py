@@ -125,16 +125,7 @@ def main():
     DATA     = {}
     MODEL_ZR = {}
 
-    # Arrays of parameter values for each mcmc step
-    # A       = np.zeros(N_loops)
-    # Z_THICK = np.zeros(N_loops)
-    # R_THICK = np.zeros(N_loops)
-    # Z_THIN  = np.zeros(N_loops)
-    # R_THIN  = np.zeros(N_loops)
     CHI2      = np.zeros(N_values)
-    # CHI2_TEST = np.zeros(N_loops)
-    # EFF       = np.zeros(N_loops)
-    # EFF[0]    = 0
     qiqi_file = qiqi_dir + 'mcmc_result.dat'
     R_THIN, Z_THIN, R_THICK, Z_THICK, A = np.genfromtxt(qiqi_file, unpack=True, usecols=[1,2,3,4,5])
 
@@ -172,7 +163,7 @@ def main():
         ZR_file = qiqi_dir + 'uniform_' + p.ID + '.ascii.dat'
 
         MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'], = np.genfromtxt(
-            ZR_file, unpack=True, skiprows=1, usecols=[5, 6], dtype=None)
+            ZR_file, unpack=True, skip_header=1, usecols=[5, 6], dtype=None)
 
         # Load jackknife errors as numpy arrays: one error for each bin
         uni_jk_file             = qiqi_dir + 'uniform_' + p.ID + '_jk_error.dat'
