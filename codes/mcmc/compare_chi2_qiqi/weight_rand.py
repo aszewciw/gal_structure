@@ -9,7 +9,7 @@ from config import *
 
 #############################################################
 
-def gal_weights(Z, R):
+def gal_weights(Z, R, r_thin, r_thick, z_thin, z_thick, a):
 
     '''
     For numpy arrays of (Z,R) values of different star,
@@ -79,7 +79,7 @@ def main():
             l[i], b[i]          = eq2gal(ra[i], dec[i])
             Z[i], R[i]          = gal2ZR(l[i], b[i], r[i])
 
-        weight = gal_weights(Z, R)
+        weight = gal_weights(Z, R, r_thin, r_thick, z_thin, z_thick, a)
 
         xy     = np.column_stack((x,y))
         zw     = np.column_stack((z, weight))
