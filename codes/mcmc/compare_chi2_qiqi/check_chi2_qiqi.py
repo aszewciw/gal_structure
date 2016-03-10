@@ -226,7 +226,6 @@ def main():
 
             MM_temp = np.zeros(Nbins)
             DD      = MODEL[los]['DD']
-            # DD_MM   = np.ones(Nbins)   # Set as 1 to start. If DD/MM = 1, then no contribution to chi2.
             DD_MM = np.zeros(Nbins)
 
             # This should maybe be replaced with list comprehension if possible
