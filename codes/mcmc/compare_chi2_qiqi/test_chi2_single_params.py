@@ -100,10 +100,13 @@ def main():
         '''End commenting'''
 
         # Load jackknife errors as numpy arrays: one error for each bin
-        uni_jk_file             = qiqi_dir + 'uniform_' + p.ID + '_jk_error.dat'
-        uni_jk_err              = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
-        dat_jk_file             = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
-        dat_jk_err              = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
+        uni_jk_file = qiqi_dir + 'uniform_' + p.ID + '_jk_error.dat'
+        uni_jk_err  = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
+
+        # Switching this line to load what I believe are correct jk errors
+        # dat_jk_file = qiqi_dir + 'star_' + p.ID + '_jk_error.dat'
+        dat_jk_file = '/fs1/szewciw/gal_structure/data/mcmc/jk_both/' + 'star_' + p.ID + '_jk_error.dat'
+        dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
 
         # Set combined error at zero initially. Skip los if either jk error is 0.
         err2_temp = np.zeros(len(dat_jk_err))
