@@ -138,8 +138,7 @@ def main():
     #     r_thin, z_thin, r_thick, z_thick, a, init=1, N_std=0)
 
     R_THIN[0], Z_THIN[0], R_THICK[0], Z_THICK[0], A[0] = assign_params(
-        2.26926201758, 0.22763826074, 2.56059574061, 0.650823634461, 0.0673208724281, init=1, N_std=0)
-
+        2.8016481865, 0.231118243694, 2.54053989696, 0.672073211916, 0.127603371904, init=1, N_std=0)
 
     CHI2      = np.zeros(N_loops)
     CHI2_TEST = np.zeros(N_loops)
