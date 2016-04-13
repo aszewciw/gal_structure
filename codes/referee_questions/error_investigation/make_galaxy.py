@@ -206,13 +206,13 @@ def main():
     x_thick, y_thick, z_thick     = eq2cart(ra_thick, dec_thick, r_thick_sun)
 
 
-    np.savez_compressed('./data/thick_disk_smallmock.npz',
+    np.savez_compressed('./out_data/thick_disk_smallmock.npz',
         x_thick=x_thick, y_thick=y_thick, z_thick=z_thick,
         ra_thick=ra_thick, dec_thick=dec_thick, r_thick_sun=r_thick_sun,
         Z_thick_gal=Z_thick_gal, R_thick_gal=R_thick_gal, l_thick=l_thick,
         b_thick=b_thick, x_thick_gal=x_thick_gal, y_thick_gal=y_thick_gal)
 
-    np.savez_compressed('./data/thin_disk_smallmock.npz',
+    np.savez_compressed('./out_data/thin_disk_smallmock.npz',
         x_thin=x_thin, y_thin=y_thin, z_thin=z_thin,
         ra_thin=ra_thin, dec_thin=dec_thin, r_thin_sun=r_thin_sun,
         Z_thin_gal=Z_thin_gal, R_thin_gal=R_thin_gal, l_thin=l_thin,
