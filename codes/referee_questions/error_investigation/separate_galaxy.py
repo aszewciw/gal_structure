@@ -28,9 +28,7 @@ def main():
     ra  = np.append(ra_thin, ra_thick)
     dec = np.append(dec_thin, dec_thick)
 
-    # load pointing list
-    # input_filename = rawdata_dir + 'pointing_list.dat'
-    input_filename = 'pointing_list.dat'
+    input_filename = 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
     pointing_list  = pickle.load(input_file)
