@@ -125,97 +125,100 @@ def eq2cart(ra, dec, r):
 
     return x, y, z
 #------------------------------------------------------------------------------
-# def main():
+def main():
 
-###########################################################
-#################-- Disk Parameters --#####################
-###########################################################
+    ###########################################################
+    #################-- Disk Parameters --#####################
+    ###########################################################
 
-# Scale Heights and Lengths
-thick_sc_he      = 0.674
-thick_sc_le      = 2.51
-thin_sc_he       = 0.233
-thin_sc_le       = 2.34
-thick_thin_ratio = 0.06
+    # Scale Heights and Lengths
+    thick_sc_he      = 0.674
+    thick_sc_le      = 2.51
+    thin_sc_he       = 0.233
+    thin_sc_le       = 2.34
+    thick_thin_ratio = 0.06
 
-# Number of each disk
-N_stars       = 1000000
-N_stars_thick = int(thick_thin_ratio * N_stars)
-N_stars_thin  = N_stars - N_stars_thick
+    # Number of each disk
+    N_stars       = 10000000
+    N_stars_thick = int(thick_thin_ratio * N_stars)
+    N_stars_thin  = N_stars - N_stars_thick
 
-# R, Z, and phi limits for random generation
-R_min = 5
-R_max = 11
-Z_min = 0
-Z_max = 3
-phi_max   = math.atan(0.5)
-phi_min   = -phi_max
-phi_min   += math.pi
-phi_max   += math.pi
-phi_range = phi_max - phi_min
+    # R, Z, and phi limits for random generation
+    R_min = 5
+    R_max = 11
+    Z_min = 0
+    Z_max = 3
+    phi_max   = math.atan(0.5)
+    phi_min   = -phi_max
+    phi_min   += math.pi
+    phi_max   += math.pi
+    phi_range = phi_max - phi_min
 
-# Normalization of PDFs
-r_thick_norm  = 1 / ( thick_sc_le * ( math.exp( -R_min / thick_sc_le )
-    - math.exp( -R_max / thick_sc_le ) ) )
-z_norm_thick  = 1 / ( 2 * thick_sc_he * ( math.tanh( Z_max / 2 / thick_sc_he )
-    - math.tanh( -Z_min / thick_sc_he ) ) )
-r_thin_norm   = 1 / ( thin_sc_le * ( math.exp( -R_min / thin_sc_le )
-    - math.exp( -R_max / thin_sc_le ) ) )
-z_norm_thin   = 1 / ( 2 * thin_sc_he * ( math.tanh( Z_max / 2 / thin_sc_he )
-    - math.tanh( -Z_min / thin_sc_he ) ) )
-
-
-###########################################################
-##################-- Star Positions --#####################
-###########################################################
-
-"""
-Galactic Coordinates - Centered on MW Center
-+x axis points away from Sun
-"""
-
-# Thin Disk
-Z_thin_gal = random_Z(thin_sc_he, z_norm_thin, Z_max, Z_min, N_stars_thin)
-R_thin_gal = random_R(thin_sc_le, r_thin_norm, R_max, R_min, N_stars_thin)
-phi_thin   = phi_min + phi_range * np.random.rand(N_stars_thin)
-x_thin_gal = R_thin_gal * np.cos(phi_thin)
-y_thin_gal = R_thin_gal * np.sin(phi_thin)
-
-# Thick Disk
-Z_thick_gal = random_Z(thick_sc_he, z_norm_thick, Z_max, Z_min, N_stars_thick)
-R_thick_gal = random_R(thick_sc_le, r_thick_norm, R_max, R_min, N_stars_thick)
-phi_thick   = phi_min + phi_range * np.random.rand(N_stars_thick)
-x_thick_gal = R_thick_gal * np.cos(phi_thick)
-y_thick_gal = R_thick_gal * np.sin(phi_thick)
-
-'''
-Now move everything to sun-centered systems'''
-
-# Some question as to whether or not to include a Z for the sun.
-# I'll proceed without doing so for now
-R_sun = -8.0
-
-# Thin Disk
-r_thin_sun, l_thin, b_thin = galCent_to_sunCent(x_thin_gal, y_thin_gal, Z_thin_gal, R_sun)
-ra_thin, dec_thin          = gal2eq(l_thin, b_thin)
-x_thin, y_thin, z_thin     = eq2cart(ra_thin, dec_thin, r_thin_sun)
-
-# Thick Disk
-r_thick_sun, l_thick, b_thick = galCent_to_sunCent(x_thick_gal, y_thick_gal, Z_thick_gal, R_sun)
-ra_thick, dec_thick           = gal2eq(l_thick, b_thick)
-x_thick, y_thick, z_thick     = eq2cart(ra_thick, dec_thick, r_thick_sun)
+    # Normalization of PDFs
+    r_thick_norm  = 1 / ( thick_sc_le * ( math.exp( -R_min / thick_sc_le )
+        - math.exp( -R_max / thick_sc_le ) ) )
+    z_norm_thick  = 1 / ( 2 * thick_sc_he * ( math.tanh( Z_max / 2 / thick_sc_he )
+        - math.tanh( -Z_min / thick_sc_he ) ) )
+    r_thin_norm   = 1 / ( thin_sc_le * ( math.exp( -R_min / thin_sc_le )
+        - math.exp( -R_max / thin_sc_le ) ) )
+    z_norm_thin   = 1 / ( 2 * thin_sc_he * ( math.tanh( Z_max / 2 / thin_sc_he )
+        - math.tanh( -Z_min / thin_sc_he ) ) )
 
 
-# np.savez_compressed('thick_disk_smallmock.npz',
-#     x_thick=x_thick, y_thick=y_thick, z_thick=z_thick,
-#     ra_thick=ra_thick, dec_thick=dec_thick, r_thick_sun=r_thick_sun,
-#     Z_thick_gal=Z_thick_gal, R_thick_gal=R_thick_gal, l_thick=l_thick,
-#     b_thick=b_thick, x_thick_gal=x_thick_gal, y_thick_gal=y_thick_gal)
+    ###########################################################
+    ##################-- Star Positions --#####################
+    ###########################################################
 
-# np.savez_compressed('thin_disk_smallmock.npz',
-#     x_thin=x_thin, y_thin=y_thin, z_thin=z_thin,
-#     ra_thin=ra_thin, dec_thin=dec_thin, r_thin_sun=r_thin_sun,
-#     Z_thin_gal=Z_thin_gal, R_thin_gal=R_thin_gal, l_thin=l_thin,
-#     b_thin=b_thin, x_thin_gal=x_thin_gal, y_thin_gal=y_thin_gal)
+    """
+    Galactic Coordinates - Centered on MW Center
+    +x axis points away from Sun
+    """
 
-print('Files Written')
+    # Thin Disk
+    Z_thin_gal = random_Z(thin_sc_he, z_norm_thin, Z_max, Z_min, N_stars_thin)
+    R_thin_gal = random_R(thin_sc_le, r_thin_norm, R_max, R_min, N_stars_thin)
+    phi_thin   = phi_min + phi_range * np.random.rand(N_stars_thin)
+    x_thin_gal = R_thin_gal * np.cos(phi_thin)
+    y_thin_gal = R_thin_gal * np.sin(phi_thin)
+
+    # Thick Disk
+    Z_thick_gal = random_Z(thick_sc_he, z_norm_thick, Z_max, Z_min, N_stars_thick)
+    R_thick_gal = random_R(thick_sc_le, r_thick_norm, R_max, R_min, N_stars_thick)
+    phi_thick   = phi_min + phi_range * np.random.rand(N_stars_thick)
+    x_thick_gal = R_thick_gal * np.cos(phi_thick)
+    y_thick_gal = R_thick_gal * np.sin(phi_thick)
+
+    '''
+    Now move everything to sun-centered systems'''
+
+    # Some question as to whether or not to include a Z for the sun.
+    # I'll proceed without doing so for now
+    R_sun = -8.0
+
+    # Thin Disk
+    r_thin_sun, l_thin, b_thin = galCent_to_sunCent(x_thin_gal, y_thin_gal, Z_thin_gal, R_sun)
+    ra_thin, dec_thin          = gal2eq(l_thin, b_thin)
+    x_thin, y_thin, z_thin     = eq2cart(ra_thin, dec_thin, r_thin_sun)
+
+    # Thick Disk
+    r_thick_sun, l_thick, b_thick = galCent_to_sunCent(x_thick_gal, y_thick_gal, Z_thick_gal, R_sun)
+    ra_thick, dec_thick           = gal2eq(l_thick, b_thick)
+    x_thick, y_thick, z_thick     = eq2cart(ra_thick, dec_thick, r_thick_sun)
+
+
+    np.savez_compressed('thick_disk_smallmock.npz',
+        x_thick=x_thick, y_thick=y_thick, z_thick=z_thick,
+        ra_thick=ra_thick, dec_thick=dec_thick, r_thick_sun=r_thick_sun,
+        Z_thick_gal=Z_thick_gal, R_thick_gal=R_thick_gal, l_thick=l_thick,
+        b_thick=b_thick, x_thick_gal=x_thick_gal, y_thick_gal=y_thick_gal)
+
+    np.savez_compressed('thin_disk_smallmock.npz',
+        x_thin=x_thin, y_thin=y_thin, z_thin=z_thin,
+        ra_thin=ra_thin, dec_thin=dec_thin, r_thin_sun=r_thin_sun,
+        Z_thin_gal=Z_thin_gal, R_thin_gal=R_thin_gal, l_thin=l_thin,
+        b_thin=b_thin, x_thin_gal=x_thin_gal, y_thin_gal=y_thin_gal)
+
+    print('Files Written')
+
+if __name__ == '__main__':
+    main()
