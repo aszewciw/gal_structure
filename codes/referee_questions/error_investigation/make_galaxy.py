@@ -139,7 +139,7 @@ def main():
     thick_thin_ratio = 0.06
 
     # Number of each disk
-    N_stars       = 100000
+    N_stars       = 10000000
     N_stars_thick = int(thick_thin_ratio * N_stars)
     N_stars_thin  = N_stars - N_stars_thick
 
