@@ -5,7 +5,7 @@ from config import *
 #------------------------------------------------------------------------------
 def main():
 
-    thin_file = 'thin_disk_smallmock.npz'
+    thin_file = './out_data/thin_disk_smallmock.npz'
     with np.load(thin_file) as d:
         x_thin = d['x_thin']
         y_thin = d['y_thin']
@@ -13,7 +13,7 @@ def main():
         ra_thin = d['ra_thin']
         dec_thin = d['dec_thin']
 
-    thick_file = 'thick_disk_smallmock.npz'
+    thick_file = './out_data/thick_disk_smallmock.npz'
     with np.load(thick_file) as d:
         x_thick = d['x_thick']
         y_thick = d['y_thick']
@@ -50,17 +50,6 @@ def main():
     for p in pointing_list:
         p.star_list = []
 
-    # use dot product to check
-    # for s in gstar_list:
-    #     for p in pointing_list:
-    #         # get star's Cartesian coordinates on the unit sphere
-    #         s_xyz = eq2cart(s.ra_rad, s.dec_rad, 1.0)
-    #         p_xyz = (p.cartesian_x, p.cartesian_y, p.cartesian_z)
-    #         if dot(s_xyz, p_xyz) >= plate_size_cos:
-    #             s.pointingID = p.ID
-    #             p.star_list.append(s)
-    #             break
-
     for i in range(N_stars):
         s_cart = (x[i], y[i], z[i])
         s_xyz = eq2cart(ra[i], dec[i], 1.0)
@@ -69,7 +58,7 @@ def main():
             p_xyz = (p.cartesian_x, p.cartesian_y, p.cartesian_z)
             if dot(s_xyz, p_xyz) >= plate_size_cos:
                 # s.pointingID = p.ID
-                p.star_list.append(s_xyz)
+                p.star_list.append(s_cart)
                 break
 
     sys.stderr.write('Start splitting files...\n')
@@ -82,11 +71,9 @@ def main():
             continue # skip empty or very few stars pointing
         print(len(p.star_list))
         count += 1
-
+        xyz = np.asarray(p.star_list)
         output_filename = './data/mock_raw_' + p.ID + '.dat'
-        output_file     = open(output_filename, 'wb')
-        pickle.dump(p.star_list, output_file)
-        output_file.close()
+        np.savetxt(output_filename, xyz)
 
     print(count)
     sys.stderr.write("Done splitting files.\n")
