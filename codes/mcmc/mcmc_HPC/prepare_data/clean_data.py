@@ -61,7 +61,7 @@ def main():
         # Repack data error files
         dat_jk_file = err_dir + 'star_' + p + '_jk_error.dat'
         dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        outfile     = err_dir + 'star_' + p + '_jk_error.dat'
+        outfile     = err_dir + 'star_' + p + '_frac_error.dat'
         np.savetxt(outfile, dat_jk_err)
 
 if __name__ == '__main__':
