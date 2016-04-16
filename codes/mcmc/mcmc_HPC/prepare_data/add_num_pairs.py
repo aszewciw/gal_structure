@@ -34,7 +34,7 @@ def main():
                 f.write(str(N_pairs))
                 f.write('\n')
                 for k in range(N_pairs):
-                    f.write("{} {}\n".format(i, j))
+                    f.write("{} {}\n".format(i[k], j[k]))
 
 if __name__ == '__main__':
     main()
