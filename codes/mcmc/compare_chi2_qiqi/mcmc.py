@@ -178,7 +178,7 @@ def main():
         # File containing ascii data for uniform samples (has Z and R; W is 1)
         ZR_file = qiqi_dir + 'uniform_' + p.ID + '.ascii.dat'
 
-        MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'], = np.genfromtxt(
+        MODEL_ZR[los]['Z'], MODEL_ZR[los]['R'] = np.genfromtxt(
             ZR_file, unpack=True, skip_header=1, usecols=[5, 6], dtype=None)
 
         # Load jackknife errors as numpy arrays: one error for each bin
