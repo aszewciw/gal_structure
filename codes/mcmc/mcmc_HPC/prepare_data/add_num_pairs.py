@@ -26,7 +26,7 @@ def main():
         for b in bins:
             bin_num = str(b)
             pairs_file = pairs_dir + 'counts_' + p + '.bin_' + bin_num + '.dat'
-            i, j = np.genfromtxt(pairs_file, unpack=True)
+            i, j = np.genfromtxt(pairs_file, unpack=True, dtype=int)
             N_pairs = len(i)
 
             outfile = pairs_dir + 'pairs_' + p + '.bin_' + bin_num + '.dat'
