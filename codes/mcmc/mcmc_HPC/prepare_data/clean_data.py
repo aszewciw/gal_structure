@@ -34,6 +34,8 @@ def main():
     # Repack file of just pointing IDs
     outfile   = '../data/raw/pointing_ID.dat'
     with open(outfile, 'w') as f:
+        f.write(str(len(ID)))
+        f.write('\n')
         for i in range(len(ID)):
             f.write("{}\n".format(ID[i]))
 
