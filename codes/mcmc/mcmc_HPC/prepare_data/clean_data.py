@@ -28,7 +28,14 @@ def main():
     model_dir = data_dir + 'model_positions/'
 
     todo_file = raw_dir + 'todo_list.ascii.dat'
-    ID        = np.genfromtxt(todo_file, unpack=True, usecols=[0], dtype=str)
+    ID        = np.genfromtxt(todo_file, unpack=True, skip_header=1,
+        usecols=[0], dtype=str)
+
+    # Repack file of just pointing IDs
+    outfile   = '../data/raw/pointing_ID.dat'
+    with open(outfile, 'w') as f:
+        for i in range(len(ID)):
+            f.write("{}\n".format(ID[i]))
 
 
     for p in ID:
@@ -44,7 +51,7 @@ def main():
         Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
             usecols=[5, 6, 10], dtype=None)
         N_points = len(Z)
-        outfile  = model_dir + 'zrw_' + p + '.dat'
+        outfile  = model_dir + 'uniform_ZRW_' + p + '.dat'
         with open(outfile, 'w') as f:
             f.write(str(N_points))
             f.write('\n')
