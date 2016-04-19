@@ -94,6 +94,9 @@ int main(int argc, char * argv[]){
     load_pointingID(&N_plist, &plist);
     load_ZRW(N_plist, plist);
 
+    fprintf(stderr, "The first Z value is: %f\n", plist[0].Z[0]);
+
+
     /* Free allocated values */
     for(i=0; i<N_plist; i++){
         free(plist[i].Z);
