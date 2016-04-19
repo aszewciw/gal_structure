@@ -19,6 +19,7 @@
 
 // Data for each radial bin
 typedef struct {
+  char binID[256]; // ID for each radial bin
   float DD; // segue pair counts
   float MM; // model pair counts
   float corr; // DD/MM
@@ -33,7 +34,7 @@ typedef struct {
 
 // Pointing line of sight in sky
 typedef struct {
-  char ID[256];
+  char ID[256]; // Unique ID for pointing
   int N_stars; //Number of stars in model sample
   float * Z; // array of star heights above gal plane
   float * R; // array of star distances from gal center in gal plane
@@ -45,5 +46,6 @@ typedef struct {
 void load_pointingID(int *N_plist, POINTING **plist);
 void load_ZRW(int N_plist, POINTING *plist);
 void load_rbins(int N_plist, int N_bins, POINTING *plist);
+void load_pairs(int N_plist, int N_bins, POINTING *plist);
 
 

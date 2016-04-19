@@ -94,13 +94,14 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
     int i, j;
     RBIN *b;
 
-    /* Read star data for each pointing */
+    /* Loop over each pointing */
     for(i=0; i<N_plist; i++){
 
         /* Claim space for bin data */
         b = calloc(N_bins, sizeof(RBIN));
 
         /* First load DD counts */
+        /* Also assign Bin ID */
         snprintf(filename, 256, "%sdd_%s.dat", DD_DIR, plist[i].ID);
         if((file=fopen(filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s\n", filename);
@@ -108,6 +109,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
         }
         for(j=0; j<N_bins; j++){
             fscanf(file, "%f", &b[j].DD);
+            snprintf(&b[j].binID, "%d", j+1);
         }
         fclose(file);
 
@@ -142,6 +144,54 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
 
 /* ----------------------------------------------------------------------- */
 
+/* Load pairs for each bin in each l.o.s. */
+
+void load_pairs(int N_plist, int N_bins, POINTING *plist){
+
+    char pair_filename[256];
+    FILE *pair_file;
+    int i, j;
+    unsigned int k, N;
+    unsigned int *pair1;
+    unsigned int *pair2;
+
+    /* Loop over each pointing */
+    for(i=0; i<N_plist; i++){
+
+        for(j=0; j<N_bins; j++){
+            snprintf(pair_filename, 256, "%spairs_%s.bin_%s.dat", PAIRS_DIR, plist[i].ID, plist[i].rbin[j].binID);
+            if((pair_file=fopen(pair_filename,"r"))==NULL){
+                fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
+                exit(EXIT_FAILURE);
+            }
+
+            /* First get number of pairs */
+            fscanf(pair_file, "%u", &N);
+
+            /* Claim arrays */
+            pair1 = calloc(N, sizeof(unsigned int));
+            pair2 = calloc(N, sizeof(unsigned int));
+
+            for(k=0; k<N; k++){
+                fscanf(pair_file, "%u", &pair1[k]);
+                fscanf(pair_file, "%u", &pair2[k]);
+            }
+
+            fclose(pair_file);
+
+            /* Assign values to plist elements */
+            plist[i].rbin[j].N_pairs = N;
+            plist[i].rbin[j].pair1 = pair1;
+            plist[i].rbin[j].pair2 = pair2;
+        }
+
+    }
+    fprintf(stderr, "Pairs loaded from %s\n", PAIRS_DIR);
+
+
+}
+
+/* ----------------------------------------------------------------------- */
 
 
 /* Test loading of data */
@@ -152,7 +202,7 @@ int main(int argc, char * argv[]){
         exit(EXIT_FAILURE);
     }
 
-    int i;
+    int i, j;
     int N_plist;
     int N_bins = 12;
     POINTING *plist;
@@ -160,17 +210,22 @@ int main(int argc, char * argv[]){
     load_pointingID(&N_plist, &plist);
     load_ZRW(N_plist, plist);
     load_rbins(N_plist, N_bins, plist);
+    load_pairs(N_plist, N_bins, plist);
 
     fprintf(stderr, "DD count check: %f\n", plist[1].rbin[4].DD);
-    fprintf(stderr, "MM error check: %f\n", plist[1].rbin[4].DD_err_jk);
-    fprintf(stderr, "DD error check: %f\n", plist[1].rbin[4].MM_err_jk);
+    fprintf(stderr, "DD error check: %f\n", plist[1].rbin[4].DD_err_jk);
+    fprintf(stderr, "MM error check: %f\n", plist[1].rbin[4].MM_err_jk);
 
     /* Free allocated values */
     for(i=0; i<N_plist; i++){
+        for(j=0; j<N_bins; j++){
+            free(plist[i].rbin[j].pair1);
+            free(plist[i].rbin[j].pair2);
+        }
+        free(plist[i].rbin);
         free(plist[i].Z);
         free(plist[i].R);
         free(plist[i].weight);
-        free(plist[i].rbin);
     }
     free(plist);
 
