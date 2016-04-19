@@ -107,7 +107,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b.DD[j]);
+            fscanf(file, "%f", &b[j].DD);
         }
         fclose(file);
 
@@ -118,7 +118,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b.DD_err_jk[j]);
+            fscanf(file, "%f", &b[j].DD_err_jk);
         }
         fclose(file);
 
@@ -129,7 +129,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b.MM_err_jk[j]);
+            fscanf(file, "%f", &b[j].MM_err_jk);
         }
         fclose(file);
 
