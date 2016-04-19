@@ -1,5 +1,7 @@
 #include "io_test.h"
 
+
+/* ----------------------------------------------------------------------- */
 /* Load unique ID of each pointing */
 void load_pointingID(int *N_plist, POINTING **plist){
 
@@ -36,6 +38,8 @@ void load_pointingID(int *N_plist, POINTING **plist){
     fprintf(stderr, "%d pointings to do.\n", N);
 
 }
+
+/* ----------------------------------------------------------------------- */
 
 /* Load position and density weight data for model stars */
 void load_ZRW(int N_plist, POINTING *plist){
@@ -80,6 +84,66 @@ void load_ZRW(int N_plist, POINTING *plist){
     fprintf(stderr, "Model data loaded from %s\n", ZRW_DIR);
 }
 
+/* ----------------------------------------------------------------------- */
+
+/* Load data for each bin from a variety of files */
+void load_rbins(int N_plist, int N_bins, POINTING *plist){
+
+    char filename[256];
+    FILE *file;
+    int i, j;
+    RBIN *b;
+
+    /* Read star data for each pointing */
+    for(i=0; i<N_plist; i++){
+
+        /* Claim space for bin data */
+        b = calloc(N_bins, sizeof(RBIN));
+
+        /* First load DD counts */
+        snprintf(filename, 256, "%sdd_%s.dat", DD_DIR, plist[i].ID);
+        if((file=fopen(filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", filename);
+            exit(EXIT_FAILURE);
+        }
+        for(j=0; j<N_bins; j++){
+            fscanf(file, "%f", &b.DD[j]);
+        }
+        fclose(file);
+
+        /* Next load DD errors */
+        snprintf(filename, 256, "%sstar_%s_frac_error.dat", ERR_DIR, plist[i].ID);
+        if((file=fopen(filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", filename);
+            exit(EXIT_FAILURE);
+        }
+        for(j=0; j<N_bins; j++){
+            fscanf(file, "%f", &b.DD_err_jk[j]);
+        }
+        fclose(file);
+
+        /* Next load MM errors */
+        snprintf(filename, 256, "%suniform_%s_frac_error.dat", ERR_DIR, plist[i].ID);
+        if((file=fopen(filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", filename);
+            exit(EXIT_FAILURE);
+        }
+        for(j=0; j<N_bins; j++){
+            fscanf(file, "%f", &b.MM_err_jk[j]);
+        }
+        fclose(file);
+
+        /* Assign values to plist elements */
+        plist[i].rbin = b;
+    }
+    fprintf(stderr, "DD counts loaded from %s\n", DD_DIR);
+    fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
+}
+
+/* ----------------------------------------------------------------------- */
+
+
+
 /* Test loading of data */
 int main(int argc, char * argv[]){
 
@@ -90,19 +154,25 @@ int main(int argc, char * argv[]){
 
     int i;
     int N_plist;
+    int N_bins = 12;
     POINTING *plist;
 
     load_pointingID(&N_plist, &plist);
     load_ZRW(N_plist, plist);
-    int N_temp = plist[0].N_stars - 1;
-    fprintf(stderr, "The last R value in file 0 is: %f\n", plist[0].R[N_temp]);
+    load_rbins(N_plist, N_bins, plist);
 
+
+    int N_temp = plist[0].N_stars - 1;
+    fprintf(stderr, "DD count check: %f\n", plist[1].rbin[4].DD);
+    fprintf(stderr, "MM error check: %f\n", plist[1].rbin[4].DD_err_jk);
+    fprintf(stderr, "DD error check: %f\n", plist[1].rbin[4].MM_err_jk);
 
     /* Free allocated values */
     for(i=0; i<N_plist; i++){
         free(plist[i].Z);
         free(plist[i].R);
         free(plist[i].weight);
+        free(plist[i].rbin);
     }
     free(plist);
 
