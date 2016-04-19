@@ -94,7 +94,7 @@ int main(int argc, char * argv[]){
     load_pointingID(&N_plist, &plist);
     load_ZRW(N_plist, plist);
 
-    fprintf(stderr, "The first Z value is: %f\n", plist[0].Z[0]);
+    fprintf(stderr, "The last Z value in file 0 is: %f\n", plist[0].Z[plist[0].N_stars]);
 
 
     /* Free allocated values */
