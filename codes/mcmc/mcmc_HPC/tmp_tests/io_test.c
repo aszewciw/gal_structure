@@ -94,7 +94,7 @@ int main(int argc, char * argv[]){
     load_pointingID(&N_plist, &plist);
     load_ZRW(N_plist, plist);
     int N_temp = plist[0].N_stars - 1;
-    fprintf(stderr, "The first R value in file 0 is: %f\n", plist[0].Z[0]);
+    fprintf(stderr, "The first R value in file 0 is: %f\n", plist[0].Z[1]);
 
 
     /* Free allocated values */
