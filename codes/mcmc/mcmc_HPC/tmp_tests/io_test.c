@@ -161,8 +161,6 @@ int main(int argc, char * argv[]){
     load_ZRW(N_plist, plist);
     load_rbins(N_plist, N_bins, plist);
 
-
-    int N_temp = plist[0].N_stars - 1;
     fprintf(stderr, "DD count check: %f\n", plist[1].rbin[4].DD);
     fprintf(stderr, "MM error check: %f\n", plist[1].rbin[4].DD_err_jk);
     fprintf(stderr, "DD error check: %f\n", plist[1].rbin[4].MM_err_jk);

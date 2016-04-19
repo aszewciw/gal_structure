@@ -17,7 +17,7 @@
 #define RAW_DIR "../data/raw/"
 
 
-Data for each radial bin
+// Data for each radial bin
 typedef struct {
   float DD; // segue pair counts
   float MM; // model pair counts
