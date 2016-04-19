@@ -63,9 +63,9 @@ void load_ZRW(int N_plist, POINTING *plist){
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
-            fscanf(zrw_file, "%f", Z[j]);
-            fscanf(zrw_file, "%f", R[j]);
-            fscanf(zrw_file, "%f", W[j]);
+            fscanf(zrw_file, "%f", &Z[j]);
+            fscanf(zrw_file, "%f", &R[j]);
+            fscanf(zrw_file, "%f", &W[j]);
         }
 
         fclose(zrw_file);
@@ -80,7 +80,7 @@ void load_ZRW(int N_plist, POINTING *plist){
 }
 
 /* Test loading of data */
-int main(int argc, char * argv[]{
+int main(int argc, char * argv[]){
 
     if (argc!=1){
         fprintf(stderr, "Usage: %s\n", argv[0]);
