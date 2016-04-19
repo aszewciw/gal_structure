@@ -109,7 +109,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
         }
         for(j=0; j<N_bins; j++){
             fscanf(file, "%f", &b[j].DD);
-            snprintf(&b[j].binID, "%d", j+1);
+            snprintf(&b[j].binID, 256, "%d", j+1);
         }
         fclose(file);
 
