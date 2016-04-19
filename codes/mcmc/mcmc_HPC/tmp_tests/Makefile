@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -03 -c
+CFLAGS=-Wall
 LINKFLAGS= -lgsl -lgslcblas
 
 io_test: io_test.c
