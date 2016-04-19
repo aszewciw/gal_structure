@@ -215,6 +215,7 @@ int main(int argc, char * argv[]){
     fprintf(stderr, "DD count check: %f\n", plist[1].rbin[4].DD);
     fprintf(stderr, "DD error check: %f\n", plist[1].rbin[4].DD_err_jk);
     fprintf(stderr, "MM error check: %f\n", plist[1].rbin[4].MM_err_jk);
+    fprintf(stderr, "Pair check file 1-2 row 22: %u %u \n", plist[1].rbin[2].pair1[22], plist[1].rbin[2].pair2[22]);
 
     /* Free allocated values */
     for(i=0; i<N_plist; i++){
