@@ -1,4 +1,4 @@
-#include io_test.h
+#include "io_test.h"
 
 /* Load unique ID of each pointing */
 void load_pointingID(int *N_plist, POINTING **plist){
