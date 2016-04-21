@@ -423,7 +423,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     calculate_correlation(plist, N_plist, N_bins);
 
     /* Degrees of freedom never change -- calculate once */
-    DOF = degrees_of_freedom(plist, N_plist, current);
+    DOF = degrees_of_freedom(plist, N_plist, N_bins);
 
     fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
 
