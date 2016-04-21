@@ -203,11 +203,16 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
 void load_step_data(STEP_DATA *step_data){
 
     step_data->N_params = 5;
-    step_data->thin_r0 = 3.0;
-    step_data->thin_z0 = 0.3;
-    step_data->thick_r0 = 4.0;
-    step_data->thin_z0 = 1.2;
-    step_data->ratio_thick_thin = 0.1;
+    // step_data->thin_r0 = 3.0;
+    // step_data->thin_z0 = 0.3;
+    // step_data->thick_r0 = 4.0;
+    // step_data->thin_z0 = 1.2;
+    // step_data->ratio_thick_thin = 0.1;
+    step_data->thin_r0 = 2.475508;
+    step_data->thin_z0 = 0.241209;
+    step_data->thick_r0 = 2.417346;
+    step_data->thin_z0 = 0.694395;
+    step_data->ratio_thick_thin = 0.106672;
 
     fprintf(stderr, "Default initial parameters set...\n");
 
