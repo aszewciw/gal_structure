@@ -237,7 +237,7 @@ void calculate_frac_error(int N_plist, int N_bins, POINTING *p){
 
             p[i].rbin[j].err2_frac = (
                 p[i].rbin[j].DD_err_jk * p[i].rbin[j].DD_err_jk
-                + p[i].rbin[j].MM_err_jk * p[i].rbin[j].MM_err_jk )
+                + p[i].rbin[j].MM_err_jk * p[i].rbin[j].MM_err_jk );
         }
     }
 }
@@ -247,7 +247,7 @@ void calculate_frac_error(int N_plist, int N_bins, POINTING *p){
 void calculate_chi2( POINTING *p, STEP_DATA *current, int N_plist, int N_bins ){
 
     int i, j;
-    current.chi2 = 0.0;
+    current->chi2 = 0.0;
 
     for(i = 0; i < N_plist; i++){
 
@@ -258,7 +258,7 @@ void calculate_chi2( POINTING *p, STEP_DATA *current, int N_plist, int N_bins ){
 
             if( p[i].rbin[j].sigma2 == 0.0 ) continue;
 
-            current.chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
+            current->chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
                 / p[i].rbin[j].sigma2 );
 
         }
@@ -280,7 +280,7 @@ void set_weights(STEP_DATA params, POINTING *p, int N_plist){
 
     int i, j;
 
-    for(i = 0; i < N_plist, i++){
+    for(i = 0; i < N_plist; i++){
 
         for(j = 0; j < p[i].N_stars; j++){
 
@@ -373,11 +373,13 @@ void calculate_correlation(POINTING *p, int N_plist, int N_bins){
 
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins){
 
-    int i, eff_counter;
-    float eff;
-    STEP_DATA current, new;
-    float delta_chi2;
-    int DOF;
+    // int i,
+    // int eff_counter;
+    // float eff;
+    STEP_DATA current,
+    // STEP_DATA new;
+    // float delta_chi2;
+    // int DOF;
 
     fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
 
