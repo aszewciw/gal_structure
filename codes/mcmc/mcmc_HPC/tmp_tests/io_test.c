@@ -249,10 +249,10 @@ void calculate_frac_error(int N_plist, int N_bins, POINTING *p){
 
 /* ----------------------------------------------------------------------- */
 
-void calculate_chi2( POINTING *p, STEP_DATA *current, int N_plist, int N_bins ){
+void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins ){
 
     int i, j;
-    current->chi2 = 0.0;
+    step->chi2 = 0.0;
 
     for(i = 0; i < N_plist; i++){
 
@@ -263,7 +263,7 @@ void calculate_chi2( POINTING *p, STEP_DATA *current, int N_plist, int N_bins ){
 
             if( p[i].rbin[j].sigma2 == 0.0 ) continue;
 
-            current->chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
+            step->chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
                 / p[i].rbin[j].sigma2 );
 
         }
@@ -374,6 +374,26 @@ void calculate_correlation(POINTING *p, int N_plist, int N_bins){
 }
 
 /* ----------------------------------------------------------------------- */
+
+/* Calculate degrees of freedom */
+int degrees_of_freedom(POINTING *p, int N_plist, int N_bins ){
+    int dof = 0;
+    int i, j;
+
+    for(i = 0; i < N_plist; i++){
+
+        for(j = 0; j < N_bins; j++){
+
+            if( p[i].rbin[j].sigma2 == 0.0 ) continue;
+
+            dof++;
+        }
+    }
+
+    return dof;
+}
+
+/* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* --------------------------  MCMC functions  --------------------------- */
 /* ----------------------------------------------------------------------- */
@@ -388,7 +408,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     STEP_DATA current;
     // STEP_DATA new;
     // float delta_chi2;
-    // int DOF;
+    int DOF;
 
     fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
 
@@ -403,7 +423,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     calculate_correlation(plist, N_plist, N_bins);
 
     /* Degrees of freedom never change -- calculate once */
-    // DOF = degrees_of_freedom(plist, N_plist, current);
+    DOF = degrees_of_freedom(plist, N_plist, current);
 
     calculate_chi2(plist, &current, N_plist, N_bins);
 

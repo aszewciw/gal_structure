@@ -64,13 +64,14 @@ void load_step_data(STEP_DATA *step_data);
 
 /* Error functions */
 void calculate_frac_error(int N_plist, int N_bins, POINTING *p);
-void calculate_chi2( POINTING *p, STEP_DATA *current, int N_plist, int N_bins );
+void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins );
 
 /* MCMC functions */
 void set_weights(STEP_DATA params, POINTING *p, int N_plist);
 float normalize_MM(float *weight, int N_stars);
 float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, float MM_norm, float *weight );
 void calculate_correlation(POINTING *p, int N_plist, int N_bins);
+int degrees_of_freedom(POINTING *p, int N_plist, int N_bins );
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins);
 
 /* Other */
