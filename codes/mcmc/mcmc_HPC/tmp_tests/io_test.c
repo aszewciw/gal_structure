@@ -274,6 +274,10 @@ void calculate_chi2( POINTING *p, STEP_DATA *current, int N_plist, int N_bins ){
 /* ----------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------- */
+float sech2(float x){
+    return 1.0 / (cosh(x) * cosh(x));
+}
+
 
 /* Set weights for all model points based on disk parameters */
 void set_weights(STEP_DATA params, POINTING *p, int N_plist){
@@ -376,7 +380,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     // int i,
     // int eff_counter;
     // float eff;
-    STEP_DATA current,
+    STEP_DATA current;
     // STEP_DATA new;
     // float delta_chi2;
     // int DOF;
