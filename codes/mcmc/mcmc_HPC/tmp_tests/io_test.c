@@ -425,6 +425,8 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     /* Degrees of freedom never change -- calculate once */
     DOF = degrees_of_freedom(plist, N_plist, current);
 
+    fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
+
     calculate_chi2(plist, &current, N_plist, N_bins);
 
     fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
