@@ -73,3 +73,5 @@ float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, float MM_norm,
 void calculate_correlation(POINTING *p, int N_plist, int N_bins);
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins);
 
+/* Other */
+float sech2(float x);
