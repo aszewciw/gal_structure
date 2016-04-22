@@ -56,6 +56,8 @@ def chi2(todo_list, MODEL):
         if p>3:
             continue
 
+        ID = str(p)
+
         los = 'los_' + ID
 
         DD_MM = MODEL[los]['DD/MM']
