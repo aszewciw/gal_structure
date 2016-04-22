@@ -45,7 +45,7 @@ from config import *
 #############################################################
 
 # @profile
-def chi2(todo_list, N_files, MODEL):
+def chi2(todo_list, MODEL):
 
     '''Calculates chi-square for given model'''
 
@@ -53,9 +53,7 @@ def chi2(todo_list, N_files, MODEL):
     dof  = 0
 
     for p in todo_list:
-
-        plate = int(ID)
-        if plate >= N_files:
+        if p>3:
             continue
 
         los = 'los_' + ID
@@ -172,7 +170,7 @@ def main():
     # Loading data into dictionaries and subdictionaries
     for p in todo_list:
 
-        if p > 5:
+        if p > 3:
             continue
 
         # Limit number of los
@@ -238,7 +236,7 @@ def main():
 
     for p in todo_list:
 
-        if p>5:
+        if p>3:
             continue
 
         ID = str(p)
@@ -276,7 +274,7 @@ def main():
 
     # Calculate initial chi2
 
-    CHI2, DOF = chi2(todo_list, N_files, MODEL)
+    CHI2, DOF = chi2(todo_list, MODEL)
 
     print('Chi2 and DOF are ', CHI2, DOF)
 
