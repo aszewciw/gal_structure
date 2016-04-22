@@ -10,7 +10,7 @@ NOTE: Don't run this on local machine. Only on bender.
 '''
 import numpy as np
 import math
-import matplotlib.pyplot as plt
+import os, sys
 
 #------------------------------------------------------------------------------
 
@@ -130,16 +130,21 @@ def main():
     ###########################################################
     #################-- Disk Parameters --#####################
     ###########################################################
+    elements_needed = int(2)
+
+    args_array = np.array(sys.argv)
+    N_args = len(args_array)
+    assert(N_args == elements_needed)
+    N_stars = int(args_array[1])
 
     # Scale Heights and Lengths
     thick_sc_he      = 0.674
     thick_sc_le      = 2.51
     thin_sc_he       = 0.233
     thin_sc_le       = 2.34
-    thick_thin_ratio = 0.06
+    thick_thin_ratio = 0.1
 
     # Number of each disk
-    N_stars       = 10000000
     N_stars_thick = int(thick_thin_ratio * N_stars)
     N_stars_thin  = N_stars - N_stars_thick
 
@@ -197,13 +202,43 @@ def main():
 
     # Thin Disk
     r_thin_sun, l_thin, b_thin = galCent_to_sunCent(x_thin_gal, y_thin_gal, Z_thin_gal, R_sun)
-    ra_thin, dec_thin          = gal2eq(l_thin, b_thin)
-    x_thin, y_thin, z_thin     = eq2cart(ra_thin, dec_thin, r_thin_sun)
 
     # Thick Disk
     r_thick_sun, l_thick, b_thick = galCent_to_sunCent(x_thick_gal, y_thick_gal, Z_thick_gal, R_sun)
-    ra_thick, dec_thick           = gal2eq(l_thick, b_thick)
-    x_thick, y_thick, z_thick     = eq2cart(ra_thick, dec_thick, r_thick_sun)
+
+
+    # Remove all stars which don't fall within desired range
+
+    # First find indices of desired stars
+    r_lower   = 1.0
+    r_upper   = 3.0
+    ind_thin  = np.where((r_thin_sun>=r_lower)&(r_thin_sun<=r_upper))
+    ind_thick = np.where((r_thick_sun>=r_lower)&(r_thick_sun<=r_upper))
+
+    # Now, remake all arrays
+    Z_thin_gal  = Z_thin_gal[ind_thin]
+    R_thin_gal  = R_thin_gal[ind_thin]
+    phi_thin    = phi_thin[ind_thin]
+    x_thin_gal  = x_thin_gal[ind_thin]
+    y_thin_gal  = y_thin_gal[ind_thin]
+    r_thin_sun  = r_thin_sun[ind_thin]
+    l_thin      = l_thin[ind_thin]
+    b_thin      = b_thin[ind_thin]
+
+    Z_thick_gal = Z_thick_gal[ind_thick]
+    R_thick_gal = R_thick_gal[ind_thick]
+    phi_thick   = phi_thick[ind_thick]
+    x_thick_gal = x_thick_gal[ind_thick]
+    y_thick_gal = y_thick_gal[ind_thick]
+    r_thick_sun = r_thick_sun[ind_thick]
+    l_thick     = l_thick[ind_thick]
+    b_thick     = b_thick[ind_thick]
+
+
+    ra_thin, dec_thin         = gal2eq(l_thin, b_thin)
+    x_thin, y_thin, z_thin    = eq2cart(ra_thin, dec_thin, r_thin_sun)
+    ra_thick, dec_thick       = gal2eq(l_thick, b_thick)
+    x_thick, y_thick, z_thick = eq2cart(ra_thick, dec_thick, r_thick_sun)
 
 
     np.savez_compressed('./out_data/thick_disk_smallmock.npz',
