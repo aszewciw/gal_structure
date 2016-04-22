@@ -320,7 +320,7 @@ double normalize_MM(double *weight, int N_stars){
             norm += weight[i] * weight[j];
         }
     }
-    norm /= 2.0;
+    // norm /= 2.0;
     return norm;
 }
 
