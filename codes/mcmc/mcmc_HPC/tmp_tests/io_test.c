@@ -54,9 +54,9 @@ void load_ZRW(int N_plist, POINTING *plist){
     char zrw_filename[256];
     FILE *zrw_file;
     int i, j, N;
-    double * Z;
-    double * R;
-    double * W;
+    float * Z;
+    float * R;
+    float * W;
 
     /* Read star data for each poiting */
     for(i=0; i<N_plist; i++){
@@ -68,15 +68,15 @@ void load_ZRW(int N_plist, POINTING *plist){
         fscanf(zrw_file, "%d", &N); /* read in number of stars */
 
         /* Claim arrays */
-        Z = calloc(N, sizeof(double));
-        R = calloc(N, sizeof(double));
-        W = calloc(N, sizeof(double));
+        Z = calloc(N, sizeof(float));
+        R = calloc(N, sizeof(float));
+        W = calloc(N, sizeof(float));
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
-            fscanf(zrw_file, "%lf", &Z[j]);
-            fscanf(zrw_file, "%lf", &R[j]);
-            fscanf(zrw_file, "%lf", &W[j]);
+            fscanf(zrw_file, "%f", &Z[j]);
+            fscanf(zrw_file, "%f", &R[j]);
+            fscanf(zrw_file, "%f", &W[j]);
         }
 
         fclose(zrw_file);
@@ -115,7 +115,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%lf", &b[j].DD);
+            fscanf(file, "%f", &b[j].DD);
             snprintf(b[j].binID, 256, "%d", j+1);
         }
         fclose(file);
@@ -127,7 +127,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%lf", &b[j].DD_err_jk);
+            fscanf(file, "%f", &b[j].DD_err_jk);
         }
         fclose(file);
 
@@ -138,7 +138,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%lf", &b[j].MM_err_jk);
+            fscanf(file, "%f", &b[j].MM_err_jk);
         }
         fclose(file);
 
@@ -157,7 +157,7 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
     char pair_filename[256];
     FILE *pair_file;
     int i, j;
-    unsigned long k, N;
+    unsigned int k, N;
     int *pair1;
     int *pair2;
 
@@ -172,7 +172,7 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
             }
 
             /* First get number of pairs */
-            fscanf(pair_file, "%lu", &N);
+            fscanf(pair_file, "%u", &N);
 
             /* Claim arrays */
             pair1 = calloc(N, sizeof(int));
@@ -279,7 +279,7 @@ void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins ){
 /* ----------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------- */
-double sech2(double x){
+float sech2(float x){
     return 1.0 / (cosh(x) * cosh(x));
 }
 
@@ -306,10 +306,10 @@ void set_weights(STEP_DATA params, POINTING *p, int N_plist){
 /* ----------------------------------------------------------------------- */
 
 /* Determine normalization of MM counts */
-double normalize_MM(double *weight, int N_stars){
+float normalize_MM(float *weight, int N_stars){
 
     int i, j;
-    double norm = 0.0;
+    float norm = 0.0;
 
     for(i = 0; i < N_stars; i++){
 
@@ -327,11 +327,11 @@ double normalize_MM(double *weight, int N_stars){
 /* ----------------------------------------------------------------------- */
 
 /* Calculate normalized model pair counts MM for 1 bin */
-double calculate_MM( unsigned long N_pairs, int *pair1, int *pair2,
-    double MM_norm, double *weight ){
+float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
+    float MM_norm, float *weight ){
 
-    unsigned long i;
-    double MM = 0.0;
+    unsigned int i;
+    float MM = 0.0;
 
     for(i = 0; i < N_pairs; i++){
 
@@ -350,7 +350,7 @@ double calculate_MM( unsigned long N_pairs, int *pair1, int *pair2,
 void calculate_correlation(POINTING *p, int N_plist, int N_bins){
 
     int i, j;
-    double MM_norm;
+    float MM_norm;
 
     /* Loop over l.o.s. */
     for(i = 0; i < N_plist; i++){
@@ -404,10 +404,10 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
 
     // int i,
     // int eff_counter;
-    // double eff;
+    // float eff;
     STEP_DATA current;
     // STEP_DATA new;
-    // double delta_chi2;
+    // float delta_chi2;
     int DOF;
 
     fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
