@@ -157,7 +157,7 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
     char pair_filename[256];
     FILE *pair_file;
     int i, j;
-    unsigned int k, N;
+    unsigned long k, N;
     int *pair1;
     int *pair2;
 
@@ -172,15 +172,15 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
             }
 
             /* First get number of pairs */
-            fscanf(pair_file, "%u", &N);
+            fscanf(pair_file, "%lu", &N);
 
             /* Claim arrays */
             pair1 = calloc(N, sizeof(int));
             pair2 = calloc(N, sizeof(int));
 
             for(k=0; k<N; k++){
-                fscanf(pair_file, "%u", &pair1[k]);
-                fscanf(pair_file, "%u", &pair2[k]);
+                fscanf(pair_file, "%lu", &pair1[k]);
+                fscanf(pair_file, "%lu", &pair2[k]);
             }
 
             fclose(pair_file);
@@ -320,17 +320,17 @@ double normalize_MM(double *weight, int N_stars){
             norm += weight[i] * weight[j];
         }
     }
-    // norm /= 2.0;
+    norm /= 2.0;
     return norm;
 }
 
 /* ----------------------------------------------------------------------- */
 
 /* Calculate normalized model pair counts MM for 1 bin */
-double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
+double calculate_MM( unsigned long N_pairs, int *pair1, int *pair2,
     double MM_norm, double *weight ){
 
-    unsigned int i;
+    unsigned long i;
     double MM = 0.0;
 
     for(i = 0; i < N_pairs; i++){

@@ -27,7 +27,7 @@ typedef struct {
   double MM_err_jk; // fractional model jk error
   double err2_frac; // fractional errors squared
   double sigma2; // sigma squared for DD/MM
-  unsigned int N_pairs; // number of unique pairs
+  unsigned long N_pairs; // number of unique pairs
   int * pair1; // array of pair1 index of length N_pairs
   int * pair2; // array of pair2 index of length N_pairs
 } RBIN;
@@ -69,7 +69,7 @@ void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins );
 /* MCMC functions */
 void set_weights(STEP_DATA params, POINTING *p, int N_plist);
 double normalize_MM(double *weight, int N_stars);
-double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm, double *weight );
+double calculate_MM( unsigned long N_pairs, int *pair1, int *pair2, double MM_norm, double *weight );
 void calculate_correlation(POINTING *p, int N_plist, int N_bins);
 int degrees_of_freedom(POINTING *p, int N_plist, int N_bins );
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins);
