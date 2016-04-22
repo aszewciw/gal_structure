@@ -172,6 +172,9 @@ def main():
     # Loading data into dictionaries and subdictionaries
     for p in todo_list:
 
+        if p > 5:
+            continue
+
         # Limit number of los
         ID = str(p)
 
@@ -209,8 +212,8 @@ def main():
         #Multiply err2_temp by DD/MM **2 to get sigma2 in DD/MM
 
         # Load normalized and weighted DD counts
-        DD_file          = dd_dir + 'DD_' + ID + '.dat'
-        MODEL[los]['DD'] = np.genfromtxt(DD_file)
+        DD_file          = dd_dir + 'dd_' + ID + '.dat'
+        MODEL[los]['DD'] = np.genfromtxt(DD_file, usecols)
 
 
         for j in range(Nbins):
@@ -234,6 +237,9 @@ def main():
     # Weight model points and calculate DD/MM
 
     for p in todo_list:
+
+        if p>5:
+            continue
 
         ID = str(p)
 
