@@ -213,7 +213,7 @@ def main():
 
         # Load normalized and weighted DD counts
         DD_file          = dd_dir + 'dd_' + ID + '.dat'
-        MODEL[los]['DD'] = np.genfromtxt(DD_file, usecols)
+        MODEL[los]['DD'] = np.genfromtxt(DD_file)
 
 
         for j in range(Nbins):
