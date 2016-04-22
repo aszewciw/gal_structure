@@ -298,7 +298,7 @@ void set_weights(STEP_DATA params, POINTING *p, int N_plist){
                     * exp( -p[i].R[j] / params.thin_r0 ) )
                 + params.ratio_thick_thin *
                 ( sech2( p[i].Z[j] / 2.0 / params.thick_z0 )
-                    * exp( -p[i].Z[j] / params.thick_r0 ) ) );
+                    * exp( -p[i].R[j] / params.thick_r0 ) ) );
         }
     }
 }
