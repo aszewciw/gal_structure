@@ -54,9 +54,9 @@ void load_ZRW(int N_plist, POINTING *plist){
     char zrw_filename[256];
     FILE *zrw_file;
     int i, j, N;
-    float * Z;
-    float * R;
-    float * W;
+    double * Z;
+    double * R;
+    double * W;
 
     /* Read star data for each poiting */
     for(i=0; i<N_plist; i++){
@@ -68,9 +68,9 @@ void load_ZRW(int N_plist, POINTING *plist){
         fscanf(zrw_file, "%d", &N); /* read in number of stars */
 
         /* Claim arrays */
-        Z = calloc(N, sizeof(float));
-        R = calloc(N, sizeof(float));
-        W = calloc(N, sizeof(float));
+        Z = calloc(N, sizeof(double));
+        R = calloc(N, sizeof(double));
+        W = calloc(N, sizeof(double));
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
@@ -279,7 +279,7 @@ void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins ){
 /* ----------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------- */
-float sech2(float x){
+double sech2(double x){
     return 1.0 / (cosh(x) * cosh(x));
 }
 
@@ -306,10 +306,10 @@ void set_weights(STEP_DATA params, POINTING *p, int N_plist){
 /* ----------------------------------------------------------------------- */
 
 /* Determine normalization of MM counts */
-float normalize_MM(float *weight, int N_stars){
+double normalize_MM(double *weight, int N_stars){
 
     int i, j;
-    float norm = 0.0;
+    double norm = 0.0;
 
     for(i = 0; i < N_stars; i++){
 
@@ -327,11 +327,11 @@ float normalize_MM(float *weight, int N_stars){
 /* ----------------------------------------------------------------------- */
 
 /* Calculate normalized model pair counts MM for 1 bin */
-float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
-    float MM_norm, float *weight ){
+double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
+    double MM_norm, double *weight ){
 
     unsigned int i;
-    float MM = 0.0;
+    double MM = 0.0;
 
     for(i = 0; i < N_pairs; i++){
 
@@ -350,7 +350,7 @@ float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
 void calculate_correlation(POINTING *p, int N_plist, int N_bins){
 
     int i, j;
-    float MM_norm;
+    double MM_norm;
 
     /* Loop over l.o.s. */
     for(i = 0; i < N_plist; i++){
@@ -404,10 +404,10 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
 
     // int i,
     // int eff_counter;
-    // float eff;
+    // double eff;
     STEP_DATA current;
     // STEP_DATA new;
-    // float delta_chi2;
+    // double delta_chi2;
     int DOF;
 
     fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);

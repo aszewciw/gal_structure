@@ -20,13 +20,13 @@
 /* Data for each radial bin */
 typedef struct {
   char binID[256]; // ID for each radial bin
-  float DD; // segue pair counts
-  float MM; // model pair counts
-  float corr; // DD/MM
-  float DD_err_jk; // fractional segue jk error
-  float MM_err_jk; // fractional model jk error
-  float err2_frac; // fractional errors squared
-  float sigma2; // sigma squared for DD/MM
+  double DD; // segue pair counts
+  double MM; // model pair counts
+  double corr; // DD/MM
+  double DD_err_jk; // fractional segue jk error
+  double MM_err_jk; // fractional model jk error
+  double err2_frac; // fractional errors squared
+  double sigma2; // sigma squared for DD/MM
   unsigned int N_pairs; // number of unique pairs
   int * pair1; // array of pair1 index of length N_pairs
   int * pair2; // array of pair2 index of length N_pairs
@@ -36,9 +36,9 @@ typedef struct {
 typedef struct {
   char ID[256]; // Unique ID for pointing
   int N_stars; //Number of stars in model sample
-  float * Z; // array of star heights above gal plane
-  float * R; // array of star distances from gal center in gal plane
-  float * weight; // star's density weight based on Z, R
+  double * Z; // array of star heights above gal plane
+  double * R; // array of star distances from gal center in gal plane
+  double * weight; // star's density weight based on Z, R
   RBIN * rbin; // Nbins of these; Nbins should be global or declared in main
 } POINTING;
 
@@ -46,13 +46,13 @@ typedef struct {
 /* Data for each step in MCMC chain */
 typedef struct {
   int N_params; /* Number of parameters for MW model */
-  float thin_r0; /* thin disk scale length */
-  float thin_z0; /* thin disk scale height */
-  float thick_r0; /* thick disk scale length */
-  float thick_z0; /* thick disk scale height */
-  float ratio_thick_thin; /* number density ratio */
-  float chi2; /* total chi2 for step */
-  float chi2_reduced; /* chi2/DOF */
+  double thin_r0; /* thin disk scale length */
+  double thin_z0; /* thin disk scale height */
+  double thick_r0; /* thick disk scale length */
+  double thick_z0; /* thick disk scale height */
+  double ratio_thick_thin; /* number density ratio */
+  double chi2; /* total chi2 for step */
+  double chi2_reduced; /* chi2/DOF */
 } STEP_DATA;
 
 /* I/O functions */
@@ -68,11 +68,11 @@ void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins );
 
 /* MCMC functions */
 void set_weights(STEP_DATA params, POINTING *p, int N_plist);
-float normalize_MM(float *weight, int N_stars);
-float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, float MM_norm, float *weight );
+double normalize_MM(double *weight, int N_stars);
+double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm, double *weight );
 void calculate_correlation(POINTING *p, int N_plist, int N_bins);
 int degrees_of_freedom(POINTING *p, int N_plist, int N_bins );
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins);
 
 /* Other */
-float sech2(float x);
+double sech2(double x);
