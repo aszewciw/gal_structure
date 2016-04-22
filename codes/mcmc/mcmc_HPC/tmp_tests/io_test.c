@@ -74,9 +74,9 @@ void load_ZRW(int N_plist, POINTING *plist){
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
-            fscanf(zrw_file, "%f", &Z[j]);
-            fscanf(zrw_file, "%f", &R[j]);
-            fscanf(zrw_file, "%f", &W[j]);
+            fscanf(zrw_file, "%lf", &Z[j]);
+            fscanf(zrw_file, "%lf", &R[j]);
+            fscanf(zrw_file, "%lf", &W[j]);
         }
 
         fclose(zrw_file);
@@ -115,7 +115,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b[j].DD);
+            fscanf(file, "%lf", &b[j].DD);
             snprintf(b[j].binID, 256, "%d", j+1);
         }
         fclose(file);
@@ -127,7 +127,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b[j].DD_err_jk);
+            fscanf(file, "%lf", &b[j].DD_err_jk);
         }
         fclose(file);
 
@@ -138,7 +138,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b[j].MM_err_jk);
+            fscanf(file, "%lf", &b[j].MM_err_jk);
         }
         fclose(file);
 
