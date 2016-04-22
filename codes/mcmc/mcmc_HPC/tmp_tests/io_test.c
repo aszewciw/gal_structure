@@ -179,8 +179,8 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
             pair2 = calloc(N, sizeof(int));
 
             for(k=0; k<N; k++){
-                fscanf(pair_file, "%lu", &pair1[k]);
-                fscanf(pair_file, "%lu", &pair2[k]);
+                fscanf(pair_file, "%d", &pair1[k]);
+                fscanf(pair_file, "%d", &pair2[k]);
             }
 
             fclose(pair_file);
