@@ -166,7 +166,7 @@ def main():
     # input_file.close()
     # N_los          = len(todo_list)
     input_filename = raw_dir + 'pointing_ID.dat'
-    todo_list      = np.genfromtxt(input_filename, skip_header=1)
+    todo_list      = np.genfromtxt(input_filename, skip_header=1, dtype=int)
     N_los          = len(todo_list)
 
     # Loading data into dictionaries and subdictionaries
