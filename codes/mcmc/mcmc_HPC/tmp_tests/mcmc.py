@@ -53,8 +53,8 @@ def chi2(todo_list, MODEL):
     dof  = 0
 
     for p in todo_list:
-        if p>3:
-            continue
+        # if p>3:
+        #     continue
 
         ID = str(p)
 
@@ -172,8 +172,8 @@ def main():
     # Loading data into dictionaries and subdictionaries
     for p in todo_list:
 
-        if p > 3:
-            continue
+        # if p > 3:
+        #     continue
 
         # Limit number of los
         ID = str(p)
@@ -238,8 +238,8 @@ def main():
 
     for p in todo_list:
 
-        if p>3:
-            continue
+        # if p>3:
+        #     continue
 
         ID = str(p)
 
