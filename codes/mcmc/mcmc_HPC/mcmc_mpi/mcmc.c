@@ -543,8 +543,8 @@ int main(int argc, char * argv[]){
             load_pointingID(&N_plist, &plist);
             fprintf(stderr, "Rank %d has loaded pointing IDs.\n", rank);
         }
-        current_rank++;
         MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
+        current_rank++;
     }
 
     /* Establish slice of pointings for each process to handle */
@@ -568,8 +568,8 @@ int main(int argc, char * argv[]){
                 rank, lower_ind, upper_ind );
             fprintf(stderr, "Number of slices is %d \n ", slice_length);
         }
-        current_rank++;
         MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
+        current_rank++;
     }
 
     // load_ZRW(N_plist, plist);
