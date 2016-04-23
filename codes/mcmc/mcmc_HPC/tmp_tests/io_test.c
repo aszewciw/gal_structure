@@ -1,5 +1,9 @@
 #include "io_test.h"
 
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <gsl/gsl_integration.h>
+
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* -----------------------  Input data functions  ------------------------ */
@@ -202,7 +206,7 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data){
 
-    step_data->N_params = 5;
+    // step_data->N_params = 5;
     // step_data->thin_r0 = 3.0;
     // step_data->thin_z0 = 0.3;
     // step_data->thick_r0 = 4.0;
@@ -400,15 +404,60 @@ int degrees_of_freedom(POINTING *p, int N_plist, int N_bins ){
 /* ----------------------------------------------------------------------- */
 
 
+STEP_DATA update_parameters(STEP_DATA p){
+
+    float delta;
+
+    float thin_r0_sigma = 0.05;
+    float thin_z0_sigma = 0.005;
+    float thick_r0_sigma = 0.05;
+    float thick_z0_sigma = 0.005;
+    float ratio_thick_thin_sigma = 0.002;
+
+    const gsl_rng_type * GSL_T;
+    gsl_rng * GSL_r;
+
+    gsl_rng_env_setup();
+
+    GSL_T = gsl_rng_default;
+    GSL_r = gsl_rng_alloc(GSL_T);
+
+    gsl_rng_set(GSL_r, time(NULL));
+
+    /* change the position based on Gaussian distributions.  */
+    delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
+    p.thin_r0 += delta;
+
+    delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
+    p.thin_z0 += delta;
+
+    delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
+    p.thick_r0 += delta;
+
+    delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
+    p.thick_z0 += delta;
+
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
+        p.ratio_thick_thin_sigma += delta;
+        if(p.ratio_thick_thin_sigma < 1.0) break;
+    }
+
+    return p;
+}
+
+
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins){
 
-    // int i,
+    int i;
     // int eff_counter;
     // float eff;
     STEP_DATA current;
-    // STEP_DATA new;
-    // float delta_chi2;
+    STEP_DATA new;
+    float delta_chi2;
     int DOF;
+    float tmp;
+    int N_params = 5;
 
     fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
 
@@ -424,12 +473,45 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
 
     calculate_chi2(plist, &current, N_plist, N_bins);
 
+
     /* Degrees of freedom never change -- calculate once */
     DOF = degrees_of_freedom(plist, N_plist, N_bins);
+    DOF -= N_params;
+    current.chi2_reduced = current.chi2 / (float)DOF;
+
     fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
 
     fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
 
+    for( i = 0; i < max_steps; i++ ){
+
+        new = update_parameters(current);
+
+        set_weights(new, plist, N_plist);
+        calculate_correlation(plist, N_plist, N_bins);
+        calculate_chi2(plist, &new, N_plist, N_bins);
+        new.chi2_reduced = new.chi2 / (float)DOF;
+
+        delta_chi2 = new.chi2 - current.chi2;
+
+
+        if(delta_chi2 <= 0.0){
+            current = new;
+        }
+        else{
+            tmp = (float)rand() / (float)RAND_MAX;
+            if (tmp < exp( -delta_chi2 / 2.0 )){
+                current = new;
+            }
+            else{
+                /* use old positions */
+            }
+        }
+
+        fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+
+    }
+    fprintf(stderr, "End MCMC calculation.\n");
 }
 
 
@@ -464,7 +546,7 @@ int main(int argc, char * argv[]){
     /* -- Initialize parameters --*/
     STEP_DATA step_data;
     load_step_data(&step_data);
-    int max_steps = 10000;
+    int max_steps = 100;
     run_mcmc(step_data, max_steps, N_plist, plist, N_bins);
 
 
