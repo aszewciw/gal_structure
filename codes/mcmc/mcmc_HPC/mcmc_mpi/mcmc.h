@@ -56,9 +56,12 @@ typedef struct {
 
 /* I/O functions */
 void load_pointingID(int *N_plist, POINTING **plist);
-void load_ZRW(int N_plist, POINTING *plist);
-void load_rbins(int N_plist, int N_bins, POINTING *plist);
-void load_pairs(int N_plist, int N_bins, POINTING *plist);
+// void load_ZRW(int N_plist, POINTING *plist);
+// void load_rbins(int N_plist, int N_bins, POINTING *plist);
+// void load_pairs(int N_plist, int N_bins, POINTING *plist);
+void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
+void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
+void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_step_data(STEP_DATA *step_data);
 
 /* Error functions */

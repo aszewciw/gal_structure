@@ -54,7 +54,7 @@ void load_pointingID(int *N_plist, POINTING **plist){
 /* ----------------------------------------------------------------------- */
 
 /* Load position and density weight data for model stars */
-void load_ZRW(int N_plist, POINTING *plist){
+void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
 
     char zrw_filename[256];
     FILE *zrw_file;
@@ -64,7 +64,8 @@ void load_ZRW(int N_plist, POINTING *plist){
     float * W;
 
     /* Read star data for each poiting */
-    for(i=0; i<N_plist; i++){
+    // for(i=0; i<N_plist; i++){
+    for(i = lower_ind; i < upper_ind; i++){
         snprintf(zrw_filename, 256, "%suniform_ZRW_%s.dat", ZRW_DIR, plist[i].ID);
         if((zrw_file=fopen(zrw_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s \n", zrw_filename);
@@ -93,13 +94,13 @@ void load_ZRW(int N_plist, POINTING *plist){
         plist[i].weight = W;
     }
 
-    fprintf(stderr, "Model data loaded from %s\n", ZRW_DIR);
+    fprintf(stderr, "Rank %d loaded model data loaded from %s\n", rank, ZRW_DIR);
 }
 
 /* ----------------------------------------------------------------------- */
 
 /* Load data for each bin from a variety of files */
-void load_rbins(int N_plist, int N_bins, POINTING *plist){
+void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank){
 
     char filename[256];
     FILE *file;
@@ -107,7 +108,8 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
     RBIN *b;
 
     /* Loop over each pointing */
-    for(i=0; i<N_plist; i++){
+    // for(i=0; i<N_plist; i++){
+    for( i = lower_ind; i<upper_ind; i++ ){
 
         /* Claim space for bin data */
         b = calloc(N_bins, sizeof(RBIN));
@@ -119,7 +121,7 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
             fprintf(stderr, "Error: Cannot open file %s\n", filename);
             exit(EXIT_FAILURE);
         }
-        for(j=0; j<N_bins; j++){
+        for( j=0; j<N_bins; j++ ){
             fscanf(file, "%f", &b[j].DD);
             snprintf(b[j].binID, 256, "%d", j+1);
         }
@@ -150,14 +152,14 @@ void load_rbins(int N_plist, int N_bins, POINTING *plist){
         /* Assign values to plist elements */
         plist[i].rbin = b;
     }
-    fprintf(stderr, "DD counts loaded from %s\n", DD_DIR);
-    fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
+    fprintf(stderr, "Rank %d loaded DD counts from %s\n", rank, DD_DIR);
+    fprintf(stderr, "Rank %d loaded errors from %s\n", rank, ERR_DIR);
 }
 
 /* ----------------------------------------------------------------------- */
 
 /* Load pairs for each bin in each l.o.s. */
-void load_pairs(int N_plist, int N_bins, POINTING *plist){
+void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank){
 
     char pair_filename[256];
     FILE *pair_file;
@@ -167,7 +169,7 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
     int *pair2;
 
     /* Loop over each pointing */
-    for(i=0; i<N_plist; i++){
+    for(i=lower_ind; i<upper_ind; i++){
 
         for(j=0; j<N_bins; j++){
             snprintf(pair_filename, 256, "%spairs_%s.bin_%s.dat", PAIRS_DIR, plist[i].ID, plist[i].rbin[j].binID);
@@ -197,8 +199,7 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
         }
 
     }
-    fprintf(stderr, "Pairs loaded from %s\n", PAIRS_DIR);
-
+    fprintf(stderr, "Rank %d loaded pairs from %s\n", rank, PAIRS_DIR);
 
 }
 
@@ -572,9 +573,13 @@ int main(int argc, char * argv[]){
         current_rank++;
     }
 
-    // load_ZRW(N_plist, plist);
-    // load_rbins(N_plist, N_bins, plist);
-    // load_pairs(N_plist, N_bins, plist);
+    // load_ZRW(N_plist, plist, lower_ind, upper_ind);
+    // load_rbins(N_plist, N_bins, plist, lower_ind, upper_ind);
+    // load_pairs(N_plist, N_bins, plist, lower_ind, upper_ind);
+    load_ZRW(plist, lower_ind, upper_ind, rank);
+    load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
+    load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     // /* Calculate fractional error in DD/MM */
     // /* This only needs to be done once because
