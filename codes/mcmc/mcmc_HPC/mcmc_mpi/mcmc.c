@@ -482,7 +482,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     DOF -= N_params;
     current.chi2_reduced = current.chi2 / (float)DOF;
 
-    fprintf(stderr, "Rank %d says degrees of freedom is: %d\n", DOF);
+    fprintf(stderr, "Rank %d says degrees of freedom is: %d\n", rank, DOF);
 
     fprintf(stderr, "Rank %d says chi2 value for intital params is %f\n", rank, current.chi2);
 
