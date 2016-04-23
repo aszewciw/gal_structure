@@ -1,5 +1,5 @@
-CC=icc
-CFLAGS=-Iicc -Wall
+CC=gcc
+CFLAGS= -Wall
 LINKFLAGS= -lgsl -lgslcblas
 
 mcmc: mcmc.c
