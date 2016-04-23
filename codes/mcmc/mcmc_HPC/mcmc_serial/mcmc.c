@@ -211,6 +211,8 @@ void load_step_data(STEP_DATA *step_data){
     step_data->thick_r0 = 4.0;
     step_data->thick_z0 = 1.2;
     step_data->ratio_thick_thin = 0.1;
+    step_data->chi2 = 0.0;
+    step_data->chi2_reduced = 0.0;
 
     fprintf(stderr, "Default initial parameters set...\n");
 
