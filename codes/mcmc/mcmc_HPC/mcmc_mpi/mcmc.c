@@ -472,7 +472,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     /* Calculate initial correlation value */
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
-    chi2 = calculate_chi2(plist, &current, N_bins, lower_ind, upper_ind);
+    chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
     float chi2_temp = 0.0;
     MPI_Allreduce(&chi2, &current.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
 
