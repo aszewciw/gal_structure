@@ -209,7 +209,7 @@ void load_step_data(STEP_DATA *step_data){
     step_data->thin_r0 = 3.0;
     step_data->thin_z0 = 0.3;
     step_data->thick_r0 = 4.0;
-    step_data->thin_z0 = 1.2;
+    step_data->thick_z0 = 1.2;
     step_data->ratio_thick_thin = 0.1;
 
     fprintf(stderr, "Default initial parameters set...\n");
