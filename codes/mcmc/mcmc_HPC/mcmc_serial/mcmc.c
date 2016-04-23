@@ -480,6 +480,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
 
     for( i = 0; i < max_steps; i++ ){
+        continue;
 
         new = update_parameters(current);
 
