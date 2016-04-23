@@ -508,7 +508,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
             }
         }
 
-        fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+        // fprintf(stderr, "Current chi2 is %f\n", current.chi2);
 
     }
     fprintf(stderr, "End MCMC calculation.\n");
