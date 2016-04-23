@@ -1,301 +1,562 @@
-/* Functions for MCMC calculation */
-
-#include "config.h"
+#include "mcmc.h"
 
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_integration.h>
 
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* -----------------------  Input data functions  ------------------------ */
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
 
-int degrees_of_freedom(POINTING *plist, int N_plist, PARAMETERS params){
 
-  int i, k;
-  int dof = 0;
 
-  POINTING *p;
+/* ----------------------------------------------------------------------- */
+/* Load unique ID of each pointing */
+void load_pointingID(int *N_plist, POINTING **plist){
 
-  /* loop over all line of sight */
-  for(i = 0; i < N_plist; i++){
+    char plist_filename[256];
+    snprintf(plist_filename, 256, "%spointing_ID.dat", RAW_DIR);
 
-    p = &plist[i];
+    FILE *plist_file;
+    int N;
+    POINTING *p;
 
-    for(k = 0; k < p->N_corr; k++){
-
-      if(p->corr[k].MM_N == 0){
-	/* fprintf(stderr, "Warning: The number density of the model points is too low. \n"); */
-	continue;
-      }
-
-      if(p->corr[k].DD_N == 0){
-	/* fprintf(stderr, "Warning: Skip empty bin [%lf, %lf] in pointing %s . \n",  */
-	/* 	p->corr[k].r_lower, p->corr[k].r_upper, p->ID); */
-	continue;
-      }
-
-      /* only count bins with non zero pairs. */
-      dof++;
+    if((plist_file=fopen(plist_filename,"r"))==NULL){
+        fprintf(stderr, "Error: Cannot open file %s \n", plist_filename);
+        exit(EXIT_FAILURE);
     }
 
-  }
+    fprintf(stderr, "Read pointing list from %s \n", plist_filename);
 
-  dof = dof - params.N_parameters;
+    fscanf(plist_file, "%d", &N); //length of list
 
-  return dof;
-}
+    // Claim array for list of pointings
+    p = calloc(N, sizeof(POINTING));
 
-
-double chi_square(POINTING *plist, int N_plist){
-
-  int i, k;
-  double sigma2_dd, sigma2_mm, sigma2, chi2;
-  double dd, mm;
-  long dd_n, mm_n;
-
-  POINTING *p;
-
-  chi2 = 0.0;
-
-  /* loop over all line of sight */
-  for(i = 0; i < N_plist; i++){
-
-    p = &plist[i];
-
-    for(k = 0; k < p->N_corr; k++){
-
-      /* use raw pair counting without weights to calcuate a fractional error.
-	 Then use this fraction to calcuate the error of weighted counting.
-	 sigma = sqrt(N_raw)/N_raw * N_weighted */
-
-      /* Skip bins with zero pairs, otherwise division by zero may occur! */
-      /* This should be consistent with degrees of freedom calculation. */
-
-      dd_n = p->corr[k].DD_N;
-      if(dd_n == 0){
-	continue;
-      }
-
-      mm_n = p->corr[k].MM_N;
-      if(mm_n == 0){
-	continue;
-      }
-
-      dd = p->corr[k].DD;
-      //sigma2_dd = (1.0 / (double)dd_n) * dd * dd;
-      sigma2_dd = (p->corr[k].err_jk_dd * dd) * (p->corr[k].err_jk_dd * dd);
-
-      mm = p->corr[k].MM;
-      //sigma2_mm = (1.0 / (double)mm_n) * mm * mm;
-      sigma2_mm = (p->corr[k].err_jk_mm * mm) * (p->corr[k].err_jk_mm * mm);
-
-      /* ignore tidy errors which may be caused by 0 jackknife error */
-      if(sigma2_dd == 0.0 || sigma2_mm == 0.0){
-        continue;
-      }
-
-      //fprintf(stderr, "%lf\t%lf\n", sigma2_dd, sigma2_mm);
-
-      /* propagate to get the total error of dd/mm */
-      /* sigma2/f^2 = sigma2_dd/dd^2 + sigma2_mm/mm^2  */
-      /* note sigma2 is the error square of dd/mm */
-      double f = dd / mm;
-      sigma2 = (sigma2_dd / (dd * dd) + sigma2_mm / (mm * mm)) * (f * f);
-
-      /* The expected dd/mm is 1 */
-      chi2 += (f - 1.0) * (f - 1.0) / sigma2;
-
-      p->corr[k].sigma2_dd = sigma2_dd;
-      p->corr[k].sigma2_mm = sigma2_mm;
-      p->corr[k].sigma2 = sigma2;
-      p->corr[k].chi2 = (f - 1.0) * (f - 1.0) / sigma2;
-
+    // Get pointing IDs
+    int i;
+    for(i=0; i<N; i++){
+        fscanf(plist_file, "%s", p[i].ID);
     }
-  }
+    fclose(plist_file);
 
+    // Aassign values to main function arguments
+    *N_plist = N;
+    *plist = p;
 
-  return chi2;
+    fprintf(stderr, "%d pointings to do.\n", N);
 
 }
 
+/* ----------------------------------------------------------------------- */
 
-PARAMETERS update_parameters(PARAMETERS p){
+/* Load position and density weight data for model stars */
+void load_ZRW(int N_plist, POINTING *plist){
 
-  double delta;
+    char zrw_filename[256];
+    FILE *zrw_file;
+    int i, j, N;
+    float * Z;
+    float * R;
+    float * W;
 
-  /* variance for each parameter, only used for initialization. */
-  double thindisk_z0_sigma, thindisk_r0_sigma;
-  thindisk_z0_sigma = 0.005;
-  thindisk_r0_sigma = 0.05;
+    /* Read star data for each poiting */
+    for(i=0; i<N_plist; i++){
+        snprintf(zrw_filename, 256, "%suniform_ZRW_%s.dat", ZRW_DIR, plist[i].ID);
+        if((zrw_file=fopen(zrw_filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s \n", zrw_filename);
+            exit(EXIT_FAILURE);
+        }
+        fscanf(zrw_file, "%d", &N); /* read in number of stars */
 
-  double thickdisk_z0_sigma, thickdisk_r0_sigma;
-  thickdisk_z0_sigma = 0.005;
-  thickdisk_r0_sigma = 0.05;
+        /* Claim arrays */
+        Z = calloc(N, sizeof(float));
+        R = calloc(N, sizeof(float));
+        W = calloc(N, sizeof(float));
 
-  double n0_ratio_thick_thin_sigma;
-  n0_ratio_thick_thin_sigma = 0.002;
+        /* Read file for zrw data */
+        for(j=0; j<N; j++){
+            fscanf(zrw_file, "%f", &Z[j]);
+            fscanf(zrw_file, "%f", &R[j]);
+            fscanf(zrw_file, "%f", &W[j]);
+        }
 
-  /* use gsl library to get Gaussian random numbers. */
-  const gsl_rng_type * GSL_T;
-  gsl_rng * GSL_r;
+        fclose(zrw_file);
 
-  gsl_rng_env_setup();
+        /* Assign value to plist element */
+        plist[i].N_stars = N;
+        plist[i].Z = Z;
+        plist[i].R = R;
+        plist[i].weight = W;
+    }
 
-  GSL_T = gsl_rng_default;
-  GSL_r = gsl_rng_alloc(GSL_T);
+    fprintf(stderr, "Model data loaded from %s\n", ZRW_DIR);
+}
 
-  gsl_rng_set(GSL_r, time(NULL));
+/* ----------------------------------------------------------------------- */
 
-  /* change the position based on Gaussian distributions.  */
-  delta = gsl_ran_gaussian(GSL_r, thindisk_z0_sigma);
-  p.thindisk_z0 = p.thindisk_z0 + delta;
+/* Load data for each bin from a variety of files */
+void load_rbins(int N_plist, int N_bins, POINTING *plist){
 
-  delta = gsl_ran_gaussian(GSL_r, thindisk_r0_sigma);
-  p.thindisk_r0 = p.thindisk_r0 + delta;
+    char filename[256];
+    FILE *file;
+    int i, j;
+    RBIN *b;
 
-  /* change the position based on Gaussian distributions.  */
-  delta = gsl_ran_gaussian(GSL_r, thindisk_z0_sigma);
-  p.thindisk_z0 = p.thindisk_z0 + delta;
+    /* Loop over each pointing */
+    for(i=0; i<N_plist; i++){
 
-  delta = gsl_ran_gaussian(GSL_r, thindisk_r0_sigma);
-  p.thindisk_r0 = p.thindisk_r0 + delta;
+        /* Claim space for bin data */
+        b = calloc(N_bins, sizeof(RBIN));
 
-  delta = gsl_ran_gaussian(GSL_r, thickdisk_z0_sigma);
-  p.thickdisk_z0 = p.thickdisk_z0 + delta;
+        /* First load DD counts */
+        /* Also assign Bin ID */
+        snprintf(filename, 256, "%sdd_%s.dat", DD_DIR, plist[i].ID);
+        if((file=fopen(filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", filename);
+            exit(EXIT_FAILURE);
+        }
+        for(j=0; j<N_bins; j++){
+            fscanf(file, "%f", &b[j].DD);
+            snprintf(b[j].binID, 256, "%d", j+1);
+        }
+        fclose(file);
 
-  delta = gsl_ran_gaussian(GSL_r, thickdisk_r0_sigma);
-  p.thickdisk_r0 = p.thickdisk_r0 + delta;
+        /* Next load DD errors */
+        snprintf(filename, 256, "%sstar_%s_frac_error.dat", ERR_DIR, plist[i].ID);
+        if((file=fopen(filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", filename);
+            exit(EXIT_FAILURE);
+        }
+        for(j=0; j<N_bins; j++){
+            fscanf(file, "%f", &b[j].DD_err_jk);
+        }
+        fclose(file);
 
-  while(1){
-    delta = gsl_ran_gaussian(GSL_r, n0_ratio_thick_thin_sigma);
-    p.n0_ratio_thick_thin += delta;
-    if(p.n0_ratio_thick_thin < 1.0) break;
-  }
-  p.thickdisk_n0 = p.thindisk_n0 * p.n0_ratio_thick_thin;
+        /* Next load MM errors */
+        snprintf(filename, 256, "%suniform_%s_frac_error.dat", ERR_DIR, plist[i].ID);
+        if((file=fopen(filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", filename);
+            exit(EXIT_FAILURE);
+        }
+        for(j=0; j<N_bins; j++){
+            fscanf(file, "%f", &b[j].MM_err_jk);
+        }
+        fclose(file);
 
-  return p;
+        /* Assign values to plist elements */
+        plist[i].rbin = b;
+    }
+    fprintf(stderr, "DD counts loaded from %s\n", DD_DIR);
+    fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
+}
+
+/* ----------------------------------------------------------------------- */
+
+/* Load pairs for each bin in each l.o.s. */
+void load_pairs(int N_plist, int N_bins, POINTING *plist){
+
+    char pair_filename[256];
+    FILE *pair_file;
+    int i, j;
+    unsigned int k, N;
+    int *pair1;
+    int *pair2;
+
+    /* Loop over each pointing */
+    for(i=0; i<N_plist; i++){
+
+        for(j=0; j<N_bins; j++){
+            snprintf(pair_filename, 256, "%spairs_%s.bin_%s.dat", PAIRS_DIR, plist[i].ID, plist[i].rbin[j].binID);
+            if((pair_file=fopen(pair_filename,"r"))==NULL){
+                fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
+                exit(EXIT_FAILURE);
+            }
+
+            /* First get number of pairs */
+            fscanf(pair_file, "%u", &N);
+
+            /* Claim arrays */
+            pair1 = calloc(N, sizeof(int));
+            pair2 = calloc(N, sizeof(int));
+
+            for(k=0; k<N; k++){
+                fscanf(pair_file, "%d", &pair1[k]);
+                fscanf(pair_file, "%d", &pair2[k]);
+            }
+
+            fclose(pair_file);
+
+            /* Assign values to plist elements */
+            plist[i].rbin[j].N_pairs = N;
+            plist[i].rbin[j].pair1 = pair1;
+            plist[i].rbin[j].pair2 = pair2;
+        }
+
+    }
+    fprintf(stderr, "Pairs loaded from %s\n", PAIRS_DIR);
+
+
+}
+
+/* ----------------------------------------------------------------------- */
+
+/* Load starting data for MCMC loop */
+void load_step_data(STEP_DATA *step_data){
+
+    step_data->thin_r0 = 3.0;
+    step_data->thin_z0 = 0.3;
+    step_data->thick_r0 = 4.0;
+    step_data->thin_z0 = 1.2;
+    step_data->ratio_thick_thin = 0.1;
+
+    fprintf(stderr, "Default initial parameters set...\n");
+
+}
+
+/* ----------------------------------------------------------------------- */
+
+
+
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* ------------------  Functions calculating errors  --------------------- */
+/* ----------------------- *Also used in MCMC* --------------------------- */
+/* ----------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------- */
+
+/* Multiply this by DD/MM**2 to get sigma2 */
+void calculate_frac_error(int N_plist, int N_bins, POINTING *p){
+
+    int i, j;
+
+    for(i = 0; i < N_plist; i++){
+
+        for(j = 0; j < N_bins; j++){
+
+            p[i].rbin[j].err2_frac = (
+                p[i].rbin[j].DD_err_jk * p[i].rbin[j].DD_err_jk
+                + p[i].rbin[j].MM_err_jk * p[i].rbin[j].MM_err_jk );
+        }
+    }
+}
+
+/* ----------------------------------------------------------------------- */
+
+void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins ){
+
+    int i, j;
+    step->chi2 = 0.0;
+
+    for(i = 0; i < N_plist; i++){
+
+        for(j = 0; j < N_bins; j++){
+
+            p[i].rbin[j].sigma2 = ( p[i].rbin[j].corr * p[i].rbin[j].corr *
+                p[i].rbin[j].err2_frac );
+
+            if( p[i].rbin[j].sigma2 == 0.0 ) continue;
+
+            step->chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
+                / p[i].rbin[j].sigma2 );
+
+        }
+    }
 }
 
 
-void output_mcmc(int index, MCMC current, FILE *output_file){
 
-  /* output mcmc chain element */
-  PARAMETERS p;
-  p = current.params;
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* -------------------  Functions called by MCMC  ------------------------ */
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
 
-  if(p.N_parameters == 2){
-    fprintf(output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\n",
-	    index, current.dof, current.chi2, current.chi2/current.dof,
-	    p.thindisk_r0, p.thindisk_z0);
-  }
-  else if(p.N_parameters == 5){
-    fprintf(output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
-	    index, current.dof, current.chi2, current.chi2/current.dof,
-	    p.thindisk_r0, p.thindisk_z0,
-	    p.thickdisk_r0, p.thickdisk_z0, p.n0_ratio_thick_thin
-	    );
-  }
-
+/* ----------------------------------------------------------------------- */
+float sech2(float x){
+    return 1.0 / (cosh(x) * cosh(x));
 }
 
 
-void run_mcmc(PARAMETERS initial_params, int max_steps, int N_plist, POINTING *plist){
+/* Set weights for all model points based on disk parameters */
+void set_weights(STEP_DATA params, POINTING *p, int N_plist){
 
-  int i, efficiency_counter;
-  double efficiency;
-  MCMC current, new;
-  double delta_chi2;
+    int i, j;
 
-  fprintf(stderr, "Start MCMC chain..Max steps = %d \n", max_steps);
+    for(i = 0; i < N_plist; i++){
 
-  /* set the first element as the initial parameters.
-   Then calculate the chi2 for the initial parameters. */
-  current.params = initial_params;
+        for(j = 0; j < p[i].N_stars; j++){
 
-  /* set initial weights */
-  set_weights(current.params, plist, N_plist);
-
-  /* allocate space for correlation function calculation */
-  /* This also does a first time correlation calculation of initial parameters. */
-  /* DD pairs may only be calculated once here but not later.  */
-  fprintf(stderr, "corr initial\n");
-
-  current.dof = degrees_of_freedom(plist, N_plist, current.params);
-  current.chi2 = chi_square(plist, N_plist);
-
-  fprintf(stderr, "initial: chi2 = %le \n", current.chi2);
-
-  /* result output to */
-  char output_filename[256];
-  FILE *output_file;
-  snprintf(output_filename, 256, "%smcmc_result.dat", DATA_DIR);
-  output_file = fopen(output_filename, "a");
-
-
-  /* Markov chain loop */
-  efficiency_counter = 1;
-  for(i = 1; i < max_steps; i++){
-
-    /* update new positions in paramter space */
-    new.params = update_parameters(current.params);
-
-    /* recalculate weights */
-    set_weights(new.params, plist, N_plist);
-
-    /* recalculate correlation functions */
-    calculate_correlation(plist, N_plist);
-
-    /* get chi squares */
-    new.dof = degrees_of_freedom(plist, N_plist, new.params);
-
-    new.chi2 = chi_square(plist, N_plist);
-
-    delta_chi2 = new.chi2 - current.chi2;
-
-    if(delta_chi2 <= 0.0){
-      /* if delta chisquare is smaller then record*/
-      current = new;
-      efficiency_counter++;
+            p[i].weight[j] = (
+                ( sech2( p[i].Z[j] / 2.0 / params.thin_z0 )
+                    * exp( -p[i].R[j] / params.thin_r0 ) )
+                + params.ratio_thick_thin *
+                ( sech2( p[i].Z[j] / 2.0 / params.thick_z0 )
+                    * exp( -p[i].R[j] / params.thick_r0 ) ) );
+        }
     }
-    else{
-      /* if delta chisquare is bigger then use probability to decide */
-      /* !!! replace with GSL random generator later !!! */
-      double tmp = (double)rand() / (double)RAND_MAX; /* a random number in [0,1] */
-      if (tmp < exp(- delta_chi2 / 2.0)){
-	current = new;
-	efficiency_counter++;
-      }
-      else{
-	/* use the old position. */
-      }
+}
+
+/* ----------------------------------------------------------------------- */
+
+/* Determine normalization of MM counts */
+float normalize_MM(float *weight, int N_stars){
+
+    int i, j;
+    float norm = 0.0;
+
+    for(i = 0; i < N_stars; i++){
+
+        for(j = 0; j < N_stars; j++){
+
+            if(i == j) continue;
+
+            norm += weight[i] * weight[j];
+        }
+    }
+    norm /= 2.0;
+    return norm;
+}
+
+/* ----------------------------------------------------------------------- */
+
+/* Calculate normalized model pair counts MM for 1 bin */
+float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
+    float MM_norm, float *weight ){
+
+    unsigned int i;
+    float MM = 0.0;
+
+    for(i = 0; i < N_pairs; i++){
+
+        MM += weight[pair1[i]] * weight[pair2[i]];
+
     }
 
-    output_mcmc(i, current, output_file);
+    MM /= MM_norm;
 
-    if(i % 50 == 0){
-      fflush(output_file);
+    return MM;
+}
+
+/* ----------------------------------------------------------------------- */
+
+/* Calculate correlation (DD/MM) for each bin in each l.o.s. */
+void calculate_correlation(POINTING *p, int N_plist, int N_bins){
+
+    int i, j;
+    float MM_norm;
+
+    /* Loop over l.o.s. */
+    for(i = 0; i < N_plist; i++){
+
+        MM_norm = normalize_MM(p[i].weight, p[i].N_stars);
+
+        for(j = 0; j < N_bins; j++){
+
+            p[i].rbin[j].MM = calculate_MM( p[i].rbin[j].N_pairs,
+                p[i].rbin[j].pair1, p[i].rbin[j].pair2, MM_norm,
+                p[i].weight );
+
+            if( p[i].rbin[j].DD == 0.0 || p[i].rbin[j].MM == 0.0 ){
+                p[i].rbin[j].corr = 0.0;
+                continue;
+            }
+            p[i].rbin[j].corr = p[i].rbin[j].DD / p[i].rbin[j].MM;
+
+        }
+    }
+}
+
+/* ----------------------------------------------------------------------- */
+
+/* Calculate degrees of freedom */
+int degrees_of_freedom(POINTING *p, int N_plist, int N_bins ){
+    int dof = 0;
+    int i, j;
+
+    for(i = 0; i < N_plist; i++){
+
+        for(j = 0; j < N_bins; j++){
+
+            if( p[i].rbin[j].sigma2 == 0.0 ) continue;
+
+            dof++;
+        }
     }
 
-    efficiency = (float) efficiency_counter / i;
-    /* print out progress */
-    /* if(i % (max_steps / 100) == 0){ */
-    /*   fprintf(stderr, "MCMC... %d / %d: chi2 = %lf \n", i, max_steps, new.chi2); */
-    /* } */
-    fprintf(stderr, "MCMC... %d / %d: efficiency = %lf, delta_chi2 = %le \n",
-	    i, max_steps, efficiency, delta_chi2);
+    return dof;
+}
 
-    fprintf(stderr,
-	    "\t Trying: z0_thin = %lf, r0_thin = %lf, z0_thick = %lf, r0_thick = %lf, n0_thick = %lf \n",
-	    new.params.thindisk_z0, new.params.thindisk_r0,
-	    new.params.thickdisk_z0, new.params.thickdisk_r0, new.params.n0_ratio_thick_thin);
-    fprintf(stderr,
-	    "\t Current: delta_chi2 = %le, chi2 = %lf, dof = %lf, chi2_reduced = %lf \n\n",
-	    delta_chi2, new.chi2, new.dof, new.chi2/new.dof);
-
-  }
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* --------------------------  MCMC functions  --------------------------- */
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
 
 
-  fclose(output_file);
+STEP_DATA update_parameters(STEP_DATA p){
 
-  fprintf(stderr, "MCMC result output to %s\n", output_filename);
-  fprintf(stderr, "End MCMC calculation..\n");
+    float delta;
+
+    float thin_r0_sigma = 0.05;
+    float thin_z0_sigma = 0.005;
+    float thick_r0_sigma = 0.05;
+    float thick_z0_sigma = 0.005;
+    float ratio_thick_thin_sigma = 0.002;
+
+    const gsl_rng_type * GSL_T;
+    gsl_rng * GSL_r;
+
+    gsl_rng_env_setup();
+
+    GSL_T = gsl_rng_default;
+    GSL_r = gsl_rng_alloc(GSL_T);
+
+    gsl_rng_set(GSL_r, time(NULL));
+
+    /* change the position based on Gaussian distributions.  */
+    delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
+    p.thin_r0 += delta;
+
+    delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
+    p.thin_z0 += delta;
+
+    delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
+    p.thick_r0 += delta;
+
+    delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
+    p.thick_z0 += delta;
+
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
+        p.ratio_thick_thin += delta;
+        if(p.ratio_thick_thin < 1.0) break;
+    }
+
+    return p;
+}
+
+
+void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins){
+
+    int i;
+    // int eff_counter;
+    // float eff;
+    STEP_DATA current;
+    STEP_DATA new;
+    float delta_chi2;
+    int DOF;
+    float tmp;
+    int N_params = 5;
+
+    fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
+
+    /* set first element with initial parameters */
+    current = initial_step;
+
+    /* set initial weights of model points */
+    set_weights(current, plist, N_plist);
+    fprintf(stderr, "Initial weights set \n");
+
+    /* Calculate initial correlation value */
+    calculate_correlation(plist, N_plist, N_bins);
+
+    calculate_chi2(plist, &current, N_plist, N_bins);
+
+
+    /* Degrees of freedom never change -- calculate once */
+    DOF = degrees_of_freedom(plist, N_plist, N_bins);
+    DOF -= N_params;
+    current.chi2_reduced = current.chi2 / (float)DOF;
+
+    fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
+
+    fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
+
+    for( i = 0; i < max_steps; i++ ){
+
+        new = update_parameters(current);
+
+        set_weights(new, plist, N_plist);
+        calculate_correlation(plist, N_plist, N_bins);
+        calculate_chi2(plist, &new, N_plist, N_bins);
+        new.chi2_reduced = new.chi2 / (float)DOF;
+
+        delta_chi2 = new.chi2 - current.chi2;
+
+
+        if(delta_chi2 <= 0.0){
+            current = new;
+        }
+        else{
+            tmp = (float)rand() / (float)RAND_MAX;
+            if (tmp < exp( -delta_chi2 / 2.0 )){
+                current = new;
+            }
+            else{
+                /* use old positions */
+            }
+        }
+
+        fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+
+    }
+    fprintf(stderr, "End MCMC calculation.\n");
+}
+
+
+
+/* ----------------------------------------------------------------------- */
+
+
+/* Test loading of data */
+int main(int argc, char * argv[]){
+
+    if (argc!=1){
+        fprintf(stderr, "Usage: %s\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* -- Load data from various files --*/
+    int i, j;
+    int N_plist;
+    int N_bins = 12;
+    POINTING *plist;
+
+    load_pointingID(&N_plist, &plist);
+    load_ZRW(N_plist, plist);
+    load_rbins(N_plist, N_bins, plist);
+    load_pairs(N_plist, N_bins, plist);
+
+    /* Calculate fractional error in DD/MM */
+    /* This only needs to be done once because
+       I have a trick for using it */
+    calculate_frac_error(N_plist, N_bins, plist);
+
+    /* -- Initialize parameters --*/
+    STEP_DATA step_data;
+    load_step_data(&step_data);
+    int max_steps = 100;
+    run_mcmc(step_data, max_steps, N_plist, plist, N_bins);
+
+
+    /* Free allocated values */
+    for(i=0; i<N_plist; i++){
+        for(j=0; j<N_bins; j++){
+            free(plist[i].rbin[j].pair1);
+            free(plist[i].rbin[j].pair2);
+        }
+        free(plist[i].rbin);
+        free(plist[i].Z);
+        free(plist[i].R);
+        free(plist[i].weight);
+    }
+    free(plist);
+
+    return EXIT_SUCCESS;
 
 }
