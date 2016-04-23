@@ -604,6 +604,7 @@ int main(int argc, char * argv[]){
         free(plist[i].weight);
     }
     free(plist);
+    if(rank==0) fprintf(stderr, "Allocated space cleared. \n");
 
     MPI_Finalize();
 
