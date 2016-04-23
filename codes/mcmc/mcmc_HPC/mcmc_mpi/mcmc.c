@@ -461,7 +461,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     }
 
     /* set first element with initial parameters */
-    current = initial_step;
+    current = initial;
 
     /* set initial weights of model points */
     set_weights(current, plist, lower_ind, upper_ind);
@@ -479,7 +479,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     // fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
 
-    fprintf(stderr, "Rank %d says chi2 value for intital params is %f\n", current.chi2);
+    fprintf(stderr, "Rank %d says chi2 value for intital params is %f\n", rank, current.chi2);
 
     // for( i = 0; i < max_steps; i++ ){
     //     continue;
