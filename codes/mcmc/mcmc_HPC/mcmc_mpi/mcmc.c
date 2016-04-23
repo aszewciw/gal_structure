@@ -564,9 +564,9 @@ int main(int argc, char * argv[]){
     current_rank = 0;
     while ( current_rank < nprocs ){
         if (current_rank == rank) {
-            fprintf(stderr, "Rank %d will cover slices %d through %d \n",
+            fprintf(stderr, "Rank %d will cover pointings %d through but not including %d \n",
                 rank, lower_ind, upper_ind );
-            fprintf(stderr, "Number of slices is %d \n ", slice_length);
+            fprintf(stderr, "Number of pointings is %d \n ", slice_length);
         }
         MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
         current_rank++;
