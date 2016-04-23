@@ -139,11 +139,16 @@ def main():
     # R_THIN[0], Z_THIN[0], R_THICK[0], Z_THICK[0], A[0] = assign_params(
     #     r_thin, z_thin, r_thick, z_thick, a, init=1, N_std=0)
 
-    R_THIN  = 2.475508
-    Z_THIN  = 0.241209
-    R_THICK = 2.417346
-    Z_THICK = 0.694395
-    A       = 0.106672
+    # R_THIN  = 2.475508
+    # Z_THIN  = 0.241209
+    # R_THICK = 2.417346
+    # Z_THICK = 0.694395
+    # A       = 0.106672
+    R_THIN  = 3
+    Z_THIN  = 0.3
+    R_THICK = 4
+    Z_THICK = 1.2
+    A       = 0.1
 
 
 
