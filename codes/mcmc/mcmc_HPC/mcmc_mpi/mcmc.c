@@ -47,8 +47,6 @@ void load_pointingID(int *N_plist, POINTING **plist){
     *N_plist = N;
     *plist = p;
 
-    fprintf(stderr, "%d pointings to do.\n", N);
-
 }
 
 /* ----------------------------------------------------------------------- */
@@ -94,7 +92,7 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         plist[i].weight = W;
     }
 
-    fprintf(stderr, "Rank %d loaded model data loaded from %s\n", rank, ZRW_DIR);
+    if(rank==0) fprintf(stderr, "Model data loaded from %s\n", ZRW_DIR);
 }
 
 /* ----------------------------------------------------------------------- */
@@ -152,8 +150,10 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
         /* Assign values to plist elements */
         plist[i].rbin = b;
     }
-    fprintf(stderr, "Rank %d loaded DD counts from %s\n", rank, DD_DIR);
-    fprintf(stderr, "Rank %d loaded errors from %s\n", rank, ERR_DIR);
+    if(rank==0){
+        fprintf(stderr, "DD counts loaded from %s\n", DD_DIR);
+        fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
+    }
 }
 
 /* ----------------------------------------------------------------------- */
@@ -199,7 +199,7 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
         }
 
     }
-    fprintf(stderr, "Rank %d loaded pairs from %s\n", rank, PAIRS_DIR);
+    if(rank == 0)fprintf(stderr, "Pairs loaded from %s\n", PAIRS_DIR);
 
 }
 
@@ -213,8 +213,6 @@ void load_step_data(STEP_DATA *step_data){
     step_data->thick_r0 = 4.0;
     step_data->thick_z0 = 1.2;
     step_data->ratio_thick_thin = 0.1;
-
-    fprintf(stderr, "Default initial parameters set...\n");
 
 }
 
@@ -482,9 +480,10 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     DOF -= N_params;
     current.chi2_reduced = current.chi2 / (float)DOF;
 
-    fprintf(stderr, "Rank %d says degrees of freedom is: %d\n", rank, DOF);
-
-    fprintf(stderr, "Rank %d says chi2 value for intital params is %f\n", rank, current.chi2);
+    if(rank==0){
+        fprintf(stderr, "Degrees of freedom is: %d\n", DOF);
+        fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
+    }
 
     // for( i = 0; i < max_steps; i++ ){
     //     continue;
@@ -515,7 +514,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     //     fprintf(stderr, "Current chi2 is %f\n", current.chi2);
 
     // }
-    fprintf(stderr, "End MCMC calculation.\n");
+    if(rank==0)fprintf(stderr, "End MCMC calculation.\n");
 }
 
 
@@ -550,7 +549,8 @@ int main(int argc, char * argv[]){
     while ( current_rank < nprocs ){
         if (current_rank == rank) {
             load_pointingID(&N_plist, &plist);
-            fprintf(stderr, "Rank %d has loaded pointing IDs.\n", rank);
+            // fprintf(stderr, "Rank %d has loaded pointing IDs.\n", rank);
+            if(rank == 0) fprintf(stderr, "%d pointings to do\n", N_plist);
         }
         MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
         current_rank++;
@@ -570,16 +570,18 @@ int main(int argc, char * argv[]){
     else lower_ind += remain;
     upper_ind = lower_ind + slice_length;
 
-    current_rank = 0;
-    while ( current_rank < nprocs ){
-        if (current_rank == rank) {
-            fprintf(stderr, "Rank %d will cover pointings %d through but not including %d \n",
-                rank, lower_ind, upper_ind );
-            fprintf(stderr, "Number of pointings is %d \n ", slice_length);
-        }
-        MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
-        current_rank++;
-    }
+    /* Use these lines to verify correctness of slicing */
+
+    // current_rank = 0;
+    // while ( current_rank < nprocs ){
+    //     if (current_rank == rank) {
+    //         fprintf(stderr, "Rank %d will cover pointings %d through but not including %d \n",
+    //             rank, lower_ind, upper_ind );
+    //         fprintf(stderr, "Number of pointings is %d \n ", slice_length);
+    //     }
+    //     MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
+    //     current_rank++;
+    // }
 
     load_ZRW(plist, lower_ind, upper_ind, rank);
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
@@ -594,6 +596,7 @@ int main(int argc, char * argv[]){
     // /* -- Initialize parameters --*/
     STEP_DATA initial;
     load_step_data(&initial);
+    if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
     int max_steps = 100;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind, rank);
 
