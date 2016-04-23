@@ -231,11 +231,11 @@ void load_step_data(STEP_DATA *step_data){
 /* ----------------------------------------------------------------------- */
 
 /* Multiply this by DD/MM**2 to get sigma2 */
-void calculate_frac_error(int N_plist, int N_bins, POINTING *p){
+void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
 
-    for(i = 0; i < N_plist; i++){
+    for(i = lower_ind; i < upper_ind; i++){
 
         for(j = 0; j < N_bins; j++){
 
@@ -248,12 +248,13 @@ void calculate_frac_error(int N_plist, int N_bins, POINTING *p){
 
 /* ----------------------------------------------------------------------- */
 
-void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins ){
+void calculate_chi2(POINTING *p, STEP_DATA *step, int N_bins, int lower_ind,
+  int upper_ind){
 
     int i, j;
     step->chi2 = 0.0;
 
-    for(i = 0; i < N_plist; i++){
+    for(i = lower_ind; i < upper_ind; i++){
 
         for(j = 0; j < N_bins; j++){
 
@@ -264,7 +265,6 @@ void calculate_chi2( POINTING *p, STEP_DATA *step, int N_plist, int N_bins ){
 
             step->chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
                 / p[i].rbin[j].sigma2 );
-
         }
     }
 }
@@ -284,11 +284,11 @@ float sech2(float x){
 
 
 /* Set weights for all model points based on disk parameters */
-void set_weights(STEP_DATA params, POINTING *p, int N_plist){
+void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
 
     int i, j;
 
-    for(i = 0; i < N_plist; i++){
+    for(i = lower_ind; i < upper_ind; i++){
 
         for(j = 0; j < p[i].N_stars; j++){
 
@@ -346,13 +346,13 @@ float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
 /* ----------------------------------------------------------------------- */
 
 /* Calculate correlation (DD/MM) for each bin in each l.o.s. */
-void calculate_correlation(POINTING *p, int N_plist, int N_bins){
+void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
     float MM_norm;
 
     /* Loop over l.o.s. */
-    for(i = 0; i < N_plist; i++){
+    for(i = lower_ind; i < upper_ind; i++){
 
         MM_norm = normalize_MM(p[i].weight, p[i].N_stars);
 
@@ -375,11 +375,11 @@ void calculate_correlation(POINTING *p, int N_plist, int N_bins){
 /* ----------------------------------------------------------------------- */
 
 /* Calculate degrees of freedom */
-int degrees_of_freedom(POINTING *p, int N_plist, int N_bins ){
+int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     int dof = 0;
     int i, j;
 
-    for(i = 0; i < N_plist; i++){
+    for(i = lower_ind; i < upper_ind; i++){
 
         for(j = 0; j < N_bins; j++){
 
@@ -443,8 +443,9 @@ STEP_DATA update_parameters(STEP_DATA p){
 
 /* ----------------------------------------------------------------------- */
 
-void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins){
-
+void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
+    int lower_ind, int upper_ind, int rank)
+{
     int i;
     // int eff_counter;
     // float eff;
@@ -455,58 +456,60 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
     float tmp;
     int N_params = 5;
 
-    fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
+    if (rank == 0){
+        fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
+    }
 
     /* set first element with initial parameters */
     current = initial_step;
 
     /* set initial weights of model points */
-    set_weights(current, plist, N_plist);
-    fprintf(stderr, "Initial weights set \n");
+    set_weights(current, plist, lower_ind, upper_ind);
+    fprintf(stderr, "Rank %d: Initial weights set \n", rank);
 
     /* Calculate initial correlation value */
-    calculate_correlation(plist, N_plist, N_bins);
-
-    calculate_chi2(plist, &current, N_plist, N_bins);
-
-
+    calculate_correlation(plist, N_bins, lower_ind, upper_ind);
+    calculate_chi2(plist, &current, N_bins, lower_ind, upper_ind);
+    float chi2_temp = 0.0;
+    MPI_Allreduce(&current.chi2, &chi2_temp, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
+    current.chi2 = chi2_temp;
     /* Degrees of freedom never change -- calculate once */
-    DOF = degrees_of_freedom(plist, N_plist, N_bins);
-    DOF -= N_params;
-    current.chi2_reduced = current.chi2 / (float)DOF;
+    // DOF = degrees_of_freedom(plist, N_plist, N_bins);
+    // current.chi2_reduced = current.chi2 / (float)DOF;
 
-    fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
+    // fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
 
-    fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
+    fprintf(stderr, "Rank %d says chi2 value for intital params is %f\n", current.chi2);
 
-    for( i = 0; i < max_steps; i++ ){
+    // for( i = 0; i < max_steps; i++ ){
+    //     continue;
 
-        new = update_parameters(current);
+    //     new = update_parameters(current);
 
-        set_weights(new, plist, N_plist);
-        calculate_correlation(plist, N_plist, N_bins);
-        calculate_chi2(plist, &new, N_plist, N_bins);
-        new.chi2_reduced = new.chi2 / (float)DOF;
+    //     set_weights(new, plist, N_plist);
+    //     calculate_correlation(plist, N_plist, N_bins);
+    //     calculate_chi2(plist, &new, N_plist, N_bins);
+    //     new.chi2_reduced = new.chi2 / (float)DOF;
 
-        delta_chi2 = new.chi2 - current.chi2;
+    //     delta_chi2 = new.chi2 - current.chi2;
 
 
-        if(delta_chi2 <= 0.0){
-            current = new;
-        }
-        else{
-            tmp = (float)rand() / (float)RAND_MAX;
-            if (tmp < exp( -delta_chi2 / 2.0 )){
-                current = new;
-            }
-            else{
-                /* use old positions */
-            }
-        }
+    //     if(delta_chi2 <= 0.0){
+    //         current = new;
+    //     }
+    //     else{
+    //         tmp = (float)rand() / (float)RAND_MAX;
+    //         if (tmp < exp( -delta_chi2 / 2.0 )){
+    //             current = new;
+    //         }
+    //         else{
+    //             /* use old positions */
+    //         }
+    //     }
 
-        fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+    //     fprintf(stderr, "Current chi2 is %f\n", current.chi2);
 
-    }
+    // }
     fprintf(stderr, "End MCMC calculation.\n");
 }
 
@@ -573,37 +576,33 @@ int main(int argc, char * argv[]){
         current_rank++;
     }
 
-    // load_ZRW(N_plist, plist, lower_ind, upper_ind);
-    // load_rbins(N_plist, N_bins, plist, lower_ind, upper_ind);
-    // load_pairs(N_plist, N_bins, plist, lower_ind, upper_ind);
     load_ZRW(plist, lower_ind, upper_ind, rank);
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
-    MPI_Barrier(MPI_COMM_WORLD);
+    // MPI_Barrier(MPI_COMM_WORLD);
 
-    // /* Calculate fractional error in DD/MM */
-    // /* This only needs to be done once because
-    //    I have a trick for using it */
-    // calculate_frac_error(N_plist, N_bins, plist);
+    /* Calculate fractional error in DD/MM */
+    /* This only needs to be done once because
+       I have a trick for using it */
+    calculate_frac_error(plist, N_bins, lower_ind, upper_ind);
 
     // /* -- Initialize parameters --*/
-    // STEP_DATA step_data;
-    // load_step_data(&step_data);
-    // int max_steps = 100;
-    // run_mcmc(step_data, max_steps, N_plist, plist, N_bins);
+    STEP_DATA initial;
+    load_step_data(&initial);
+    int max_steps = 100;
+    run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind, rank);
 
-
-    // /* Free allocated values */
-    // for(i=0; i<N_plist; i++){
-    //     for(j=0; j<N_bins; j++){
-    //         free(plist[i].rbin[j].pair1);
-    //         free(plist[i].rbin[j].pair2);
-    //     }
-    //     free(plist[i].rbin);
-    //     free(plist[i].Z);
-    //     free(plist[i].R);
-    //     free(plist[i].weight);
-    // }
+    /* Free allocated values */
+    for(i=lower_ind; i<upper_ind; i++){
+        for(j=0; j<N_bins; j++){
+            free(plist[i].rbin[j].pair1);
+            free(plist[i].rbin[j].pair2);
+        }
+        free(plist[i].rbin);
+        free(plist[i].Z);
+        free(plist[i].R);
+        free(plist[i].weight);
+    }
     free(plist);
 
     MPI_Finalize();
