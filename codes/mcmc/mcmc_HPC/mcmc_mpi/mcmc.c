@@ -29,7 +29,7 @@ void load_pointingID(int *N_plist, POINTING **plist){
         exit(EXIT_FAILURE);
     }
 
-    fprintf(stderr, "Read pointing list from %s \n", plist_filename);
+    // fprintf(stderr, "Read pointing list from %s \n", plist_filename);
 
     fscanf(plist_file, "%d", &N); //length of list
 
@@ -466,7 +466,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     /* set initial weights of model points */
     set_weights(current, plist, lower_ind, upper_ind);
-    fprintf(stderr, "Rank %d: Initial weights set \n", rank);
+    if(rank==0) fprintf(stderr, "Initial weights set \n");
 
     /* Calculate initial correlation value */
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
