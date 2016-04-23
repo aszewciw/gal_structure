@@ -1,5 +1,5 @@
-CC=gcc
-CFLAGS= -Wall
+CC=icc
+CFLAGS=-Wall -xHost -O3 -vec_report2
 LINKFLAGS= -lgsl -lgslcblas
 
 mcmc: mcmc.c
