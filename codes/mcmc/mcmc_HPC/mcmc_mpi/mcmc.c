@@ -248,11 +248,10 @@ void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind)
 
 /* ----------------------------------------------------------------------- */
 
-void calculate_chi2(POINTING *p, STEP_DATA *step, int N_bins, int lower_ind,
-  int upper_ind){
+float calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    step->chi2 = 0.0;
+    float chi2 = 0.0;
 
     for(i = lower_ind; i < upper_ind; i++){
 
@@ -263,10 +262,12 @@ void calculate_chi2(POINTING *p, STEP_DATA *step, int N_bins, int lower_ind,
 
             if( p[i].rbin[j].sigma2 == 0.0 ) continue;
 
-            step->chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
+            chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
                 / p[i].rbin[j].sigma2 );
         }
     }
+
+    return chi2;
 }
 
 
@@ -452,9 +453,11 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     STEP_DATA current;
     STEP_DATA new;
     float delta_chi2;
-    int DOF;
+    int DOF = 0;
+    int DOF_proc;
     float tmp;
     int N_params = 5;
+    float chi2 = 0.0;
 
     if (rank == 0){
         fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
@@ -469,15 +472,17 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     /* Calculate initial correlation value */
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
-    calculate_chi2(plist, &current, N_bins, lower_ind, upper_ind);
+    chi2 = calculate_chi2(plist, &current, N_bins, lower_ind, upper_ind);
     float chi2_temp = 0.0;
-    MPI_Allreduce(&current.chi2, &chi2_temp, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
-    current.chi2 = chi2_temp;
-    /* Degrees of freedom never change -- calculate once */
-    // DOF = degrees_of_freedom(plist, N_plist, N_bins);
-    // current.chi2_reduced = current.chi2 / (float)DOF;
+    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
 
-    // fprintf(stderr, "Degrees of freedom is: %d\n", DOF );
+    /* Degrees of freedom never change -- calculate once */
+    DOF_proc = degrees_of_freedom(plist, N_bins, lower_ind, upper_ind);
+    MPI_Allreduce(&DOF_proc, &DOF, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
+    DOF -= N_params;
+    current.chi2_reduced = current.chi2 / (float)DOF;
+
+    fprintf(stderr, "Rank %d says degrees of freedom is: %d\n", DOF);
 
     fprintf(stderr, "Rank %d says chi2 value for intital params is %f\n", rank, current.chi2);
 

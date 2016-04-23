@@ -63,8 +63,7 @@ void load_step_data(STEP_DATA *step_data);
 
 /* Error functions */
 void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind);
-void calculate_chi2(POINTING *p, STEP_DATA *step, int N_bins, int lower_ind,
-  int upper_ind);
+float calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 
 /* MCMC functions */
 void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind);
