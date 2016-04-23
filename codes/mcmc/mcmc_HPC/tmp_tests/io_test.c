@@ -439,8 +439,8 @@ STEP_DATA update_parameters(STEP_DATA p){
 
     while(1){
         delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
-        p.ratio_thick_thin_sigma += delta;
-        if(p.ratio_thick_thin_sigma < 1.0) break;
+        p.ratio_thick_thin += delta;
+        if(p.ratio_thick_thin < 1.0) break;
     }
 
     return p;
