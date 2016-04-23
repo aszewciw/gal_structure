@@ -206,17 +206,11 @@ void load_pairs(int N_plist, int N_bins, POINTING *plist){
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data){
 
-    // step_data->N_params = 5;
-    // step_data->thin_r0 = 3.0;
-    // step_data->thin_z0 = 0.3;
-    // step_data->thick_r0 = 4.0;
-    // step_data->thin_z0 = 1.2;
-    // step_data->ratio_thick_thin = 0.1;
-    step_data->thin_r0 = 2.475508;
-    step_data->thin_z0 = 0.241209;
-    step_data->thick_r0 = 2.417346;
-    step_data->thick_z0 = 0.694395;
-    step_data->ratio_thick_thin = 0.106672;
+    step_data->thin_r0 = 3.0;
+    step_data->thin_z0 = 0.3;
+    step_data->thick_r0 = 4.0;
+    step_data->thin_z0 = 1.2;
+    step_data->ratio_thick_thin = 0.1;
 
     fprintf(stderr, "Default initial parameters set...\n");
 
@@ -483,34 +477,34 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
 
     fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
 
-    // for( i = 0; i < max_steps; i++ ){
+    for( i = 0; i < max_steps; i++ ){
 
-    //     new = update_parameters(current);
+        new = update_parameters(current);
 
-    //     set_weights(new, plist, N_plist);
-    //     calculate_correlation(plist, N_plist, N_bins);
-    //     calculate_chi2(plist, &new, N_plist, N_bins);
-    //     new.chi2_reduced = new.chi2 / (float)DOF;
+        set_weights(new, plist, N_plist);
+        calculate_correlation(plist, N_plist, N_bins);
+        calculate_chi2(plist, &new, N_plist, N_bins);
+        new.chi2_reduced = new.chi2 / (float)DOF;
 
-    //     delta_chi2 = new.chi2 - current.chi2;
+        delta_chi2 = new.chi2 - current.chi2;
 
 
-    //     if(delta_chi2 <= 0.0){
-    //         current = new;
-    //     }
-    //     else{
-    //         tmp = (float)rand() / (float)RAND_MAX;
-    //         if (tmp < exp( -delta_chi2 / 2.0 )){
-    //             current = new;
-    //         }
-    //         else{
-    //             /* use old positions */
-    //         }
-    //     }
+        if(delta_chi2 <= 0.0){
+            current = new;
+        }
+        else{
+            tmp = (float)rand() / (float)RAND_MAX;
+            if (tmp < exp( -delta_chi2 / 2.0 )){
+                current = new;
+            }
+            else{
+                /* use old positions */
+            }
+        }
 
-    //     // fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+        fprintf(stderr, "Current chi2 is %f\n", current.chi2);
 
-    // }
+    }
     fprintf(stderr, "End MCMC calculation.\n");
 }
 
