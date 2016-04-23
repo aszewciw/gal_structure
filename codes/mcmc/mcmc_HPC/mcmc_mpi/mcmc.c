@@ -541,11 +541,37 @@ int main(int argc, char * argv[]){
     while ( current_rank < nprocs ){
         if (current_rank == rank) {
             load_pointingID(&N_plist, &plist);
-            fprintf(stderr, "Rand %d has loaded pointing IDs.\n", rank);
+            fprintf(stderr, "Rank %d has loaded pointing IDs.\n", rank);
         }
         current_rank++;
         MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
     }
+
+    /* Establish slice of pointings for each process to handle */
+    int slice_length;
+    int remain = N_plist % nprocs;
+    int lower_ind, upper_ind;
+
+    slice_length = N_plist / nprocs;
+    lower_ind = rank * slice_length;
+    if (rank < remain){
+        lower_ind += rank;
+        slice_length++;
+    }
+    else lower_ind += remain;
+    upper_ind = lower_ind + slice_length;
+
+    current_rank = 0;
+    while ( current_rank < nprocs ){
+        if (current_rank == rank) {
+            fprintf(stderr, "Rank %d will cover slices %d through %d \n",
+                rank, lower_ind, upper_ind );
+            fprintf(stderr, "Number of slices is %d \n ", slice_length);
+        }
+        current_rank++;
+        MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
+    }
+
     // load_ZRW(N_plist, plist);
     // load_rbins(N_plist, N_bins, plist);
     // load_pairs(N_plist, N_bins, plist);
