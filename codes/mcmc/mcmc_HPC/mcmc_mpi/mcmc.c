@@ -499,10 +499,12 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     /* Calculate initial correlation value */
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
+    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Allreduce(&chi2, &current.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
 
     /* Degrees of freedom never change -- calculate once */
     DOF_proc = degrees_of_freedom(plist, N_bins, lower_ind, upper_ind);
+    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Allreduce(&DOF_proc, &DOF, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
     DOF -= N_params;
     current.chi2_reduced = current.chi2 / (float)DOF;
