@@ -500,7 +500,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_double, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
     /* Degrees of freedom never change -- calculate once */
     DOF_proc = degrees_of_freedom(plist, N_bins, lower_ind, upper_ind);
@@ -517,7 +517,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     /* Define MPI type to be communicated */
     MPI_Datatype MPI_STEP;
-    MPI_Datatype type[7] = { MPI_double, MPI_double, MPI_double, MPI_double, MPI_double, MPI_double, MPI_double };
+    MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
     int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
     MPI_Aint disp[7];
     disp[0] = offsetof( STEP_DATA, thin_r0 );
@@ -558,7 +558,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
         MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_double, MPI_SUM, MPI_COMM_WORLD);
+        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (double)DOF;
 
         /* If new chi2 is better, accept step.
