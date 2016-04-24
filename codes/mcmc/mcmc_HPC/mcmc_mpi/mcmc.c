@@ -402,18 +402,18 @@ STEP_DATA update_parameters(STEP_DATA p){
 
     float delta;
 
-    // float thin_r0_sigma = 0.05;
-    // float thin_z0_sigma = 0.005;
-    // float thick_r0_sigma = 0.05;
-    // float thick_z0_sigma = 0.005;
-    // float ratio_thick_thin_sigma = 0.002;
+    float thin_r0_sigma = 0.05;
+    float thin_z0_sigma = 0.005;
+    float thick_r0_sigma = 0.05;
+    float thick_z0_sigma = 0.005;
+    float ratio_thick_thin_sigma = 0.002;
 
     /* "Known" variation from Mao et al. */
-    float thin_r0_sigma = 0.48;
-    float thin_z0_sigma = 0.007;
-    float thick_r0_sigma = 0.19;
-    float thick_z0_sigma = 0.016;
-    float ratio_thick_thin_sigma = 0.005;
+    // float thin_r0_sigma = 0.48;
+    // float thin_z0_sigma = 0.007;
+    // float thick_r0_sigma = 0.19;
+    // float thick_z0_sigma = 0.016;
+    // float ratio_thick_thin_sigma = 0.005;
 
     const gsl_rng_type * GSL_T;
     gsl_rng * GSL_r;
