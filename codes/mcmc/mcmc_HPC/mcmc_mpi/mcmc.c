@@ -435,26 +435,22 @@ STEP_DATA update_parameters(STEP_DATA p){
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
     p_new.thin_r0 = p.thin_r0 + delta;
-    fprintf(stderr, "Delta is %lf\n", delta);
+    fprintf(stderr, "Thin_r0 change is %lf\n", delta);
 
     delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
     p_new.thin_z0 = p.thin_z0 + delta;
-    fprintf(stderr, "Delta is %lf\n", delta);
 
     delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
     p_new.thick_r0 = p.thick_r0 + delta;
-    fprintf(stderr, "Delta is %lf\n", delta);
 
     delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
     p_new.thick_z0 = p.thick_z0 + delta;
-    fprintf(stderr, "Delta is %lf\n", delta);
 
     while(1){
         delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
         p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
         if(p_new.ratio_thick_thin < 1.0) break;
     }
-    fprintf(stderr, "Delta is %lf\n", delta);
 
 
     /* Initialize chi2 values to 0 instead of nonsense */
@@ -551,10 +547,14 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Have only step 0 take random walk and send new params to all procs */
 
-        if(rank==0){
+        if(rank==0 && i!=0){
+            fprintf(stderr, "Before update: \n");
+            fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
+            fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
             new = update_parameters(current);
-            // fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
-            // fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
+            fprintf(stderr, "After update: \n");
+            fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
+            fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
