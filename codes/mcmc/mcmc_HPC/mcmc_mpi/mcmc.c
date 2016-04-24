@@ -409,18 +409,18 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     double delta;
     STEP_DATA p_new;
 
-    // double thin_r0_sigma = 0.05;
-    // double thin_z0_sigma = 0.005;
-    // double thick_r0_sigma = 0.05;
-    // double thick_z0_sigma = 0.005;
-    // double ratio_thick_thin_sigma = 0.002;
+    double thin_r0_sigma = 0.05;
+    double thin_z0_sigma = 0.005;
+    double thick_r0_sigma = 0.05;
+    double thick_z0_sigma = 0.005;
+    double ratio_thick_thin_sigma = 0.002;
 
     /* "Known" variation from Mao et al. */
-    double thin_r0_sigma = 0.48;
-    double thin_z0_sigma = 0.007;
-    double thick_r0_sigma = 0.19;
-    double thick_z0_sigma = 0.016;
-    double ratio_thick_thin_sigma = 0.005;
+    // double thin_r0_sigma = 0.48;
+    // double thin_z0_sigma = 0.007;
+    // double thick_r0_sigma = 0.19;
+    // double thick_z0_sigma = 0.016;
+    // double ratio_thick_thin_sigma = 0.005;
 
     // const gsl_rng_type * GSL_T;
     // gsl_rng * GSL_r;
@@ -687,7 +687,7 @@ int main(int argc, char * argv[]){
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 1000;
+    int max_steps = 10000;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 
