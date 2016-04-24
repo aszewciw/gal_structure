@@ -526,13 +526,13 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     MPI_Type_commit(&MPI_STEP);
 
     /* result output to */
-    char output_filename[256];
-    FILE *output_file;
-    snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+    // char output_filename[256];
+    // FILE *output_file;
+    // snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
 
-    if(rank==0){
-        output_file = fopen(output_filename, "a");
-    }
+    // if(rank==0){
+    //     output_file = fopen(output_filename, "a");
+    // }
 
 
     for( i = 0; i < max_steps; i++ ){
@@ -570,14 +570,14 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                 }
             }
             fprintf(stderr, "On step %d, chi2 is %f\n", i, current.chi2);
-            output_mcmc(i, current, output_file);
-            if(i % 50 == 0) fflush(output_file);
+            // output_mcmc(i, current, output_file);
+            // if(i % 50 == 0) fflush(output_file);
 
         }
 
     }
     if(rank==0){
-        fclose(output_file);
+        // fclose(output_file);
         fprintf(stderr, "End MCMC calculation.\n");
     }
 
