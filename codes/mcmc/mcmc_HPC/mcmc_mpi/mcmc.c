@@ -558,16 +558,16 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         /* Have only step 0 take random walk and send new params to all procs */
 
         if(rank==0 && i!=0){
-            fprintf(stderr, "Before update: \n");
-            fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
-            fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
+            // fprintf(stderr, "Before update: \n");
+            // fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
+            // fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
             new = update_parameters(current, GSL_r);
-            fprintf(stderr, "After update: \n");
-            fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
-            fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
+            // fprintf(stderr, "After update: \n");
+            // fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
+            // fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
         }
 
-        MPI_Barrier(MPI_COMM_WORLD);
+        // MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
         /* Set weights from new parameters */
@@ -576,7 +576,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
-        MPI_Barrier(MPI_COMM_WORLD);
+        // MPI_Barrier(MPI_COMM_WORLD);
         MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (double)DOF;
 
@@ -603,11 +603,11 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                     /* use old positions */
                 }
             }
-            // fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
+            fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
             // output_mcmc(i, current, output_file);
             // if(i % 50 == 0) fflush(output_file);
         }
-        MPI_Barrier(MPI_COMM_WORLD);
+        // MPI_Barrier(MPI_COMM_WORLD);
 
     }
     if(rank==0){
