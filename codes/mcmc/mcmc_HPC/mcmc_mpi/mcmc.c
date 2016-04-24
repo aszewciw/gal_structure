@@ -435,7 +435,6 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
     p_new.thin_r0 = p.thin_r0 + delta;
-    fprintf(stderr, "Thin_r0 change is %lf\n", delta);
 
     delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
     p_new.thin_z0 = p.thin_z0 + delta;
