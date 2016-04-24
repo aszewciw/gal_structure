@@ -532,22 +532,25 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* If new chi2 is better, accept step.
            If not, decide to accept/reject with some probability */
-        delta_chi2 = new.chi2 - current.chi2;
+        /* Only rank 0 needs to do this */
 
-        if(delta_chi2 <= 0.0){
-            current = new;
-        }
-        else{
-            tmp = (float)rand() / (float)RAND_MAX;
-            if (tmp < exp( -delta_chi2 / 2.0 )){
+        if(rank == 0){
+            delta_chi2 = new.chi2 - current.chi2;
+
+            if(delta_chi2 <= 0.0){
                 current = new;
             }
             else{
-                /* use old positions */
+                tmp = (float)rand() / (float)RAND_MAX;
+                if (tmp < exp( -delta_chi2 / 2.0 )){
+                    current = new;
+                }
+                else{
+                    /* use old positions */
+                }
             }
+            fprintf(stderr, "Current chi2 is %f\n", current.chi2);
         }
-
-        if(rank==0)fprintf(stderr, "Current chi2 is %f\n", current.chi2);
 
     }
     if(rank==0)fprintf(stderr, "End MCMC calculation.\n");
