@@ -407,6 +407,7 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 STEP_DATA update_parameters(STEP_DATA p){
 
     double delta;
+    STEP_DATA p_new;
 
     // double thin_r0_sigma = 0.05;
     // double thin_z0_sigma = 0.005;
@@ -433,29 +434,29 @@ STEP_DATA update_parameters(STEP_DATA p){
 
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
-    p.thin_r0 += delta;
+    p_new.thin_r0 = p.thin_r0 + delta;
 
     delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
-    p.thin_z0 += delta;
+    p_new.thin_z0 = p.thin_z0 + delta;
 
     delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
-    p.thick_r0 += delta;
+    p_new.thick_r0 = p.thick_r0 + delta;
 
     delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
-    p.thick_z0 += delta;
+    p_new.thick_z0 = p.thick_z0 + delta;
 
     while(1){
         delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
-        p.ratio_thick_thin += delta;
-        if(p.ratio_thick_thin < 1.0) break;
+        p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
+        if(p_new.ratio_thick_thin < 1.0) break;
     }
 
 
     /* Initialize chi2 values to 0 instead of nonsense */
-    p.chi2 = 0.0;
-    p.chi2_reduced = 0.0;
+    p_new.chi2 = 0.0;
+    p_new.chi2_reduced = 0.0;
 
-    return p;
+    return p_new;
 }
 
 /* ----------------------------------------------------------------------- */
@@ -544,7 +545,13 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     for( i = 0; i < max_steps; i++ ){
 
         /* Have only step 0 take random walk and send new params to all procs */
-        if(rank==0) new = update_parameters(current);
+
+        if(rank==0){
+            new = update_parameters(current);
+            fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
+            fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
+        }
+
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
@@ -563,7 +570,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         /* Only rank 0 needs to do this */
 
         if(rank == 0){
-            fprintf(stderr, "Checking chi2 of %lf\n", new.chi2);
+            // fprintf(stderr, "Checking chi2 of %lf\n", new.chi2);
 
             delta_chi2 = new.chi2 - current.chi2;
 
@@ -581,7 +588,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                     /* use old positions */
                 }
             }
-            fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
+            // fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
             // output_mcmc(i, current, output_file);
             // if(i % 50 == 0) fflush(output_file);
         }
