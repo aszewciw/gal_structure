@@ -570,7 +570,7 @@ int main(int argc, char * argv[]){
     /* -- Initialize parameters --*/
     STEP_DATA step_data;
     load_step_data(&step_data);
-    int max_steps = 100;
+    int max_steps = 10000;
     run_mcmc(step_data, max_steps, N_plist, plist, N_bins);
 
 
