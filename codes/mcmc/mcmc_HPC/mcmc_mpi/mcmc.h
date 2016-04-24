@@ -10,8 +10,6 @@
 #include <mpi.h>
 
 /* Set the value of pi */
-#define PI 3.14159265358979323846
-
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/dd/"
 #define ERR_DIR "../data/errors/"
