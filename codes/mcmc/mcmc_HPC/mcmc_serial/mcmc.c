@@ -528,7 +528,7 @@ void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plis
             }
         }
 
-        fprintf(stderr, "Current chi2 is %lf\n", current.chi2);
+        fprintf(stderr, "On step %d, chi2 is %lf\n", i, current.chi2);
         // output_mcmc(i, current, output_file);
         // if(i % 50 == 0) fflush(output_file);
 
