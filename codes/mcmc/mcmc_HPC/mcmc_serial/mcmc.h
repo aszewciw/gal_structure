@@ -3,6 +3,9 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <gsl/gsl_integration.h>
 
 
 /* Set the value of pi */
