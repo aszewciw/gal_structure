@@ -510,37 +510,22 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     for( i = 0; i < max_steps; i++ ){
 
+        /* Have only step 0 take random walk and send new params to all procs */
         if(rank==0) new = update_parameters(current);
-
-        /* I think all procs will wait here until 0 does bcast
-           so no barrier should be needed */
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
-
-        current_rank = 0;
-        while ( current_rank < nprocs ){
-            if (current_rank == rank) {
-                fprintf(stderr, "Results from rank %d \n", rank);
-                fprintf(stderr, "Thin r0 is %f\n", new.thin_r0);
-                fprintf(stderr, "Thin z0 is %f\n", new.thin_z0);
-                fprintf(stderr, "Thick r0 is %f\n", new.thick_r0);
-                fprintf(stderr, "Thick z0 is %f\n", new.thick_z0);
-                fprintf(stderr, "Ratio is %f\n", new.ratio_thick_thin);
-                fprintf(stderr, "Chi2 is %f\n", new.chi2);
-                fprintf(stderr, "Thin r0 is %f\n", new.chi2_reduced);
-            }
-            MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
-            current_rank++;
-        }
-
+        /* Set weights from new parameters */
         set_weights(new, plist, lower_ind, upper_ind);
         calculate_correlation(plist, N_bins, lower_ind, upper_ind);
+
+        /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
         MPI_Allreduce(&chi2, &new.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (float)DOF;
 
+        /* If new chi2 is better, accept step.
+           If not, decide to accept/reject with some probability */
         delta_chi2 = new.chi2 - current.chi2;
-
 
         if(delta_chi2 <= 0.0){
             current = new;
@@ -614,19 +599,6 @@ int main(int argc, char * argv[]){
     else lower_ind += remain;
     upper_ind = lower_ind + slice_length;
 
-    /* Use these lines to verify correctness of slicing */
-
-    // current_rank = 0;
-    // while ( current_rank < nprocs ){
-    //     if (current_rank == rank) {
-    //         fprintf(stderr, "Rank %d will cover pointings %d through but not including %d \n",
-    //             rank, lower_ind, upper_ind );
-    //         fprintf(stderr, "Number of pointings is %d \n ", slice_length);
-    //     }
-    //     MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
-    //     current_rank++;
-    // }
-
     load_ZRW(plist, lower_ind, upper_ind, rank);
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
@@ -642,7 +614,7 @@ int main(int argc, char * argv[]){
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 2;
+    int max_steps = 1000;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 
