@@ -1,9 +1,9 @@
 #include "mcmc.h"
 
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_integration.h>
-#include <mpi.h>
+// #include <gsl/gsl_rng.h>
+// #include <gsl/gsl_randist.h>
+// #include <gsl/gsl_integration.h>
+// #include <mpi.h>
 
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
@@ -404,7 +404,7 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 /* ----------------------------------------------------------------------- */
 
 
-STEP_DATA update_parameters(STEP_DATA p){
+STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 
     double delta;
     STEP_DATA p_new;
@@ -422,15 +422,15 @@ STEP_DATA update_parameters(STEP_DATA p){
     double thick_z0_sigma = 0.016;
     double ratio_thick_thin_sigma = 0.005;
 
-    const gsl_rng_type * GSL_T;
-    gsl_rng * GSL_r;
+    // const gsl_rng_type * GSL_T;
+    // gsl_rng * GSL_r;
 
-    gsl_rng_env_setup();
+    // gsl_rng_env_setup();
 
-    GSL_T = gsl_rng_default;
-    GSL_r = gsl_rng_alloc(GSL_T);
+    // GSL_T = gsl_rng_default;
+    // GSL_r = gsl_rng_alloc(GSL_T);
 
-    gsl_rng_set(GSL_r, time(NULL));
+    // gsl_rng_set(GSL_r, time(NULL));
 
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
@@ -542,6 +542,18 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     //     output_file = fopen(output_filename, "a");
     // }
 
+    if(rank==0){
+        const gsl_rng_type * GSL_T;
+        gsl_rng * GSL_r;
+
+        gsl_rng_env_setup();
+
+        GSL_T = gsl_rng_default;
+        GSL_r = gsl_rng_alloc(GSL_T);
+
+        gsl_rng_set(GSL_r, time(NULL));
+    }
+
 
     for( i = 0; i < max_steps; i++ ){
 
@@ -551,7 +563,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
             fprintf(stderr, "Before update: \n");
             fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
             fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
-            new = update_parameters(current);
+            new = update_parameters(current, GSL_r);
             fprintf(stderr, "After update: \n");
             fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
             fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);

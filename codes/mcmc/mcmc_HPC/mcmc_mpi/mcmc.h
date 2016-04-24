@@ -4,7 +4,10 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
-
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <gsl/gsl_integration.h>
+#include <mpi.h>
 
 /* Set the value of pi */
 #define PI 3.14159265358979323846
@@ -72,7 +75,7 @@ double normalize_MM(double *weight, int N_stars);
 double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm, double *weight );
 void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
-STEP_DATA update_parameters(STEP_DATA p);
+STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
