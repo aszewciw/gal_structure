@@ -576,7 +576,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     }
     if(rank==0){
-        fclose(ouput_file);
+        fclose(output_file);
         fprintf(stderr, "End MCMC calculation.\n");
     }
 
