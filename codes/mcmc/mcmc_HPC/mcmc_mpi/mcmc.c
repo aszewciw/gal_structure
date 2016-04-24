@@ -542,6 +542,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
 
     for( i = 0; i < max_steps; i++ ){
+        continue;
 
         /* Have only step 0 take random walk and send new params to all procs */
         if(rank==0) new = update_parameters(current);
