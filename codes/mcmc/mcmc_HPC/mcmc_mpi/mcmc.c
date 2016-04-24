@@ -542,17 +542,15 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     //     output_file = fopen(output_filename, "a");
     // }
 
-    if(rank==0){
-        const gsl_rng_type * GSL_T;
-        gsl_rng * GSL_r;
+    const gsl_rng_type * GSL_T;
+    gsl_rng * GSL_r;
 
-        gsl_rng_env_setup();
+    gsl_rng_env_setup();
 
-        GSL_T = gsl_rng_default;
-        GSL_r = gsl_rng_alloc(GSL_T);
+    GSL_T = gsl_rng_default;
+    GSL_r = gsl_rng_alloc(GSL_T);
 
-        gsl_rng_set(GSL_r, time(NULL));
-    }
+    gsl_rng_set(GSL_r, time(NULL));
 
 
     for( i = 0; i < max_steps; i++ ){
