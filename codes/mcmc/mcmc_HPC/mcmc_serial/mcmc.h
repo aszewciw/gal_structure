@@ -74,7 +74,7 @@ double normalize_MM(double *weight, int N_stars);
 double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm, double *weight );
 void calculate_correlation(POINTING *p, int N_plist, int N_bins);
 int degrees_of_freedom(POINTING *p, int N_plist, int N_bins );
-STEP_DATA update_parameters(STEP_DATA p);
+STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
