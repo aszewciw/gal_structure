@@ -542,10 +542,10 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
 
     for( i = 0; i < max_steps; i++ ){
-        continue;
 
         /* Have only step 0 take random walk and send new params to all procs */
         if(rank==0) new = update_parameters(current);
+        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
         /* Set weights from new parameters */
@@ -554,6 +554,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
+        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (double)DOF;
 
@@ -662,7 +663,7 @@ int main(int argc, char * argv[]){
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 10000;
+    int max_steps = 1000;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 
