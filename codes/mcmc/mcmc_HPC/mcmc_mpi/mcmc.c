@@ -584,8 +584,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
             fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
             // output_mcmc(i, current, output_file);
             // if(i % 50 == 0) fflush(output_file);
-
         }
+        MPI_Barrier(MPI_COMM_WORLD);
 
     }
     if(rank==0){
