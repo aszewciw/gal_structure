@@ -536,17 +536,20 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
 
     for( i = 0; i < max_steps; i++ ){
+        continue;
 
         /* Have only step 0 take random walk and send new params to all procs */
         if(rank==0) new = update_parameters(current);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
+        MPI_Barrier(MPI_COMM_WORLD);
         /* Set weights from new parameters */
         set_weights(new, plist, lower_ind, upper_ind);
         calculate_correlation(plist, N_bins, lower_ind, upper_ind);
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
+        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Allreduce(&chi2, &new.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (float)DOF;
 
