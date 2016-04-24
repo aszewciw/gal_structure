@@ -526,10 +526,11 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     MPI_Type_commit(&MPI_STEP);
 
     /* result output to */
+    char output_filename[256];
+    FILE *output_file;
+    snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+
     if(rank==0){
-        char output_filename[256];
-        FILE *output_file;
-        snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
         output_file = fopen(output_filename, "a");
     }
 
