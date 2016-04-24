@@ -490,6 +490,24 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     }
     int current_rank;
 
+    /* Define MPI type to be communicated */
+    MPI_Datatype MPI_STEP;
+    MPI_Datatype type[7] = { MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT };
+    int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
+    MPI_Aint disp[7];
+    disp[0] = offsetof( STEP_DATA, thin_r0 );
+    disp[1] = offsetof( STEP_DATA, thin_z0 );
+    disp[2] = offsetof( STEP_DATA, thick_r0 );
+    disp[3] = offsetof( STEP_DATA, thick_z0 );
+    disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
+    disp[5] = offsetof( STEP_DATA, chi2 );
+    disp[6] = offsetof( STEP_DATA, chi2_reduced );
+
+    /* build derived data type */
+    MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
+    /* optimize memory layout of derived datatype */
+    MPI_Type_commit(&MPI_STEP);
+
     for( i = 0; i < max_steps; i++ ){
 
         if(rank==0) new = update_parameters(current);
@@ -623,25 +641,6 @@ int main(int argc, char * argv[]){
     STEP_DATA initial;
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
-
-    /* Define MPI type to be communicated */
-    MPI_Datatype MPI_STEP;
-    MPI_Datatype type[7] = { MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT };
-    int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
-    MPI_Aint disp[7];
-    disp[0] = offsetof( STEP_DATA, thin_r0 );
-    disp[1] = offsetof( STEP_DATA, thin_z0 );
-    disp[2] = offsetof( STEP_DATA, thick_r0 );
-    disp[3] = offsetof( STEP_DATA, thick_z0 );
-    disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
-    disp[5] = offsetof( STEP_DATA, chi2 );
-    disp[6] = offsetof( STEP_DATA, chi2_reduced );
-
-    /* build derived data type */
-    MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
-    /* optimize memory layout of derived datatype */
-    MPI_Type_commit(&MPI_STEP);
-
 
     int max_steps = 2;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
