@@ -569,7 +569,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                     /* use old positions */
                 }
             }
-            fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+            fprintf(stderr, "On step %d, chi2 is %f\n", i, current.chi2);
             output_mcmc(i, current, output_file);
             if(i % 50 == 0) fflush(output_file);
 
@@ -651,7 +651,7 @@ int main(int argc, char * argv[]){
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 50000;
+    int max_steps = 10000;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 
