@@ -57,9 +57,9 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
     char zrw_filename[256];
     FILE *zrw_file;
     int i, j, N;
-    float * Z;
-    float * R;
-    float * W;
+    double * Z;
+    double * R;
+    double * W;
 
     /* Read star data for each poiting */
     // for(i=0; i<N_plist; i++){
@@ -72,15 +72,15 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         fscanf(zrw_file, "%d", &N); /* read in number of stars */
 
         /* Claim arrays */
-        Z = calloc(N, sizeof(float));
-        R = calloc(N, sizeof(float));
-        W = calloc(N, sizeof(float));
+        Z = calloc(N, sizeof(double));
+        R = calloc(N, sizeof(double));
+        W = calloc(N, sizeof(double));
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
-            fscanf(zrw_file, "%f", &Z[j]);
-            fscanf(zrw_file, "%f", &R[j]);
-            fscanf(zrw_file, "%f", &W[j]);
+            fscanf(zrw_file, "%lf", &Z[j]);
+            fscanf(zrw_file, "%lf", &R[j]);
+            fscanf(zrw_file, "%lf", &W[j]);
         }
 
         fclose(zrw_file);
@@ -120,7 +120,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
             exit(EXIT_FAILURE);
         }
         for( j=0; j<N_bins; j++ ){
-            fscanf(file, "%f", &b[j].DD);
+            fscanf(file, "%lf", &b[j].DD);
             snprintf(b[j].binID, 256, "%d", j+1);
         }
         fclose(file);
@@ -132,7 +132,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b[j].DD_err_jk);
+            fscanf(file, "%lf", &b[j].DD_err_jk);
         }
         fclose(file);
 
@@ -143,7 +143,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%f", &b[j].MM_err_jk);
+            fscanf(file, "%lf", &b[j].MM_err_jk);
         }
         fclose(file);
 
@@ -252,10 +252,10 @@ void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind)
 
 /* ----------------------------------------------------------------------- */
 
-float calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    float chi2 = 0.0;
+    double chi2 = 0.0;
 
     for(i = lower_ind; i < upper_ind; i++){
 
@@ -283,7 +283,7 @@ float calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 /* ----------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------- */
-float sech2(float x){
+double sech2(double x){
     return 1.0 / (cosh(x) * cosh(x));
 }
 
@@ -310,10 +310,10 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
 /* ----------------------------------------------------------------------- */
 
 /* Determine normalization of MM counts */
-float normalize_MM(float *weight, int N_stars){
+double normalize_MM(double *weight, int N_stars){
 
     int i, j;
-    float norm = 0.0;
+    double norm = 0.0;
 
     for(i = 0; i < N_stars; i++){
 
@@ -331,11 +331,11 @@ float normalize_MM(float *weight, int N_stars){
 /* ----------------------------------------------------------------------- */
 
 /* Calculate normalized model pair counts MM for 1 bin */
-float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
-    float MM_norm, float *weight ){
+double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
+    double MM_norm, double *weight ){
 
     unsigned int i;
-    float MM = 0.0;
+    double MM = 0.0;
 
     for(i = 0; i < N_pairs; i++){
 
@@ -354,7 +354,7 @@ float calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
 void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    float MM_norm;
+    double MM_norm;
 
     /* Loop over l.o.s. */
     for(i = lower_ind; i < upper_ind; i++){
@@ -406,20 +406,20 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
 STEP_DATA update_parameters(STEP_DATA p){
 
-    float delta;
+    double delta;
 
-    float thin_r0_sigma = 0.05;
-    float thin_z0_sigma = 0.005;
-    float thick_r0_sigma = 0.05;
-    float thick_z0_sigma = 0.005;
-    float ratio_thick_thin_sigma = 0.002;
+    double thin_r0_sigma = 0.05;
+    double thin_z0_sigma = 0.005;
+    double thick_r0_sigma = 0.05;
+    double thick_z0_sigma = 0.005;
+    double ratio_thick_thin_sigma = 0.002;
 
     /* "Known" variation from Mao et al. */
-    // float thin_r0_sigma = 0.48;
-    // float thin_z0_sigma = 0.007;
-    // float thick_r0_sigma = 0.19;
-    // float thick_z0_sigma = 0.016;
-    // float ratio_thick_thin_sigma = 0.005;
+    // double thin_r0_sigma = 0.48;
+    // double thin_z0_sigma = 0.007;
+    // double thick_r0_sigma = 0.19;
+    // double thick_z0_sigma = 0.016;
+    // double ratio_thick_thin_sigma = 0.005;
 
     const gsl_rng_type * GSL_T;
     gsl_rng * GSL_r;
@@ -462,7 +462,7 @@ STEP_DATA update_parameters(STEP_DATA p){
 
 void output_mcmc(int index, STEP_DATA p, FILE *output_file){
 
-    fprintf( output_file, "%d\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n",
+    fprintf( output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
         index, p.chi2, p.chi2_reduced, p.thin_r0, p.thin_z0,
         p.thick_r0, p.thick_z0, p.ratio_thick_thin );
 }
@@ -475,15 +475,15 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 {
     int i;
     int eff_counter = 0;
-    float eff;
+    double eff;
     STEP_DATA current;
     STEP_DATA new;
-    float delta_chi2;
+    double delta_chi2;
     int DOF = 0;
     int DOF_proc;
-    float tmp;
+    double tmp;
     int N_params = 5;
-    float chi2 = 0.0;
+    double chi2 = 0.0;
 
     if (rank == 0){
         fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
@@ -500,24 +500,24 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_double, MPI_SUM, MPI_COMM_WORLD);
 
     /* Degrees of freedom never change -- calculate once */
     DOF_proc = degrees_of_freedom(plist, N_bins, lower_ind, upper_ind);
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Allreduce(&DOF_proc, &DOF, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
     DOF -= N_params;
-    current.chi2_reduced = current.chi2 / (float)DOF;
+    current.chi2_reduced = current.chi2 / (double)DOF;
 
     if(rank==0){
         fprintf(stderr, "Degrees of freedom is: %d\n", DOF);
-        fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
+        fprintf(stderr, "Chi2 value for intital params is %lf\n", current.chi2);
     }
     int current_rank;
 
     /* Define MPI type to be communicated */
     MPI_Datatype MPI_STEP;
-    MPI_Datatype type[7] = { MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT };
+    MPI_Datatype type[7] = { MPI_double, MPI_double, MPI_double, MPI_double, MPI_double, MPI_double, MPI_double };
     int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
     MPI_Aint disp[7];
     disp[0] = offsetof( STEP_DATA, thin_r0 );
@@ -558,8 +558,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
         MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
-        new.chi2_reduced = new.chi2 / (float)DOF;
+        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_double, MPI_SUM, MPI_COMM_WORLD);
+        new.chi2_reduced = new.chi2 / (double)DOF;
 
         /* If new chi2 is better, accept step.
            If not, decide to accept/reject with some probability */
@@ -573,7 +573,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                 eff_counter += 1;
             }
             else{
-                tmp = (float)rand() / (float)RAND_MAX;
+                tmp = (double)rand() / (double)RAND_MAX;
                 if (tmp < exp( -delta_chi2 / 2.0 )){
                     current = new;
                     eff_counter += 1;
@@ -582,7 +582,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                     /* use old positions */
                 }
             }
-            fprintf(stderr, "On step %d, chi2 is %f\n", i, current.chi2);
+            fprintf(stderr, "On step %d, chi2 is %lf\n", i, current.chi2);
             // output_mcmc(i, current, output_file);
             // if(i % 50 == 0) fflush(output_file);
 
@@ -590,9 +590,9 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     }
     if(rank==0){
-        eff = (float)eff_counter / (float)max_steps;
+        eff = (double)eff_counter / (double)max_steps;
         // fclose(output_file);
-        fprintf(stderr, "Efficiency of MCMC: %f\n", eff);
+        fprintf(stderr, "Efficiency of MCMC: %lf\n", eff);
         fprintf(stderr, "End MCMC calculation.\n");
     }
 
