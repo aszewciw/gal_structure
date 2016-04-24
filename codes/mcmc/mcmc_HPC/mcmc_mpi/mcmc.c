@@ -454,6 +454,16 @@ STEP_DATA update_parameters(STEP_DATA p){
 
 /* ----------------------------------------------------------------------- */
 
+void output_mcmc(int index, STEP_DATA p, FILE *output_file){
+
+    fprintf( output_file, "%d\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n",
+        index, p.chi2, p.chi2_reduced, p.thin_r0, p.thin_z0,
+        p.thick_r0, p.thick_z0, p.ratio_thick_thin );
+}
+
+/* ----------------------------------------------------------------------- */
+
+
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs)
 {
@@ -515,6 +525,15 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     /* optimize memory layout of derived datatype */
     MPI_Type_commit(&MPI_STEP);
 
+    /* result output to */
+    if(rank==0){
+        char output_filename[256];
+        FILE *output_file;
+        snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+        output_file = fopen(output_filename, "a");
+    }
+
+
     for( i = 0; i < max_steps; i++ ){
 
         /* Have only step 0 take random walk and send new params to all procs */
@@ -550,10 +569,17 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                 }
             }
             fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+            output_mcmc(i, current, output_file);
+            if(i % 50 == 0) fflush(output_file);
+
         }
 
     }
-    if(rank==0)fprintf(stderr, "End MCMC calculation.\n");
+    if(rank==0){
+        fclose(ouput_file);
+        fprintf(stderr, "End MCMC calculation.\n");
+    }
+
 }
 
 

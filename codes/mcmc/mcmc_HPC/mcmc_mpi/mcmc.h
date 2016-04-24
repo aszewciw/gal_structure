@@ -75,6 +75,7 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs);
+void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Other */
 float sech2(float x);
