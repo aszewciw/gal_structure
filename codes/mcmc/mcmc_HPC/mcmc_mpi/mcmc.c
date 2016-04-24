@@ -437,13 +437,18 @@ STEP_DATA update_parameters(STEP_DATA p){
         if(p.ratio_thick_thin < 1.0) break;
     }
 
+
+    /* Initialize chi2 values to 0 instead of nonsense */
+    p.chi2 = 0.0;
+    p.chi2_reduced = 0.0;
+
     return p;
 }
 
 /* ----------------------------------------------------------------------- */
 
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank)
+    int lower_ind, int upper_ind, int rank, int nprocs)
 {
     int i;
     // int eff_counter;
@@ -471,7 +476,6 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     /* Calculate initial correlation value */
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
-    float chi2_temp = 0.0;
     MPI_Allreduce(&chi2, &current.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
 
     /* Degrees of freedom never change -- calculate once */
@@ -484,36 +488,58 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         fprintf(stderr, "Degrees of freedom is: %d\n", DOF);
         fprintf(stderr, "Chi2 value for intital params is %f\n", current.chi2);
     }
+    int current_rank;
 
-    // for( i = 0; i < max_steps; i++ ){
-    //     continue;
+    for( i = 0; i < max_steps; i++ ){
 
-    //     new = update_parameters(current);
+        if(rank==0) new = update_parameters(current);
 
-    //     set_weights(new, plist, N_plist);
-    //     calculate_correlation(plist, N_plist, N_bins);
-    //     calculate_chi2(plist, &new, N_plist, N_bins);
-    //     new.chi2_reduced = new.chi2 / (float)DOF;
-
-    //     delta_chi2 = new.chi2 - current.chi2;
+        /* I think all procs will wait here until 0 does bcast
+           so no barrier should be needed */
+        MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
 
-    //     if(delta_chi2 <= 0.0){
-    //         current = new;
-    //     }
-    //     else{
-    //         tmp = (float)rand() / (float)RAND_MAX;
-    //         if (tmp < exp( -delta_chi2 / 2.0 )){
-    //             current = new;
-    //         }
-    //         else{
-    //             /* use old positions */
-    //         }
-    //     }
+        current_rank = 0;
+        while ( current_rank < nprocs ){
+            if (current_rank == rank) {
+                fprintf(stderr, "Results from rank %d \n", rank);
+                fprintf(stderr, "Thin r0 is %f\n", new.thin_r0);
+                fprintf(stderr, "Thin z0 is %f\n", new.thin_z0);
+                fprintf(stderr, "Thick r0 is %f\n", new.thick_r0);
+                fprintf(stderr, "Thick z0 is %f\n", new.thick_z0);
+                fprintf(stderr, "Ratio is %f\n", new.ratio_thick_thin);
+                fprintf(stderr, "Chi2 is %f\n", new.chi2);
+                fprintf(stderr, "Thin r0 is %f\n", new.chi2_reduced);
+            }
+            MPI_Barrier(MPI_COMM_WORLD); // procs wait here until all arrive
+            current_rank++;
+        }
 
-    //     fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+        set_weights(new, plist, lower_ind, upper_ind);
+        calculate_correlation(plist, N_bins, lower_ind, upper_ind);
+        chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
+        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
+        new.chi2_reduced = new.chi2 / (float)DOF;
 
-    // }
+        delta_chi2 = new.chi2 - current.chi2;
+
+
+        if(delta_chi2 <= 0.0){
+            current = new;
+        }
+        else{
+            tmp = (float)rand() / (float)RAND_MAX;
+            if (tmp < exp( -delta_chi2 / 2.0 )){
+                current = new;
+            }
+            else{
+                /* use old positions */
+            }
+        }
+
+        if(rank==0)fprintf(stderr, "Current chi2 is %f\n", current.chi2);
+
+    }
     if(rank==0)fprintf(stderr, "End MCMC calculation.\n");
 }
 
@@ -597,8 +623,29 @@ int main(int argc, char * argv[]){
     STEP_DATA initial;
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
-    int max_steps = 100;
-    run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind, rank);
+
+    /* Define MPI type to be communicated */
+    MPI_Datatype MPI_STEP;
+    MPI_Datatype type[7] = { MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT, MPI_FLOAT };
+    int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
+    MPI_Aint disp[7];
+    disp[0] = offsetof( STEP_DATA, thin_r0 );
+    disp[1] = offsetof( STEP_DATA, thin_z0 );
+    disp[2] = offsetof( STEP_DATA, thick_r0 );
+    disp[3] = offsetof( STEP_DATA, thick_z0 );
+    disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
+    disp[5] = offsetof( STEP_DATA, chi2 );
+    disp[6] = offsetof( STEP_DATA, chi2_reduced );
+
+    /* build derived data type */
+    MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
+    /* optimize memory layout of derived datatype */
+    MPI_Type_commit(&MPI_STEP);
+
+
+    int max_steps = 2;
+    run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
+        rank, nprocs);
 
     /* Free allocated values */
     for(i=lower_ind; i<upper_ind; i++){
@@ -614,6 +661,8 @@ int main(int argc, char * argv[]){
     free(plist);
     if(rank==0) fprintf(stderr, "Allocated space cleared. \n");
 
+    /* barrier to ensure all procs clear space before MPI_Finalize */
+    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
 
     return EXIT_SUCCESS;

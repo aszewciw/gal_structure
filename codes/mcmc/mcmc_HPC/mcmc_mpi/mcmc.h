@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stddef.h>
 #include <math.h>
 #include <time.h>
 #include <string.h>
@@ -73,7 +74,7 @@ void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank);
+    int lower_ind, int upper_ind, int rank, int nprocs);
 
 /* Other */
 float sech2(float x);
