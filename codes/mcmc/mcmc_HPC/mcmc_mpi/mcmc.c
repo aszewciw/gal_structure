@@ -468,8 +468,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs)
 {
     int i;
-    // int eff_counter;
-    // float eff;
+    int eff_counter = 0;
+    float eff;
     STEP_DATA current;
     STEP_DATA new;
     float delta_chi2;
@@ -559,11 +559,13 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
             if(delta_chi2 <= 0.0){
                 current = new;
+                eff_counter += 1;
             }
             else{
                 tmp = (float)rand() / (float)RAND_MAX;
                 if (tmp < exp( -delta_chi2 / 2.0 )){
                     current = new;
+                    eff_counter += 1;
                 }
                 else{
                     /* use old positions */
@@ -577,7 +579,9 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     }
     if(rank==0){
+        eff = (float)eff_counter / (float)max_steps;
         // fclose(output_file);
+        fprintf(stderr, "Efficiency of MCMC: %f\n", eff);
         fprintf(stderr, "End MCMC calculation.\n");
     }
 
