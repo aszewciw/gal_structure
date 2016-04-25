@@ -449,7 +449,7 @@ void output_mcmc(int index, STEP_DATA p, FILE *output_file){
 void run_mcmc(STEP_DATA initial_step, int max_steps, int N_plist, POINTING *plist, int N_bins){
 
     int i;
-    int eff_counter;
+    int eff_counter = 0;
     double eff;
     STEP_DATA current;
     STEP_DATA new;

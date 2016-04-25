@@ -1,10 +1,5 @@
 #include "mcmc.h"
 
-// #include <gsl/gsl_rng.h>
-// #include <gsl/gsl_randist.h>
-// #include <gsl/gsl_integration.h>
-// #include <mpi.h>
-
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* -----------------------  Input data functions  ------------------------ */
@@ -12,8 +7,8 @@
 /* ----------------------------------------------------------------------- */
 
 
-
 /* ----------------------------------------------------------------------- */
+
 /* Load unique ID of each pointing */
 void load_pointingID(int *N_plist, POINTING **plist){
 
@@ -29,21 +24,20 @@ void load_pointingID(int *N_plist, POINTING **plist){
         exit(EXIT_FAILURE);
     }
 
-    // fprintf(stderr, "Read pointing list from %s \n", plist_filename);
+    /* First get length of list */
+    fscanf(plist_file, "%d", &N);
 
-    fscanf(plist_file, "%d", &N); //length of list
-
-    // Claim array for list of pointings
+    /* Claim array for list of pointings */
     p = calloc(N, sizeof(POINTING));
 
-    // Get pointing IDs
+    /* Get pointing IDs */
     int i;
     for(i=0; i<N; i++){
         fscanf(plist_file, "%s", p[i].ID);
     }
     fclose(plist_file);
 
-    // Aassign values to main function arguments
+    /* Assign values to main function arguments */
     *N_plist = N;
     *plist = p;
 
@@ -62,8 +56,8 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
     double * W;
 
     /* Read star data for each poiting */
-    // for(i=0; i<N_plist; i++){
     for(i = lower_ind; i < upper_ind; i++){
+
         snprintf(zrw_filename, 256, "%suniform_ZRW_%s.dat", ZRW_DIR, plist[i].ID);
         if((zrw_file=fopen(zrw_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s \n", zrw_filename);
@@ -106,7 +100,6 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
     RBIN *b;
 
     /* Loop over each pointing */
-    // for(i=0; i<N_plist; i++){
     for( i = lower_ind; i<upper_ind; i++ ){
 
         /* Claim space for bin data */
@@ -200,7 +193,6 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 
     }
     if(rank == 0)fprintf(stderr, "Pairs loaded from %s\n", PAIRS_DIR);
-
 }
 
 /* ----------------------------------------------------------------------- */
@@ -208,18 +200,11 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data){
 
-    // step_data->thin_r0 = 3.0;
-    // step_data->thin_z0 = 0.3;
-    // step_data->thick_r0 = 4.0;
-    // step_data->thick_z0 = 1.2;
-    // step_data->ratio_thick_thin = 0.1;
-
-    step_data->thin_r0 = 2.733216;
-    step_data->thin_z0 = 0.289149;
-    step_data->thick_r0 = 3.273822;
-    step_data->thick_z0 = 0.995019;
-    step_data->ratio_thick_thin = 0.029102;
-
+    step_data->thin_r0 = 3.0;
+    step_data->thin_z0 = 0.3;
+    step_data->thick_r0 = 4.0;
+    step_data->thick_z0 = 1.2;
+    step_data->ratio_thick_thin = 0.1;
 }
 
 /* ----------------------------------------------------------------------- */
@@ -229,12 +214,12 @@ void load_step_data(STEP_DATA *step_data){
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* ------------------  Functions calculating errors  --------------------- */
-/* ----------------------- *Also used in MCMC* --------------------------- */
+/* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------- */
 
-/* Multiply this by DD/MM**2 to get sigma2 */
+/* Calculate fractional error in correlation */
 void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
@@ -243,6 +228,7 @@ void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind)
 
         for(j = 0; j < N_bins; j++){
 
+            /* Multiply this by (DD/MM)**2 to get sigma**2 */
             p[i].rbin[j].err2_frac = (
                 p[i].rbin[j].DD_err_jk * p[i].rbin[j].DD_err_jk
                 + p[i].rbin[j].MM_err_jk * p[i].rbin[j].MM_err_jk );
@@ -252,18 +238,21 @@ void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind)
 
 /* ----------------------------------------------------------------------- */
 
+/* Calculate chi2 for a process's given slice of pointings */
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    double chi2 = 0.0;
+    double chi2 = 0.0; //initialize
 
     for(i = lower_ind; i < upper_ind; i++){
 
         for(j = 0; j < N_bins; j++){
 
+            /* multiplying by fractional error */
             p[i].rbin[j].sigma2 = ( p[i].rbin[j].corr * p[i].rbin[j].corr *
                 p[i].rbin[j].err2_frac );
 
+            /* ignore lines of sight with 0 counts */
             if( p[i].rbin[j].sigma2 == 0.0 ) continue;
 
             chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
@@ -275,7 +264,6 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 }
 
 
-
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* -------------------  Functions called by MCMC  ------------------------ */
@@ -283,10 +271,13 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 /* ----------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------- */
+
+/* function used to set density weights */
 double sech2(double x){
     return 1.0 / (cosh(x) * cosh(x));
 }
 
+/* ----------------------------------------------------------------------- */
 
 /* Set weights for all model points based on disk parameters */
 void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
@@ -379,7 +370,7 @@ void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind
 
 /* ----------------------------------------------------------------------- */
 
-/* Calculate degrees of freedom */
+/* Calculate degrees of freedom -- only do once */
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     int dof = 0;
     int i, j;
@@ -398,12 +389,8 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 }
 
 /* ----------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------- */
-/* --------------------------  MCMC functions  --------------------------- */
-/* ----------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------- */
 
-
+/* Take a random step in parameter space */
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 
     double delta;
@@ -434,7 +421,6 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
         if(p_new.ratio_thick_thin < 1.0) break;
     }
 
-
     /* Initialize chi2 values to 0 instead of nonsense */
     p_new.chi2 = 0.0;
     p_new.chi2_reduced = 0.0;
@@ -444,6 +430,7 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 
 /* ----------------------------------------------------------------------- */
 
+/* Output mcmc data to a file */
 void output_mcmc(int index, STEP_DATA p, FILE *output_file){
 
     fprintf( output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
@@ -453,20 +440,25 @@ void output_mcmc(int index, STEP_DATA p, FILE *output_file){
 
 /* ----------------------------------------------------------------------- */
 
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* -------------------------------- MCMC --------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
 
+/* Run mcmc chain */
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs)
 {
     int i;
-    int eff_counter = 0;
-    double eff;
+    int eff_counter = 0; // number of accepted steps
+    double eff; // number accepted / total
     STEP_DATA current;
-    STEP_DATA new;
-    double delta_chi2;
-    int DOF = 0;
-    int DOF_proc;
-    double tmp;
-    int N_params = 5;
+    STEP_DATA new; // mcmc parameters to test
+    double delta_chi2, temp;
+    int DOF = 0; // total degrees of freedom
+    int DOF_proc; // d.o.f. of each process
+    int N_params = 5; // number of parameters -- should automate this
     double chi2 = 0.0;
 
     if (rank == 0){
@@ -515,23 +507,20 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     /* optimize memory layout of derived datatype */
     MPI_Type_commit(&MPI_STEP);
 
-    /* result output to */
-    // char output_filename[256];
-    // FILE *output_file;
-    // snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+    /* define file for output and have proc 0 open */
+    char output_filename[256];
+    FILE *output_file;
+    snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+    if(rank==0){
+        output_file = fopen(output_filename, "a");
+    }
 
-    // if(rank==0){
-    //     output_file = fopen(output_filename, "a");
-    // }
-
+    /* Initialize random number to be used in MCMC */
     const gsl_rng_type * GSL_T;
     gsl_rng * GSL_r;
-
     gsl_rng_env_setup();
-
     GSL_T = gsl_rng_default;
     GSL_r = gsl_rng_alloc(GSL_T);
-
     gsl_rng_set(GSL_r, time(NULL));
 
 
@@ -539,17 +528,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Have only step 0 take random walk and send new params to all procs */
 
-        if(rank==0 && i!=0){
-            // fprintf(stderr, "Before update: \n");
-            // fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
-            // fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
-            new = update_parameters(current, GSL_r);
-            // fprintf(stderr, "After update: \n");
-            // fprintf(stderr, "On step %d, old thin_r0 is %lf\n", i, current.thin_r0);
-            // fprintf(stderr, "New thin_r0 is %lf\n", new.thin_r0);
-        }
-
-        // MPI_Barrier(MPI_COMM_WORLD);
+        if(rank==0 && i!=0) new = update_parameters(current, GSL_r);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
         /* Set weights from new parameters */
@@ -558,16 +537,13 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
-        // MPI_Barrier(MPI_COMM_WORLD);
         MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (double)DOF;
 
         /* If new chi2 is better, accept step.
            If not, decide to accept/reject with some probability */
         /* Only rank 0 needs to do this */
-
         if(rank == 0){
-            // fprintf(stderr, "Checking chi2 of %lf\n", new.chi2);
 
             delta_chi2 = new.chi2 - current.chi2;
 
@@ -586,15 +562,14 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                 }
             }
             fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
-            // output_mcmc(i, current, output_file);
-            // if(i % 50 == 0) fflush(output_file);
+            output_mcmc(i, current, output_file);
+            if(i % 50 == 0) fflush(output_file);
         }
-        // MPI_Barrier(MPI_COMM_WORLD);
 
     }
     if(rank==0){
         eff = (double)eff_counter / (double)max_steps;
-        // fclose(output_file);
+        fclose(output_file);
         fprintf(stderr, "Efficiency of MCMC: %lf\n", eff);
         fprintf(stderr, "End MCMC calculation.\n");
     }
@@ -602,21 +577,21 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 }
 
 
-
 /* ----------------------------------------------------------------------- */
-
+/* ----------------------------------------------------------------------- */
+/* -------------------------------- MAIN --------------------------------- */
+/* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */
 
 /* Test loading of data */
 int main(int argc, char * argv[]){
 
-    /* Add Lines for MPI Initialization */
+    /* MPI Initialization */
     int nprocs, rank;
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-
-    // Not 100% sure what happens here -- Test with simple program?
     if (argc!=1){
         fprintf(stderr, "Usage: %s\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -654,22 +629,21 @@ int main(int argc, char * argv[]){
     else lower_ind += remain;
     upper_ind = lower_ind + slice_length;
 
+    /* Each process now loads data for its slice only */
     load_ZRW(plist, lower_ind, upper_ind, rank);
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
-    // MPI_Barrier(MPI_COMM_WORLD);
 
     /* Calculate fractional error in DD/MM */
-    /* This only needs to be done once because
-       I have a trick for using it */
+    /* Only must be done once */
     calculate_frac_error(plist, N_bins, lower_ind, upper_ind);
 
-    // /* -- Initialize parameters --*/
+    /* -- Initialize parameters --*/
     STEP_DATA initial;
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 10000;
+    int max_steps = 50;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 
