@@ -455,7 +455,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     double eff; // number accepted / total
     STEP_DATA current;
     STEP_DATA new; // mcmc parameters to test
-    double delta_chi2, temp;
+    double delta_chi2, tmp;
     int DOF = 0; // total degrees of freedom
     int DOF_proc; // d.o.f. of each process
     int N_params = 5; // number of parameters -- should automate this
