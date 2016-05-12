@@ -3,7 +3,7 @@
 /*---------------------------------------------------------------------------*/
 
 /* Return a galactic height */
-double random_z(double z0, double pdf_norm, double z_min, double z_max)
+double random_gal_R(double z0, double pdf_norm, double z_min, double z_max)
 {
     double cdf, b, temp, z, plus_minus;
 
@@ -23,7 +23,7 @@ double random_z(double z0, double pdf_norm, double z_min, double z_max)
 /*---------------------------------------------------------------------------*/
 
 /* Return distance in galactic plane */
-double random_r(double r0, double pdf_norm, double r_min, double r_max)
+double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 {
     double cdf, b, exp_term, r;
 
@@ -120,8 +120,8 @@ int main( int argc, char **argv ){
         //     + phi_min );
         // x_thin_gal[i] = r_thin_gal[i] * cos(phi_thin_gal[i]);
         // y_thin_gal[i] = r_thin_gal[i] * sin(phi_thin_gal[i]);
-        thin[i].gal_z = random_z(z0_thin, z0_thin_pdf_norm, z_min, z_max);
-        thin[i].gal_r = random_r(r0_thin, r0_thin_pdf_norm, r_min, r_max);
+        thin[i].gal_z = random_gal_Z(z0_thin, z0_thin_pdf_norm, z_min, z_max);
+        thin[i].gal_r = random_gal_R(r0_thin, r0_thin_pdf_norm, r_min, r_max);
         thin[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
             * phi_range + phi_min );
         ZR_to_gal(&thin[i]);
@@ -149,8 +149,8 @@ int main( int argc, char **argv ){
 
         // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\n", x_thick_gal[i], y_thick_gal[i],
         //     z_thick_gal[i], r_thick_gal[i]);
-        thick[i].gal_z = random_z(z0_thick, z0_thick_pdf_norm, z_min, z_max);
-        thick[i].gal_r = random_r(r0_thick, r0_thick_pdf_norm, r_min, r_max);
+        thick[i].gal_z = random_gal_Z(z0_thick, z0_thick_pdf_norm, z_min, z_max);
+        thick[i].gal_r = random_gal_R(r0_thick, r0_thick_pdf_norm, r_min, r_max);
         thick[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
             * phi_range + phi_min );
         ZR_to_gal(&thick[i]);

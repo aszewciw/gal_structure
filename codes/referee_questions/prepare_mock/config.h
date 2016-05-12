@@ -23,5 +23,5 @@ void gal_to_eq(STAR *s);
 void eq_to_cart(STAR *s);
 
 /* Generation of random values */
-double random_z(double z0, double pdf_norm, double z_min, double z_max);
-double random_r(double r0, double pdf_norm, double r_min, double r_max);
+double random_gal_Z(double z0, double pdf_norm, double z_min, double z_max);
+double random_gal_R(double r0, double pdf_norm, double r_min, double r_max);
