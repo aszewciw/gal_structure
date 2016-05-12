@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -O3
-LINKFLAGS=
+LINKFLAGS=-lm
 OBJECTS= conversions.o
 
 make_galaxy: make_galaxy.o $(OBJECTS)
