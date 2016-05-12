@@ -3,7 +3,7 @@
 /*---------------------------------------------------------------------------*/
 
 /* Return a galactic height */
-double random_gal_R(double z0, double pdf_norm, double z_min, double z_max)
+double random_gal_Z(double z0, double pdf_norm, double z_min, double z_max)
 {
     double cdf, b, temp, z, plus_minus;
 
