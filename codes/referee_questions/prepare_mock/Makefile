@@ -1,9 +1,16 @@
 CC=gcc
 CFLAGS=-Wall -O3
 LINKFLAGS=
+OBJECTS= conversions.o
 
-make_galaxy: make_galaxy.c
-	$(CC) $(LINKFLAGS) -o $@ $< $(CFLAGS)
+make_galaxy: make_galaxy.o $(OBJECTS)
+	$(CC) $(LINKFLAGS) $^ -o $@
+
+make_galaxy.o: make_galaxy.c
+	$(CC) $(CFLAGS) $^
+
+conversions.o: conversions.c
+	$(CC) $(CFLAGS) $^
 
 clean:
-	rm -f make_galaxy
+	rm -f *.o make_galaxy
