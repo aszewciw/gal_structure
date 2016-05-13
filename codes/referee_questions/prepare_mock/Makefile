@@ -10,7 +10,7 @@ CFLAGS=-I$(INCDIR) -Wall -xHost -O3 -vec_report2
 
 # Linker Flags and Libraries
 LDFLAGS=
-LDLIBS=-lm
+LDLIBS=
 
 # Name of final Executable
 TARGET=make_galaxy

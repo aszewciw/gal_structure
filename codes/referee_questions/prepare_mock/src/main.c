@@ -67,6 +67,7 @@ int main( int argc, char **argv ){
     // output_file = fopen(output_filename, "a");
 
     /* Fill thin disk arrays */
+    #pragma SIMD
     for( i=0; i<N_stars_thin; i++ ){
         thin[i].gal_z = random_gal_Z(z0_thin, z0_thin_pdf_norm, z_min, z_max);
         thin[i].gal_r = random_gal_R(r0_thin, r0_thin_pdf_norm, r_min, r_max);
@@ -87,6 +88,7 @@ int main( int argc, char **argv ){
     // output_file = fopen(output_filename, "a");
 
     /* Fill thick disk arrays */
+    #pragma SIMD
     for( i=0; i<N_stars_thick; i++ ){
         thick[i].gal_z = random_gal_Z(z0_thick, z0_thick_pdf_norm, z_min, z_max);
         thick[i].gal_r = random_gal_R(r0_thick, r0_thick_pdf_norm, r_min, r_max);
