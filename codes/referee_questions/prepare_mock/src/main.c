@@ -58,8 +58,8 @@ int main( int argc, char **argv ){
         - tanh( z_min / z0_thick ) ) );
 
     /* Allocate arrays for galactic coordinates */
-    STAR * thin = calloc(N_stars_thin * sizeof(STAR));
-    STAR * thick = calloc(N_stars_thick * sizeof(STAR));
+    STAR * thin = malloc(N_stars_thin * sizeof(STAR));
+    STAR * thick = malloc(N_stars_thick * sizeof(STAR));
 
     srand((unsigned) time(&t));
 
