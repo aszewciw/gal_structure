@@ -61,10 +61,10 @@ int main( int argc, char **argv ){
 
     srand((unsigned) time(&t));
 
-    char output_filename[256];
-    FILE *output_file;
-    snprintf(output_filename, 256, "%smocktest_thin.dat", OUT_DIR);
-    output_file = fopen(output_filename, "a");
+    // char output_filename[256];
+    // FILE *output_file;
+    // snprintf(output_filename, 256, "%smocktest_thin.dat", OUT_DIR);
+    // output_file = fopen(output_filename, "a");
 
     /* Fill thin disk arrays */
     for( i=0; i<N_stars_thin; i++ ){
@@ -77,14 +77,14 @@ int main( int argc, char **argv ){
         eq_to_cart(&thin[i]);
 
 
-        fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thin[i].gal_z,
-            thin[i].gal_r, thin[i].x, thin[i].y, thin[i].z);
+        // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thin[i].gal_z,
+        //     thin[i].gal_r, thin[i].x, thin[i].y, thin[i].z);
     }
 
-    fclose(output_file);
+    // fclose(output_file);
 
-    snprintf(output_filename, 256, "%smocktest_thick.dat", OUT_DIR);
-    output_file = fopen(output_filename, "a");
+    // snprintf(output_filename, 256, "%smocktest_thick.dat", OUT_DIR);
+    // output_file = fopen(output_filename, "a");
 
     /* Fill thick disk arrays */
     for( i=0; i<N_stars_thick; i++ ){
@@ -95,11 +95,11 @@ int main( int argc, char **argv ){
         ZR_to_gal(&thick[i]);
         gal_to_eq(&thick[i]);
         eq_to_cart(&thick[i]);
-        fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thick[i].gal_z,
-            thick[i].gal_r, thick[i].x, thick[i].y, thick[i].z);
+        // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thick[i].gal_z,
+        //     thick[i].gal_r, thick[i].x, thick[i].y, thick[i].z);
     }
 
-    fclose(output_file);
+    // fclose(output_file);
 
     /* Deallocate arrays */
     free(thin);
