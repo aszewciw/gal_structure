@@ -12,20 +12,45 @@ const double Sun_Z = 0.02;
 
 /*---------------------------------------------------------------------------*/
 
-/* galaxy-centered to sun-centered */
+/* Get sun-star distance and return */
+double get_distance(double Z, double R, double phi){
+
+    double x, y, distance;
+
+    /* Calculate in gal-centered coord. */
+    x = R * cos(phi);
+    y = R * sin(phi);
+
+    /* Move to sun-centered */
+    x += Sun_R;
+    Z -= Sun_Z;
+
+    distance = sqrt( x*x + y*y + Z*Z );
+
+    return distance;
+
+}
+
+/*---------------------------------------------------------------------------*/
+
+/* galaxy-centered Z, R, phi to sun-centered l, b */
 /* Note that here, the x-axes are aligned */
 void ZR_to_gal(STAR *s){
-    double x_temp, y_temp;
+
+    /* These are cartesian values from the l, b system */
+    double x_temp, y_temp, z_temp;
 
     /* Temporary gal centered x and y. Sun at y=0, x=-Sun_R */
     x_temp = s->gal_r * cos(s->gal_phi);
     y_temp = s->gal_r * sin(s->gal_phi);
 
-    s->distance = sqrt( (x_temp + Sun_R)*(x_temp + Sun_R) + y_temp*y_temp
-        + (s->gal_z - Sun_Z)*(s->gal_z - Sun_Z) );
+    /* Move to sun-centered */
+    x_temp += Sun_R;
+    z_temp = s->gal_z - Sun_Z;
 
-    s->gal_l_rad = atan2(y_temp, x_temp+Sun_R);
-    s->gal_b_rad = asin((s->gal_z - Sun_Z) / s->distance);
+    /* Get l and b (distance already found in func above) */
+    s->gal_l_rad = atan2(y_temp, x_temp);
+    s->gal_b_rad = asin(z_temp / s->distance);
 
     if(s->gal_l_rad < 0.0) s->gal_l_rad += 2.0 * M_PI;
     s->gal_l_rad = fmod(s->gal_l_rad, (2.0 * M_PI));

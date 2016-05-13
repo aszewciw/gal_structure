@@ -20,6 +20,8 @@ int main( int argc, char **argv ){
     double r0_thin_pdf_norm, z0_thin_pdf_norm;
     double r0_thick_pdf_norm, z0_thick_pdf_norm;
     time_t t;
+    int flag; // A flag to make sure points fall within 1-3 kpc
+    double Z_temp, R_temp, phi_temp, dist_temp;
 
     /* Set model parameters */
     /* From Mao et al */
@@ -56,8 +58,8 @@ int main( int argc, char **argv ){
         - tanh( z_min / z0_thick ) ) );
 
     /* Allocate arrays for galactic coordinates */
-    STAR * thin = malloc(N_stars_thin * sizeof(STAR));
-    STAR * thick = malloc(N_stars_thick * sizeof(STAR));
+    STAR * thin = calloc(N_stars_thin * sizeof(STAR));
+    STAR * thick = calloc(N_stars_thick * sizeof(STAR));
 
     srand((unsigned) time(&t));
 
@@ -67,17 +69,66 @@ int main( int argc, char **argv ){
     // output_file = fopen(output_filename, "a");
 
     /* Fill thin disk arrays */
+    fprintf(stderr, "Getting Z, R, phi, and distance for thin disk stars. \n");
+    /* Make sure we only get stars in the 1-3 kpc range */
+    for( i=0; i<N_stars_thin; i++ ){
+        flag = 0;
+        while(flag==0){
+            Z_temp = random_gal_Z(z0_thin, z0_thin_pdf_norm, z_min, z_max);
+            R_temp = random_gal_R(r0_thin, r0_thin_pdf_norm, r_min, r_max);
+            phi_temp = ( ( (double)rand() / (double)RAND_MAX )
+                * phi_range + phi_min );
+            dist_temp = get_distance(Z_temp, R_temp, phi_temp);
+
+            /* Break out of while loop if condition is met */
+            if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
+        }
+
+        thin[i].gal_z = Z_temp;
+        thin[i].gal_r = R_temp;
+        thin[i].gal_phi = phi_temp;
+        thin[i].distance = dist_temp;
+
+        /* We could here fill the rest of the values, but it may be more
+        efficient to try a vectorized for loop to do this below. I'm not
+        truthfully sure and will try both */
+
+    }
+
+    /* Fill thick disk arrays */
+    fprintf(stderr, "Getting Z, R, phi, and distance for thick disk stars. \n");
+    /* Make sure we only get stars in the 1-3 kpc range */
+    for( i=0; i<N_stars_thick; i++ ){
+        flag = 0;
+        while(flag==0){
+            Z_temp = random_gal_Z(z0_thick, z0_thick_pdf_norm, z_min, z_max);
+            R_temp = random_gal_R(r0_thick, r0_thick_pdf_norm, r_min, r_max);
+            phi_temp = ( ( (double)rand() / (double)RAND_MAX )
+                * phi_range + phi_min );
+            dist_temp = get_distance(Z_temp, R_temp, phi_temp);
+
+            /* Break out of while loop if condition is met */
+            if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
+        }
+
+        thick[i].gal_z = Z_temp;
+        thick[i].gal_r = R_temp;
+        thick[i].gal_phi = phi_temp;
+        thick[i].distance = dist_temp;
+
+        /* We could here fill the rest of the values, but it may be more
+        efficient to try a vectorized for loop to do this below. I'm not
+        truthfully sure and will try both */
+
+
+    }
+
+    fprintf(stderr, "Getting remaining coordinates for thin disk stars. \n");
     #pragma simd
     for( i=0; i<N_stars_thin; i++ ){
-        thin[i].gal_z = random_gal_Z(z0_thin, z0_thin_pdf_norm, z_min, z_max);
-        thin[i].gal_r = random_gal_R(r0_thin, r0_thin_pdf_norm, r_min, r_max);
-        thin[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
-            * phi_range + phi_min );
         ZR_to_gal(&thin[i]);
         gal_to_eq(&thin[i]);
         eq_to_cart(&thin[i]);
-
-
         // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thin[i].gal_z,
         //     thin[i].gal_r, thin[i].x, thin[i].y, thin[i].z);
     }
@@ -88,13 +139,10 @@ int main( int argc, char **argv ){
     // output_file = fopen(output_filename, "a");
 
     /* Fill thick disk arrays */
+    fprintf(stderr, "Getting remaining coordinates for thick disk stars. \n");
     #pragma simd
     for( i=0; i<N_stars_thick; i++ ){
-        thick[i].gal_z = random_gal_Z(z0_thick, z0_thick_pdf_norm, z_min, z_max);
-        thick[i].gal_r = random_gal_R(r0_thick, r0_thick_pdf_norm, r_min, r_max);
-        thick[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
-            * phi_range + phi_min );
-        ZR_to_gal(&thick[i]);
+        ZR_to_gal(&thick[i]); // get distance here
         gal_to_eq(&thick[i]);
         eq_to_cart(&thick[i]);
         // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thick[i].gal_z,

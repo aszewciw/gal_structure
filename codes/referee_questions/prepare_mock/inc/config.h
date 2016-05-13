@@ -18,6 +18,7 @@ typedef struct STAR{
 } STAR;
 
 /* Conversions between coordinates systems */
+double get_distance(double Z, double R, double phi);
 void ZR_to_gal(STAR *s);
 void gal_to_eq(STAR *s);
 void eq_to_cart(STAR *s);
