@@ -5,8 +5,8 @@ OBJDIR = obj
 BINDIR = bin
 
 # Compiler rules
-CC=gcc
-CFLAGS=-I$(INCDIR) -Wall -O3
+CC=icc
+CFLAGS=-I$(INCDIR) -Wall -xHost -O3 -vec_report2
 
 # Linker Flags and Libraries
 LDFLAGS=
