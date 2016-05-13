@@ -151,9 +151,34 @@ int main( int argc, char **argv ){
 
     // fclose(output_file);
 
+    char output_filename[256];
+    FILE *output_file;
+
+    /* Write thin disk */
+    snprintf(output_filename, 256, "%smocktest_thin.dat", OUT_DIR);
+    fprintf(stderr, "Writing thin stars to %s%s\n", OUT_DIR, output_filename);
+    output_file = fopen(output_filename, "a");
+    for( i=0; i<N_stars_thin; i++ ){
+        fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thin[i].gal_z,
+            thin[i].gal_r, thin[i].x, thin[i].y, thin[i].z);
+    }
+    fclose(output_file);
+
+    /* Write thick disk */
+    snprintf(output_filename, 256, "%smocktest_thick.dat", OUT_DIR);
+    fprintf(stderr, "Writing thick stars to %s%s\n", OUT_DIR, output_filename);
+    output_file = fopen(output_filename, "a");
+    for( i=0; i<N_stars_thick; i++ ){
+        fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thick[i].gal_z,
+            thick[i].gal_r, thick[i].x, thick[i].y, thick[i].z);
+    }
+    fclose(output_file);
+
+
     /* Deallocate arrays */
     free(thin);
     free(thick);
+    fprintf(stderr, "Files Written. Arrays deallocated.\n");
 
 
     return 0;
