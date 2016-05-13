@@ -21,8 +21,8 @@ void ZR_to_gal(STAR *s){
     x_temp = s->gal_r * cos(s->gal_phi);
     y_temp = s->gal_r * sin(s->gal_phi);
 
-    s->distance = ( (x_temp + Sun_R)**2 + y_temp**2
-        + (s->gal_z - Sun_Z)**2 )**0.5;
+    s->distance = sqrt( (x_temp + Sun_R)*(x_temp + Sun_R) + y_temp*y_temp
+        + (s->gal_z - Sun_Z)*(s->gal_z - Sun_Z) );
 
     s->gal_l_rad = atan2(y_temp, x_temp+Sun_R);
     s->gal_b_rad = asin((s->gal_z - Sun_Z) / s->distance);

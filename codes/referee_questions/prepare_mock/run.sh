@@ -1,10 +1,8 @@
 #!/bin/bash
 
-cd out_data/
-rm *.dat
-cd ..
+rm data/*.dat
 
-make clean
+make cleanall
 make
 
-time ./make_galaxy 100000
+time ./bin/make_galaxy 10000000

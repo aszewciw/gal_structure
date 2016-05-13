@@ -11,7 +11,7 @@
 
 /* Different coordinate data of a given star */
 typedef struct STAR{
-    double gal_z, gal_r, gal_phi, gal_x, gal_y; // gal-centered gal coord.
+    double gal_z, gal_r, gal_phi; // gal-centered gal coord.
     double gal_l_rad, gal_b_rad; // sun-centered gal coord.
     double ra_rad, dec_rad, distance; // sun-centered equatorial coord.
     double x, y, z; // sun-centered (equatorial/cartesian)
