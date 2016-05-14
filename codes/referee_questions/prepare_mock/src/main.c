@@ -63,11 +63,6 @@ int main( int argc, char **argv ){
 
     srand((unsigned) time(&t));
 
-    // char output_filename[256];
-    // FILE *output_file;
-    // snprintf(output_filename, 256, "%smocktest_thin.dat", OUT_DIR);
-    // output_file = fopen(output_filename, "a");
-
     /* Fill thin disk arrays */
     fprintf(stderr, "Getting Z, R, phi, and distance for thin disk stars. \n");
     /* Make sure we only get stars in the 1-3 kpc range */
@@ -88,11 +83,6 @@ int main( int argc, char **argv ){
         thin[i].gal_r = R_temp;
         thin[i].gal_phi = phi_temp;
         thin[i].distance = dist_temp;
-
-        /* We could here fill the rest of the values, but it may be more
-        efficient to try a vectorized for loop to do this below. I'm not
-        truthfully sure and will try both */
-
     }
 
     /* Fill thick disk arrays */
@@ -115,41 +105,25 @@ int main( int argc, char **argv ){
         thick[i].gal_r = R_temp;
         thick[i].gal_phi = phi_temp;
         thick[i].distance = dist_temp;
-
-        /* We could here fill the rest of the values, but it may be more
-        efficient to try a vectorized for loop to do this below. I'm not
-        truthfully sure and will try both */
-
-
     }
 
+    /* Fill thin disk arrays */
     fprintf(stderr, "Getting remaining coordinates for thin disk stars. \n");
     #pragma simd
     for( i=0; i<N_stars_thin; i++ ){
         ZR_to_gal(&thin[i]);
         gal_to_eq(&thin[i]);
         eq_to_cart(&thin[i]);
-        // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thin[i].gal_z,
-        //     thin[i].gal_r, thin[i].x, thin[i].y, thin[i].z);
     }
-
-    // fclose(output_file);
-
-    // snprintf(output_filename, 256, "%smocktest_thick.dat", OUT_DIR);
-    // output_file = fopen(output_filename, "a");
 
     /* Fill thick disk arrays */
     fprintf(stderr, "Getting remaining coordinates for thick disk stars. \n");
     #pragma simd
     for( i=0; i<N_stars_thick; i++ ){
-        ZR_to_gal(&thick[i]); // get distance here
+        ZR_to_gal(&thick[i]);
         gal_to_eq(&thick[i]);
         eq_to_cart(&thick[i]);
-        // fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thick[i].gal_z,
-        //     thick[i].gal_r, thick[i].x, thick[i].y, thick[i].z);
     }
-
-    // fclose(output_file);
 
     char output_filename[256];
     FILE *output_file;
@@ -158,9 +132,15 @@ int main( int argc, char **argv ){
     snprintf(output_filename, 256, "%smocktest_thin.dat", OUT_DIR);
     fprintf(stderr, "Writing thin stars to %s%s\n", OUT_DIR, output_filename);
     output_file = fopen(output_filename, "a");
+    /* first write number of stars */
+    fprintf(stderr, "%lu\n", N_stars_thin);
     for( i=0; i<N_stars_thin; i++ ){
-        fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thin[i].gal_z,
-            thin[i].gal_r, thin[i].x, thin[i].y, thin[i].z);
+        fprintf(output_file,
+            "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+            thin[i].gal_z, thin[i].gal_r, thin[i].gal_phi,
+            thin[i].gal_l_rad, thin[i].gal_b_rad,
+            thin[i].ra_rad, thin[i].dec_rad, thin[i].distance,
+            thin[i].x, thin[i].y, thin[i].z);
     }
     fclose(output_file);
 
@@ -168,9 +148,14 @@ int main( int argc, char **argv ){
     snprintf(output_filename, 256, "%smocktest_thick.dat", OUT_DIR);
     fprintf(stderr, "Writing thick stars to %s%s\n", OUT_DIR, output_filename);
     output_file = fopen(output_filename, "a");
+    fprintf(stderr, "%lu\n", N_stars_thick);
     for( i=0; i<N_stars_thick; i++ ){
-        fprintf(output_file, "%lf\t%lf\t%lf\t%lf\t%lf\n", thick[i].gal_z,
-            thick[i].gal_r, thick[i].x, thick[i].y, thick[i].z);
+        fprintf(output_file,
+            "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+            thick[i].gal_z, thick[i].gal_r, thick[i].gal_phi,
+            thick[i].gal_l_rad, thick[i].gal_b_rad,
+            thick[i].ra_rad, thick[i].dec_rad, thick[i].distance,
+            thick[i].x, thick[i].y, thick[i].z);
     }
     fclose(output_file);
 
