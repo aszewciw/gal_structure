@@ -130,10 +130,10 @@ int main( int argc, char **argv ){
 
     /* Write thin disk */
     snprintf(output_filename, 256, "%smocktest_thin.dat", OUT_DIR);
-    fprintf(stderr, "Writing thin stars to %s%s\n", OUT_DIR, output_filename);
+    fprintf(stderr, "Writing thin stars to %s\n", output_filename);
     output_file = fopen(output_filename, "a");
     /* first write number of stars */
-    fprintf(stderr, "%lu\n", N_stars_thin);
+    fprintf(output_file, "%lu\n", N_stars_thin);
     for( i=0; i<N_stars_thin; i++ ){
         fprintf(output_file,
             "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
@@ -146,9 +146,9 @@ int main( int argc, char **argv ){
 
     /* Write thick disk */
     snprintf(output_filename, 256, "%smocktest_thick.dat", OUT_DIR);
-    fprintf(stderr, "Writing thick stars to %s%s\n", OUT_DIR, output_filename);
+    fprintf(stderr, "Writing thick stars to %s\n", output_filename);
     output_file = fopen(output_filename, "a");
-    fprintf(stderr, "%lu\n", N_stars_thick);
+    fprintf(output_file, "%lu\n", N_stars_thick);
     for( i=0; i<N_stars_thick; i++ ){
         fprintf(output_file,
             "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
