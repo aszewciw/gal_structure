@@ -3,19 +3,19 @@
 /*---------------------------------------------------------------------------*/
 
 /* Galactic North Pole in J2000, in degrees! */
-const double Galactic_North_Pole_RA = 192.859508;
-const double Galactic_North_Pole_Dec = 27.128336;
-const double Galactic_Ascending_Node = 32.932;
+const long double Galactic_North_Pole_RA = 192.859508;
+const long double Galactic_North_Pole_Dec = 27.128336;
+const long double Galactic_Ascending_Node = 32.932;
 /* Default Sun's position */
-const double Sun_R = 8.0;
-const double Sun_Z = 0.02;
+const long double Sun_R = 8.0;
+const long double Sun_Z = 0.02;
 
 /*---------------------------------------------------------------------------*/
 
 /* Get sun-star distance and return */
-double get_distance(double Z, double R, double phi){
+long double get_distance(long double Z, long double R, long double phi){
 
-    double x, y, distance;
+    long double x, y, distance;
 
     /* Calculate in gal-centered coord. */
     x = R * cos(phi);
@@ -38,7 +38,7 @@ double get_distance(double Z, double R, double phi){
 void ZR_to_gal(STAR *s){
 
     /* These are cartesian values from the l, b system */
-    double x_temp, y_temp, z_temp;
+    long double x_temp, y_temp, z_temp;
 
     /* Temporary gal centered x and y. Sun at y=0, x=-Sun_R */
     x_temp = s->gal_r * cos(s->gal_phi);
@@ -60,13 +60,13 @@ void ZR_to_gal(STAR *s){
 
 /* update star's (ra, dec) using Galactic (l, b) */
 void gal_to_eq(STAR *s){
-    double alpha, delta, la;
+    long double alpha, delta, la;
     /* convert params to radians */
     alpha = Galactic_North_Pole_RA * M_PI / 180.0;
     delta = Galactic_North_Pole_Dec * M_PI / 180.0;
     la = Galactic_Ascending_Node * M_PI / 180.0;
 
-    double ra, dec, l, b;     /* temporary holders*/
+    long double ra, dec, l, b;     /* temporary holders*/
     l = s->gal_l_rad;
     b = s->gal_b_rad;
 

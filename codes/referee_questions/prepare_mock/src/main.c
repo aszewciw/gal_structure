@@ -14,14 +14,14 @@ int main( int argc, char **argv ){
     fprintf(stderr, "Making a galaxy with %lu stars.\n", N_stars);
 
     unsigned long int N_stars_thin, N_stars_thick, i;
-    double r0_thin, z0_thin, r0_thick, z0_thick, thick_thin_ratio;
-    double temp;
-    double r_min, r_max, z_min, z_max, phi_min, phi_max, phi_range;
-    double r0_thin_pdf_norm, z0_thin_pdf_norm;
-    double r0_thick_pdf_norm, z0_thick_pdf_norm;
+    long double r0_thin, z0_thin, r0_thick, z0_thick, thick_thin_ratio;
+    long double temp;
+    long double r_min, r_max, z_min, z_max, phi_min, phi_max, phi_range;
+    long double r0_thin_pdf_norm, z0_thin_pdf_norm;
+    long double r0_thick_pdf_norm, z0_thick_pdf_norm;
     time_t t;
     int flag; // A flag to make sure points fall within 1-3 kpc
-    double Z_temp, R_temp, phi_temp, dist_temp;
+    long double Z_temp, R_temp, phi_temp, dist_temp;
 
     /* Set model parameters */
     /* From Mao et al */
@@ -32,7 +32,7 @@ int main( int argc, char **argv ){
     thick_thin_ratio = 0.1;
 
     /* Number of stars in each disk */
-    temp = (double)N_stars * thick_thin_ratio;
+    temp = (long double)N_stars * thick_thin_ratio;
     N_stars_thick = (int)temp;
     N_stars_thin = N_stars - N_stars_thick;
 
@@ -71,7 +71,7 @@ int main( int argc, char **argv ){
         while(flag==0){
             Z_temp = random_gal_Z(z0_thin, z0_thin_pdf_norm, z_min, z_max);
             R_temp = random_gal_R(r0_thin, r0_thin_pdf_norm, r_min, r_max);
-            phi_temp = ( ( (double)rand() / (double)RAND_MAX )
+            phi_temp = ( ( (long double)rand() / (long double)RAND_MAX )
                 * phi_range + phi_min );
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
 
@@ -93,7 +93,7 @@ int main( int argc, char **argv ){
         while(flag==0){
             Z_temp = random_gal_Z(z0_thick, z0_thick_pdf_norm, z_min, z_max);
             R_temp = random_gal_R(r0_thick, r0_thick_pdf_norm, r_min, r_max);
-            phi_temp = ( ( (double)rand() / (double)RAND_MAX )
+            phi_temp = ( ( (long double)rand() / (long double)RAND_MAX )
                 * phi_range + phi_min );
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
 
@@ -136,7 +136,7 @@ int main( int argc, char **argv ){
     fprintf(output_file, "%lu\n", N_stars_thin);
     for( i=0; i<N_stars_thin; i++ ){
         fprintf(output_file,
-            "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+            "%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\n",
             thin[i].gal_z, thin[i].gal_r, thin[i].gal_phi,
             thin[i].gal_l_rad, thin[i].gal_b_rad,
             thin[i].ra_rad, thin[i].dec_rad, thin[i].distance,
@@ -151,7 +151,7 @@ int main( int argc, char **argv ){
     fprintf(output_file, "%lu\n", N_stars_thick);
     for( i=0; i<N_stars_thick; i++ ){
         fprintf(output_file,
-            "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+            "%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\n",
             thick[i].gal_z, thick[i].gal_r, thick[i].gal_phi,
             thick[i].gal_l_rad, thick[i].gal_b_rad,
             thick[i].ra_rad, thick[i].dec_rad, thick[i].distance,
