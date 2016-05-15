@@ -86,7 +86,7 @@ int main(int argc, char * argv[]){
         if(N_mock < 25){
             fprintf(stderr, "Less than 25 stars for pointing %s\n", plist[i].ID);
         }
-        if(half<N_mock){
+        if(half>N_mock){
             fprintf(stderr, "Need to run more than twice for pointing %s\n", plist[i].ID);
         }
     }
