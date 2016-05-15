@@ -88,6 +88,7 @@ int main(int argc, char * argv[]){
         }
         if(half>N_mock){
             fprintf(stderr, "Need to run more than twice for pointing %s\n", plist[i].ID);
+            fprintf(stderr, "Mock: %d. Data: %d.\n", N_mock, N_data);
         }
     }
 
