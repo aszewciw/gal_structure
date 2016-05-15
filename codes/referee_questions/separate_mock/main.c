@@ -73,9 +73,9 @@ int main(int argc, char * argv[]){
         N_mock = plist[i].N_mock;
         N_data = plist[i].N_data;
 
-        // fprintf(stderr, "Mock: %d. Sample: %d\n", N_mock, N_data);
-        if(N_mock > N_data){
-            fprintf(stderr, "We have enough stars for pointing %s\n", plist[i].ID);
+        if(N_mock < N_data){
+            fprintf(stderr, "Not enough stars for pointing %s\n", plist[i].ID);
+            fprintf(stderr, "%d more stars needed.\n", N_data - N_mock);
         }
         if(N_mock==0){
             fprintf(stderr, "There are no stars for pointing %s\n", plist[i].ID);
