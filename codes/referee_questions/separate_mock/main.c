@@ -69,16 +69,25 @@ int main(int argc, char * argv[]){
 
     //check all pointings
     int i, N_mock, N_data;
+    int half;
     for(i=0; i<N_plist; i++){
         N_mock = plist[i].N_mock;
         N_data = plist[i].N_data;
 
-        if(N_mock < N_data){
-            fprintf(stderr, "Not enough stars for pointing %s\n", plist[i].ID);
-            fprintf(stderr, "%d more stars needed.\n", N_data - N_mock);
+        half = N_data / 2;
+
+        // if(N_mock < N_data){
+        //     fprintf(stderr, "Not enough stars for pointing %s\n", plist[i].ID);
+        //     fprintf(stderr, "%d more stars needed.\n", N_data - N_mock);
+        // }
+        // if(N_mock==0){
+        //     fprintf(stderr, "There are no stars for pointing %s\n", plist[i].ID);
+        // }
+        if(N_mock < 25){
+            fprintf(stderr, "Less than 25 stars for pointing %s\n", plist[i].ID);
         }
-        if(N_mock==0){
-            fprintf(stderr, "There are no stars for pointing %s\n", plist[i].ID);
+        if(half<N_mock){
+            fprintf(stderr, "Need to run more than twice for pointing %s\n", plist[i].ID);
         }
     }
 
