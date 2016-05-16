@@ -57,12 +57,12 @@ int main( int argc, char **argv ){
     //     - tanh( z_min / z0_thick ) ) );
     POINTING *plist;
     int N_plist, loop_flag;
-    PARAMS *thin_params;
-    PARAMS *thick_params;
+    PARAMS thin_params;
+    PARAMS thick_params;
     load_pointing_list(&N_plist, &plist);
 
-    get_thin_params(thin_params, N_stars);
-    get_thick_params(thick_params, N_stars);
+    get_thin_params(&thin_params, N_stars);
+    get_thick_params(&thick_params, N_stars);
 
     /* Allocate arrays for galactic coordinates */
     STAR * thin = malloc(thin_params->N_stars * sizeof(STAR));
