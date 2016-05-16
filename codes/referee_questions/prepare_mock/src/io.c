@@ -55,10 +55,10 @@ void load_pointing_list(int *N_plist, POINTING **plist){
 /* get parameters for thin disk */
 void get_thin_params( PARAMS *p, unsigned long int N ){
 
-    double temp;
+    long double temp;
 
     p->ratio = 0.1; // should be the same for both disks
-    temp = (double)N * p->ratio;
+    temp = (long double)N * p->ratio;
     p->N_stars = N - (unsigned long int)temp;
     p->z0 = 0.233;
     p->r0 = 2.34;
@@ -86,10 +86,10 @@ void get_thin_params( PARAMS *p, unsigned long int N ){
 /* get parameters for thin disk */
 void get_thick_params( PARAMS *p, unsigned long int N ){
 
-    double temp;
+    long double temp;
 
     p->ratio = 0.1; // should be the same for both disks
-    temp = (double)N * p->ratio;
+    temp = (long double)N * p->ratio;
     p->N_stars = N - (unsigned long int)temp;
     p->z0 = 0.674;
     p->r0 = 2.51;
