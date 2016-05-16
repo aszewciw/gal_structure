@@ -74,7 +74,7 @@ void generate_stars( STAR *s, PARAMS *p ){
 
     fprintf(stderr, "Getting remaining coordinates. \n");
     #pragma simd
-    for( i=0; i<p.N_stars; i++ ){
+    for( i=0; i<p->N_stars; i++ ){
         ZR_to_gal(&s[i]);
         gal_to_eq(&s[i]);
         eq_to_cart(&s[i]);
