@@ -78,8 +78,8 @@ int main( int argc, char **argv ){
         loop_flag = 1;
         generate_stars(thin, thin_params);
         generate_stars(thick, thick_params);
-        separate_sample(plist, thin, N_plist, thin_params.N_stars);
-        separate_sample(plist, thick, N_plist, thick_params.N_stars);
+        separate_sample(plist, thin, N_plist, thin_params->N_stars);
+        separate_sample(plist, thick, N_plist, thick_params->N_stars);
 
         for( i=0; i<N_plist; i++ ){
             N_mock = plist[i].N_mock;
