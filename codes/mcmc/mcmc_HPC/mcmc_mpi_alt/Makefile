@@ -9,7 +9,7 @@ CC=mpicc
 CFLAGS=-cc=icc -I$(INCDIR) -Wall -xHost -O3 -vec_report2
 
 # Linker Flags and Libraries
-LDFLAGS=-limf
+LDFLAGS=-limf -lgsl -lgslcblas
 LDLIBS=
 
 # Name of final Executable
