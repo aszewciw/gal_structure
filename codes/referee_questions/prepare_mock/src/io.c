@@ -55,45 +55,27 @@ void load_pointing_list(int *N_plist, POINTING **plist){
 /* get parameters for thin disk */
 void get_thin_params( PARAMS *p, unsigned long int N ){
 
-    fprintf(stderr, "Crahed at %d\n", 1);
-
     long double temp;
 
     p->ratio = 0.1; // should be the same for both disks
-    fprintf(stderr, "Crahed at %d\n", 2);
     temp = (long double)N * p->ratio;
-    fprintf(stderr, "Crahed at %d\n", 3);
     p->N_stars = N - (unsigned long int)temp;
-    fprintf(stderr, "Crahed at %d\n", 4);
     p->z0 = 0.233;
-    fprintf(stderr, "Crahed at %d\n", 5);
     p->r0 = 2.34;
-    fprintf(stderr, "Crahed at %d\n", 6);
     p->r_min = 5.0;
-    fprintf(stderr, "Crahed at %d\n", 7);
     p->r_max = 11.0;
-    fprintf(stderr, "Crahed at %d\n", 8);
     p->z_min = 0.0;
-    fprintf(stderr, "Crahed at %d\n", 9);
     p->z_max = 3.0;
-    fprintf(stderr, "Crahed at %d\n", 10);
     p->phi_max = atan(0.5);
-    fprintf(stderr, "Crahed at %d\n", 11);
     p->phi_min = -p->phi_max;
-    fprintf(stderr, "Crahed at %d\n", 12);
     p->phi_min += M_PI;
-    fprintf(stderr, "Crahed at %d\n", 13);
     p->phi_max += M_PI;
-    fprintf(stderr, "Crahed at %d\n", 14);
     p->phi_range = p->phi_max - p->phi_min;
-    fprintf(stderr, "Crahed at %d\n", 15);
 
     p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
         - exp( -p->r_max / p->r0 ) ) );
-    fprintf(stderr, "Crahed at %d\n", 16);
     p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
         - tanh( p->z_min / p->z0 ) ) );
-    fprintf(stderr, "Crahed at %d\n", 17);
 
     fprintf(stderr, "%lu stars in the thin disk. \n", p->N_stars);
 
@@ -108,7 +90,7 @@ void get_thick_params( PARAMS *p, unsigned long int N ){
 
     p->ratio = 0.1; // should be the same for both disks
     temp = (long double)N * p->ratio;
-    p->N_stars = N - (unsigned long int)temp;
+    p->N_stars = (unsigned long int)temp;
     p->z0 = 0.674;
     p->r0 = 2.51;
     p->r_min = 5.0;
