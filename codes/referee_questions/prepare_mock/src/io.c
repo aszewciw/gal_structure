@@ -57,7 +57,7 @@ void get_thin_params( PARAMS *p, unsigned long int N ){
 
     double temp;
 
-    p.ratio = 0.1; // should be the same for both disks
+    p->ratio = 0.1; // should be the same for both disks
     temp = (double)N * p.ratio;
     p.N_stars = N_stars - (int)temp;
     p.z0 = 0.233;
