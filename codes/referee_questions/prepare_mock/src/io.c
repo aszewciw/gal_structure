@@ -58,58 +58,88 @@ void get_thin_params( PARAMS *p, unsigned long int N ){
     double temp;
 
     p->ratio = 0.1; // should be the same for both disks
-    temp = (double)N * p.ratio;
-    p.N_stars = N_stars - (int)temp;
-    p.z0 = 0.233;
-    p.r0 = 2.34;
-    p.r_min = 5.0;
-    p.r_max = 11.0;
-    p.z_min = 0.0;
-    p.z_max = 3.0;
-    p.phi_max = atan(0.5);
-    p.phi_min = -phi_max;
-    p.phi_min += M_PI;
-    p.phi_max += M_PI;
-    p.phi_range = phi_max - phi_min;
+    temp = (double)N * p->ratio;
+    p->N_stars = N_stars - (int)temp;
+    p->z0 = 0.233;
+    p->r0 = 2.34;
+    p->r_min = 5.0;
+    p->r_max = 11.0;
+    p->z_min = 0.0;
+    p->z_max = 3.0;
+    p->phi_max = atan(0.5);
+    p->phi_min = -p->phi_max;
+    p->phi_min += M_PI;
+    p->phi_max += M_PI;
+    p->phi_range = p->phi_max - p->phi_min;
 
-    p.r0_pdf_norm = 1.0 / ( p.r0 * ( exp( -p.r_min / p.r0 )
-        - exp( -p.r_max / p.r0 ) ) );
-    p.z0_pdf_norm = 1.0 / ( 2.0 * p.z0 * ( tanh( p.z_max / (2.0 * p.z0) )
-        - tanh( p.z_min / p.z0 ) ) );
+    p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
+        - exp( -p->r_max / p->r0 ) ) );
+    p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
+        - tanh( p->z_min / p->z0 ) ) );
 
-    fprintf(stderr, "%lu stars in the thin disk. \n", p.N_stars);
+    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_stars);
 
 }
 
 /* ----------------------------------------------------------------------- */
 
-/* get parameters for thick disk */
+/* get parameters for thin disk */
 void get_thick_params( PARAMS *p, unsigned long int N ){
 
     double temp;
 
-    p.ratio = 0.1; // should be the same for both disks
-    temp = (double)N * p.ratio;
-    p.N_stars = (int)temp;
-    p.z0 = 0.674;
-    p.r0 = 2.51;
-    p.r_min = 5.0;
-    p.r_max = 11.0;
-    p.z_min = 0.0;
-    p.z_max = 3.0;
-    p.phi_max = atan(0.5);
-    p.phi_min = -phi_max;
-    p.phi_min += M_PI;
-    p.phi_max += M_PI;
-    p.phi_range = phi_max - phi_min;
+    p->ratio = 0.1; // should be the same for both disks
+    temp = (double)N * p->ratio;
+    p->N_stars = N_stars - (int)temp;
+    p->z0 = 0.674;
+    p->r0 = 2.51;
+    p->r_min = 5.0;
+    p->r_max = 11.0;
+    p->z_min = 0.0;
+    p->z_max = 3.0;
+    p->phi_max = atan(0.5);
+    p->phi_min = -p->phi_max;
+    p->phi_min += M_PI;
+    p->phi_max += M_PI;
+    p->phi_range = p->phi_max - p->phi_min;
 
-    p.r0_pdf_norm = 1.0 / ( p.r0 * ( exp( -p.r_min / p.r0 )
-        - exp( -p.r_max / p.r0 ) ) );
-    p.z0_pdf_norm = 1.0 / ( 2.0 * p.z0 * ( tanh( p.z_max / (2.0 * p.z0) )
-        - tanh( p.z_min / p.z0 ) ) );
+    p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
+        - exp( -p->r_max / p->r0 ) ) );
+    p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
+        - tanh( p->z_min / p->z0 ) ) );
 
-    fprintf(stderr, "%lu stars in the thick disk. \n", p.N_stars);
+    fprintf(stderr, "%lu stars in the thick disk. \n", p->N_stars);
 
 }
 
-/* ----------------------------------------------------------------------- */
+// /* ----------------------------------------------------------------------- */
+// /* get parameters for thick disk */
+// void get_thick_params( PARAMS *p, unsigned long int N ){
+
+//     double temp;
+
+//     p.ratio = 0.1; // should be the same for both disks
+//     temp = (double)N * p.ratio;
+//     p.N_stars = (int)temp;
+//     p.z0 = 0.674;
+//     p.r0 = 2.51;
+//     p.r_min = 5.0;
+//     p.r_max = 11.0;
+//     p.z_min = 0.0;
+//     p.z_max = 3.0;
+//     p.phi_max = atan(0.5);
+//     p.phi_min = -phi_max;
+//     p.phi_min += M_PI;
+//     p.phi_max += M_PI;
+//     p.phi_range = phi_max - phi_min;
+
+//     p.r0_pdf_norm = 1.0 / ( p.r0 * ( exp( -p.r_min / p.r0 )
+//         - exp( -p.r_max / p.r0 ) ) );
+//     p.z0_pdf_norm = 1.0 / ( 2.0 * p.z0 * ( tanh( p.z_max / (2.0 * p.z0) )
+//         - tanh( p.z_min / p.z0 ) ) );
+
+//     fprintf(stderr, "%lu stars in the thick disk. \n", p.N_stars);
+
+// }
+
+// /* ----------------------------------------------------------------------- */
