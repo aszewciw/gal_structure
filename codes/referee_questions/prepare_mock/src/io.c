@@ -59,7 +59,7 @@ void get_thin_params( PARAMS *p, unsigned long int N ){
 
     p->ratio = 0.1; // should be the same for both disks
     temp = (double)N * p->ratio;
-    p->N_stars = N - (int)temp;
+    p->N_stars = N - (unsigned long int)temp;
     p->z0 = 0.233;
     p->r0 = 2.34;
     p->r_min = 5.0;
@@ -90,7 +90,7 @@ void get_thick_params( PARAMS *p, unsigned long int N ){
 
     p->ratio = 0.1; // should be the same for both disks
     temp = (double)N * p->ratio;
-    p->N_stars = N - (int)temp;
+    p->N_stars = N - (unsigned long int)temp;
     p->z0 = 0.674;
     p->r0 = 2.51;
     p->r_min = 5.0;
