@@ -21,7 +21,7 @@ typedef struct VECTOR{
 typedef struct PARAMS{
     double z0, r0; /* scale height, length */
     double z0_pdf_norm, r0_pdf_norm; /* pdf normalizations */
-    double z_min, z_max, r_min, r_max, phi_min, phi_max, phi_range /* limits */
+    double z_min, z_max, r_min, r_max, phi_min, phi_max, phi_range; /* limits */
     double ratio; /* N_thick / N_thin */
     unsigned long int N_stars; /* Number of stars in disk */
 } PARAMS;
