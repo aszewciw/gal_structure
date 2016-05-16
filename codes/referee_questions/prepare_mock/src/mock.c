@@ -50,15 +50,16 @@ void generate_stars( STAR *s, PARAMS *p ){
 
     int flag;
     unsigned long int i;
+    double Z_temp, R_temp, phi_temp, dist_temp;
 
     /* Make sure we only get stars in the 1-3 kpc range */
-    for( i=0; i<p.N_stars; i++ ){
+    for( i=0; i<p->N_stars; i++ ){
         flag = 0;
         while(flag==0){
-            Z_temp = random_gal_Z(p.z0, p.z0_pdf_norm, p.z_min, p.z_max);
-            R_temp = random_gal_R(p.r0, p.r0_pdf_norm, p.r_min, p.r_max);
+            Z_temp = random_gal_Z(p->z0, p->z0_pdf_norm, p->z_min, p->z_max);
+            R_temp = random_gal_R(p->r0, p->r0_pdf_norm, p->r_min, p->r_max);
             phi_temp = ( ( (double)rand() / (double)RAND_MAX )
-                * p.phi_range + p.phi_min );
+                * p->phi_range + p->phi_min );
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
 
             /* Break out of while loop if condition is met */
