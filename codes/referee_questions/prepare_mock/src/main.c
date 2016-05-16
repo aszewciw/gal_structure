@@ -65,8 +65,8 @@ int main( int argc, char **argv ){
     get_thick_params(&thick_params, N_stars);
 
     /* Allocate arrays for galactic coordinates */
-    STAR * thin = malloc(thin_params->N_stars * sizeof(STAR));
-    STAR * thick = malloc(thick_params->N_stars * sizeof(STAR));
+    STAR * thin = malloc(thin_params.N_stars * sizeof(STAR));
+    STAR * thick = malloc(thick_params.N_stars * sizeof(STAR));
 
     srand((unsigned) time(&t));
 
@@ -76,10 +76,10 @@ int main( int argc, char **argv ){
     int loop_counter = 0;
     while(loop_flag==0){
         loop_flag = 1;
-        generate_stars(thin, thin_params);
-        generate_stars(thick, thick_params);
-        separate_sample(plist, thin, N_plist, thin_params->N_stars);
-        separate_sample(plist, thick, N_plist, thick_params->N_stars);
+        generate_stars(thin, &thin_params);
+        generate_stars(thick, &thick_params);
+        separate_sample(plist, thin, N_plist, thin_params.N_stars);
+        separate_sample(plist, thick, N_plist, thick_params.N_stars);
 
         for( i=0; i<N_plist; i++ ){
             N_mock = plist[i].N_mock;

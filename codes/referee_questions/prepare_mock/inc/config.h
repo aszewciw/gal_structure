@@ -61,4 +61,4 @@ double random_gal_Z(double z0, double pdf_norm, double z_min, double z_max);
 double random_gal_R(double r0, double pdf_norm, double r_min, double r_max);
 double dot_product(VECTOR v1, VECTOR v2);
 void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s);
-double dot_product(VECTOR v1, VECTOR v2);
+void generate_stars( STAR *s, PARAMS *p );
