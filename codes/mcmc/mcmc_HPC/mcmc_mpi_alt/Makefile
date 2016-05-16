@@ -13,7 +13,7 @@ LDFLAGS=-limf -lgsl -lgslcblas
 LDLIBS=
 
 # Name of final Executable
-TARGET=make_galaxy
+TARGET=run_mcmc
 
 # inc files and object files
 SOURCES := $(wildcard $(SRCDIR)/*.c)

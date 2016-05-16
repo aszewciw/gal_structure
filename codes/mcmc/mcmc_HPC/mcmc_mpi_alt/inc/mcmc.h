@@ -13,7 +13,7 @@
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/dd/"
 #define ERR_DIR "../data/errors/"
-#define OUT_DIR "../data/mcmc_output/"
+#define OUT_DIR "./data/"
 #define PAIRS_DIR "../data/model_pairs/"
 #define ZRW_DIR "../data/model_positions/"
 #define RAW_DIR "../data/raw/"
@@ -62,6 +62,7 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
 void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_step_data(STEP_DATA *step_data);
+void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Stats functions */
 void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind);
@@ -76,7 +77,6 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs);
-void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Other */
 double sech2(double x);
