@@ -65,8 +65,8 @@ int main( int argc, char **argv ){
     get_thick_params(thick_params, N_stars);
 
     /* Allocate arrays for galactic coordinates */
-    STAR * thin = malloc(thin->N_stars * sizeof(STAR));
-    STAR * thick = malloc(thick->N_stars * sizeof(STAR));
+    STAR * thin = malloc(thin_params->N_stars * sizeof(STAR));
+    STAR * thick = malloc(thick_params->N_stars * sizeof(STAR));
 
     srand((unsigned) time(&t));
 
