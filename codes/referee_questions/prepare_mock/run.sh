@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm data/*.dat
+rm ../data/mock*
 
 make cleanall
 make
