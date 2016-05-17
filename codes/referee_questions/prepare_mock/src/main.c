@@ -18,6 +18,7 @@ int main( int argc, char **argv ){
     int N_plist, loop_flag;
     PARAMS thin_params;
     PARAMS thick_params;
+    time_t t;
     load_pointing_list(&N_plist, &plist);
 
     get_thin_params(&thin_params, N_stars);
