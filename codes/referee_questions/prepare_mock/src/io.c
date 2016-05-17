@@ -57,21 +57,26 @@ void get_thin_params( PARAMS *p, unsigned long int N ){
 
     long double temp;
 
-    p->ratio = 0.1; // should be the same for both disks
-    temp = (long double)N * p->ratio;
-    p->N_stars = N - (unsigned long int)temp;
-    p->z0 = 0.233;
-    p->r0 = 2.34;
-    p->r_min = 5.0;
-    p->r_max = 11.0;
+    /* These are the same for both disks */
+    /* These limits are geometric. They are slightly larger than what is
+    /* exactly necessary in order to account for possible changes to the
+    /* position of the sun w.r.t. Galactic center. */
+    p->r_min = 4.5;
+    p->r_max = 11.5;
     p->z_min = 0.0;
-    p->z_max = 3.0;
+    p->z_max = 3.1;
     p->phi_max = atan(0.5);
     p->phi_min = -p->phi_max;
     p->phi_min += M_PI;
     p->phi_max += M_PI;
     p->phi_range = p->phi_max - p->phi_min;
+    p->ratio = 0.1;
 
+    /* These are different for the two disks */
+    temp = (long double)N * p->ratio;
+    p->N_stars = N - (unsigned long int)temp;
+    p->z0 = 0.233;
+    p->r0 = 2.34;
     p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
         - exp( -p->r_max / p->r0 ) ) );
     p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
@@ -88,21 +93,26 @@ void get_thick_params( PARAMS *p, unsigned long int N ){
 
     long double temp;
 
-    p->ratio = 0.1; // should be the same for both disks
-    temp = (long double)N * p->ratio;
-    p->N_stars = (unsigned long int)temp;
-    p->z0 = 0.674;
-    p->r0 = 2.51;
-    p->r_min = 5.0;
-    p->r_max = 11.0;
+    /* These are the same for both disks */
+    /* These limits are geometric. They are slightly larger than what is
+    /* exactly necessary in order to account for possible changes to the
+    /* position of the sun w.r.t. Galactic center. */
+    p->r_min = 4.5;
+    p->r_max = 11.5;
     p->z_min = 0.0;
-    p->z_max = 3.0;
+    p->z_max = 3.1;
     p->phi_max = atan(0.5);
     p->phi_min = -p->phi_max;
     p->phi_min += M_PI;
     p->phi_max += M_PI;
     p->phi_range = p->phi_max - p->phi_min;
+    p->ratio = 0.1;
 
+    /* These are different for the two disks */
+    temp = (long double)N * p->ratio;
+    p->N_stars = (unsigned long int)temp;
+    p->z0 = 0.674;
+    p->r0 = 2.51;
     p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
         - exp( -p->r_max / p->r0 ) ) );
     p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
@@ -112,34 +122,11 @@ void get_thick_params( PARAMS *p, unsigned long int N ){
 
 }
 
-// /* ----------------------------------------------------------------------- */
-// /* get parameters for thick disk */
-// void get_thick_params( PARAMS *p, unsigned long int N ){
+/* ----------------------------------------------------------------------- */
 
-//     double temp;
+/* output stars' cartesian coordinates to a file */
+void output_star( FILE *output_file, STAR s){
+    fprintf( file, "%lf\t%lf\t%lf\n", s.x, s.y, s.z );
+}
 
-//     p.ratio = 0.1; // should be the same for both disks
-//     temp = (double)N * p.ratio;
-//     p.N_stars = (int)temp;
-//     p.z0 = 0.674;
-//     p.r0 = 2.51;
-//     p.r_min = 5.0;
-//     p.r_max = 11.0;
-//     p.z_min = 0.0;
-//     p.z_max = 3.0;
-//     p.phi_max = atan(0.5);
-//     p.phi_min = -phi_max;
-//     p.phi_min += M_PI;
-//     p.phi_max += M_PI;
-//     p.phi_range = phi_max - phi_min;
-
-//     p.r0_pdf_norm = 1.0 / ( p.r0 * ( exp( -p.r_min / p.r0 )
-//         - exp( -p.r_max / p.r0 ) ) );
-//     p.z0_pdf_norm = 1.0 / ( 2.0 * p.z0 * ( tanh( p.z_max / (2.0 * p.z0) )
-//         - tanh( p.z_min / p.z0 ) ) );
-
-//     fprintf(stderr, "%lu stars in the thick disk. \n", p.N_stars);
-
-// }
-
-// /* ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------- */

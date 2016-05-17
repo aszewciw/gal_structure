@@ -8,7 +8,7 @@ const double Galactic_North_Pole_Dec = 27.128336;
 const double Galactic_Ascending_Node = 32.932;
 /* Default Sun's position */
 const double Sun_R = 8.0;
-const double Sun_Z = 0.02;
+const double Sun_Z = 0.0;
 
 /*---------------------------------------------------------------------------*/
 

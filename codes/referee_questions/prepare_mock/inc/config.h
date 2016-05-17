@@ -6,9 +6,8 @@
 #include <string.h>
 
 /* Directories */
-// #define OUT_DIR "./data/"
-// #define REF_DIR "../data/"
 #define DATA_DIR "../data/"
+#define OUT_DIR "./data/"
 
 #define PLATE_RADIUS_DEG 1.49
 
@@ -55,6 +54,7 @@ void eq_to_cart(STAR *s);
 void load_pointing_list(int *N_plist, POINTING **plist);
 void get_thin_params( PARAMS *p, unsigned long int N );
 void get_thick_params( PARAMS *p, unsigned long int N );
+void output_star( FILE *output_file, STAR s );
 
 /* Generation of stars */
 double random_gal_Z(double z0, double pdf_norm, double z_min, double z_max);

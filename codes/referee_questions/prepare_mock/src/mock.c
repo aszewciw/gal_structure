@@ -99,7 +99,7 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
     for(i=0; i<N_p; i++){
 
         if( p[i].flag == 1) continue;
-        snprintf(filename, 256, "%smock_%s.xyz.dat", DATA_DIR, p[i].ID);
+        snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
         file = fopen(filename, "a");
         star_count = 0;
 
@@ -119,7 +119,8 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
 
             if(dot_prod >= plate_cos){
                 star_count += 1;
-                fprintf( file, "%lf\t%lf\t%lf\n", s[j].x, s[j].y, s[j].z );
+                // fprintf( file, "%lf\t%lf\t%lf\n", s[j].x, s[j].y, s[j].z );
+                output_star( file, s[j] );
             }
         }
         p[i].N_mock += star_count;
