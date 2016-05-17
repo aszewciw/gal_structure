@@ -63,7 +63,9 @@ int main( int argc, char **argv ){
             fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
             fprintf(stderr, "Making more stars. \n")
         }
-        else fprintf(stderr, "All poitings have an adequate number of stars. \n");
+        else{
+            fprintf(stderr, "All poitings have an adequate number of stars. \n");
+        }
 
     }
 
