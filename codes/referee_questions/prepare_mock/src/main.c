@@ -15,7 +15,7 @@ int main( int argc, char **argv ){
 
 
     POINTING *plist;
-    int N_plist, loop_flag;
+    int N_plist, loop_flag, pointings_in_need;
     PARAMS thin_params;
     PARAMS thick_params;
     time_t t;
@@ -35,6 +35,7 @@ int main( int argc, char **argv ){
     int N_mock, N_data, i;
     int loop_counter = 0;
     while(loop_flag==0){
+        pointings_in_need = 0;
         loop_flag = 1;
         generate_stars(thin, &thin_params);
         generate_stars(thick, &thick_params);
@@ -48,8 +49,9 @@ int main( int argc, char **argv ){
             if(N_mock<N_data){
                 loop_flag = 0;
                 plist[i].flag = 0;
-                fprintf(stderr, "Need to make more stars for pointing %s\n", plist[i].ID);
-                fprintf(stderr, "Mock: %d. Data: %d.\n", N_mock, N_data);
+                // fprintf(stderr, "Need to make more stars for pointing %s\n", plist[i].ID);
+                // fprintf(stderr, "Mock: %d. Data: %d.\n", N_mock, N_data);
+                pointings_in_need += 1;
             }
             else{
                 plist[i].flag = 1;
@@ -57,6 +59,11 @@ int main( int argc, char **argv ){
         }
         loop_counter +=1;
         fprintf(stderr, "We've run the loop %d times.\n", loop_counter);
+        if (pointings_in_need != 0){
+            fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
+            fprintf(stderr, "Making more stars. \n")
+        }
+        else fprintf(stderr, "All poitings have an adequate number of stars. \n");
 
     }
 
