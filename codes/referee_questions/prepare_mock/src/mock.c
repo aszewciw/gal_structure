@@ -72,7 +72,6 @@ void generate_stars( STAR *s, PARAMS *p ){
         s[i].distance = dist_temp;
     }
 
-    fprintf(stderr, "Getting remaining coordinates. \n");
     #pragma simd
     for( i=0; i<p->N_stars; i++ ){
         ZR_to_gal(&s[i]);
@@ -119,7 +118,6 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
 
             if(dot_prod >= plate_cos){
                 star_count += 1;
-                // fprintf( file, "%lf\t%lf\t%lf\n", s[j].x, s[j].y, s[j].z );
                 output_star( file, s[j] );
             }
         }
