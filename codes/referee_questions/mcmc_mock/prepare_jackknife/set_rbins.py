@@ -1,5 +1,5 @@
 import config
-import math
+import math, pickle
 
 def main():
     '''Make a set of distance bins, and output in different format.
@@ -34,7 +34,7 @@ def main():
     # pickle output
     output_filename = config.data_dir + 'rbins.dat'
     output_file     = open(output_filename, 'wb')
-    Pickle.dump(bins_list, output_file)
+    pickle.dump(bins_list, output_file)
     output_file.close()
 
     # ascii output
