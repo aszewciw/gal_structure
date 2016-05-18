@@ -1,6 +1,7 @@
 import os, sys, math, random
 import string, csv
 import pickle
+import numpy as np
 
 class Point:
     pass
