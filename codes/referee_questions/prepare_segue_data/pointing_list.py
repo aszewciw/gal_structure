@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 #----------------------
 # segue plates are seleted using following SQL query:
@@ -108,8 +107,8 @@ def main():
     fout = open(rawdata_dir + 'plate2pointing.dat', 'w')
     fout.write('# plate pointing\n')
 
-    for i in plt2ptg:
-        fout.write(string.join([x for x in i]) + "\n")
+    # for i in plt2ptg:
+    #     fout.write(string.join([x for x in i]) + "\n")
 
     fout.close
 
