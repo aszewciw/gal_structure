@@ -92,7 +92,7 @@ def main():
             i.remove(0)
             i.insert(0, str(n)) # Add a pointing ID
             n += 1
-            fout.write(string.join([x for x in i]) + "\n")
+            # fout.write(string.join([x for x in i]) + "\n")
 
     fout.close
 
