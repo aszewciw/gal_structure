@@ -63,6 +63,7 @@ def main():
         # output ascii file for correlation function calculation
         output_filename = data_dir + 'star_' + p.ID + '.xyzw.dat'
         output_file = open(output_filename, 'w')
+        output_file.write('{}\n'.format(len(star_list)))
         for s in star_list:
             output_file.write('{}\t{}\t{}\t{}\n'
                               .format(s.cartesian_x, s.cartesian_y, s.cartesian_z,
