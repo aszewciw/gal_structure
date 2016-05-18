@@ -191,12 +191,11 @@ def main():
         output_file.close()
 
         # output xyzw
-        output_filename = data_dir + 'uniform_' + p.ID + '.xyzw.dat'
+        output_filename = data_dir + 'uniform_' + p.ID + '.xyz.dat'
         output_file = open(output_filename, "w")
         for i in random_sample:
-            output_file.write('{}\t{}\t{}\t{}\n'
-                              .format(i.cartesian_x, i.cartesian_y, i.cartesian_z,
-                                      i.weight))
+            output_file.write('{}\t{}\t{}\n'
+                              .format(i.cartesian_x, i.cartesian_y, i.cartesian_z))
         output_file.close()
 
 
