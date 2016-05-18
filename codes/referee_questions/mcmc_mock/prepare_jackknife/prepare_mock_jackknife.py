@@ -68,7 +68,7 @@ def main():
         xyz = np.genfromtxt( mock_filename, skip_header=1 )
 
         # jackknife samples
-        N_mock = len( x )
+        N_mock = len( xyz )
         remain = N_mock % N_jackknife
 
         for i in range( N_jackknife ):
