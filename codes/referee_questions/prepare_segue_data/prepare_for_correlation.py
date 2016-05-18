@@ -25,7 +25,7 @@ def main():
         if os.path.getsize(star_filename) == 0:
             continue
 
-        star_file = open(star_filename, 'r')
+        star_file = open(star_filename, 'rb')
         star_list = pickle.load(star_file)
 
         # calculate the weights
