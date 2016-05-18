@@ -2,4 +2,4 @@
 
 rm ./data/uniform*
 
-python generate_ranom.py 10
+python generate_random.py 10
