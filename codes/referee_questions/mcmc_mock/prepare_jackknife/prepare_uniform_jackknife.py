@@ -30,17 +30,17 @@ def main():
     for p in todo_list:
 
         # Mocks were randomly shuffled upon creation
-        mock_filename = mock_dir + 'uniform_' + p.ID + '.xyzw.dat'
-        xyz = np.genfromtxt( mock_filename, skip_header=1 )
+        uni_filename = uni_dir + 'uniform_' + p.ID + '.xyz.dat'
+        xyz = np.genfromtxt( uni_filename, skip_header=1 )
 
         # jackknife samples
-        N_mock = len( xyz )
-        remain = N_mock % N_jackknife
+        N_uni = len( xyz )
+        remain = N_uni % N_jackknife
 
         for i in range( N_jackknife ):
 
             # Establish a slice to be deleted from array
-            slice_length = int( N_mock / N_jackknife )
+            slice_length = int( N_uni / N_jackknife )
             lower_ind    = i * slice_length
             if i < remain:
                 lower_ind    += i
