@@ -1,6 +1,17 @@
 
 from config import *
 
+'''
+Reads in todo_list containing info about cleaned SEGUE data.
+Outputs the following:
+
+( one of these for each pointing )
+1. pickled star list (do I use this anywhere?)
+2. xyzw ascii file for correlation function
+3. ascii file containing all coordinates (used in mcmc/jackknife)
+'''
+
+
 #------------------------------------------------------------------------------
 def random_unit(Ntot, pointing):
     """
@@ -72,21 +83,9 @@ def random_unit(Ntot, pointing):
         random_sample.append(aRandom)
 
     return random_sample
-#-------------------------------------------------------------------------
-# def assign_distance(random_sample, star_list):
-
-#     # assign each star's distance to couple of random points
-#     for n in range(len(random_sample)):
-#         random_sample[n].distance = star_list[n % len(star_list)].distance
-#         random_sample[n].weight = star_list[n % len(star_list)].weight
-
-#     # recalculate the x, y, z of random points based on the assigned distance.
-#     for p in random_sample:
-#         p.cartesian_x, p.cartesian_y, p.cartesian_z = eq2cart(p.ra, p.dec, p.distance)
-
-#     return random_sample
 
 #--------------------------------------------------------------------------
+
 def assign_distance(random_sample, r1, r2):
     """
     Assign distances to random points.
@@ -128,10 +127,10 @@ def main():
     star_factor     = int(args_array[1])
 
     # load the todo pointing list
-    input_filename = data_dir + 'todo_list.dat'
+    input_filename = rawdata_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'rb')
-    todo_list = pickle.load(input_file)
+    input_file     = open(input_filename, 'rb')
+    todo_list      = pickle.load(input_file)
     input_file.close()
 
     sys.stderr.write('Generating random samples..\n')
@@ -141,7 +140,7 @@ def main():
     for p in todo_list:
 
         # a progress indicator
-        if todo_list.index(p) % (len(todo_list) / 10) == 0:
+        if todo_list.index(p) % 10 == 0:
             sys.stderr.write('Generating #{} of {} ..\n'
                              .format(todo_list.index(p), len(todo_list)))
 
@@ -149,7 +148,7 @@ def main():
             sys.stderr.write('Error: Empty star list. \n')
             continue
 
-        Ntot = p.N_star * 100 # total number of random points to generate
+        Ntot = p.N_star * star_factor # total number of random points to generate
 
         # generate random numbers on a unit sphere
         random_sample = random_unit(Ntot, p)
@@ -160,12 +159,39 @@ def main():
         # assign distance to random sample
         random_sample = assign_distance(random_sample, r1, r2)
 
+        # calculate galactic coordinates for each points
+        for i in random_sample:
+            i.galactic_l_rad, i.galactic_b_rad = eq2gal(i.ra_rad, i.dec_rad)
+            i.galactic_l_deg = math.degrees(i.galactic_l_rad)
+            i.galactic_b_deg = math.degrees(i.galactic_b_rad)
+            i.galactic_Z, i.galactic_R = gal2ZR(i.galactic_l_rad, i.galactic_b_rad, i.distance)
+
         # set random points' weight to 1
         for i in random_sample:
             i.weight = 1.0
 
+        # pickle output
+        output_filename = data_dir + 'uniform_' + p.ID + '.dat'
+        output_file     = open(output_filename, "wb")
+        pickle.dump(random_sample, output_file)
+        output_file.close()
+
         # output ascii format
-        output_filename = data_dir + 'random_' + p.ID + '.xyzw.dat'
+        output_filename = data_dir + 'uniform_' + p.ID + '.ascii.dat'
+        output_file = open(output_filename, "w")
+        # first output the total number of points
+        output_file.write('{}\n'.format(len(random_sample)))
+        for i in random_sample:
+            output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'
+                              .format(i.ra_rad, i.dec_rad, i.distance,
+                                      i.galactic_l_rad, i.galactic_b_rad,
+                                      i.galactic_Z, i.galactic_R,
+                                      i.cartesian_x, i.cartesian_y, i.cartesian_z,
+                                      i.weight))
+        output_file.close()
+
+        # output xyzw
+        output_filename = data_dir + 'uniform_' + p.ID + '.xyzw.dat'
         output_file = open(output_filename, "w")
         for i in random_sample:
             output_file.write('{}\t{}\t{}\t{}\n'
