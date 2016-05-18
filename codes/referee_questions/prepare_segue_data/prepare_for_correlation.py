@@ -7,7 +7,7 @@ def main():
     # load pointing list
     input_filename = rawdata_dir + 'pointing_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
+    input_file = open(input_filename, 'rb')
     pointing_list = pickle.load(input_file)
     input_file.close()
 
@@ -73,7 +73,7 @@ def main():
 
     # output the todo list
     output_filename = rawdata_dir + 'todo_list.dat'
-    output_file = open(output_filename, 'w')
+    output_file = open(output_filename, 'wb')
     pickle.dump(todo_list, output_file)
     sys.stderr.write('The todo list is output to {} .\n'.format(output_filename))
 
