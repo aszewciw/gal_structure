@@ -79,7 +79,7 @@ def main():
     sys.stderr.write('The todo list is output to {} .\n'.format(output_filename))
 
     # output todo_list as ascii file
-    output_filename = data_dir + 'todo_list.ascii.dat'
+    output_filename = rawdata_dir + 'todo_list.ascii.dat'
     output_file = open(output_filename, "w")
 
     # first output total number of pointings
