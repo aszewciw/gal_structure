@@ -1,3 +1,22 @@
+'''
+This file does not work.
+
+Normally this is run first in QQ's data cleaning, but it won't run for me.
+
+Instead, my starting point is going to be just having the following files:
+
+raw_data.dat
+segue.plates.csv
+plate2pointing.dat
+pointing_list.dat
+pointing_list.txt
+'''
+
+
+
+
+
+
 
 #----------------------
 # segue plates are seleted using following SQL query:

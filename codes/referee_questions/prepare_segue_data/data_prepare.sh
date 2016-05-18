@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python pointing_list.py
+# python pointing_list.py
 
 rm -f ../data/gstar_*.dat
 
