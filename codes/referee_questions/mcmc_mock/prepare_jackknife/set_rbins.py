@@ -1,5 +1,5 @@
 import config
-import math, pickle
+import math, pickle, sys
 
 def main():
     '''Make a set of distance bins, and output in different format.
