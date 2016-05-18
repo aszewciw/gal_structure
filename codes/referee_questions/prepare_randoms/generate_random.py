@@ -193,6 +193,8 @@ def main():
         # output xyzw
         output_filename = data_dir + 'uniform_' + p.ID + '.xyz.dat'
         output_file = open(output_filename, "w")
+        # first output the total number of points
+        output_file.write('{}\n'.format(len(random_sample)))
         for i in random_sample:
             output_file.write('{}\t{}\t{}\n'
                               .format(i.cartesian_x, i.cartesian_y, i.cartesian_z))
