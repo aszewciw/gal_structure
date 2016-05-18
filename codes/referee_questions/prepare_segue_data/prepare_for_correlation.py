@@ -56,7 +56,7 @@ def main():
 
         # output a repacked data file
         output_filename = data_dir + 'star_' + p.ID + '.dat'
-        output_file = open(output_filename, "w")
+        output_file = open(output_filename, "wb")
         pickle.dump(star_list, output_file)
         output_file.close()
 
