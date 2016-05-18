@@ -1,5 +1,4 @@
 import config
-import cPickle
 
 def main():
     '''Make a set of distance bins, and output in different format.
