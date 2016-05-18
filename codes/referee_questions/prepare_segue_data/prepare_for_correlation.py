@@ -78,6 +78,22 @@ def main():
     pickle.dump(todo_list, output_file)
     sys.stderr.write('The todo list is output to {} .\n'.format(output_filename))
 
+    # output todo_list as ascii file
+    output_filename = data_dir + 'todo_list.ascii.dat'
+    output_file = open(output_filename, "w")
+
+    # first output total number of pointings
+    output_file.write('{}\n'.format(len(todo_list)))
+
+    for p in todo_list:
+        output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'
+                          .format(p.ID, p.ra_deg, p.dec_deg, p.ra_rad, p.dec_rad,
+                                  p.galactic_l_rad, p.galactic_b_rad,
+                                  p.cartesian_x, p.cartesian_y, p.cartesian_z,
+                                  p.N_star))
+
+    output_file.close()
+
 
 if __name__ == '__main__' :
     main()
