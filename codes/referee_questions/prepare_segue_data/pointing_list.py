@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 #----------------------
 # segue plates are seleted using following SQL query:
