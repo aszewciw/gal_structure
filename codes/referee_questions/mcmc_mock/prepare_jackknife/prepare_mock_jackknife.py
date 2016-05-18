@@ -90,7 +90,7 @@ def main():
 
             # Output jackknife'd file
             out_file = data_dir + 'mock_' + p.ID + '_jk_' + str(i) + '.dat'
-            np.savetxt(out_file, xyz, fmt='%1.6f')
+            np.savetxt(out_file, xyz_temp, fmt='%1.6f')
 
             # Add number of elements as first line in file
             line_prepender(out_file, str(N_temp))
