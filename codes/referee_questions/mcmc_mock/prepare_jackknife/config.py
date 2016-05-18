@@ -27,11 +27,14 @@ mock_dir    = '../../prepare_mock/data/'
 uni_dir     = '../../prepare_randoms/data/'
 
 # create array of bins evenly spaced in log
-Nbins   = 12
-bin_min = 0.005
-bin_max = 2
-bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
-bins    = np.power(10, bins)
+# Nbins   = 12
+# bin_min = 0.005
+# bin_max = 2
+# bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
+# bins    = np.power(10, bins)
+R_min = 0.005
+R_max = 2.0
+N_rbins = 12
 
 # number of jackknife samples to use
 N_jackknife = 10
