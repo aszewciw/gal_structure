@@ -26,7 +26,7 @@ def main():
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
             continue
 
-        output_file = mock_dir + 'dd_' + p.ID + '.dat'
+        output_file = mock_dd_dir + 'dd_' + p.ID + '.dat'
 
         cmd = ( './mock_pair_count ' + in_file + ' ' + bins_file
             + ' > ' + output_file )
