@@ -50,7 +50,7 @@ def main():
         # Count pairs in each bin
         for i in range(Nbins):
 
-            param = str(bin_lower[i]) + ' ' + str(bins_upper[i])
+            param = str(bin_lower[i]) + ' ' + str(bin_upper[i])
             output_file = ( pairs_dir + 'counts_' + p.ID + '.bin_' + str(i)
                 + '.dat' )
             cmd = ( './uni_pair_count ' + in_file + ' ' + param + ' > '
