@@ -15,7 +15,7 @@ def main():
 
     bins_file = bins_dir + 'rbins.ascii.dat'
     if not os.path.isfile(bins_file):
-        sys.stderr.write('Error: ' + bins_file + 'does not exist.\n')
+        sys.stderr.write('Error: ' + bins_file + ' does not exist.\n')
 
 
     for p in todo_list:
