@@ -114,12 +114,12 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
         }
         for( j=0; j<N_bins; j++ ){
             fscanf(file, "%lf", &b[j].DD);
-            snprintf(b[j].binID, 256, "%d", j+1);
+            snprintf(b[j].binID, 256, "%d", j);
         }
         fclose(file);
 
         /* Next load DD errors */
-        snprintf(filename, 256, "%sstar_%s_frac_error.dat", ERR_DIR, plist[i].ID);
+        snprintf(filename, 256, "%smock_%s_frac_error.dat", ERR_DIR, plist[i].ID);
         if((file=fopen(filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s\n", filename);
             exit(EXIT_FAILURE);
@@ -165,7 +165,7 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
     for(i=lower_ind; i<upper_ind; i++){
 
         for(j=0; j<N_bins; j++){
-            snprintf(pair_filename, 256, "%spairs_%s.bin_%s.dat", PAIRS_DIR, plist[i].ID, plist[i].rbin[j].binID);
+            snprintf(pair_filename, 256, "%scounts_%s.bin_%s.dat", PAIRS_DIR, plist[i].ID, plist[i].rbin[j].binID);
             if((pair_file=fopen(pair_filename,"r"))==NULL){
                 fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
                 exit(EXIT_FAILURE);

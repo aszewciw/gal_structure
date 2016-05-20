@@ -10,13 +10,13 @@
 #include <mpi.h>
 
 /* I/O directories */
+#define RAW_DIR "../../data/"
 #define DATA_DIR "../data/"
-#define DD_DIR "../data/dd/"
+#define DD_DIR "../data/mock_dd/"
 #define ERR_DIR "../data/errors/"
-#define OUT_DIR "./data/"
+#define OUT_DIR "../data/mcmc_mock/"
 #define PAIRS_DIR "../data/model_pairs/"
 #define ZRW_DIR "../data/model_positions/"
-#define RAW_DIR "../data/raw/"
 
 
 /* Data for each radial bin */

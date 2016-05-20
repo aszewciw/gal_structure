@@ -288,7 +288,10 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                     /* use old positions */
                 }
             }
-            fprintf(stderr, "On step %d, accepted chi2 is %lf\n", i, current.chi2);
+            if(i % 1000 == 0){
+                fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
+                    i, current.chi2);
+            }
             output_mcmc(i, current, output_file);
             if(i % 50 == 0) fflush(output_file);
         }
