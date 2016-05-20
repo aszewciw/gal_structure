@@ -34,7 +34,7 @@ def main():
     for p in ID:
 
         # Repack file containing Z, R, and W=1.0 only
-        ZRW_file = model_dir + 'uniform_' + p + '.ascii.dat'
+        ZRW_file = uni_dir + 'uniform_' + p + '.ascii.dat'
         Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
             usecols=[5, 6, 10], dtype=None)
         N_points = len(Z)
