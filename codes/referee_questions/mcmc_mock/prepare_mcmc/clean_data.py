@@ -38,7 +38,7 @@ def main():
         Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
             usecols=[5, 6, 10], dtype=None)
         N_points = len(Z)
-        outfile  = model_dir + 'uniform_ZRW_' + p + '.dat'
+        outfile  = zrw_dir + 'uniform_ZRW_' + p + '.dat'
         with open(outfile, 'w') as f:
             f.write(str(N_points))
             f.write('\n')
