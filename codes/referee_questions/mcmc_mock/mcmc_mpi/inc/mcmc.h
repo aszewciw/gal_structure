@@ -14,7 +14,7 @@
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/mock_dd/"
 #define ERR_DIR "../data/errors/"
-#define OUT_DIR "../data/mcmc_mock/"
+#define OUT_DIR "../data/mcmc_output/"
 #define PAIRS_DIR "../data/model_pairs/"
 #define ZRW_DIR "../data/model_positions/"
 
