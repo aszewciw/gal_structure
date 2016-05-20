@@ -18,12 +18,12 @@ from config import *
 
 def main():
 
-    todo_file = raw_dir + 'todo_list.ascii.dat'
+    todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID        = np.genfromtxt(todo_file, unpack=True, skip_header=1,
         usecols=[0], dtype=str)
 
     # Repack file of just pointing IDs
-    outfile   = raw_dir + 'pointing_ID.dat'
+    outfile   = rawdata_dir + 'pointing_ID.dat'
     with open(outfile, 'w') as f:
         f.write(str(len(ID)))
         f.write('\n')
