@@ -65,7 +65,7 @@ int main(int argc, char * argv[]){
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 100;
+    int max_steps = 500000;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 
