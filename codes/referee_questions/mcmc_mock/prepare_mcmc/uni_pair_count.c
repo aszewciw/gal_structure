@@ -96,8 +96,8 @@ int main(int argc, char **argv){
 
   /* Claim an array */
   data.points = (POINT *)calloc(data.N, sizeof(POINT));
-
-  for(i = 0; i < N_data; i++){
+  int i;
+  for(i = 0; i < data.N; i++){
       fscanf(file, "%lf", &data.points[i].x);
       fscanf(file, "%lf", &data.points[i].y);
       fscanf(file, "%lf", &data.points[i].z);
