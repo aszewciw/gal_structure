@@ -64,31 +64,48 @@ int main(int argc, char **argv){
 
   DATA data;
 
-  //read in the data from stdin
-  int Nfetch = 100000;
+  // //read in the data from stdin
+  // int Nfetch = 100000;
 
-  unsigned long int n, np;
+  // unsigned long int n, np;
 
-  n = Nfetch;
-  data.points = (POINT *)calloc(n, sizeof (POINT));
+  // n = Nfetch;
+  // data.points = (POINT *)calloc(n, sizeof (POINT));
 
-  k = 0;
-  np = 0;
-  while(fscanf(file, "%lf", &data.points[k].x) == 1){
-    fscanf(file, "%lf", &data.points[k].y);
-    fscanf(file, "%lf", &data.points[k].z);
-    // fscanf(file, "%lf", &data.points[k].weight);
-    k++;
-    np++;
-    if(k == n){
-      n += Nfetch;
-      data.points = (POINT *)realloc(data.points, n * sizeof (POINT));
-    }
+  // k = 0;
+  // np = 0;
+
+  // while(fscanf(file, "%lf", &data.points[k].x) == 1){
+  //   fscanf(file, "%lf", &data.points[k].y);
+  //   fscanf(file, "%lf", &data.points[k].z);
+  //   // fscanf(file, "%lf", &data.points[k].weight);
+  //   k++;
+  //   np++;
+  //   if(k == n){
+  //     n += Nfetch;
+  //     data.points = (POINT *)realloc(data.points, n * sizeof (POINT));
+  //   }
+  // }
+
+  // data.points = (POINT *)realloc(data.points, np * sizeof (POINT));
+  // fprintf( stderr, "Done reading %s. %lu particles read. \n", argv[1], np );
+  // data.N = np;
+
+  /* first read in the length of the list */
+  fscanf(file, "%d", &data.N);
+
+  /* Claim an array */
+  data.points = (POINT *)calloc(data.N, sizeof(POINT));
+
+  for(i = 0; i < N_data; i++){
+      fscanf(file, "%lf", &data.points[i].x);
+      fscanf(file, "%lf", &data.points[i].y);
+      fscanf(file, "%lf", &data.points[i].z);
   }
 
-  data.points = (POINT *)realloc(data.points, np * sizeof (POINT));
-  fprintf( stderr, "Done reading %s. %lu particles read. \n", argv[1], np );
-  data.N = np;
+  fclose(file);
+
+  fprintf( stderr, "Done reading %s. %d particles read. \n", argv[1], data.N );
 
 
   fprintf(stderr, "Start counting pairs... \n");
