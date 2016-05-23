@@ -96,7 +96,7 @@ int main(int argc, char **argv){
 
   /* Claim an array */
   data.points = (POINT *)calloc(data.N, sizeof(POINT));
-  int i;
+  int i, j;
   for(i = 0; i < data.N; i++){
       fscanf(file, "%lf", &data.points[i].x);
       fscanf(file, "%lf", &data.points[i].y);
@@ -115,8 +115,6 @@ int main(int argc, char **argv){
   double rs2 = rmax * rmax;
 
   double dx, dy, dz, ds;
-
-  int i, j;
 
   POINT p1, p2;
 
