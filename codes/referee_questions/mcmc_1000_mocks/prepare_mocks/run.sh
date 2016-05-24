@@ -18,4 +18,4 @@ N_stars=1000000;
 
 # rm ./data/temp*
 
-python make_mocks.py "$N_stars $N_mocks"
+python make_mocks.py $N_stars $N_mocks
