@@ -23,3 +23,6 @@ def main():
 
         cmd3 = 'rm ' + mock_dir + 'temp*'
         os.system(cmd3)
+
+if __name__ == '__main__':
+    main()
