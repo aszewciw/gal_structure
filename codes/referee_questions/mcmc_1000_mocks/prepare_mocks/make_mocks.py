@@ -15,7 +15,7 @@ def main():
 
         mock_dir = '../data/mock_' + str(i+1) +'/'
 
-        cmd = 'time ./bin/make_galaxy ' + N_stars + ' ' + str(i+1)
+        cmd = './bin/make_galaxy ' + N_stars + ' ' + str(i+1)
         os.system(cmd)
 
         cmd2 = 'python clean_mocks.py ' + str(i+1)

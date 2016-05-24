@@ -16,4 +16,4 @@ make
 
 N_stars=1000000;
 
-python make_mocks.py $N_stars $N_mocks
+time python make_mocks.py $N_stars $N_mocks
