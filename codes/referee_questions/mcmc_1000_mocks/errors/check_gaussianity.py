@@ -1,3 +1,16 @@
+'''
+Produces histograms for all bins for whichever l.o.s.
+I choose.
+As of now, there is no intelligent place of storing these
+files because I just wanted to check the Gaussianity of a
+few.
+
+It looks good.
+
+'''
+
+
+
 from config import *
 import matplotlib.pyplot as plt
 
