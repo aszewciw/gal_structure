@@ -1,4 +1,4 @@
-Testing of proper way to use errors for mcmc.
+ting of proper way to use errors for mcmc.
 
 Here I will make 1000 mocks and run pair counting on all of them.
 The standard deviation resulting from this pair counting will be
