@@ -27,7 +27,7 @@ def main():
     # loop over each l.o.s.
     for p in todo_list:
 
-        sys.stderr.write('Calculating stats for pointing{}\n'.format(p.ID))
+        sys.stderr.write('Calculating stats for pointing {}\n'.format(p.ID))
 
         # Empty arrays where each row is counts for 1 mock in current l.o.s.
         DD_raw_all = np.zeros((N_mocks, N_bins))
