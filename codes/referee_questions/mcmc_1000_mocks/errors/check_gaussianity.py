@@ -23,7 +23,7 @@ def main():
     # loop over each l.o.s.
     for p in todo_list:
 
-        if p.ID != '0':
+        if p.ID != '10':
             continue
 
         sys.stderr.write('Making histogram for pointing {}\n'.format(p.ID))
