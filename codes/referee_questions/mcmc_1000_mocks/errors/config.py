@@ -24,20 +24,10 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir  = '../../data/'
-mcmc_dir = '../../mcmc_mock/data/'
-
-data_dir     = './data/'
-mock_dir     = '../../prepare_mock/data/'
-# uni_dir      = '../../prepare_randoms/data/'
-# errors_dir   = data_dir + 'errors/'
-# jk_dir       = data_dir + 'jackknife/'
-# mcmc_out_dir = data_dir + 'mcmc_output/'
-# mock_dd_dir  = data_dir + 'mock_dd/'
-# pairs_dir    = data_dir + 'model_pairs/'
-# zrw_dir      = data_dir + 'model_positions/'
-bins_dir     = mcmc_dir + 'rbins/'
-
+rawdata_dir = '../../data/'
+bins_dir    = '../../mcmc_mock/data/rbins/'
+mock_dir    = '../data/'
+stats_dir   = mock_dir + 'mean_var_std/'
 
 # create array of bins evenly spaced in log
 # Nbins   = 12

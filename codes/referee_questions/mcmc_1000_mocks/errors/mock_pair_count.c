@@ -149,8 +149,8 @@ int main(int argc, char **argv){
 
         corr[k].DD = (double)corr[k].DD_N / (double)normalization;
         fprintf(stdout, "%lf\t%lf\t%lf\t%lf\t%ld\t%le\n",
-            corr[k].r_lower, corr[k].r_upper, corr[k].r_middle, corr[k].bin_size,
-            corr[k].DD_N, corr[k].DD);
+            corr[k].r_lower, corr[k].r_upper, corr[k].r_middle,
+            corr[k].bin_size, corr[k].DD_N, corr[k].DD);
         // fprintf( stdout, "%lf\n", corr[k].DD );
     }
 
