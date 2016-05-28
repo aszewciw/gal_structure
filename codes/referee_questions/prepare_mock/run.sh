@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-rm ../data/*.dat
+rm ./data/*.dat
 
 make cleanall
 make
