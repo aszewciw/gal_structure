@@ -52,73 +52,99 @@ void load_pointing_list(int *N_plist, POINTING **plist){
 
 /* ----------------------------------------------------------------------- */
 
-/* get parameters for thin disk */
-void get_thin_params( PARAMS *p, unsigned long int N ){
+void get_params( PARAMS *p, unsigned long int N ){
 
-    long double temp;
+    /*
+    Get parameters according to the canonical two-disk model
+    of those two guys who made a two-disk model...shit, what
+    are their names?
 
-    /* These are the same for both disks */
-    /* These limits are geometric. They are slightly larger than what is
-    /* exactly necessary in order to account for possible changes to the
-    /* position of the sun w.r.t. Galactic center. */
-    p->r_min = 4.5;
-    p->r_max = 11.5;
-    p->z_min = 0.0;
-    p->z_max = 3.1;
-    p->phi_max = atan(0.5);
-    p->phi_min = -p->phi_max;
-    p->phi_min += M_PI;
-    p->phi_max += M_PI;
+    Regardless, can check Mao et al., 2015, for the functional
+    form that is used throughout this project.
+    */
+
+    /* Disk params */
+    p->z0_thin  = 0.233;
+    p->r0_thin  = 2.34;
+    p->z0_thick = 0.674;
+    p->r0_thick = 2.51;
+    p->ratio    = 0.1;
+
+    /* Geometric sample limits */
+    /* These are slightly generous limits. Sample is cut down
+    appropriately elsewhere */
+    p->r_min     = 4.5;
+    p->r_max     = 11.5;
+    p->z_min     = 0.0;
+    p->z_max     = 3.1;
+    p->phi_max   = atan(0.5);
+    p->phi_min   = -p->phi_max;
+    p->phi_min   += M_PI;
+    p->phi_max   += M_PI;
     p->phi_range = p->phi_max - p->phi_min;
-    p->ratio = 0.1;
 
-    /* These are different for the two disks */
-    temp = (long double)N * p->ratio;
-    p->N_stars = N - (unsigned long int)temp;
-    p->z0 = 0.233;
-    p->r0 = 2.34;
-    p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
-        - exp( -p->r_max / p->r0 ) ) );
-    p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
-        - tanh( p->z_min / (2.0 * p->z0) ) ) );
+    /* PDF normalizations */
+    /* thin normalizations */
+    p->r0_pdf_norm_thin = 1.0 / ( p->r0_thin
+        * ( exp( -p->r_min / p->r0_thin )
+        - exp( -p->r_max / p->r0_thin ) ) );
+    p->z0_pdf_norm_thin = 1.0 / ( 2.0 * p->z0_thin
+        * ( tanh( p->z_max / (2.0 * p->z0_thin) )
+        - tanh( p->z_min / (2.0 * p->z0_thin) ) ) );
+    /*thick normalizations */
+    p->r0_pdf_norm_thick = 1.0 / ( p->r0_thick
+        * ( exp( -p->r_min / p->r0_thick )
+        - exp( -p->r_max / p->r0_thick ) ) );
+    p->z0_pdf_norm_thick = 1.0 / ( 2.0 * p->z0_thick
+        * ( tanh( p->z_max / (2.0 * p->z0_thick) )
+        - tanh( p->z_min / (2.0 * p->z0_thick) ) ) );
 
-    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_stars);
+    /* Get number of stars in each disk */
+    /* This could be done as a separate function */
+    /*
+    It is difficult to detail the logic of these steps.
+    What I am doing is integrating the density over the
+    volume and setting this equal to the total number of
+    stars to find the density normalization constant. I
+    then use this normalization to find the stars in each
+    disk.
+    */
+    double Z_integrated; /* integral of sech^2(Z) term */
+    double R_integrated; /* integral of exp(-R) term */
+    double thin_term; /* combined integral term for thin disk */
+    double thick_term; /* combined integral term for thick disk */
+    long double density_const; /* normalization of density */
 
-}
+    Z_integrated = 2.0 * p->z0_thin * (
+        tanh( p->z_max / (2.0*p->z0_thin) )
+        - tanh( p->z_min / (2.0*p->z0_thin) ) );
+    R_integrated = -p->r0_thin * (
+        exp(-p->r_max/p->r0_thin) * (p->r0_thin + p->r_max)
+        - exp(-p->r_min/p->r0_thin) * (p->r0_thin + p->r_min) );
+    thin_term = Z_integrated * R_integrated * p->phi_range; //phi range doesn't actually matter but is put in for completeness
 
-/* ----------------------------------------------------------------------- */
+    Z_integrated = 2.0 * p->z0_thick * (
+        tanh( p->z_max / (2.0*p->z0_thick) )
+        - tanh( p->z_min / (2.0*p->z0_thick) ) );
+    R_integrated = -p->r0_thick * (
+        exp(-p->r_max/p->r0_thick) * (p->r0_thick + p->r_max)
+        - exp(-p->r_min/p->r0_thick) * (p->r0_thick + p->r_min) );
+    thick_term = p->ratio * Z_integrated * R_integrated * p->phi_range;
 
-/* get parameters for thin disk */
-void get_thick_params( PARAMS *p, unsigned long int N ){
+    density_const = (long double)N / (thin_term + thick_term);
 
-    long double temp;
+    long double temp = density_const * thin_term;
 
-    /* These are the same for both disks */
-    /* These limits are geometric. They are slightly larger than what is
-    /* exactly necessary in order to account for possible changes to the
-    /* position of the sun w.r.t. Galactic center. */
-    p->r_min = 4.5;
-    p->r_max = 11.5;
-    p->z_min = 0.0;
-    p->z_max = 3.1;
-    p->phi_max = atan(0.5);
-    p->phi_min = -p->phi_max;
-    p->phi_min += M_PI;
-    p->phi_max += M_PI;
-    p->phi_range = p->phi_max - p->phi_min;
-    p->ratio = 0.1;
+    p->N_thin = (unsigned long int)temp;
 
-    /* These are different for the two disks */
-    temp = (long double)N * p->ratio;
-    p->N_stars = (unsigned long int)temp;
-    p->z0 = 0.674;
-    p->r0 = 2.51;
-    p->r0_pdf_norm = 1.0 / ( p->r0 * ( exp( -p->r_min / p->r0 )
-        - exp( -p->r_max / p->r0 ) ) );
-    p->z0_pdf_norm = 1.0 / ( 2.0 * p->z0 * ( tanh( p->z_max / (2.0 * p->z0) )
-        - tanh( p->z_min / (2.0 * p->z0) ) ) );
+    temp = density_const * thick_term;
 
-    fprintf(stderr, "%lu stars in the thick disk. \n", p->N_stars);
+    p->N_thick = (unsigned long int)temp + 1;
+
+    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
+    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thick);
+    fprintf(stderr, "%lu total stars. \n", p->N_thin + p->N_thick);
+
 
 }
 

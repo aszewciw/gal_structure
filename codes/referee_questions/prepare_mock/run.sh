@@ -1,7 +1,6 @@
-#!/bin/bash
+#! /usr/bin/bash
 
-rm ./data/mock*
-rm ./data/temp*
+rm ../data/*.dat
 
 make cleanall
 make
@@ -9,4 +8,4 @@ make
 time ./bin/make_galaxy 1000000
 python clean_mocks.py
 
-rm ./data/temp*
+rm ../data/temp*
