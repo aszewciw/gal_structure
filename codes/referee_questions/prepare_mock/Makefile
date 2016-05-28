@@ -12,7 +12,7 @@ CFLAGS=-I$(INCDIR) -Wall -O3
 
 # Linker Flags and Libraries
 LDFLAGS=
-LDLIBS=
+LDLIBS=-lm
 
 # Name of final Executable
 TARGET=make_galaxy
