@@ -11,8 +11,8 @@ CC=gcc
 CFLAGS=-I$(INCDIR) -Wall -O3
 
 # Linker Flags and Libraries
-LDFLAGS=
-LDLIBS=-lm
+LDFLAGS=-lm
+LDLIBS=
 
 # Name of final Executable
 TARGET=make_galaxy
