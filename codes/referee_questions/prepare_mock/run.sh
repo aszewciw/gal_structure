@@ -8,4 +8,4 @@ make
 time ./bin/make_galaxy 1000000
 python clean_mocks.py
 
-rm ../data/temp*
+rm ./data/temp*
