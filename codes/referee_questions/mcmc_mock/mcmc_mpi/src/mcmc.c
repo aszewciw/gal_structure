@@ -237,7 +237,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     /* define file for output and have proc 0 open */
     char output_filename[256];
     FILE *output_file;
-    snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+    snprintf(output_filename, 256, "%smcmc_result2.dat", OUT_DIR);
     if(rank==0){
         output_file = fopen(output_filename, "a");
     }
