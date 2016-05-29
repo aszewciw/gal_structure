@@ -5,7 +5,7 @@ rm -rf ../data/mock*
 
 # make directories
 n=1;
-N_mocks=5;
+N_mocks=1000;
 while [ "$n" -le "$N_mocks" ]; do
     mkdir "../data/mock_$n"
     n=`expr "$n" + 1`;
