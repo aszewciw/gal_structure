@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-rm ../data/jacknife/mock*
+rm ../data/jackknife/mock*
 rm counts
 
 icc -Wall -xHost -O3 -vec_report2 counts.c -o counts
