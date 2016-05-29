@@ -12,18 +12,18 @@ def main():
     # load bin settings
     input_filename = rbins_dir + 'rbins.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'rb')
-    bins_list = pickle.load(input_file)
+    input_file     = open(input_filename, 'rb')
+    bins_list      = pickle.load(input_file)
     input_file.close()
     if len(bins_list) != N_rbins:
         sys.stderr.write("Error: Inconsistent R bins. Check set_rbins and config. \n")
         sys.exit()
 
-    bins_filename = data_dir + 'rbins.ascii.dat'
+    bins_filename = rbins_dir + 'rbins.ascii.dat'
 
     for p in todo_list:
         # counting pairs for the whole sample
-        data_filename = mock_dir + 'mock_' + p.ID + '.xyz.dat'
+        data_filename   = mock_dir + 'mock_' + p.ID + '.xyz.dat'
         counts_filename = data_dir + 'mock_' + p.ID + '_jk_all.counts.dat'
         cmd = ('./counts ' + data_filename + ' ' + bins_filename
                + ' > ' + counts_filename)
@@ -59,7 +59,7 @@ def main():
             jk_std[k] = math.sqrt(jk_std[k] * (N_jk - 1) / N_jk)
 
         output_filename = data_dir + 'mock_' + p.ID + '_jk_error.dat'
-        output_file = open(output_filename, 'w')
+        output_file     = open(output_filename, 'w')
         for k in range(N_rbins):
             r_lower  = counts_all[k][0]
             r_upper  = counts_all[k][1]
