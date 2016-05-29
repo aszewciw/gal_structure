@@ -34,7 +34,7 @@ mcmc_out_dir = data_dir + 'mcmc_output/'
 mock_dd_dir  = data_dir + 'mock_dd/'
 pairs_dir    = data_dir + 'model_pairs/'
 zrw_dir      = data_dir + 'model_positions/'
-bins_dir     = data_dir + 'rbins/'
+rbins_dir     = data_dir + 'rbins/'
 
 # create array of bins evenly spaced in log
 # Nbins   = 12
