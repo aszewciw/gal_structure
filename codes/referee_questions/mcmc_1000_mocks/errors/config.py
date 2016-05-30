@@ -29,12 +29,7 @@ bins_dir    = '../../mcmc_mock/data/rbins/'
 mock_dir    = '../data/'
 stats_dir   = mock_dir + 'mean_var_std/'
 
-# create array of bins evenly spaced in log
-# Nbins   = 12
-# bin_min = 0.005
-# bin_max = 2
-# bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
-# bins    = np.power(10, bins)
+# bin information
 R_min = 0.005
 R_max = 2.0
 N_rbins = 12
