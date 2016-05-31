@@ -70,7 +70,7 @@ def main():
             mock_frac_error[i] = mock_sigma[i] / dd[i]
 
         outfile = errors_dir + 'mock_' + p + '_frac_error.dat'
-        np.savetxt(outfile, mock_sigma)
+        np.savetxt(outfile, mock_frac_error)
 
 if __name__ == '__main__':
     main()
