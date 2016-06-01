@@ -153,11 +153,15 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
     p_new.thick_z0 = p.thick_z0 + delta;
 
-    while(1){
-        delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
-        p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
-        if(p_new.ratio_thick_thin < 1.0) break;
-    }
+    // while(1){
+    //     delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
+    //     p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
+    //     if(p_new.ratio_thick_thin < 1.0) break;
+    // }
+
+    /* keeping fixed for a try */
+    p_new.ratio_thick_thin = 0.1;
+
 
     /* Initialize chi2 values to 0 instead of nonsense */
     p_new.chi2 = 0.0;
