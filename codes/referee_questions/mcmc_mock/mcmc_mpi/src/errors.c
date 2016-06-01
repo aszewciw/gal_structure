@@ -24,11 +24,9 @@ void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind)
                 p[i].rbin[j].err2_frac = 0.0;
             }
             else{
-                // p[i].rbin[j].err2_frac = (
-                //     p[i].rbin[j].DD_err_jk * p[i].rbin[j].DD_err_jk
-                //     + p[i].rbin[j].MM_err_jk * p[i].rbin[j].MM_err_jk );
                 p[i].rbin[j].err2_frac = (
-                    p[i].rbin[j].DD_err_jk * p[i].rbin[j].DD_err_jk);
+                    p[i].rbin[j].DD_err_jk * p[i].rbin[j].DD_err_jk
+                    + p[i].rbin[j].MM_err_jk * p[i].rbin[j].MM_err_jk );
             }
         }
     }
