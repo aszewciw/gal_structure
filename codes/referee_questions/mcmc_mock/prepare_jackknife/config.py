@@ -27,7 +27,8 @@ OUTER_DISTANCE_LIMIT = 3.0
 rawdata_dir = '../../data/'
 data_dir    = '../data/jackknife/'
 rbins_dir   = '../data/rbins/'
-mock_dir    = '../../prepare_mock/data/'
+# mock_dir  = '../../prepare_mock/data/'
+mock_dir    = '../../prepare_dense_mock/data/'
 uni_dir     = '../../prepare_randoms/data/'
 
 R_min = 0.005

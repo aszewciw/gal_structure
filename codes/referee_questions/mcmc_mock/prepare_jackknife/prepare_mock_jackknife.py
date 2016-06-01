@@ -1,7 +1,3 @@
-'''
-
-
-'''
 
 from config import *
 

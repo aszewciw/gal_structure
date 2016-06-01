@@ -1,5 +1,8 @@
 #! /usr/bin/bash
 
+bash run_jk_mock.sh
+bash run_jk_uniform.sh
+
 rm ../data/rbins/*.dat
 python set_rbins.py
 
