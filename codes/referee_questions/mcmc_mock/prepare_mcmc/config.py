@@ -26,7 +26,8 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock/data/'
+# mock_dir     = '../../prepare_mock/data/'
+mock_dir     = '../../prepare_dense_mock/data/'
 uni_dir      = '../../prepare_randoms/data/'
 errors_dir   = data_dir + 'errors/'
 jk_dir       = data_dir + 'jackknife/'
@@ -34,7 +35,7 @@ mcmc_out_dir = data_dir + 'mcmc_output/'
 mock_dd_dir  = data_dir + 'mock_dd/'
 pairs_dir    = data_dir + 'model_pairs/'
 zrw_dir      = data_dir + 'model_positions/'
-rbins_dir     = data_dir + 'rbins/'
+rbins_dir    = data_dir + 'rbins/'
 
 # create array of bins evenly spaced in log
 # Nbins   = 12
