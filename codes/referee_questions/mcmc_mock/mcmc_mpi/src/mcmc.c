@@ -140,6 +140,13 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     double thick_z0_sigma = 0.005;
     double ratio_thick_thin_sigma = 0.002;
 
+    /* try alternate step sizes */
+    // double thin_r0_sigma = 0.05;
+    // double thin_z0_sigma = 0.005;
+    // double thick_r0_sigma = 0.05;
+    // double thick_z0_sigma = 0.005;
+    // double ratio_thick_thin_sigma = 0.002;
+
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
     p_new.thin_r0 = p.thin_r0 + delta;
@@ -153,14 +160,15 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
     p_new.thick_z0 = p.thick_z0 + delta;
 
-    // while(1){
-    //     delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
-    //     p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
-    //     if(p_new.ratio_thick_thin < 1.0) break;
-    // }
+    /* avoid having ratio > 1 or < 0 */
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, ratio_thick_thin_sigma);
+        p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
+        if(p_new.ratio_thick_thin < 1.0 && p_new.ratio_thick_thin >= 0.0) break;
+    }
 
     /* keeping fixed for a try */
-    p_new.ratio_thick_thin = 0.1;
+    // p_new.ratio_thick_thin = 0.1;
 
 
     /* Initialize chi2 values to 0 instead of nonsense */
