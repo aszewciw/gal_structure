@@ -22,7 +22,7 @@ int main(int argc, char * argv[]){
     /* number of steps in mcmc */
     int max_steps;
     sscanf(argv[1], "%d", &max_steps);
-    fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
+    if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
 
     /* -- Load data from various files --*/
     int i, j;
