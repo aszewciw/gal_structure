@@ -3,6 +3,7 @@
 # Add number of stars as first line in output file
 
 import numpy as np
+import sys
 
 DATA_DIR = '../data/'
 OUT_DIR = './data/'
