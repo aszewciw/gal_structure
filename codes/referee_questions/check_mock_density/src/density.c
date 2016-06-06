@@ -13,7 +13,7 @@ void get_volume(DVOL *dv, PARAMS *p){
     double volume;
     double rand_num;
 
-    fraction = 0.05; /* trial and error here */
+    fraction = 0.1; /* trial and error here */
 
     dr   = (p->r_max - p->r_min) * fraction;
     dz   = (p->z_max - p->z_min) * fraction;

@@ -143,7 +143,7 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->N_thick = (unsigned long int)temp + 1;
 
     fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
-    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thick);
+    fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
     fprintf(stderr, "%lu total stars. \n", p->N_thin + p->N_thick);
 
 
