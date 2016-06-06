@@ -49,6 +49,10 @@ void get_volume(DVOL *dv, PARAMS *p){
     /* use whole phi range for now */
     phi_min = p->phi_min;
     phi_max = p->phi_max;
+    r_min = p->r_min;
+    r_max = p->r_max;
+    z_min = p->z_min;
+    z_max = p->z_max;
 
     /* Integrate over cylindrical slice to get volume */
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
@@ -185,7 +189,7 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
     /* count how many stars fall in volume element */
 
     /* thin disk first */
-    #pragma simd
+    // #pragma simd
     for(i=0; i<p->N_thin; i++){
 
         /* skip if coordinates are outside of range */
@@ -204,7 +208,7 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
     }
 
     /* thick disk next */
-    #pragma simd
+    // #pragma simd
     for(i=0; i<p->N_thick; i++){
 
         /* skip if coordinates are outside of range */

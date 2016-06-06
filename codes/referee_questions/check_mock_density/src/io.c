@@ -140,7 +140,8 @@ void get_params( PARAMS *p, unsigned long int N ){
 
     temp = density_const * thick_term;
 
-    p->N_thick = (unsigned long int)temp + 1;
+    p->N_thick = (unsigned long int)temp;
+    if(p->N_thick != 0) p->N_thick+=1;
 
     fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
     fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
