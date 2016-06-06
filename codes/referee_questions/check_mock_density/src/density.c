@@ -164,7 +164,8 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
     /* for loop dummy */
     unsigned long int i;
     /* number of stars in volume element */
-    double N_sample = 0.0;
+    double N_sample;
+    N_sample = 0.0;
 
     /* First assign limits from DVOL */
     r_min     = dv->r_min;
