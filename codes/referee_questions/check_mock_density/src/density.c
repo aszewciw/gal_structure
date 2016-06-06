@@ -173,8 +173,8 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
     /* for loop dummy */
     unsigned long int i;
     /* number of stars in volume element */
-    double N_sample;
-    N_sample = 0.0;
+    int N_sample;
+    N_sample = 0;
 
     /* First assign limits from DVOL */
     r_min     = dv->r_min;
@@ -223,11 +223,13 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
         }
 
         /* if we haven't skipped then star is withick element */
-        N_sample += 1.0;
+        N_sample += 1;
     }
 
     /* get average density in this region */
-    density = N_sample / volume;
+
+    dv->N_raw = N_sample;
+    density = (double)N_sample / volume;
 
     return density;
 }

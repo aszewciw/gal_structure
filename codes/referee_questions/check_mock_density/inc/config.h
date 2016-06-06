@@ -187,6 +187,8 @@ typedef struct DVOL{
     double phi_range;
     /* volume of element */
     double volume;
+    /* raw counts of stars in element */
+    int N_raw;
 
 } DVOL;
 

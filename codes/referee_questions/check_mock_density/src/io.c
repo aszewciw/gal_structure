@@ -156,8 +156,8 @@ void get_params( PARAMS *p, unsigned long int N ){
 void output_data( FILE *output_file, double density_analytic,
     double density_mock, DVOL dv)
 {
-    fprintf( output_file, "%lf\t%lf\t%lf\n",
-        density_analytic, density_mock, dv.volume);
+    fprintf( output_file, "%lf\t%lf\t%lf\t%d\n",
+        density_analytic, density_mock, dv.volume, dv.N_raw);
 }
 
 /* ----------------------------------------------------------------------- */
