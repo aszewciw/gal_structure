@@ -46,7 +46,7 @@ void get_volume(DVOL *dv, PARAMS *p){
     }
 
     /* Integrate over cylindrical slice to get volume */
-    volume = ( phi_range * ( 0.5 * (r_max*r_max - r_min*r_min) )
+    volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
         * (z_max - z_min) );
 
     /* assign values to main function arguments */
@@ -63,7 +63,7 @@ void get_volume(DVOL *dv, PARAMS *p){
 /* ---------------------------------------------------------------- */
 
 /* return integral of sech^2(-z/(2*z0)) from z_min to z_max */
-double integrate_Z_term(z0, z_min, z_max){
+double integrate_Z_term(double z0, double z_min, double z_max){
 
     /* integral of sech^2(Z) term */
     double Z_integrated;
@@ -78,7 +78,7 @@ double integrate_Z_term(z0, z_min, z_max){
 
 /* return integral of r*exp(-r/r0) from r_min to r_max */
 /* Note: extra "r" is due to Jacobian */
-double integrate_R_term(r0, r_min, r_max){
+double integrate_R_term(double r0, double r_min, double r_max){
 
     /* integral of exp(-R) term */
     double R_integrated;
@@ -189,7 +189,7 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
         if( (thin[i].gal_r < r_min) || (thin[i].gal_r > r_max) ){
             continue;
         }
-        if( (thin[i].gal_phi < phi_min) || (thin[i].gal_phi > z_phi) ){
+        if( (thin[i].gal_phi < phi_min) || (thin[i].gal_phi > phi_max) ){
             continue;
         }
 
@@ -208,7 +208,7 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
         if( (thick[i].gal_r < r_min) || (thick[i].gal_r > r_max) ){
             continue;
         }
-        if( (thick[i].gal_phi < phi_min) || (thick[i].gal_phi > z_phi) ){
+        if( (thick[i].gal_phi < phi_min) || (thick[i].gal_phi > phi_max) ){
             continue;
         }
 

@@ -207,7 +207,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type );
 
 /* Used in calculation of density */
 void get_volume(DVOL *dv, PARAMS *p);
-double integrate_Z_term(z0, z_min, z_max);
-double integrate_R_term(r0, r_min, r_max);
+double integrate_Z_term(double z0, double z_min, double z_max);
+double integrate_R_term(double r0, double r_min, double r_max);
 double ave_dens_analytic(PARAMS *p, DVOL *dv, unsigned long int N_stars);
 double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick);
