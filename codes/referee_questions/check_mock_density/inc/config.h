@@ -108,23 +108,23 @@ typedef struct STAR{
     /* -------- Sun-centered ------- */
     /* ----------------------------- */
 
-    /* Angles in radians */
-    /* Galactic longitude (in plane angle) */
-    double gal_l_rad;
-    /* Galactic latitude (above/below plane angle) */
-    double gal_b_rad;
-    /* Right Ascension */
-    double ra_rad;
-    /* Declination */
-    double dec_rad;
-    /* distance from sun to star */
-    double distance;
-    /* cartesian x from ra, dec */
-    double x;
-    /* cartesian y from ra, dec */
-    double y;
-    /* cartesian z from ra, dec */
-    double z;
+    // /* Angles in radians */
+    // /* Galactic longitude (in plane angle) */
+    // double gal_l_rad;
+    // /* Galactic latitude (above/below plane angle) */
+    // double gal_b_rad;
+    // /* Right Ascension */
+    // double ra_rad;
+    // /* Declination */
+    // double dec_rad;
+    // /* distance from sun to star */
+    // double distance;
+    // /* cartesian x from ra, dec */
+    // double x;
+    // /* cartesian y from ra, dec */
+    // double y;
+    // /* cartesian z from ra, dec */
+    // double z;
 
 } STAR;
 
@@ -167,25 +167,47 @@ typedef struct POINTING{
 } POINTING;
 
 /* ---------------------------------------------------------------- */
+
+/* A structure used to test the density */
+typedef struct DVOL{
+
+    /* radial minimum in plane */
+    double r_min;
+    /* radial maximum */
+    double r_max;
+    /* height minimum */
+    double z_min;
+    /* height maximum */
+    double z_max;
+    /* angle min */
+    double phi_min;
+    /* angle max */
+    double phi_max;
+    /* angle range */
+    double phi_range;
+    /* volume of element */
+    double volume;
+
+} DVOL;
+
+/* ---------------------------------------------------------------- */
 /* -------------------------- FUNCTIONS --------------------------- */
 /* ---------------------------------------------------------------- */
 
-/* Conversions between coordinates systems */
-double get_distance(double Z, double R, double phi);
-void ZR_to_gal(STAR *s);
-void gal_to_eq(STAR *s);
-void eq_to_cart(STAR *s);
 
 /* I/O functions */
 void load_pointing_list(int *N_plist, POINTING **plist);
-// void get_thin_params( PARAMS *p, unsigned long int N );
-// void get_thick_params( PARAMS *p, unsigned long int N );
 void get_params( PARAMS *p, unsigned long int N );
-void output_star( FILE *output_file, STAR s );
-
+void output_data( FILE *output_file, double density_analytic,
+    double density_mock, DVOL vol);
 /* Generation of stars */
 double random_gal_Z(double z0, double pdf_norm, double z_min, double z_max);
 double random_gal_R(double r0, double pdf_norm, double r_min, double r_max);
-double dot_product(VECTOR v1, VECTOR v2);
-void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s);
 void generate_stars( STAR *s, PARAMS *p, int disk_type );
+
+/* Used in calculation of density */
+void get_volume(DVOL *dv, PARAMS *p);
+double integrate_Z_term(z0, z_min, z_max);
+double integrate_R_term(r0, r_min, r_max);
+double ave_dens_analytic(PARAMS *p, DVOL *dv, unsigned long int N_stars);
+double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick);

@@ -178,8 +178,6 @@ void eq_to_cart(STAR *s);
 
 /* I/O functions */
 void load_pointing_list(int *N_plist, POINTING **plist);
-// void get_thin_params( PARAMS *p, unsigned long int N );
-// void get_thick_params( PARAMS *p, unsigned long int N );
 void get_params( PARAMS *p, unsigned long int N );
 void output_star( FILE *output_file, STAR s );
 

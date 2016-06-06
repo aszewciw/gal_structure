@@ -5,7 +5,7 @@ rm ./data/*.dat
 make cleanall
 make
 
-time ./bin/make_galaxy 1000000
-python clean_mocks.py
+N_stars=10000000;
+N_vols=1;
 
-rm ./data/temp*
+time ./bin/make_galaxy $N_stars $N_vols

@@ -50,25 +50,20 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 /*---------------------------------------------------------------------------*/
 
 /* dot product of two unit vectors */
-double dot_product(VECTOR v1, VECTOR v2){
+// double dot_product(VECTOR v1, VECTOR v2){
 
-    double dot;
+//     double dot;
 
-    dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+//     dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 
-    return dot;
-}
+//     return dot;
+// }
 
 /*---------------------------------------------------------------------------*/
 
 /* make a temporary number of stars */
 void generate_stars( STAR *s, PARAMS *p, int disk_type ){
 
-    int flag;                   // check if star is within distance limits
-    double Z_temp;              // temp galactic height
-    double R_temp;              // temp galactic in-plane distance
-    double phi_temp;            // temp galactic angle
-    double dist_temp;           // temporary sun-star distance
     double z0;                  // disk scale height
     double r0;                  // disk scale length
     double z0_pdf_norm;         // PDF height normalization
@@ -102,96 +97,71 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
     /* make stars until we have enough for this disk */
     for( i=0; i<N_stars; i++ ){
 
-        /* Make sure we only get stars in the 1-3 kpc range */
-        /* We don't wanna waste no FLOPS */
-        flag = 0;
-        while(flag==0){
-            Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
-            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
-            phi_temp = ( ( (double)rand() / (double)RAND_MAX )
-                * p->phi_range + p->phi_min );
-            dist_temp = get_distance(Z_temp, R_temp, phi_temp);
-
-            /* Break out of while loop if condition is met */
-            if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
-        }
-
-        /* assign temp values to mock galaxy */
-        s[i].gal_z    = Z_temp;
-        s[i].gal_r    = R_temp;
-        s[i].gal_phi  = phi_temp;
-        s[i].distance = dist_temp;
-    }
-
-    /* vectorize with icc!! FAST! OMG!! */
-    /* calculate the remaining star attributes */
-    #pragma simd
-    for( i=0; i<N_stars; i++ ){
-        ZR_to_gal(&s[i]);
-        gal_to_eq(&s[i]);
-        eq_to_cart(&s[i]);
-    }
+        s[i].gal_z   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
+        s[i].gal_r   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
+        s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
+            * p->phi_range + p->phi_min );
 }
 
 /*---------------------------------------------------------------------------*/
 
-/* assign stars to the appropriate l.o.s. and output file */
-void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
+// /* assign stars to the appropriate l.o.s. and output file */
+// void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
 
-    int i;                  // loop variable for pointings
-    unsigned long int j;    // loop variable for stars
-    char filename[256];     // temp output file name
-    FILE *file;             // temp output file
-    VECTOR plate;           // plate's unit vector
-    VECTOR point;           // current star's unit vector
-    double dot_prod;        // dot product for two above vectors
-    double plate_cos;       // used to assign stars to pointings
-    int star_count;         // number of stars added to current l.o.s.
+//     int i;                  // loop variable for pointings
+//     unsigned long int j;    // loop variable for stars
+//     char filename[256];     // temp output file name
+//     FILE *file;             // temp output file
+//     VECTOR plate;           // plate's unit vector
+//     VECTOR point;           // current star's unit vector
+//     double dot_prod;        // dot product for two above vectors
+//     double plate_cos;       // used to assign stars to pointings
+//     int star_count;         // number of stars added to current l.o.s.
 
-    /* Calculate limit for assigning star to pointing */
-    plate_cos = cos( PLATE_RADIUS_DEG * M_PI / 180. );
+//     /* Calculate limit for assigning star to pointing */
+//     plate_cos = cos( PLATE_RADIUS_DEG * M_PI / 180. );
 
 
-    for(i=0; i<N_p; i++){
+//     for(i=0; i<N_p; i++){
 
-        /* skip this pointing if we have enough stars */
-        if( p[i].flag == 1) continue;
+//         /* skip this pointing if we have enough stars */
+//         if( p[i].flag == 1) continue;
 
-        /* if we need more stars, open the file */
-        snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
-        file = fopen(filename, "a");
+//         /* if we need more stars, open the file */
+//         snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
+//         file = fopen(filename, "a");
 
-        /* set number of stars added for this mock to 0 */
-        star_count = 0;
+//         /* set number of stars added for this mock to 0 */
+//         star_count = 0;
 
-        /* plate unit vector */
-        plate.x = p[i].x;
-        plate.y = p[i].y;
-        plate.z = p[i].z;
+//         /* plate unit vector */
+//         plate.x = p[i].x;
+//         plate.y = p[i].y;
+//         plate.z = p[i].z;
 
-        for(j=0; j<N_s; j++){
+//         for(j=0; j<N_s; j++){
 
-            /* star unit vectors */
-            point.x = s[j].x / s[j].distance;
-            point.y = s[j].y / s[j].distance;
-            point.z = s[j].z / s[j].distance;
+//             /* star unit vectors */
+//             point.x = s[j].x / s[j].distance;
+//             point.y = s[j].y / s[j].distance;
+//             point.z = s[j].z / s[j].distance;
 
-            /* get dot product of unit vectors */
-            dot_prod = dot_product(plate, point);
+//             /* get dot product of unit vectors */
+//             dot_prod = dot_product(plate, point);
 
-            /* check assignment to this pointing */
-            if(dot_prod >= plate_cos){
-                star_count += 1;
-                /* write star to file */
-                output_star( file, s[j] );
-            }
-        }
+//             /* check assignment to this pointing */
+//             if(dot_prod >= plate_cos){
+//                 star_count += 1;
+//                 /* write star to file */
+//                 output_star( file, s[j] );
+//             }
+//         }
 
-        /* update number of stars in this l.o.s. of mock */
-        p[i].N_mock += star_count;
+//         /* update number of stars in this l.o.s. of mock */
+//         p[i].N_mock += star_count;
 
-        fclose(file);
-    }
-}
+//         fclose(file);
+//     }
+// }
 
 /*---------------------------------------------------------------------------*/
