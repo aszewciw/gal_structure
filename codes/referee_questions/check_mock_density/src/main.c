@@ -78,7 +78,7 @@ int main( int argc, char **argv ){
     /* now choose random volume elements */
     for(i=0; i<N_vols; i++){
         get_volume(&current_vol, &params);
-        density_analytic = ave_density_analytic(&params, &current_vol,
+        density_analytic = ave_dens_analytic(&params, &current_vol,
             N_stars);
         density_mock = ave_dens_sample(&params, &current_vol, thin, thick);
         output_data(file, density_analytic, density_mock, current_vol);
