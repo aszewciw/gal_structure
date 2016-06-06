@@ -101,6 +101,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         s[i].gal_r   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
         s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
             * p->phi_range + p->phi_min );
+    }
 }
 
 /*---------------------------------------------------------------------------*/
