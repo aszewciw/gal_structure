@@ -11,6 +11,7 @@ void get_volume(DVOL *dv, PARAMS *p){
     /* temporary holders */
     double r_min, r_max, z_min, z_max, phi_min, phi_max;
     double volume;
+    double rand_num;
 
     fraction = 0.01; /* trial and error here */
 
@@ -26,12 +27,12 @@ void get_volume(DVOL *dv, PARAMS *p){
         flag = 1;
 
         /* choose random min values */
-        r_min   = (double)rand() / (double)RAND_MAX;
-        r_min   = p->r_min + r_min * (p->r_max - p->r_min);
-        z_min   = (double)rand() / (double)RAND_MAX;
-        z_min   = p->z_min + z_min * (p->z_max - p->z_min);
-        phi_min = (double)rand() / (double)RAND_MAX;
-        phi_min = p->phi_min + phi_min * (p->phi_max - p->phi_min);
+        rand_num = (double)rand() / (double)RAND_MAX;
+        r_min    = p->r_min + rand_num * (p->r_max - p->r_min);
+        rand_num = (double)rand() / (double)RAND_MAX;
+        z_min    = p->z_min + rand_num * (p->z_max - p->z_min);
+        rand_num = (double)rand() / (double)RAND_MAX;
+        phi_min  = p->phi_min + rand_num * (p->phi_max - p->phi_min);
 
         /* add to min's to get max's */
         r_max   = r_min + dr;
@@ -44,6 +45,10 @@ void get_volume(DVOL *dv, PARAMS *p){
         if(z_max > p->z_max) flag = 0;
         if(phi_max > p->phi_max) flag = 0;
     }
+
+    /* use whole phi range for now */
+    phi_min = p->phi_min;
+    phi_max = p->phi_max;
 
     /* Integrate over cylindrical slice to get volume */
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
