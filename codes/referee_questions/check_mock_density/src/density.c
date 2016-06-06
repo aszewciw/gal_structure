@@ -46,13 +46,13 @@ void get_volume(DVOL *dv, PARAMS *p){
         if(phi_max > p->phi_max) flag = 0;
     }
 
-    /* use whole phi range for now */
-    phi_min = p->phi_min;
-    phi_max = p->phi_max;
-    r_min = p->r_min;
-    r_max = p->r_max;
-    z_min = -p->z_max;
-    z_max = p->z_max;
+    // /* use whole phi range for now */
+    // phi_min = p->phi_min;
+    // phi_max = p->phi_max;
+    // r_min = p->r_min;
+    // r_max = p->r_max;
+    // z_min = -p->z_max;
+    // z_max = p->z_max;
 
     /* Integrate over cylindrical slice to get volume */
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
