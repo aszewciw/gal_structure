@@ -76,7 +76,7 @@ int main( int argc, char **argv ){
     file = fopen(filename, "a");
 
     /* now choose random volume elements */
-    for(i=0; i<N_vols, i++){
+    for(i=0; i<N_vols; i++){
         get_volume(&current_vol, &params);
         density_analytic = ave_density_analytic(&params, &current_vol,
             N_stars);
