@@ -1,11 +1,11 @@
 #! /usr/bin/bash
 
-# rm ./data/*.dat
+rm ./data/*.dat
 
-# make cleanall
-# make
+make cleanall
+make
 
 N_stars=100000000;
-N_vols=1;
+N_vols=10;
 
 time ./bin/make_galaxy $N_stars $N_vols
