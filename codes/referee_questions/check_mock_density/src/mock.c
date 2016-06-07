@@ -25,7 +25,7 @@ double random_gal_Z(double z0, double pdf_norm, double z_min,
     plus_minus = floor( 2.0 * (double)rand() / (double)RAND_MAX );
     plus_minus = plus_minus * 2.0 - 1.0;
 
-    // z *= plus_minus;
+    z *= plus_minus;
     return z;
 }
 
