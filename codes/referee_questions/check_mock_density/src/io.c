@@ -104,8 +104,10 @@ void get_params( PARAMS *p, unsigned long int N ){
     appropriately elsewhere */
     p->r_min     = 4.5;
     p->r_max     = 11.5;
-    p->z_min     = 0.0;
-    p->z_max     = 3.1;
+    // p->z_min     = 0.0;
+    // p->z_max     = 3.1;
+    p->z_min     = 1.0;
+    p->z_max     = 1.01;
     p->phi_max   = atan(0.5);
     p->phi_min   = -p->phi_max;
     p->phi_min   += M_PI;
@@ -148,6 +150,11 @@ void get_params( PARAMS *p, unsigned long int N ){
     double thin_term; /* combined integral term for thin disk */
     double thick_term; /* combined integral term for thick disk */
     long double density_const; /* normalization of density */
+
+    /* NOTE: technically I should be multiplying the z terms
+    by another factor of 2 to account for stars both above
+    and below the disk, but it cancels out when I get N_thin
+    and N_thick */
 
     Z_integrated = 2.0 * p->z0_thin * (
         tanh( p->z_max / (2.0*p->z0_thin) )

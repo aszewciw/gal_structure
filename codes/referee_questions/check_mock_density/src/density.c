@@ -53,10 +53,12 @@ void get_volume(DVOL *dv, PARAMS *p){
     // r_max = p->r_max;
     // z_min = -p->z_max;
     // z_max = p->z_max;
-    r_min = p->r_min + dr*3;
-    z_min = p->z_min + dz*4;
-    r_max = r_min + dr;
-    z_max = z_min + dz;
+    // r_min = p->r_min + dr*3;
+    // z_min = p->z_min + dz*4;
+    // r_max = r_min + dr;
+    // z_max = z_min + dz;
+    z_min = p->z_min;
+    z_max = p->z_max;
 
     /* Integrate over cylindrical slice to get volume */
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
