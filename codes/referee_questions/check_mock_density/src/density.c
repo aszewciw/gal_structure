@@ -47,8 +47,8 @@ void get_volume(DVOL *dv, PARAMS *p){
     }
 
     // /* use whole phi range for now */
-    // phi_min = p->phi_min;
-    // phi_max = p->phi_max;
+    phi_min = p->phi_min;
+    phi_max = p->phi_max;
     // r_min = p->r_min;
     // r_max = p->r_max;
     // z_min = -p->z_max;
@@ -128,6 +128,7 @@ double ave_dens_analytic(PARAMS *p, DVOL *dv, unsigned long int N_stars){
     double thick_term;          /* combined integral term for thick disk */
     long double density_const;  /* normalization of density */
 
+    /* Note: here we multiply the Z term by two because we have above/below disk */
     /* term for thin disk */
     Z_integrated = 2.0 * integrate_Z_term(p->z0_thin, p->z_min, p->z_max);
     R_integrated = integrate_R_term(p->r0_thin, p->r_min, p->r_max);

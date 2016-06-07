@@ -52,6 +52,34 @@ void load_pointing_list(int *N_plist, POINTING **plist){
 
 /* ----------------------------------------------------------------------- */
 
+double normalize_PDF_Z(double z0, double z_min, double z_max){
+
+    double pdf_norm;
+
+    pdf_norm = 1.0 / ( 2.0 * z0 * ( tanh( z_max / (2.0 * z0) )
+        - tanh( z_min / (2.0 * z0) ) ) );
+
+    return pdf_norm;
+}
+
+/* ----------------------------------------------------------------------- */
+
+double normalize_PDF_R(double r0, double r_min, double r_max){
+
+    double pdf_norm;
+
+    // pdf_norm = 1.0 / ( r0 * ( exp( -r_min / r0 )
+    //     - exp( -r_max / r0 ) ) );
+
+    /* try alternate: integral of r*exp(-r/r0) */
+    pdf_norm = 1.0 / ( -r0 * ( exp(-r_max/r0)*(r_max - r0)
+        - exp(-r_min/r0)*(r_min - r0) ) );
+
+    return pdf_norm;
+}
+
+/* ----------------------------------------------------------------------- */
+
 void get_params( PARAMS *p, unsigned long int N ){
 
     /*
@@ -86,19 +114,24 @@ void get_params( PARAMS *p, unsigned long int N ){
 
     /* PDF normalizations */
     /* thin normalizations */
-    p->r0_pdf_norm_thin = 1.0 / ( p->r0_thin
-        * ( exp( -p->r_min / p->r0_thin )
-        - exp( -p->r_max / p->r0_thin ) ) );
-    p->z0_pdf_norm_thin = 1.0 / ( 2.0 * p->z0_thin
-        * ( tanh( p->z_max / (2.0 * p->z0_thin) )
-        - tanh( p->z_min / (2.0 * p->z0_thin) ) ) );
-    /*thick normalizations */
-    p->r0_pdf_norm_thick = 1.0 / ( p->r0_thick
-        * ( exp( -p->r_min / p->r0_thick )
-        - exp( -p->r_max / p->r0_thick ) ) );
-    p->z0_pdf_norm_thick = 1.0 / ( 2.0 * p->z0_thick
-        * ( tanh( p->z_max / (2.0 * p->z0_thick) )
-        - tanh( p->z_min / (2.0 * p->z0_thick) ) ) );
+    // p->r0_pdf_norm_thin = 1.0 / ( p->r0_thin
+    //     * ( exp( -p->r_min / p->r0_thin )
+    //     - exp( -p->r_max / p->r0_thin ) ) );
+    // p->z0_pdf_norm_thin = 1.0 / ( 2.0 * p->z0_thin
+    //     * ( tanh( p->z_max / (2.0 * p->z0_thin) )
+    //     - tanh( p->z_min / (2.0 * p->z0_thin) ) ) );
+    //  thick normalizations
+    // p->r0_pdf_norm_thick = 1.0 / ( p->r0_thick
+    //     * ( exp( -p->r_min / p->r0_thick )
+    //     - exp( -p->r_max / p->r0_thick ) ) );
+    // p->z0_pdf_norm_thick = 1.0 / ( 2.0 * p->z0_thick
+    //     * ( tanh( p->z_max / (2.0 * p->z0_thick) )
+    //     - tanh( p->z_min / (2.0 * p->z0_thick) ) ) );
+
+    p->z0_pdf_norm_thin  = normalize_PDF_Z(p->z0_thin, p->z_min, p->z_max);
+    p->r0_pdf_norm_thin  = normalize_PDF_R(p->r0_thin, p->r_min, p->r_max);
+    p->z0_pdf_norm_thick = normalize_PDF_Z(p->z0_thick, p->z_min, p->z_max);
+    p->r0_pdf_norm_thick = normalize_PDF_R(p->r0_thick, p->r_min, p->r_max);
 
     /* Get number of stars in each disk */
     /* This could be done as a separate function */
@@ -122,7 +155,7 @@ void get_params( PARAMS *p, unsigned long int N ){
     R_integrated = -p->r0_thin * (
         exp(-p->r_max/p->r0_thin) * (p->r0_thin + p->r_max)
         - exp(-p->r_min/p->r0_thin) * (p->r0_thin + p->r_min) );
-    thin_term = Z_integrated * R_integrated * p->phi_range; //phi range doesn't actually matter but is put in for completeness
+    thin_term = Z_integrated * R_integrated * p->phi_range;
 
     Z_integrated = 2.0 * p->z0_thick * (
         tanh( p->z_max / (2.0*p->z0_thick) )
@@ -146,7 +179,6 @@ void get_params( PARAMS *p, unsigned long int N ){
     fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
     fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
     fprintf(stderr, "%lu total stars. \n", p->N_thin + p->N_thick);
-
 
 }
 
