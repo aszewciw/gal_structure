@@ -13,7 +13,7 @@ void get_volume(DVOL *dv, PARAMS *p){
     double volume;
     double rand_num;
 
-    fraction = 0.1; /* trial and error here */
+    fraction = 0.01; /* trial and error here */
 
     dr   = (p->r_max - p->r_min) * fraction;
     dz   = (p->z_max - p->z_min) * fraction;
@@ -205,7 +205,7 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
         }
 
         /* if we haven't skipped then star is within element */
-        N_sample += 1.0;
+        N_sample += 1;
     }
 
     /* thick disk next */
@@ -223,7 +223,7 @@ double ave_dens_sample(PARAMS *p, DVOL *dv, STAR *thin, STAR *thick){
             continue;
         }
 
-        /* if we haven't skipped then star is withick element */
+        /* if we haven't skipped then star is within element */
         N_sample += 1;
     }
 
