@@ -16,16 +16,16 @@ double random_gal_Z(double z0, double pdf_norm, double z_min,
     cdf  = (double)rand() / (double)RAND_MAX;
     b    = tanh( z_min / (2.0 * z0) );
     temp = ( cdf / (pdf_norm * 2.0 * z0) ) + b;
-    if(temp<-1 || temp>1){
-        fprintf(stderr, "outside of range for arctanh\n");
-    }
+    // if(temp<-1 || temp>1){
+    //     fprintf(stderr, "outside of range for arctanh\n");
+    // }
     z    = atanh(temp) * 2.0 * z0;
 
     /* Generate + or - 1.0 */
     plus_minus = floor( 2.0 * (double)rand() / (double)RAND_MAX );
     plus_minus = plus_minus * 2.0 - 1.0;
 
-    z *= plus_minus;
+    // z *= plus_minus;
     return z;
 }
 
