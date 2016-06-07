@@ -49,16 +49,16 @@ void get_volume(DVOL *dv, PARAMS *p){
     // /* use whole phi range for now */
     phi_min = p->phi_min;
     phi_max = p->phi_max;
-    // r_min = p->r_min;
-    // r_max = p->r_max;
+    r_min = p->r_min;
+    r_max = p->r_max;
     // z_min = -p->z_max;
     // z_max = p->z_max;
     // r_min = p->r_min + dr*3;
     // z_min = p->z_min + dz*4;
     // r_max = r_min + dr;
     // z_max = z_min + dz;
-    z_min = p->z_min;
-    z_max = p->z_max;
+    // z_min = p->z_min;
+    // z_max = p->z_max;
 
     /* Integrate over cylindrical slice to get volume */
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
@@ -137,13 +137,13 @@ double ave_dens_analytic(PARAMS *p, DVOL *dv, unsigned long int N_stars){
     /* Note: here we multiply the Z term by two because we have above/below disk */
     /* term for thin disk */
     // Z_integrated = 2.0 * integrate_Z_term(p->z0_thin, p->z_min, p->z_max);
-    Z_integrated = integrate_Z_term(p->z0_thin, p->z_min, p->z_max);
+    Z_integrated = 2.0 * integrate_Z_term(p->z0_thin, p->z_min, p->z_max);
     R_integrated = integrate_R_term(p->r0_thin, p->r_min, p->r_max);
     thin_term    = Z_integrated * R_integrated * p->phi_range;
 
     /* term for thick disk */
     // Z_integrated = 2.0 * integrate_Z_term(p->z0_thick, p->z_min, p->z_max);
-    Z_integrated = integrate_Z_term(p->z0_thick, p->z_min, p->z_max);
+    Z_integrated = 2.0 * integrate_Z_term(p->z0_thick, p->z_min, p->z_max);
     R_integrated = integrate_R_term(p->r0_thick, p->r_min, p->r_max);
     thick_term   = p->ratio * Z_integrated * R_integrated * p->phi_range;
 
