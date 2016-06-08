@@ -69,6 +69,8 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 
         f_c = exp(-c/r0)*(c+r0) - const3;
         f_b = exp(-b/r0)*(b+r0) - const3;
+        fprintf(stderr, "C is %lf\n", c);
+        fprintf(stderr, "F(c) is %lf\n", f_c);
 
         if((f_c * f_b)>0) b = c;
         else a = c;
