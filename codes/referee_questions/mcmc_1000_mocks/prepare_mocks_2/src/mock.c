@@ -26,7 +26,7 @@ double random_gal_Z(double z0, double pdf_norm, double z_min,
     return z;
 }
 
-// /*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 /* Return distance in galactic plane */
 double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
@@ -34,19 +34,49 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
     /*  hard to define these variables: they are steps in inverting
         the cdf to draw from the distribution */
     double cdf;         // Cumulative distribution function
-    double b;           // lower bound (see below)
-    double exp_term;    // temporary term
-    double r;           // distance from gal center in plane
+    double min_term;           // lower bound (see below)
+    // double exp_term;    // temporary term
+    // double r;           // distance from gal center in plane
 
     /* get a random r */
-    cdf      = (double)rand() / (double)RAND_MAX;
-    b        = exp(-r_min / r0);
-    exp_term = b - ( cdf / (pdf_norm * r0) );
-    r        = -r0 * log(exp_term);
+    // cdf      = (double)rand() / (double)RAND_MAX;
+    // b        = exp(-r_min / r0);
+    // exp_term = b - ( cdf / (pdf_norm * r0) );
+    // r        = -r0 * log(exp_term);
 
-    return r;
+    double const1, const2, const3;
+    /* alternate method */
+    cdf = (double)rand() / (double)RAND_MAX;
+    const1 = cdf/pdf_norm;
+    const2 = const1 / -r0;
+    min_term = exp(-r_min/r0)*(r_min+r0);
+    const3 = min_term + const2;
+
+    int max_steps = 100; /* avoid getting caught in inifite loop */
+    int i = 0;
+    double a, b, c, f_b, f_c;
+    double tol = 0.00001;
+    f_c = 1.0;
+    a = r_min;
+    b = r_max;
+
+    while(fabs(f_c)>tol && i<max_steps){
+        i+=1;
+        c = (a+b)/2.0;
+
+        f_c = exp(-c/r0)*(c+r0) - const3;
+        f_b = exp(-b/r0)*(b+r0) - const3;
+        // fprintf(stderr, "C is %lf\n", c);
+        // fprintf(stderr, "F(c) is %lf\n", f_c);
+
+        if((f_c * f_b)>0) b = c;
+        else a = c;
+    }
+
+    if(i==max_steps) fprintf(stderr, "Oh no! Took more than 100 steps to converge!\n");
+    // fprintf(stderr, "%d steps\n", i);
+    return c;
 }
-
 /*---------------------------------------------------------------------------*/
 
 /* dot product of two unit vectors */
