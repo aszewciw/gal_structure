@@ -96,8 +96,8 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->r0_thin  = 2.34;
     p->z0_thick = 0.674;
     p->r0_thick = 2.51;
-    // p->ratio    = 0.1;
-    p->ratio = 0.0;
+    p->ratio    = 0.1;
+    // p->ratio = 0.0;
 
     /* Geometric sample limits */
     /* These are slightly generous limits. Sample is cut down
