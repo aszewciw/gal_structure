@@ -63,7 +63,7 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
     a = r_min;
     b = r_max;
 
-    while(abs(f_c)>tol && i<max_steps){
+    while(fabs(f_c)>tol && i<max_steps){
         i+=1;
         c = (a+b)/2.0;
 
