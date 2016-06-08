@@ -67,17 +67,16 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
         i+=1;
         c = (a+b)/2.0;
 
-        f_c = exp(-c/r0)*(r+r0) - const3;
-        f_b = exp(-b/r0)*(r+r0) - const3;
+        f_c = exp(-c/r0)*(c+r0) - const3;
+        f_b = exp(-b/r0)*(b+r0) - const3;
 
         if((f_c * f_b)>0) b = c;
         else a = c;
+    }
 
     if(i>max_steps) fprintf(stderr, "Oh no! Took more than 100 steps to converge!\n");
 
     return c;
-
-    }
 }
 
 /*---------------------------------------------------------------------------*/
