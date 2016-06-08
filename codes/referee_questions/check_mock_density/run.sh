@@ -5,7 +5,7 @@ rm ./data/*.dat
 make cleanall
 make
 
-N_stars=100;
+N_stars=10000;
 N_vols=10;
 
 time ./bin/make_galaxy $N_stars $N_vols
