@@ -31,7 +31,7 @@ def main():
     todo_list      = pickle.load(input_file)
     input_file.close()
 
-    bins_file = bins_dir + 'rbins.ascii.dat'
+    bins_file = rbins_dir + 'rbins.ascii.dat'
     if not os.path.isfile(bins_file):
         sys.stderr.write('Error: ' + bins_file + ' does not exist.\n')
 
