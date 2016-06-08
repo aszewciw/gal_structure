@@ -68,12 +68,12 @@ double normalize_PDF_R(double r0, double r_min, double r_max){
 
     double pdf_norm;
 
-    pdf_norm = 1.0 / ( r0 * ( exp( -r_min / r0 )
-        - exp( -r_max / r0 ) ) );
+    // pdf_norm = 1.0 / ( r0 * ( exp( -r_min / r0 )
+    //     - exp( -r_max / r0 ) ) );
 
     /* try alternate: integral of r*exp(-r/r0) */
-    // pdf_norm = 1.0 / ( -r0 * ( exp(-r_max/r0)*(r_max - r0)
-    //     - exp(-r_min/r0)*(r_min - r0) ) );
+    pdf_norm = 1.0 / ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
+        - exp(-r_min/r0)*(r_min + r0) ) );
 
     return pdf_norm;
 }
