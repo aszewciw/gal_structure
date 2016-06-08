@@ -78,9 +78,6 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
     return c;
 
     }
-
-
-    return r;
 }
 
 /*---------------------------------------------------------------------------*/
