@@ -46,19 +46,10 @@ void get_volume(DVOL *dv, PARAMS *p){
         if(phi_max > p->phi_max) flag = 0;
     }
 
-    // /* use whole phi range for now */
+    /* use whole phi range for now */
     phi_min = p->phi_min;
     phi_max = p->phi_max;
-    // r_min = p->r_min;
-    // r_max = p->r_max;
-    // z_min = -p->z_max;
-    // z_max = p->z_max;
-    // r_min = p->r_min + dr*3;
-    // z_min = p->z_min + dz*4;
-    // r_max = r_min + dr;
-    // z_max = z_min + dz;
-    // z_min = p->z_min;
-    // z_max = p->z_max;
+
 
     /* Integrate over cylindrical slice to get volume */
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
@@ -94,26 +85,17 @@ double integrate_Z_term(double z0, double z_min, double z_max){
 
 /* return integral of r*exp(-r/r0) from r_min to r_max */
 /* Note: extra "r" is due to Jacobian */
-// double integrate_R_term(double r0, double r_min, double r_max){
-
-//     /* integral of exp(-R) term */
-//     double R_integrated;
-
-//     R_integrated = -r0 * ( exp(-r_max/r0) * (r0 + r_max)
-//         - exp(-r_min/r0) * (r0 + r_min) );
-
-//     return R_integrated;
-// }
-
 double integrate_R_term(double r0, double r_min, double r_max){
 
     /* integral of exp(-R) term */
     double R_integrated;
 
-    R_integrated = -r0 * (exp(-r_max/r0) - exp(-r_min/r0));
+    R_integrated = -r0 * ( exp(-r_max/r0) * (r0 + r_max)
+        - exp(-r_min/r0) * (r0 + r_min) );
 
     return R_integrated;
 }
+
 /* ---------------------------------------------------------------- */
 
 /* Analytic average density of a given sample */
