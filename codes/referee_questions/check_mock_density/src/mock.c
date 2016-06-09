@@ -93,8 +93,8 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 
     /* get a random r */
     cdf      = (double)rand() / (double)RAND_MAX;
-    b        = exp(-r_min / r0);
-    exp_term = b - ( cdf / (pdf_norm * r0) );
+    min_term = exp(-r_min / r0);
+    exp_term = min_term - ( cdf / (pdf_norm * r0) );
     r        = -r0 * log(exp_term);
 
     return r;
