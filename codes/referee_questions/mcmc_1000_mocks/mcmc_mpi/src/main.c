@@ -14,10 +14,15 @@ int main(int argc, char * argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if (argc!=1){
+    if (argc!=2){
         fprintf(stderr, "Usage: %s\n", argv[0]);
         exit(EXIT_FAILURE);
     }
+
+    /* number of steps in mcmc */
+    int max_steps;
+    sscanf(argv[1], "%d", &max_steps);
+    if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
 
     /* -- Load data from various files --*/
     int i, j;
@@ -65,7 +70,6 @@ int main(int argc, char * argv[]){
     load_step_data(&initial);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    int max_steps = 500000;
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
         rank, nprocs);
 

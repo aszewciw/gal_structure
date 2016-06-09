@@ -4,4 +4,7 @@ rm ../data/mcmc_output/mcmc*
 make cleanall
 make
 
-time mpirun -n 16 ./bin/run_mcmc
+N_procs=20;
+N_steps=1;
+
+time mpirun -n $N_procs ./bin/run_mcmc $N_steps
