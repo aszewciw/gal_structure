@@ -151,7 +151,7 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     double thin_z0_sigma = 0.01;
     double thick_r0_sigma = 0.25;
     double thick_z0_sigma = 0.025;
-    double ratio_thick_thin_sigma = 0.1;
+    double ratio_thick_thin_sigma = 0.05;
 
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
