@@ -64,6 +64,7 @@ void get_volume(DVOL *dv, PARAMS *p){
     volume = ( (phi_max - phi_min) * ( 0.5 * (r_max*r_max - r_min*r_min) )
         * (z_max - z_min) );
 
+
     /* assign values to main function arguments */
     dv->r_min     = r_min;
     dv->r_max     = r_max;
@@ -93,17 +94,26 @@ double integrate_Z_term(double z0, double z_min, double z_max){
 
 /* return integral of r*exp(-r/r0) from r_min to r_max */
 /* Note: extra "r" is due to Jacobian */
+// double integrate_R_term(double r0, double r_min, double r_max){
+
+//     /* integral of exp(-R) term */
+//     double R_integrated;
+
+//     R_integrated = -r0 * ( exp(-r_max/r0) * (r0 + r_max)
+//         - exp(-r_min/r0) * (r0 + r_min) );
+
+//     return R_integrated;
+// }
+
 double integrate_R_term(double r0, double r_min, double r_max){
 
     /* integral of exp(-R) term */
     double R_integrated;
 
-    R_integrated = -r0 * ( exp(-r_max/r0) * (r0 + r_max)
-        - exp(-r_min/r0) * (r0 + r_min) );
+    R_integrated = -r0 * (exp(-r_max/r0) - exp(-r_min/r0));
 
     return R_integrated;
 }
-
 /* ---------------------------------------------------------------- */
 
 /* Analytic average density of a given sample */
@@ -136,13 +146,11 @@ double ave_dens_analytic(PARAMS *p, DVOL *dv, unsigned long int N_stars){
 
     /* Note: here we multiply the Z term by two because we have above/below disk */
     /* term for thin disk */
-    // Z_integrated = 2.0 * integrate_Z_term(p->z0_thin, p->z_min, p->z_max);
     Z_integrated = 2.0 * integrate_Z_term(p->z0_thin, p->z_min, p->z_max);
     R_integrated = integrate_R_term(p->r0_thin, p->r_min, p->r_max);
     thin_term    = Z_integrated * R_integrated * p->phi_range;
 
     /* term for thick disk */
-    // Z_integrated = 2.0 * integrate_Z_term(p->z0_thick, p->z_min, p->z_max);
     Z_integrated = 2.0 * integrate_Z_term(p->z0_thick, p->z_min, p->z_max);
     R_integrated = integrate_R_term(p->r0_thick, p->r_min, p->r_max);
     thick_term   = p->ratio * Z_integrated * R_integrated * p->phi_range;
