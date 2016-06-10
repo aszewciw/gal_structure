@@ -39,6 +39,7 @@ double random_gal_R(double r0, double pdf_norm, double r_min){
     /* terms used in bisection root finder */
     int i, max_steps;   // steps in root finder
     double a, b, c;     // endpoints and midpoint
+    double f_a, f_c;    // f(a) and f(c)
     double tol;         // threshhold for accepting root
 
     /* alternate method */
