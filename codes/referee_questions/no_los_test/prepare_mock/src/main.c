@@ -36,9 +36,10 @@ int main( int argc, char **argv ){
     sscanf(argv[1], "%d", &N_stars);
 
     /* different variables used in main */
-    PARAMS params;  // parameters for mock creation
-    time_t t;       // initialization of random seed
-    FILE *file;     // file of star data
+    PARAMS params;      // parameters for mock creation
+    time_t t;           // initialization of random seed
+    FILE *file;         // file of star data
+    char filename[256]; // output file name
     int i;
 
     /* get info for mock */
