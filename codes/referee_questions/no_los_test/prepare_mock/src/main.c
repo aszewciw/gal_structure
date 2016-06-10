@@ -32,13 +32,14 @@ int main( int argc, char **argv ){
         exit(EXIT_FAILURE);
     }
     /* total number of stars in temp galaxy */
-    unsigned long int N_stars;
-    sscanf(argv[1], "%lu", &N_stars);
-    fprintf(stderr, "%lu stars per temporary galaxy.\n", N_stars);
+    int N_stars;
+    sscanf(argv[1], "%d", &N_stars);
 
     /* different variables used in main */
     PARAMS params;  // parameters for mock creation
     time_t t;       // initialization of random seed
+    FILE *file;     // file of star data
+    int i;
 
     /* get info for mock */
     /* change this to CL input eventually */
@@ -53,6 +54,18 @@ int main( int argc, char **argv ){
 
     generate_stars(thin, &params, 0);
     generate_stars(thick, &params, 1);
+
+    snprintf(filename, 256, "%smock.xyz.dat", OUT_DIR);
+    file = fopen(filename, "a");
+
+    for(i=0; i<params.N_thin; i++){
+        output_star(file, thin[i]);
+    }
+    for(i=0; i<params.N_thick; i++){
+        output_star(file, thick[i]);
+    }
+
+    fclose(file);
 
     /* Deallocate arrays */
     free(thin);

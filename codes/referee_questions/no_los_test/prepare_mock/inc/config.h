@@ -46,7 +46,7 @@ typedef struct PARAMS{
     /* PDF normalization for thin length */
     double r0_pdf_norm_thin;
     /* number of stars in thin disk */
-    unsigned long int N_thin;
+    int N_thin;
 
     /* ----------------------------- */
     /* --- Thick disk parameters --- */
@@ -61,7 +61,7 @@ typedef struct PARAMS{
     /* PDF normalization for thick length */
     double r0_pdf_norm_thick;
     /* number of stars in thick disk */
-    unsigned long int N_thick;
+    int N_thick;
 
     /* ----------------------------- */
     /* ----- Shared parameters ----- */

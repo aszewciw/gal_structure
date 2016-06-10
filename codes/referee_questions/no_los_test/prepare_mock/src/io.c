@@ -46,7 +46,7 @@ void get_params( PARAMS *p, unsigned long int N ){
     double thin_term;
     double thick_term;
     /* normalization of density */
-    long double density_const;
+    double density_const;
 
     /* Disk params */
     p->z0_thin  = 0.233;
@@ -88,20 +88,20 @@ void get_params( PARAMS *p, unsigned long int N ){
     thick_term = 2.0 * p->ratio * z_thick_integral * r_thick_integral * p->phi_range;
 
     /* normalize to get density constant */
-    density_const = (long double)N / (thin_term + thick_term);
+    density_const = (double)N / (thin_term + thick_term);
 
     /* get stars in thin disk */
-    long double temp = density_const * thin_term;
-    p->N_thin = (unsigned long int)temp;
+    double temp = density_const * thin_term;
+    p->N_thin = (int)temp;
 
     /* get stars in thick disk */
     /* add 1 to account for int roundoff */
     temp = density_const * thick_term;
-    p->N_thick = (unsigned long int)temp + 1;
+    p->N_thick = (int)temp + 1;
 
-    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
-    fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
-    fprintf(stderr, "%lu total stars. \n", p->N_thin + p->N_thick);
+    fprintf(stderr, "%d stars in the thin disk. \n", p->N_thin);
+    fprintf(stderr, "%d stars in the thick disk. \n", p->N_thick);
+    fprintf(stderr, "%d total stars. \n", p->N_thin + p->N_thick);
 }
 
 /* ----------------------------------------------------------------------- */
