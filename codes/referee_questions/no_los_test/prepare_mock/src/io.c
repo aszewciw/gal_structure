@@ -23,7 +23,7 @@ double integrate_R(double r0, double r_min, double r_max){
     integral = ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
         - exp(-r_min/r0)*(r_min + r0) ) );
 
-    return pdf_norm;
+    return integral;
 }
 
 /* ----------------------------------------------------------------------- */
@@ -85,7 +85,7 @@ void get_params( PARAMS *p, unsigned long int N ){
 
     /* thin and thick integrals */
     thin_term  = 2.0 * z_thin_integral * r_thin_integral * p->phi_range;
-    thick_term = 2.0 * p->ratio * Z_integrated * R_integrated * p->phi_range;
+    thick_term = 2.0 * p->ratio * z_thick_integral * r_thick_integral * p->phi_range;
 
     /* normalize to get density constant */
     density_const = (long double)N / (thin_term + thick_term);
