@@ -291,8 +291,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
             if(i % 1000 == 0){
                 fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
                     i, current.chi2);
-                fprintf(stderr, "z0_thin: %lf, r0_thin: %lf,
-                    z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
+                fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
                     current.thin_z0, current.thin_r0, current.thick_z0,
                     current.thick_r0, current.ratio_thick_thin);
             }
