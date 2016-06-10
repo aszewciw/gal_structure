@@ -10,14 +10,13 @@
 #include <mpi.h>
 
 /* I/O directories */
-#define RAW_DIR "../../data/"
+#define RAW_DIR "../../../data/"
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/mock_dd/"
 #define ERR_DIR "../data/errors/"
 #define OUT_DIR "../data/mcmc_output/"
 #define PAIRS_DIR "../data/model_pairs/"
 #define ZRW_DIR "../data/model_positions/"
-
 
 /* Data for each radial bin */
 typedef struct {
@@ -77,6 +76,3 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs);
-
-/* Other */
-double sech2(double x);
