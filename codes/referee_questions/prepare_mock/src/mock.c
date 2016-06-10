@@ -26,26 +26,9 @@ double random_gal_Z(double z0, double pdf_norm, double z_min,
     return z;
 }
 
-// /*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
-/* Return distance in galactic plane */
-// double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
-// {
-//     /*  hard to define these variables: they are steps in inverting
-//         the cdf to draw from the distribution */
-//     double cdf;         // Cumulative distribution function
-//     double b;           // lower bound (see below)
-//     double exp_term;    // temporary term
-//     double r;           // distance from gal center in plane
 
-//     /* get a random r */
-//     cdf      = (double)rand() / (double)RAND_MAX;
-//     b        = exp(-r_min / r0);
-//     exp_term = b - ( cdf / (pdf_norm * r0) );
-//     r        = -r0 * log(exp_term);
-
-//     return r;
-// }
 /* Return distance in galactic plane */
 double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 {
