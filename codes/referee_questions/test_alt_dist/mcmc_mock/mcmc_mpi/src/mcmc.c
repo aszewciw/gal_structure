@@ -138,7 +138,7 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     while(1){
         delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
         p_new.thin_r0 = p.thin_r0 + delta;
-        if(p.new.thin_r0>0.0) break;
+        if(p_new.thin_r0>0.0) break;
     }
 
     while(1){
