@@ -68,9 +68,6 @@ double normalize_PDF_R(double r0, double r_min, double r_max){
 
     double pdf_norm;
 
-    // pdf_norm = 1.0 / ( r0 * ( exp( -r_min / r0 )
-    //     - exp( -r_max / r0 ) ) );
-
     /* try alternate: integral of r*exp(-r/r0) */
     pdf_norm = 1.0 / ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
         - exp(-r_min/r0)*(r_min + r0) ) );
@@ -154,20 +151,24 @@ void get_params( PARAMS *p, unsigned long int N ){
     and below the disk, but it cancels out when I get N_thin
     and N_thick */
 
-    Z_integrated = 2.0 * p->z0_thin * (
-        tanh( p->z_max / (2.0*p->z0_thin) )
-        - tanh( p->z_min / (2.0*p->z0_thin) ) );
-    R_integrated = -p->r0_thin * (
-        exp(-p->r_max/p->r0_thin) * (p->r0_thin + p->r_max)
-        - exp(-p->r_min/p->r0_thin) * (p->r0_thin + p->r_min) );
+    // Z_integrated = 2.0 * p->z0_thin * (
+    //     tanh( p->z_max / (2.0*p->z0_thin) )
+    //     - tanh( p->z_min / (2.0*p->z0_thin) ) );
+    // R_integrated = -p->r0_thin * (
+    //     exp(-p->r_max/p->r0_thin) * (p->r0_thin + p->r_max)
+    //     - exp(-p->r_min/p->r0_thin) * (p->r0_thin + p->r_min) );
+    Z_integrated = 2.0 / p->z0_pdf_norm_thin;
+    R_integrated = 1.0 / p->r0_pdf_norm_thin;
     thin_term = Z_integrated * R_integrated * p->phi_range; //phi range doesn't actually matter but is put in for completeness
 
-    Z_integrated = 2.0 * p->z0_thick * (
-        tanh( p->z_max / (2.0*p->z0_thick) )
-        - tanh( p->z_min / (2.0*p->z0_thick) ) );
-    R_integrated = -p->r0_thick * (
-        exp(-p->r_max/p->r0_thick) * (p->r0_thick + p->r_max)
-        - exp(-p->r_min/p->r0_thick) * (p->r0_thick + p->r_min) );
+    // Z_integrated = 2.0 * p->z0_thick * (
+    //     tanh( p->z_max / (2.0*p->z0_thick) )
+    //     - tanh( p->z_min / (2.0*p->z0_thick) ) );
+    // R_integrated = -p->r0_thick * (
+    //     exp(-p->r_max/p->r0_thick) * (p->r0_thick + p->r_max)
+    //     - exp(-p->r_min/p->r0_thick) * (p->r0_thick + p->r_min) );
+    Z_integrated = 2.0 / p->z0_pdf_norm_thick;
+    R_integrated = 1.0 / p->r0_pdf_norm_thick;
     thick_term = p->ratio * Z_integrated * R_integrated * p->phi_range;
 
     density_const = (long double)N / (thin_term + thick_term);

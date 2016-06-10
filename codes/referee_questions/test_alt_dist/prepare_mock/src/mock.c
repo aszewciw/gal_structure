@@ -1,22 +1,23 @@
 #include "config.h"
 
 /* Return a galactic height according to distribution */
-double random_gal_Z(double z0, double pdf_norm, double z_min,
-    double z_max)
-{
+double random_gal_Z(double z0, double pdf_norm, double z_min){
+
     /*  hard to define these variables: they are steps in inverting
         the cdf to draw from the distribution */
     double cdf;         // Cumulative distribution function
-    double b;           // lower bound (see below)
+    double min_term;    // lower bound (see below)
     double temp;        // temporary term
     double z;           // magnitude of height
     double plus_minus;  // random assignment above or below gal plane
 
     /* get a random z */
-    cdf  = (double)rand() / (double)RAND_MAX;
-    b    = tanh( z_min / (2.0 * z0) );
-    temp = ( cdf / (pdf_norm * 2.0 * z0) ) + b;
-    z    = atanh(temp) * 2.0 * z0;
+    cdf      = (double)rand() / (double)RAND_MAX;
+    min_term = log(z_min + z0);
+    temp     = cdf/pdf_norm + min_term;
+    z        = exp(temp) - z0;
+
+    if(z<0) fprintf(stderr, "How did we get Z<0?\n");
 
     /* Generate + or - 1.0 */
     plus_minus = floor( 2.0 * (double)rand() / (double)RAND_MAX );
@@ -25,48 +26,32 @@ double random_gal_Z(double z0, double pdf_norm, double z_min,
     z *= plus_minus;
     return z;
 }
-
 /*---------------------------------------------------------------------------*/
 
-double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
-{
+/* Return distance in galactic plane */
+double random_gal_R(double r0, double pdf_norm, double r_min){
+
     /*  hard to define these variables: they are steps in inverting
         the cdf to draw from the distribution */
     double cdf;         // Cumulative distribution function
     double min_term;    // lower bound (see below)
+    double r;           // magnitude of plane distance
+    double a,b,c;       // quadratic formula terms
 
-    double const1, const2, const3;
-    /* alternate method */
-    cdf = (double)rand() / (double)RAND_MAX;
-    const1 = cdf/pdf_norm;
-    const2 = const1 / -r0;
-    min_term = exp(-r_min/r0)*(r_min+r0);
-    const3 = min_term + const2;
+    cdf      = (double)rand() / (double)RAND_MAX;
+    min_term = 0.5*r_min*r_min + r_min*r0;
 
-    int max_steps = 100; /* avoid getting caught in inifite loop */
-    int i = 0;
-    double a, b, c, f_b, f_c;
-    double tol = 0.00001;
-    f_c = 1.0;
-    a = r_min;
-    b = r_max;
+    /* get a,b,c in quadratic root equation */
+    c = -(cdf/pdf_norm + min_term);
+    a = 0.5;
+    b = r0;
 
-    while(fabs(f_c)>tol && i<max_steps){
-        i+=1;
-        c = (a+b)/2.0;
+    /* +sqrt (not -) because we require r>0 */
+    r = ( -b + math.sqrt(b*b - 4.0 * a * c) ) / (2.0 * a);
+    if(r<0) fprintf(stderr, "How did we get R<0?\n");
 
-        f_c = exp(-c/r0)*(c+r0) - const3;
-        f_b = exp(-b/r0)*(b+r0) - const3;
-        // fprintf(stderr, "C is %lf\n", c);
-        // fprintf(stderr, "F(c) is %lf\n", f_c);
+    return r;
 
-        if((f_c * f_b)>0) b = c;
-        else a = c;
-    }
-
-    if(i==max_steps) fprintf(stderr, "Oh no! Took more than 100 steps to converge!\n");
-    // fprintf(stderr, "%d steps\n", i);
-    return c;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -84,9 +69,9 @@ double dot_product(VECTOR v1, VECTOR v2){
 /*---------------------------------------------------------------------------*/
 
 /* make a temporary number of stars */
-void generate_stars( STAR *s, PARAMS *p, int disk_type ){
+void generate_stars( STAR *s, PARAMS *p, int pop_type ){
 
-    int flag;                   // check if star is within distance limits
+    int flag;                   // check if star is wipop1 distance limits
     double Z_temp;              // temp galactic height
     double R_temp;              // temp galactic in-plane distance
     double phi_temp;            // temp galactic angle
@@ -98,26 +83,26 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
     unsigned long int i;        // loop variable...obvi
     unsigned long int N_stars;  // number of stars in disk
 
-    /* parse disk_type to decide if thin or thick */
-    if(disk_type==0){
-        /* use thin disk */
-        N_stars     = p->N_thin;
-        z0          = p->z0_thin;
-        r0          = p->r0_thin;
-        z0_pdf_norm = p->z0_pdf_norm_thin;
-        r0_pdf_norm = p->r0_pdf_norm_thin;
+    /* parse disk_type to decide if pop1 or pop2 */
+    if(pop_type==1){
+        /* use pop1 disk */
+        N_stars     = p->N_pop1;
+        z0          = p->z1;
+        r0          = p->r1;
+        z0_pdf_norm = p->z1_pdf_norm;
+        r0_pdf_norm = p->r1_pdf_norm;
     }
-    else if(disk_type==1){
-        /* use thick disk */
-        N_stars     = p->N_thick;
-        z0          = p->z0_thick;
-        r0          = p->r0_thick;
-        z0_pdf_norm = p->z0_pdf_norm_thick;
-        r0_pdf_norm = p->r0_pdf_norm_thick;
+    else if(disk_type==2){
+        /* use pop2 disk */
+        N_stars     = p->N_pop2;
+        z0          = p->z2;
+        r0          = p->r2;
+        z0_pdf_norm = p->z2_pdf_norm;
+        r0_pdf_norm = p->r2_pdf_norm;
     }
     else{
         /* quit because we messed up, man! */
-        fprintf(stderr, "Unrecognized disk type. Exiting.\n");
+        fprintf(stderr, "Unrecognized pop type. Exiting.\n");
         exit(EXIT_FAILURE);
     }
 

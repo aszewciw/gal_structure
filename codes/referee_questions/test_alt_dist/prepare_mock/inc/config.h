@@ -32,7 +32,7 @@ typedef struct VECTOR{
 
 /*
     parameters for a density model of the form
-    n(R,Z) = K*[ 1/(R+R1) * 1/(|Z|+Z1) + a * 1/(R+R2) * 1/(|Z|+Z2) ]
+    n(R,Z) = K*[ (R+R1) * 1/(|Z|+Z1) + a * (R+R2) * 1/(|Z|+Z2) ]
 */
 typedef struct PARAMS{
 
@@ -49,7 +49,7 @@ typedef struct PARAMS{
     /* PDF normalization for pop 1 length */
     double r1_pdf_norm;
     /* number of stars in pop 1 */
-    unsigned long int N_1;
+    unsigned long int N_pop1;
 
     /* ----------------------------- */
     /* ----- Pop. 2 parameters ----- */
@@ -64,7 +64,7 @@ typedef struct PARAMS{
     /* PDF normalization for pop 2 length */
     double r2_pdf_norm;
     /* number of stars in pop 2 */
-    unsigned long int N_2;
+    unsigned long int N_pop2;
 
     /* ----------------------------- */
     /* ----- Shared parameters ----- */
@@ -185,8 +185,8 @@ void get_params( PARAMS *p, unsigned long int N );
 void output_star( FILE *output_file, STAR s );
 
 /* Generation of stars */
-double random_gal_Z(double z0, double pdf_norm, double z_min, double z_max);
-double random_gal_R(double r0, double pdf_norm, double r_min, double r_max);
+double random_gal_Z(double z0, double pdf_norm, double z_min);
+double random_gal_R(double r0, double pdf_norm, double r_min);
 double dot_product(VECTOR v1, VECTOR v2);
 void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s);
-void generate_stars( STAR *s, PARAMS *p, int disk_type );
+void generate_stars( STAR *s, PARAMS *p, int pop_type );
