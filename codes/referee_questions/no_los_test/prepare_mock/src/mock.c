@@ -39,7 +39,7 @@ double random_gal_R(double r0, double pdf_norm, double r_min){
     /* terms used in bisection root finder */
     int i, max_steps;   // steps in root finder
     double a, b, c;     // endpoints and midpoint
-    double f_a, f_c;    // f(a) and f(c)
+    double f_b, f_c;    // f(b) and f(c)
     double tol;         // threshhold for accepting root
 
     /* alternate method */
@@ -133,8 +133,8 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         /* We don't wanna waste no FLOPS */
         flag = 0;
         while(flag==0){
-            Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
-            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
+            Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min);
+            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min);
             phi_temp = ( ( (double)rand() / (double)RAND_MAX )
                 * p->phi_range + p->phi_min );
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
