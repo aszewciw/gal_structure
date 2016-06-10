@@ -27,7 +27,7 @@ double random_gal_Z(double z0, double pdf_norm, double z_min){
 /*---------------------------------------------------------------------------*/
 
 /* Return a galactic in-plane radius according to distribution */
-double random_gal_R(double r0, double pdf_norm, double r_min){
+double random_gal_R(double r0, double pdf_norm, double r_min, double r_max){
 
     /* the cdf to draw from the distribution */
     double cdf;         // Cumulative distribution function
@@ -134,7 +134,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         flag = 0;
         while(flag==0){
             Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min);
-            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min);
+            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
             phi_temp = ( ( (double)rand() / (double)RAND_MAX )
                 * p->phi_range + p->phi_min );
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
