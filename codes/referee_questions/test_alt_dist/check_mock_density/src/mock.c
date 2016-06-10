@@ -67,7 +67,7 @@ void generate_stars( STAR *s, PARAMS *p, int pop_type ){
     unsigned long int N_stars;  // number of stars in disk
 
     /* parse disk_type to decide if pop1 or pop2 */
-    if(disk_type==0){
+    if(pop_type==1){
         /* use pop1 disk */
         N_stars     = p->N_pop1;
         z0          = p->z1;
@@ -75,7 +75,7 @@ void generate_stars( STAR *s, PARAMS *p, int pop_type ){
         z0_pdf_norm = p->z1_pdf_norm;
         r0_pdf_norm = p->r1_pdf_norm;
     }
-    else if(disk_type==1){
+    else if(pop_type==2){
         /* use pop2 disk */
         N_stars     = p->N_pop2;
         z0          = p->z2;
