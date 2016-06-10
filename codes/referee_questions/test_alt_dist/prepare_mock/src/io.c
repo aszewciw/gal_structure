@@ -80,9 +80,9 @@ double normalize_PDF_R(double r0, double r_min, double r_max){
 void get_params( PARAMS *p, unsigned long int N ){
 
     p->z1    = 0.2;
-    p->r1    = 1;
+    p->r1    = 1.0;
     p->z2    = 0.3;
-    p->r2    = 2;
+    p->r2    = 2.0;
     p->ratio = 0.2;
 
     /* Geometric sample limits */
