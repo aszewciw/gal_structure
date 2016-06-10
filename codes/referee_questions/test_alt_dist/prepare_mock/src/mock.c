@@ -83,7 +83,7 @@ void generate_stars( STAR *s, PARAMS *p, int pop_type ){
     unsigned long int i;        // loop variable...obvi
     unsigned long int N_stars;  // number of stars in disk
 
-    /* parse disk_type to decide if pop1 or pop2 */
+    /* parse pop_type to decide if pop1 or pop2 */
     if(pop_type==1){
         /* use pop1 disk */
         N_stars     = p->N_pop1;
@@ -92,7 +92,7 @@ void generate_stars( STAR *s, PARAMS *p, int pop_type ){
         z0_pdf_norm = p->z1_pdf_norm;
         r0_pdf_norm = p->r1_pdf_norm;
     }
-    else if(disk_type==2){
+    else if(pop_type==2){
         /* use pop2 disk */
         N_stars     = p->N_pop2;
         z0          = p->z2;
@@ -113,8 +113,8 @@ void generate_stars( STAR *s, PARAMS *p, int pop_type ){
         /* We don't wanna waste no FLOPS */
         flag = 0;
         while(flag==0){
-            Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
-            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
+            Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min);
+            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min);
             phi_temp = ( ( (double)rand() / (double)RAND_MAX )
                 * p->phi_range + p->phi_min );
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
