@@ -144,19 +144,19 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     while(1){
         delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
         p_new.thin_z0 = p.thin_z0 + delta;
-        if(p.new.thin_z0>0.0) break;
+        if(p_new.thin_z0>0.0) break;
     }
 
     while(1){
         delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
         p_new.thick_r0 = p.thick_r0 + delta;
-        if(p.new.thick_r0>0.0) break;
+        if(p_new.thick_r0>0.0) break;
     }
 
     while(1){
         delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
         p_new.thick_z0 = p.thick_z0 + delta;
-        if(p.new.thick_z0>0.0) break;
+        if(p_new.thick_z0>0.0) break;
     }
 
     /* avoid having ratio > 1 or < 0 */
