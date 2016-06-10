@@ -47,7 +47,7 @@ double random_gal_R(double r0, double pdf_norm, double r_min){
     b = r0;
 
     /* +sqrt (not -) because we require r>0 */
-    r = ( -b + math.sqrt(b*b - 4.0 * a * c) ) / (2.0 * a);
+    r = ( -b + sqrt(b*b - 4.0 * a * c) ) / (2.0 * a);
     if(r<0) fprintf(stderr, "How did we get R<0?\n");
 
     return r;
