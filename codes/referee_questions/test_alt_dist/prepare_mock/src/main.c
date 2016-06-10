@@ -40,7 +40,7 @@ int main( int argc, char **argv ){
     get_params(&params, N_stars);
 
     /* Allocate arrays for galactic coordinates */
-    STAR * pop1  = malloc(params.N_pop1 * sizeof(STAR));
+    STAR * pop1 = malloc(params.N_pop1 * sizeof(STAR));
     STAR * pop2 = malloc(params.N_pop2 * sizeof(STAR));
 
     /* initialize random seed */
