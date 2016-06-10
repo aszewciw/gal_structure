@@ -70,18 +70,18 @@ void generate_stars( STAR *s, PARAMS *p, int pop_type ){
     if(disk_type==0){
         /* use pop1 disk */
         N_stars     = p->N_pop1;
-        z0          = p->z0_pop1;
-        r0          = p->r0_pop1;
-        z0_pdf_norm = p->z0_pdf_norm_pop1;
-        r0_pdf_norm = p->r0_pdf_norm_pop1;
+        z0          = p->z1;
+        r0          = p->r1;
+        z0_pdf_norm = p->z1_pdf_norm;
+        r0_pdf_norm = p->r1_pdf_norm;
     }
     else if(disk_type==1){
         /* use pop2 disk */
         N_stars     = p->N_pop2;
-        z0          = p->z0_pop2;
-        r0          = p->r0_pop2;
-        z0_pdf_norm = p->z0_pdf_norm_pop2;
-        r0_pdf_norm = p->r0_pdf_norm_pop2;
+        z0          = p->z2;
+        r0          = p->r2;
+        z0_pdf_norm = p->z2_pdf_norm;
+        r0_pdf_norm = p->r2_pdf_norm;
     }
     else{
         /* quit because we messed up, man! */
