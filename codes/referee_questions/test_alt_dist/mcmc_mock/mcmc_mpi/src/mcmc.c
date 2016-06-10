@@ -21,9 +21,9 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
         for(j = 0; j < p[i].N_stars; j++){
 
             weight_1 = ( p[i].R[j] + params.thin_r0 ) / ( p[i].R[j]
-                * (p[i].Z[j] + params.thin_z0 ) );
+                * (abs(p[i].Z[j]) + params.thin_z0 ) );
             weight_2 = ( p[i].R[j] + params.thick_r0 ) / ( p[i].R[j]
-                * (p[i].Z[j] + params.thick_z0 ) );
+                * (abs(p[i].Z[j]) + params.thick_z0 ) );
             p[i].weight[j] = weight_1 + params.ratio_thick_thin * weight_2;
 
         }
@@ -295,6 +295,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                     /* use old positions */
                 }
             }
+
             if(i % 1000 == 0){
                 fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
                     i, current.chi2);
