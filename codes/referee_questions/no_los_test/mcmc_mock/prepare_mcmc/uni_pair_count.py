@@ -19,7 +19,7 @@ def main():
 
     Nbins = len(bin_lower)
 
-    in_file = uni_dir + 'random_' + p.ID + '.xyz.dat'
+    in_file = uni_dir + 'random_xyz.dat'
     if not os.path.isfile(in_file):
         sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
 

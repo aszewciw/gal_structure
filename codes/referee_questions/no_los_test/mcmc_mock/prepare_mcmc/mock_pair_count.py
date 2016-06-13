@@ -11,7 +11,7 @@ def main():
     if not os.path.isfile(bins_file):
         sys.stderr.write('Error: ' + bins_file + ' does not exist.\n')
 
-    in_file = mock_dir + 'mock_xyz.dat'
+    in_file = mock_dir + 'mock.xyz.dat'
 
     if not os.path.isfile(in_file):
         sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
