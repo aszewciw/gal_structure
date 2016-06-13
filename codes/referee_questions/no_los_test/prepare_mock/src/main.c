@@ -58,6 +58,8 @@ int main( int argc, char **argv ){
 
     snprintf(filename, 256, "%smock.xyz.dat", OUT_DIR);
     file = fopen(filename, "a");
+    /* first add number of stars */
+    fprintf( file, "%d\n", N_stars );
 
     for(i=0; i<params.N_thin; i++){
         output_star(file, thin[i]);
