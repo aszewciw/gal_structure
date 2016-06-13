@@ -25,7 +25,7 @@ def main():
 
     # counting pairs for each jackknife sample
     for i in range(N_jackknife):
-        jackknife_filename = data_dir + 'uniform__jk_' + str(i) + '.dat'
+        jackknife_filename = data_dir + 'uniform_jk_' + str(i) + '.dat'
         counts_filename = data_dir + 'uniform_jk_' + str(i) + '.counts.dat'
         cmd = ('./counts ' + jackknife_filename + ' ' + bins_filename
                + ' > ' + counts_filename)
