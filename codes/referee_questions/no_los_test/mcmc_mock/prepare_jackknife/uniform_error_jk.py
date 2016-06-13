@@ -16,7 +16,7 @@ def main():
     bins_filename = rbins_dir + 'rbins.ascii.dat'
 
     # counting pairs for the whole sample
-    data_filename = uni_dir + 'random.xyz.dat'
+    data_filename = uni_dir + 'random_xyz.dat'
     counts_filename = data_dir + 'uniform_jk_all.counts.dat'
     cmd = ('./counts ' + data_filename + ' ' + bins_filename
            + ' > ' + counts_filename)

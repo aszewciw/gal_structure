@@ -6,7 +6,7 @@ def main():
     sys.stderr.write('Prepare uniform files for correlation function calculation..\n')
 
     # Uniform points were randomly created - no shuffle needed
-    uni_filename = uni_dir + 'random.xyz.dat'
+    uni_filename = uni_dir + 'random_xyz.dat'
     xyz = np.genfromtxt( uni_filename, skip_header=1 )
     N_uni = len( xyz )
 
