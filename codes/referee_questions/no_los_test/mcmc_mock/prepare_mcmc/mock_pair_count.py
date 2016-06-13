@@ -15,7 +15,6 @@ def main():
 
     if not os.path.isfile(in_file):
         sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
-        continue
 
     output_file = mock_dd_dir + 'dd.dat'
 

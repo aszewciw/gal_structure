@@ -22,7 +22,6 @@ def main():
     in_file = uni_dir + 'random_' + p.ID + '.xyz.dat'
     if not os.path.isfile(in_file):
         sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
-        continue
 
     # Count pairs in each bin
     for i in range(Nbins):
