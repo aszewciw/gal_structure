@@ -9,4 +9,4 @@ rm counts
 icc -Wall -xHost -O3 -vec_report2 counts.c -o counts
 
 python prepare_uniform_jackknife.py
-python uniform_error_jk.py
+time python uniform_error_jk.py

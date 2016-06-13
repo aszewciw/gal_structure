@@ -5,18 +5,15 @@ def main():
 
     sys.stderr.write('Prepare uniform files for correlation function calculation..\n')
 
-
-        # Uniform points were randomly created - no shuffle needed
-        uni_filename = uni_dir + 'random.xyz.dat'
-        xyz = np.genfromtxt( uni_filename, skip_header=1 )
-        N_uni = len( xyz )
-
-        # jackknife samples
-        N_uni = len( xyz )
+    # Uniform points were randomly created - no shuffle needed
+    uni_filename = uni_dir + 'random.xyz.dat'
+    xyz = np.genfromtxt( uni_filename, skip_header=1 )
+    N_uni = len( xyz )
 
     # Find how many samples are of a longer length
     remain = N_uni % N_jackknife
 
+    # Make jackknife samples
     for i in range( N_jackknife ):
 
         # Establish a slice to be deleted from array
