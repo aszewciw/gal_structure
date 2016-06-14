@@ -78,17 +78,17 @@ void calculate_correlation(MODEL *m, int rank){
 
     double MM_norm;
 
-    MM_norm = normalize_MM(m.weight, m.N_stars);
+    MM_norm = normalize_MM(m->weight, m->N_stars);
 
-    m.rbin[rank].MM = calculate_MM( m.rbin[rank].N_pairs,
-        m.rbin[rank].pair1, m.rbin[rank].pair2, MM_norm,
-        m.weight );
+    m->rbin[rank].MM = calculate_MM( m->rbin[rank].N_pairs,
+        m->rbin[rank].pair1, m->rbin[rank].pair2, MM_norm,
+        m->weight );
 
-    if( m.rbin[rank].DD == 0.0 || m.rbin[rank].MM == 0.0 ){
-        m.rbin[rank].corr = 0.0;
+    if( m->rbin[rank].DD == 0.0 || m->rbin[rank].MM == 0.0 ){
+        m->rbin[rank].corr = 0.0;
     }
     else{
-        m.rbin[rank].corr = m.rbin[rank].DD / m.rbin[rank].MM;
+        m->rbin[rank].corr = m->rbin[rank].DD / m->rbin[rank].MM;
     }
 }
 
@@ -103,7 +103,7 @@ int degrees_of_freedom(MODEL *m, int N_bins){
 
     for(j = 0; j < N_bins; j++){
 
-        if( m.rbin[j].sigma2 == 0.0 ) continue;
+        if( m->rbin[j].sigma2 == 0.0 ) continue;
 
         dof++;
     }

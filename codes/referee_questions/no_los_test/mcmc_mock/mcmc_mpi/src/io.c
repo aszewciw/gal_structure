@@ -10,11 +10,11 @@
 /* ----------------------------------------------------------------------- */
 
 /* Load position and density weight data for model stars */
-void load_ZR(MODEL *m){
+void load_ZR(MODEL *m, int rank){
 
     char zr_filename[256];
     FILE *zr_file;
-    int i, j, N;
+    int j, N;
     double * Z;
     double * R;
     double * W;
@@ -41,10 +41,10 @@ void load_ZR(MODEL *m){
     fclose(zr_file);
 
     /* Assign value to m element */
-    m[i].N_stars = N;
-    m[i].Z = Z;
-    m[i].R = R;
-    m[i].weight = W;
+    m->N_stars = N;
+    m->Z = Z;
+    m->R = R;
+    m->weight = W;
 
     if(rank==0) fprintf(stderr, "Model data loaded from %s\n", ZR_DIR);
 }
@@ -113,7 +113,7 @@ void load_pairs(MODEL *m, int rank){
 
     char pair_filename[256];
     FILE *pair_file;
-    int i, j;
+    int j;
     unsigned int k, N;
     int *pair1;
     int *pair2;
@@ -139,9 +139,9 @@ void load_pairs(MODEL *m, int rank){
     fclose(pair_file);
 
     /* Assign values to m elements */
-    m.rbin[rank].N_pairs = N;
-    m.rbin[rank].pair1   = pair1;
-    m.rbin[rank].pair2   = pair2;
+    m->rbin[rank].N_pairs = N;
+    m->rbin[rank].pair1   = pair1;
+    m->rbin[rank].pair2   = pair2;
 
     if(rank == 0)fprintf(stderr, "Pairs loaded from %s\n", PAIRS_DIR);
 }
