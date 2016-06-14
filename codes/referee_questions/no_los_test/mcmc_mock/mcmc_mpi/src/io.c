@@ -48,6 +48,9 @@ void load_ZR(MODEL *m, int rank){
     m->R = R;
     m->weight = W;
 
+    fprintf(stderr, "Made iere\n");
+
+
     if(rank==0) fprintf(stderr, "Model data loaded from %s\n", ZR_DIR);
 }
 
