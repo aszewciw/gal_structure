@@ -128,7 +128,7 @@ void load_pairs(MODEL *m, int rank){
 
     /* First get number of pairs */
     fscanf(pair_file, "%lu", &N);
-    fprintf(stderr, "Process %d has %lu pairs to load.\n", rank, N)
+    fprintf(stderr, "Process %d has %lu pairs to load.\n", rank, N);
 
     /* Claim arrays */
     pair1 = calloc(N, sizeof(int));
