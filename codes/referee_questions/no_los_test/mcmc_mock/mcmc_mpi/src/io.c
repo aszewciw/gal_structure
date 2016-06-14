@@ -115,7 +115,7 @@ void load_pairs(MODEL *m, int rank){
     char pair_filename[256];
     FILE *pair_file;
     int j;
-    unsigned int k, N;
+    unsigned long int k, N;
     int *pair1;
     int *pair2;
 
@@ -126,9 +126,9 @@ void load_pairs(MODEL *m, int rank){
         exit(EXIT_FAILURE);
     }
 
-    fprintf(stderr, "Process %d is loading its pairs.\n", rank);
     /* First get number of pairs */
-    fscanf(pair_file, "%u", &N);
+    fscanf(pair_file, "%lu", &N);
+    fprintf(stderr, "Process %d has %lu pairs to load.\n", rank, N)
 
     /* Claim arrays */
     pair1 = calloc(N, sizeof(int));
