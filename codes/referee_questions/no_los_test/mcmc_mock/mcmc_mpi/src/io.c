@@ -42,7 +42,6 @@ void load_ZR(MODEL *m, int rank){
 
     /* Assign value to m element */
     m->N_stars = N;
-    fprintf(stderr, "Here\n");
     m->Z = Z;
     m->R = R;
     m->weight = W;

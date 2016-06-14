@@ -197,7 +197,7 @@ void run_mcmc(MODEL *model, STEP_DATA initial, int N_bins, int max_steps,
 
     /* Calculate initial correlation value */
     calculate_correlation(model, rank);
-    current.chi2 = calculate_chi2(model, rank);
+    chi2 = calculate_chi2(model, rank);
     MPI_Allreduce(&chi2, &current.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
     /* Degrees of freedom never change -- calculate once */
