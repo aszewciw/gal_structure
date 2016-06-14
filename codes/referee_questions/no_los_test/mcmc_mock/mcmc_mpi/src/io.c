@@ -126,6 +126,7 @@ void load_pairs(MODEL *m, int rank){
         exit(EXIT_FAILURE);
     }
 
+    fprintf(stderr, "Process %d is loading its pairs.\n", rank);
     /* First get number of pairs */
     fscanf(pair_file, "%u", &N);
 
@@ -139,6 +140,7 @@ void load_pairs(MODEL *m, int rank){
     }
 
     fclose(pair_file);
+    fprintf(stderr, "Process %d finished loading its pairs.\n", rank);
 
     /* Assign values to m elements */
     m->rbin[rank].N_pairs = N;
