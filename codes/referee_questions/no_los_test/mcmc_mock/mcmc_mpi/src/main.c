@@ -39,9 +39,9 @@ int main(int argc, char * argv[]){
         if(current_rank==rank){
             load_ZR(&model, rank);
             load_rbins(&model, N_bins, rank);
-            MPI_Barrier(MPI_COMM_WORLD);
-            current_rank++;
         }
+        MPI_Barrier(MPI_COMM_WORLD);
+        current_rank++;
     }
 
     /* each proc will load the pairs for its bin */
