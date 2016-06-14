@@ -60,13 +60,13 @@ int main(int argc, char * argv[]){
 
     /* Free allocated values */
     for(j=0; j<N_bins; j++){
-        free(model->rbin[j].pair1);
-        free(model->rbin[j].pair2);
+        free(&model->rbin[j].pair1);
+        free(&model->rbin[j].pair2);
     }
-    free(model->rbin);
-    free(model->Z);
-    free(model->R);
-    free(model->weight);
+    free(&model->rbin);
+    free(&model->Z);
+    free(&model->R);
+    free(&model->weight);
 
     // free(model);
     if(rank==0) fprintf(stderr, "Allocated space cleared. \n");
