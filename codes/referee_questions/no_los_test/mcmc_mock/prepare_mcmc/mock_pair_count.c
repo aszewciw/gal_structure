@@ -145,7 +145,7 @@ int main(int argc, char **argv){
         // fprintf(stdout, "%lf\t%lf\t%lf\t%lf\t%ld\t%le\n",
         //     corr[k].r_lower, corr[k].r_upper, corr[k].r_middle, corr[k].bin_size,
         //     corr[k].DD_N, corr[k].DD);
-        fprintf( stdout, "%lf\n", corr[k].DD );
+        fprintf( stdout, "%le\n", corr[k].DD );
     }
 
     fprintf(stderr, "Done calculation and output. \n");
