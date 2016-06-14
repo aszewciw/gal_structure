@@ -123,6 +123,7 @@ void load_pairs(MODEL *m, int rank){
     if((pair_file=fopen(pair_filename,"r"))==NULL){
         fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
         exit(EXIT_FAILURE);
+    }
 
     /* First get number of pairs */
     fscanf(pair_file, "%u", &N);
