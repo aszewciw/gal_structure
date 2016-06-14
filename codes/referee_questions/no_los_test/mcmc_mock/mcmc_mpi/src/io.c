@@ -11,7 +11,7 @@
 
 /* Load position and density weight data for model stars */
 void load_ZR(MODEL *m, int rank){
-
+    fprintf(stderr, "here\n");
     char zr_filename[256];
     FILE *zr_file;
     int j, N;
@@ -39,6 +39,8 @@ void load_ZR(MODEL *m, int rank){
     }
 
     fclose(zr_file);
+
+    fprintf(stderr, "Made it here\n");
 
     /* Assign value to m element */
     m->N_stars = N;
