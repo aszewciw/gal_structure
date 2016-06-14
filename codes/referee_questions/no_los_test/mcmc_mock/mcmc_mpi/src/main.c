@@ -59,16 +59,15 @@ int main(int argc, char * argv[]){
     run_mcmc(model, initial, N_bins, max_steps, rank, nprocs);
 
     /* Free allocated values */
-    for(i=lower_ind; i<upper_ind; i++){
-        for(j=0; j<N_bins; j++){
-            free(model->rbin[j].pair1);
-            free(model->rbin[j].pair2);
-        }
-        free(model->rbin);
-        free(model->Z);
-        free(model->R);
-        free(model->weight);
+    for(j=0; j<N_bins; j++){
+        free(model->rbin[j].pair1);
+        free(model->rbin[j].pair2);
     }
+    free(model->rbin);
+    free(model->Z);
+    free(model->R);
+    free(model->weight);
+
     free(model);
     if(rank==0) fprintf(stderr, "Allocated space cleared. \n");
 
