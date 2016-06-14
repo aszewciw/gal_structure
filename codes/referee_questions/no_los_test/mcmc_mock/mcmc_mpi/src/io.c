@@ -119,7 +119,7 @@ void load_pairs(MODEL *m, int rank){
     int *pair2;
 
     /* Loop over each pointing */
-    snprintf(pair_filename, 256, "%scounts_bin_%s.dat", PAIRS_DIR, rank);
+    snprintf(pair_filename, 256, "%scounts_bin_%d.dat", PAIRS_DIR, rank);
     if((pair_file=fopen(pair_filename,"r"))==NULL){
         fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
         exit(EXIT_FAILURE);
