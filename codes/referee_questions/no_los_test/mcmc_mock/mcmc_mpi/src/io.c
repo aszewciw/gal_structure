@@ -47,7 +47,6 @@ void load_ZR(MODEL *m, int rank){
     m->R = R;
     m->weight = W;
 
-
     if(rank==0) fprintf(stderr, "Model data loaded from %s\n", ZR_DIR);
 }
 
@@ -100,7 +99,7 @@ void load_rbins(MODEL *m, int N_bins, int rank){
     fclose(file);
 
     /* Assign values to m elements */
-    m[i].rbin = b;
+    m->rbin = b;
 
     if(rank==0){
         fprintf(stderr, "DD counts loaded from %s\n", DD_DIR);
