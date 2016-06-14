@@ -22,14 +22,14 @@ void set_weights(STEP_DATA params, MODEL *m){
 
     int j;
 
-    for(j = 0; j < p[i].N_stars; j++){
+    for(j = 0; j < m->N_stars; j++){
 
-        p[i].weight[j] = (
-            ( sech2( p[i].Z[j] / (2.0 * params.thin_z0) )
-                * exp( -p[i].R[j] / params.thin_r0 ) )
+        m->weight[j] = (
+            ( sech2( m->Z[j] / (2.0 * params.thin_z0) )
+                * exp( -m->R[j] / params.thin_r0 ) )
             + params.ratio_thick_thin *
-            ( sech2( p[i].Z[j] / (2.0 * params.thick_z0) )
-                * exp( -p[i].R[j] / params.thick_r0 ) ) );
+            ( sech2( m->Z[j] / (2.0 * params.thick_z0) )
+                * exp( -m->R[j] / params.thick_r0 ) ) );
     }
 
 }
