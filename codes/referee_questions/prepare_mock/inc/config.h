@@ -178,8 +178,8 @@ void eq_to_cart(STAR *s);
 
 /* I/O functions */
 void load_pointing_list(int *N_plist, POINTING **plist);
-double normalize_PDF_Z(double z0, double z_min, double z_max);
-double normalize_PDF_R(double r0, double r_min, double r_max);
+double integrate_Z(double z0, double z_min, double z_max);
+double integrate_R(double r0, double r_min, double r_max);
 void get_params( PARAMS *p, unsigned long int N );
 void output_star( FILE *output_file, STAR s );
 
