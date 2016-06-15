@@ -54,6 +54,7 @@ def main():
     factor = int(args_array[2])     # how many times more stars in rand sample
 
     N_random = factor * N_data
+    N_random = 20000
 
     r_max = OUTER_DISTANCE_LIMIT
 

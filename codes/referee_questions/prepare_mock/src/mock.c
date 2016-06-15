@@ -153,8 +153,8 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         s[i].gal_r = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
         s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
             * p->phi_range + p->phi_min );
-        s[i].distance = dist_temp = get_distance(
-            s[i].gal_z, s[i].gal_r, s[i].gal_phi);
+        s[i].distance = dist_temp = get_distance(s[i].gal_z, s[i].gal_r,
+            s[i].gal_phi);
         ZR_to_gal(&s[i]);
         gal_to_eq(&s[i]);
         eq_to_cart(&s[i]);
