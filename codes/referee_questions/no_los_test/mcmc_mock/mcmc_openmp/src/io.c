@@ -116,7 +116,7 @@ void load_pairs(MODEL *m, int N_bins){
 
     for(j=0; j<N_bins; j++){
         /* load data from each bin */
-        snprintf(pair_filename, 256, "%scounts_bin_%d.dat", PAIRS_DIR,
+        snprintf(pair_filename, 256, "%scounts_bin_%s.dat", PAIRS_DIR,
             m->rbin[j].binID);
         if((pair_file=fopen(pair_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
