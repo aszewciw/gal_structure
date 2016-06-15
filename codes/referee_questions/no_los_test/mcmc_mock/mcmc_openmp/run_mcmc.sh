@@ -4,7 +4,7 @@ rm ../data/mcmc_output/mcmc*
 make cleanall
 make
 
-N_threads=24;
+N_threads=8;
 N_steps=10000;
 
 export OMP_NUM_THREADS=$N_threads
