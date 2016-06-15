@@ -52,9 +52,6 @@ int main(int argc, char * argv[]){
     // free(model);
     fprintf(stderr, "Allocated space cleared. \n");
 
-    /* barrier to ensure all procs clear space before MPI_Finalize */
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Finalize();
 
     return EXIT_SUCCESS;
 
