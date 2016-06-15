@@ -86,7 +86,7 @@ double dot_product(VECTOR v1, VECTOR v2){
 /* make a temporary number of stars */
 void generate_stars( STAR *s, PARAMS *p, int disk_type ){
 
-    int flag;                   // check if star is within distance limits
+    // int flag;                   // check if star is within distance limits
     double Z_temp;              // temp galactic height
     double R_temp;              // temp galactic in-plane distance
     double phi_temp;            // temp galactic angle
@@ -122,33 +122,39 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
     }
 
     /* make stars until we have enough for this disk */
-    for( i=0; i<N_stars; i++ ){
+    // for( i=0; i<N_stars; i++ ){
 
-        /* Make sure we only get stars in the 1-3 kpc range */
-        /* We don't wanna waste no FLOPS */
-        flag = 0;
-        while(flag==0){
-            Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
-            R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
-            phi_temp = ( ( (double)rand() / (double)RAND_MAX )
-                * p->phi_range + p->phi_min );
-            dist_temp = get_distance(Z_temp, R_temp, phi_temp);
+    //     /* Make sure we only get stars in the 1-3 kpc range */
+    //     /* We don't wanna waste no FLOPS */
+    //     flag = 0;
+    //     while(flag==0){
+    //         Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
+    //         R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
+    //         phi_temp = ( ( (double)rand() / (double)RAND_MAX )
+    //             * p->phi_range + p->phi_min );
+    //         dist_temp = get_distance(Z_temp, R_temp, phi_temp);
 
-            /* Break out of while loop if condition is met */
-            if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
-        }
+    //         /* Break out of while loop if condition is met */
+    //         if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
+    //     }
 
-        /* assign temp values to mock galaxy */
-        s[i].gal_z    = Z_temp;
-        s[i].gal_r    = R_temp;
-        s[i].gal_phi  = phi_temp;
-        s[i].distance = dist_temp;
-    }
+    //     /* assign temp values to mock galaxy */
+    //     s[i].gal_z    = Z_temp;
+    //     s[i].gal_r    = R_temp;
+    //     s[i].gal_phi  = phi_temp;
+    //     s[i].distance = dist_temp;
+    // }
 
     /* vectorize with icc!! FAST! OMG!! */
     /* calculate the remaining star attributes */
-    #pragma simd
+    // #pragma simd
     for( i=0; i<N_stars; i++ ){
+        s[i].gal_z = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
+        s[i].gal_r = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
+        s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
+            * p->phi_range + p->phi_min );
+        s[i].distance = dist_temp = get_distance(
+            s[i].gal_z, s[i].gal_r, s[i].gal_phi);
         ZR_to_gal(&s[i]);
         gal_to_eq(&s[i]);
         eq_to_cart(&s[i]);
@@ -192,6 +198,9 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
         plate.z = p[i].z;
 
         for(j=0; j<N_s; j++){
+
+            /* skip if outside distance range */
+            if( (s[j].distance < 1.0) || (s[j].distance > 3.0) ) continue;
 
             /* star unit vectors */
             point.x = s[j].x / s[j].distance;
