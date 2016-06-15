@@ -32,12 +32,6 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
                 + params.ratio_thick_thin *
                 ( sech2( p[i].Z[j] / (2.0 * params.thick_z0) )
                     * exp( -p[i].R[j] / params.thick_r0 ) ) );
-            // p[i].weight[j] = p[i].R[j]*(
-            //     ( sech2( p[i].Z[j] / 2.0 / params.thin_z0 )
-            //         * exp( -p[i].R[j] / params.thin_r0 ) )
-            //     + params.ratio_thick_thin *
-            //     ( sech2( p[i].Z[j] / 2.0 / params.thick_z0 )
-            //         * exp( -p[i].R[j] / params.thick_r0 ) ) );
         }
     }
 }
@@ -172,10 +166,6 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
         p_new.ratio_thick_thin = p.ratio_thick_thin + delta;
         if(p_new.ratio_thick_thin < 1.0 && p_new.ratio_thick_thin >= 0.0) break;
     }
-
-    /* keeping fixed for a try */
-    // p_new.ratio_thick_thin = 0.1;
-
 
     /* Initialize chi2 values to 0 instead of nonsense */
     p_new.chi2 = 0.0;
