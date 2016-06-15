@@ -140,8 +140,8 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
             dist_temp = get_distance(Z_temp, R_temp, phi_temp);
 
             /* Break out of while loop if condition is met */
-            if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
-            if(dist_temp <= 3.0) flag = 1;
+            // if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
+            // if(dist_temp <= 3.0) flag = 1;
         }
 
         /* assign temp values to mock galaxy */

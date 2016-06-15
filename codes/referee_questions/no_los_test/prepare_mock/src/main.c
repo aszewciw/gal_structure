@@ -58,13 +58,26 @@ int main( int argc, char **argv ){
 
     snprintf(filename, 256, "%smock.xyz.dat", OUT_DIR);
     file = fopen(filename, "a");
-    /* first add number of stars */
-    fprintf( file, "%d\n", N_stars );
+
+    /* count number of stars in distance range */
+    int count = 0;
 
     for(i=0; i<params.N_thin; i++){
+        if(thin[i].distance<3.0) count++;
+    }
+    for(i=0; i<params.N_thick; i++){
+        if(thick[i].distance<3.0) count++;
+    }
+
+    /* first add number of stars */
+    fprintf( file, "%d\n", count );
+
+    for(i=0; i<params.N_thin; i++){
+        if(thin[i].distance>3.0) continue;
         output_star(file, thin[i]);
     }
     for(i=0; i<params.N_thick; i++){
+        if(thick[i].distance>3.0) continue;
         output_star(file, thick[i]);
     }
 
