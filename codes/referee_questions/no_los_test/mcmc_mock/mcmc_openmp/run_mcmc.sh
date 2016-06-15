@@ -5,7 +5,7 @@ make cleanall
 make
 
 N_threads=24;
-N_steps=1;
+N_steps=10000;
 
 export OMP_NUM_THREADS=$N_threads
 

@@ -20,7 +20,7 @@ int main(int argc, char * argv[]){
 
     /* -- Load data from various files --*/
     int i, j;
-    int N_bins = 12;
+    int N_bins = 11;
     MODEL model;
 
     /* load data */
