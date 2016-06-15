@@ -9,4 +9,4 @@ N_steps=1;
 
 export OMP_NUM_THREADS=$N_threads
 
-time mpirun -n $N_procs ./bin/run_mcmc $N_steps
+time ./bin/run_mcmc $N_steps
