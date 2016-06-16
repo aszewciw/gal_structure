@@ -47,8 +47,8 @@ void get_volume(DVOL *dv, PARAMS *p){
     }
 
     /* use whole phi range for now */
-    phi_min = p->phi_min;
-    phi_max = p->phi_max;
+    // phi_min = p->phi_min;
+    // phi_max = p->phi_max;
 
 
     /* Integrate over cylindrical slice to get volume */

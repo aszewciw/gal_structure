@@ -200,8 +200,8 @@ typedef struct DVOL{
 /* I/O functions */
 void load_pointing_list(int *N_plist, POINTING **plist);
 void get_params( PARAMS *p, unsigned long int N );
-double normalize_PDF_Z(double z0, double z_min, double z_max);
-double normalize_PDF_R(double r0, double r_min, double r_max);
+double integrate_Z(double z0, double z_min, double z_max);
+double integrate_R(double r0, double r_min, double r_max);
 void output_data( FILE *output_file, double density_analytic,
     double density_mock, DVOL vol);
 
