@@ -50,19 +50,15 @@ def main():
         if diff < 0:
             print("Oh no! We didn't make enough stars for " + ID_current)
             continue
-        delete_me = np.arange(diff)
+
         np.random.shuffle(xyz)
-        xyz = np.delete(xyz, delete_me, 0)
-        if N_data != len(xyz):
-            print("Something went wrong! Incorrect number of stars for " + ID_current)
-            continue
 
         # Output new data
         out_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
         np.savetxt(out_file, xyz, fmt='%1.6f')
 
         # Add number of elements as first line in file
-        line_prepender(out_file, str(int(N_data)))
+        line_prepender(out_file, str(int(N_mock)))
 
     print('Data cleaned. Mocks completed.\n')
 

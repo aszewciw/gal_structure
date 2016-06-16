@@ -121,30 +121,6 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         exit(EXIT_FAILURE);
     }
 
-    /* make stars until we have enough for this disk */
-    // for( i=0; i<N_stars; i++ ){
-
-    //     /* Make sure we only get stars in the 1-3 kpc range */
-    //     /* We don't wanna waste no FLOPS */
-    //     flag = 0;
-    //     while(flag==0){
-    //         Z_temp   = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
-    //         R_temp   = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
-    //         phi_temp = ( ( (double)rand() / (double)RAND_MAX )
-    //             * p->phi_range + p->phi_min );
-    //         dist_temp = get_distance(Z_temp, R_temp, phi_temp);
-
-    //         /* Break out of while loop if condition is met */
-    //         if( (dist_temp >= 1.0) && (dist_temp <= 3.0) ) flag = 1;
-    //     }
-
-    //     /* assign temp values to mock galaxy */
-    //     s[i].gal_z    = Z_temp;
-    //     s[i].gal_r    = R_temp;
-    //     s[i].gal_phi  = phi_temp;
-    //     s[i].distance = dist_temp;
-    // }
-
     /* vectorize with icc!! FAST! OMG!! */
     /* calculate the remaining star attributes */
     // #pragma simd
@@ -174,54 +150,44 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
     VECTOR point;           // current star's unit vector
     double dot_prod;        // dot product for two above vectors
     double plate_cos;       // used to assign stars to pointings
-    int star_count;         // number of stars added to current l.o.s.
+    // int star_count;         // number of stars added to current l.o.s.
 
     /* Calculate limit for assigning star to pointing */
     plate_cos = cos( PLATE_RADIUS_DEG * M_PI / 180. );
 
+    for(j=0; j<N_s; j++){
 
-    for(i=0; i<N_p; i++){
+        /* skip if outside distance range */
+        if( (s[j].distance < 1.0) || (s[j].distance > 3.0) ) continue;
 
-        /* skip this pointing if we have enough stars */
-        if( p[i].flag == 1) continue;
+        /* star unit vectors */
+        point.x = s[j].x / s[j].distance;
+        point.y = s[j].y / s[j].distance;
+        point.z = s[j].z / s[j].distance;
 
-        /* if we need more stars, open the file */
-        snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
-        file = fopen(filename, "a");
+        for(i=0; i<N_p; i++){
 
-        /* set number of stars added for this mock to 0 */
-        star_count = 0;
-
-        /* plate unit vector */
-        plate.x = p[i].x;
-        plate.y = p[i].y;
-        plate.z = p[i].z;
-
-        for(j=0; j<N_s; j++){
-
-            /* skip if outside distance range */
-            if( (s[j].distance < 1.0) || (s[j].distance > 3.0) ) continue;
-
-            /* star unit vectors */
-            point.x = s[j].x / s[j].distance;
-            point.y = s[j].y / s[j].distance;
-            point.z = s[j].z / s[j].distance;
+            /* plate unit vector */
+            plate.x = p[i].x;
+            plate.y = p[i].y;
+            plate.z = p[i].z;
 
             /* get dot product of unit vectors */
             dot_prod = dot_product(plate, point);
 
             /* check assignment to this pointing */
             if(dot_prod >= plate_cos){
-                star_count += 1;
+
+                snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
+                file = fopen(filename, "a");
+
+                /* add 1 to number of stars */
+                p[i].N_mock+=1;
                 /* write star to file */
                 output_star( file, s[j] );
+                fclose(file);
             }
         }
-
-        /* update number of stars in this l.o.s. of mock */
-        p[i].N_mock += star_count;
-
-        fclose(file);
     }
 }
 
