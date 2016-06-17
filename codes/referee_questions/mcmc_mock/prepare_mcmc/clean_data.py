@@ -33,18 +33,18 @@ def main():
 
     for p in ID:
 
-        # Repack file containing Z, R, and W=1.0 only
-        ZRW_file = uni_dir + 'uniform_' + p + '.ascii.dat'
-        Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
-            usecols=[5, 6, 10], dtype=None)
-        N_points = len(Z)
-        outfile  = zrw_dir + 'uniform_ZRW_' + p + '.dat'
-        with open(outfile, 'w') as f:
-            f.write(str(N_points))
-            f.write('\n')
-            for i in range(N_points):
-                f.write("{} {} {}\n".format(
-                    str(Z[i]), str(R[i]), str(W[i])))
+        # # Repack file containing Z, R, and W=1.0 only
+        # ZRW_file = uni_dir + 'uniform_' + p + '.ascii.dat'
+        # Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
+        #     usecols=[5, 6, 10], dtype=None)
+        # N_points = len(Z)
+        # outfile  = zrw_dir + 'uniform_ZRW_' + p + '.dat'
+        # with open(outfile, 'w') as f:
+        #     f.write(str(N_points))
+        #     f.write('\n')
+        #     for i in range(N_points):
+        #         f.write("{} {} {}\n".format(
+        #             str(Z[i]), str(R[i]), str(W[i])))
 
         # Repack uniform error files
         uni_jk_file = jk_dir + 'uniform_' + p + '_jk_error.dat'
