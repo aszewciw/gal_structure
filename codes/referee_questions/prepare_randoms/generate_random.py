@@ -149,7 +149,7 @@ def main():
             continue
 
         # Ntot = p.N_star * star_factor # total number of random points to generate
-        Ntot = 1500
+        Ntot = 2000
 
         # generate random numbers on a unit sphere
         random_sample = random_unit(Ntot, p)

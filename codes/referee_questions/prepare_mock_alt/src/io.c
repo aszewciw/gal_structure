@@ -117,18 +117,18 @@ void get_params( PARAMS *p, unsigned long int N ){
     double density_const;
 
     /* Disk params */
-    // p->z0_thin  = 0.233;
-    // p->r0_thin  = 2.34;
-    // p->z0_thick = 0.674;
-    // p->r0_thick = 2.51;
-    // p->ratio    = 0.1;
+    p->z0_thin  = 0.233;
+    p->r0_thin  = 2.34;
+    p->z0_thick = 0.674;
+    p->r0_thick = 2.51;
+    p->ratio    = 0.1;
 
     /* try different params */
-    p->z0_thin  = 0.249964;
-    p->r0_thin  = 2.467925;
-    p->z0_thick = 0.706496;
-    p->r0_thick = 2.546018;
-    p->ratio    = 0.124842;
+    // p->z0_thin  = 0.249964;
+    // p->r0_thin  = 2.467925;
+    // p->z0_thick = 0.706496;
+    // p->r0_thick = 2.546018;
+    // p->ratio    = 0.124842;
 
     /* Geometric sample limits */
     /* These are slightly generous limits. Sample is cut down
