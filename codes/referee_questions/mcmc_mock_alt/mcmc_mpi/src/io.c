@@ -205,11 +205,16 @@ void load_step_data(STEP_DATA *step_data){
     // step_data->thick_r0 = 4.0;
     // step_data->thick_z0 = 1.2;
     // step_data->ratio_thick_thin = 0.1;
-    step_data->thin_r0 = 2.34;
-    step_data->thin_z0 = 0.233;
-    step_data->thick_r0 = 2.51;
-    step_data->thick_z0 = 0.674;
-    step_data->ratio_thick_thin = 0.1;
+    // step_data->thin_r0 = 2.34;
+    // step_data->thin_z0 = 0.233;
+    // step_data->thick_r0 = 2.51;
+    // step_data->thick_z0 = 0.674;
+    // step_data->ratio_thick_thin = 0.1;
+    step_data->thin_z0          = 0.249964;
+    step_data->thin_r0          = 2.467925;
+    step_data->thick_z0         = 0.706496;
+    step_data->thick_r0         = 2.546018;
+    step_data->ratio_thick_thin = 0.124842;
 }
 
 /* ----------------------------------------------------------------------- */
