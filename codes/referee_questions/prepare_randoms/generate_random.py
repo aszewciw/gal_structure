@@ -148,7 +148,8 @@ def main():
             sys.stderr.write('Error: Empty star list. \n')
             continue
 
-        Ntot = p.N_star * star_factor # total number of random points to generate
+        # Ntot = p.N_star * star_factor # total number of random points to generate
+        Ntot = 1500
 
         # generate random numbers on a unit sphere
         random_sample = random_unit(Ntot, p)
