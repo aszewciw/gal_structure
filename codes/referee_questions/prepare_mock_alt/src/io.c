@@ -126,14 +126,14 @@ void get_params( PARAMS *p, unsigned long int N ){
     /* Geometric sample limits */
     /* These are slightly generous limits. Sample is cut down
     appropriately elsewhere */
-    // p->r_min     = 4.5;
-    // p->r_max     = 11.5;
-    // p->z_min     = 0.0;
-    // p->z_max     = 3.1;
-    p->r_min = 0.0;
-    p->r_max = 100.0;
-    p->z_min = 0.0;
-    p->z_max = 100.0;
+    p->r_min     = 4.5;
+    p->r_max     = 11.5;
+    p->z_min     = 0.0;
+    p->z_max     = 3.1;
+    // p->r_min = 0.0;
+    // p->r_max = 100.0;
+    // p->z_min = 0.0;
+    // p->z_max = 100.0;
     p->phi_max   = atan(0.5);
     p->phi_min   = -p->phi_max;
     p->phi_min   += M_PI;
