@@ -134,18 +134,18 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     double delta;
     STEP_DATA p_new;
 
-    // double thin_r0_sigma = 0.05;
-    // double thin_z0_sigma = 0.005;
-    // double thick_r0_sigma = 0.05;
-    // double thick_z0_sigma = 0.005;
-    // double ratio_thick_thin_sigma = 0.002;
+    double thin_r0_sigma = 0.05;
+    double thin_z0_sigma = 0.005;
+    double thick_r0_sigma = 0.05;
+    double thick_z0_sigma = 0.005;
+    double ratio_thick_thin_sigma = 0.002;
 
     /* try alternate step sizes */
-    double thin_r0_sigma = 0.2;
-    double thin_z0_sigma = 0.01;
-    double thick_r0_sigma = 0.25;
-    double thick_z0_sigma = 0.025;
-    double ratio_thick_thin_sigma = 0.05;
+    // double thin_r0_sigma = 0.2;
+    // double thin_z0_sigma = 0.01;
+    // double thick_r0_sigma = 0.25;
+    // double thick_z0_sigma = 0.025;
+    // double ratio_thick_thin_sigma = 0.05;
 
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
