@@ -6,7 +6,7 @@
 void load_pointing_list(int *N_plist, POINTING **plist){
 
     char plist_filename[256];
-    snprintf(plist_filename, 256, "%stodo_list.ascii.dat", DATA_DIR);
+    snprintf(plist_filename, 256, "%scorr_list.ascii.dat", DATA_DIR);
 
     FILE *plist_file;
     int N;
