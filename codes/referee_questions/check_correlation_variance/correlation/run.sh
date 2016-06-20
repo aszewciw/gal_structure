@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 rm ../data/corr_full*
+rm ../data/corr_cut*
 rm correlation
 
 icc -Wall -xHost -O3 -vec_report2 correlation.c -o correlation
@@ -15,3 +16,8 @@ python correlation_full.py $type1
 python correlation_full.py $type2
 python correlation_full.py $type3
 python correlation_full.py $type4
+
+python correlation_cut.py $type1
+python correlation_cut.py $type2
+python correlation_cut.py $type3
+python correlation_cut.py $type4
