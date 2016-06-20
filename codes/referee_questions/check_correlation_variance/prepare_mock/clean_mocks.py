@@ -5,7 +5,6 @@
 import numpy as np
 
 DATA_DIR = '../data/'
-OUT_DIR = './data/'
 
 ## ------------------------------------------------------------------------- ##
 
@@ -30,7 +29,7 @@ def main():
     np.random.seed()
 
     # Load pointing IDs and desired number of stars
-    pointing_file = DATA_DIR + 'todo_list.ascii.dat'
+    pointing_file = DATA_DIR + 'corr_list.ascii.dat'
     ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True, dtype=int, usecols=[0, 10])
     N_pointings = len(ID)
 
@@ -41,7 +40,7 @@ def main():
         N_data = N_stars[i]
 
         # Load position data for mock stars
-        mock_file = OUT_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
+        mock_file = DATA_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
         xyz = np.genfromtxt(mock_file)
 
         # Randomly cut from mock sample to make it size of SEGUE data
@@ -54,7 +53,7 @@ def main():
         np.random.shuffle(xyz)
 
         # Output new data
-        out_file = OUT_DIR + 'mock_full_' + ID_current + '.xyz.dat'
+        out_file = DATA_DIR + 'mock_full_' + ID_current + '.xyz.dat'
         np.savetxt(out_file, xyz, fmt='%1.6f')
 
         # Add number of elements as first line in file
