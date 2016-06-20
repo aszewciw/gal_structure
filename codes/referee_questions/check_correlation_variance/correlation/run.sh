@@ -3,7 +3,8 @@
 rm ../data/corr_full*
 rm correlation
 
-gcc -Wall -O3 correlation.c -o correlation
+icc -Wall -xHost -O3 -vec_report2 correlation.c -o correlation
+
 
 type1=10data;
 type2=10mock;
