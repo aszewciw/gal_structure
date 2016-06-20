@@ -253,7 +253,7 @@ int main(int argc, char **argv){
   // data1.N = np;
 
   /* first read in number of points */
-  unsigned int N;
+  int N;
   fscanf(file1, "%d", &N);
   fprintf(stderr, "Read %d particles in mock.\n", &N);
   data1.N = N;
