@@ -13,7 +13,7 @@ def main():
     input_filename = data_dir + 'corr_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
-    todo_list      = pickle.load(input_file)
+    corr_list      = pickle.load(input_file)
     input_file.close()
 
     # calculate correlation function for each plate
