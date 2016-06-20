@@ -263,7 +263,7 @@ int main(int argc, char **argv){
     fscanf(file1, "%lf", &data1.points[i].x);
     fscanf(file1, "%lf", &data1.points[i].y);
     fscanf(file1, "%lf", &data1.points[i].z);
-    data1.points[i].weight = 0.0;
+    data1.points[i].weight = 1.0;
   }
 
   fclose(file1);
@@ -279,7 +279,7 @@ int main(int argc, char **argv){
     fscanf(file2, "%lf", &data2.points[i].x);
     fscanf(file2, "%lf", &data2.points[i].y);
     fscanf(file2, "%lf", &data2.points[i].z);
-    data2.points[i].weight = 0.0;
+    data2.points[i].weight = 1.0;
   }
 
   fclose(file2);
