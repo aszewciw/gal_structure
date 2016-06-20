@@ -4,7 +4,7 @@ Selection will be based on plate center's cartesian coordinates.
 '''
 
 from config import *
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 data_dir = './data/'
 
@@ -26,7 +26,7 @@ def main():
     x7=[]
     x8=[]
 
-    plt.figure()
+    # plt.figure()
 
 
     for p in todo_list:
