@@ -81,14 +81,14 @@ def main():
     master_list.append(x7[index])
     master_list.append(x8[index])
 
-    for p in master_list:
-        x = p.cartesian_x
-        y = p.cartesian_y
-        z = p.cartesian_z
+    # for p in master_list:
+    #     x = p.cartesian_x
+    #     y = p.cartesian_y
+    #     z = p.cartesian_z
 
-        plt.plot(y,z,'ko')
+    #     plt.plot(y,z,'ko')
 
-    plt.show()
+    # plt.show()
 
     output_file = data_dir + 'corr_list.ascii.dat'
     with open(output_file, 'w') as f:
