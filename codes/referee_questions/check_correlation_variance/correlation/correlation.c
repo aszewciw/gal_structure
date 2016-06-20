@@ -254,6 +254,8 @@ int main(int argc, char **argv){
 
   /* first read in number of points */
   fscanf(file1, "%u", &data1.N);
+  fprintf(stderr, "Read %u particles in mock.\n", &data1.N);
+
   data1.points = (POINT *)calloc(data1.N, sizeof(POINT));
   for(i=0; i<data1.N; i++){
     fscanf(file1, "%lf", &data1.points[i].x);
@@ -267,6 +269,8 @@ int main(int argc, char **argv){
 
   /* first read in number of points */
   fscanf(file2, "%u", &data2.N);
+  fprintf(stderr, "Read %u particles in uniform.\n", &data2.N);
+
   data2.points = (POINT *)calloc(data2.N, sizeof(POINT));
   for(i=0; i<data2.N; i++){
     fscanf(file2, "%lf", &data2.points[i].x);
