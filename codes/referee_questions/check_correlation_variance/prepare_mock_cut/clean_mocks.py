@@ -57,7 +57,7 @@ def main():
             continue
 
         # Output new data
-        out_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
+        out_file = OUT_DIR + 'mock_cut_' + ID_current + '.xyz.dat'
         np.savetxt(out_file, xyz, fmt='%1.6f')
 
         # Add number of elements as first line in file
