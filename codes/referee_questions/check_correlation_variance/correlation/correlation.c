@@ -253,11 +253,13 @@ int main(int argc, char **argv){
   // data1.N = np;
 
   /* first read in number of points */
-  fscanf(file1, "%u", &data1.N);
-  fprintf(stderr, "Read %u particles in mock.\n", &data1.N);
+  unsigned int N;
+  fscanf(file1, "%u", &N);
+  fprintf(stderr, "Read %u particles in mock.\n", &N);
+  data1.N = N;
 
-  data1.points = (POINT *)calloc(data1.N, sizeof(POINT));
-  for(i=0; i<data1.N; i++){
+  data1.points = (POINT *)calloc(N, sizeof(POINT));
+  for(i=0; i<N; i++){
     fscanf(file1, "%lf", &data1.points[i].x);
     fscanf(file1, "%lf", &data1.points[i].y);
     fscanf(file1, "%lf", &data1.points[i].z);
@@ -268,11 +270,12 @@ int main(int argc, char **argv){
 
 
   /* first read in number of points */
-  fscanf(file2, "%u", &data2.N);
-  fprintf(stderr, "Read %u particles in uniform.\n", &data2.N);
+  fscanf(file2, "%u", &N);
+  fprintf(stderr, "Read %u particles in uniform.\n", &N);
+  data2.N = N;
 
-  data2.points = (POINT *)calloc(data2.N, sizeof(POINT));
-  for(i=0; i<data2.N; i++){
+  data2.points = (POINT *)calloc(N, sizeof(POINT));
+  for(i=0; i<N; i++){
     fscanf(file2, "%lf", &data2.points[i].x);
     fscanf(file2, "%lf", &data2.points[i].y);
     fscanf(file2, "%lf", &data2.points[i].z);
