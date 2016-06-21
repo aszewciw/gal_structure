@@ -84,10 +84,10 @@ double dot_product(VECTOR v1, VECTOR v2){
 void generate_stars( STAR *s, PARAMS *p, int disk_type ){
 
     // int flag;                   // check if star is within distance limits
-    double Z_temp;              // temp galactic height
-    double R_temp;              // temp galactic in-plane distance
-    double phi_temp;            // temp galactic angle
-    double dist_temp;           // temporary sun-star distance
+    // double Z_temp;              // temp galactic height
+    // double R_temp;              // temp galactic in-plane distance
+    // double phi_temp;            // temp galactic angle
+    // double dist_temp;           // temporary sun-star distance
     double z0;                  // disk scale height
     double r0;                  // disk scale length
     double z0_pdf_norm;         // PDF height normalization
@@ -126,8 +126,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         s[i].gal_r = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
         s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
             * p->phi_range + p->phi_min );
-        s[i].distance = dist_temp = get_distance(s[i].gal_z, s[i].gal_r,
-            s[i].gal_phi);
+        s[i].distance = get_distance(s[i].gal_z, s[i].gal_r, s[i].gal_phi);
         ZR_to_gal(&s[i]);
         gal_to_eq(&s[i]);
         eq_to_cart(&s[i]);
