@@ -26,12 +26,13 @@ def line_prepender(filename, line):
 
 def main():
 
-    print('Mocks have too many stars. Randomly removing some.\n')
+    print('Mocks are being randomly shuffled to mix disks.\n')
     np.random.seed()
 
     # Load pointing IDs and desired number of stars
     pointing_file = DATA_DIR + 'todo_list.ascii.dat'
-    ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True, dtype=int, usecols=[0, 10])
+    ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
+        dtype=int, usecols=[0, 10])
     N_pointings = len(ID)
 
     # Load stars from each l.o.s., shuffle, cut, and output
