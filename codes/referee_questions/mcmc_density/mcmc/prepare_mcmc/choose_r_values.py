@@ -22,7 +22,7 @@ def get_volume(r1, r2, radius):
 
 def main():
 
-    CL input of number of bins
+    # CL input of number of bins
     elements_needed = int(2)
     args_array      = np.array(sys.argv)
     N_args          = len(args_array)
