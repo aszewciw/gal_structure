@@ -1,6 +1,7 @@
 '''
 Calculate mock density and Poisson error in calculation.
 '''
+from config import *
 
 def main():
 
