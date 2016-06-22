@@ -5,11 +5,11 @@ OBJDIR = obj
 BINDIR = bin
 
 # Compiler rules
-CC=icc
-CFLAGS=-I$(INCDIR) -Wall -xHost -O3 -vec_report2
+CC=mpicc
+CFLAGS=-cc=icc -I$(INCDIR) -Wall -xHost -O3 -vec_report2
 
 # Linker Flags and Libraries
-LDFLAGS=-lgsl -lgslcblas
+LDFLAGS=-limf -lgsl -lgslcblas
 LDLIBS=
 
 # Name of final Executable

@@ -7,6 +7,7 @@
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_integration.h>
+#include <mpi.h>
 
 /* I/O directories */
 #define RAW_DIR     "../../../data/"
@@ -38,12 +39,6 @@ typedef struct {
   RBIN * rbin;  // Nbins of these; Nbins should be global or declared in main
 } POINTING;
 
-// typedef struct {
-//   double *r_inner;  /* array of inner distance */
-//   double *r_outer;   array of outer distance
-//   double *volume;   /* array of bin volumes */
-// } BIN_INFO;
-
 /* Data for each step in MCMC chain */
 typedef struct {
   double thin_r0;           /* thin disk scale length */
@@ -58,8 +53,12 @@ typedef struct {
 /* I/O functions */
 void load_pointingID(int *N_plist, POINTING **plist);
 void load_bin_info(int *N_bins);
-void load_mock_data(int N_p, POINTING *p, int N_bins);
-void load_ZR(int N_p, POINTING *p, int N_bins);
+// void load_mock_data(int N_p, POINTING *p, int N_bins);
+void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
+    int rank);
+// void load_ZR(int N_p, POINTING *p, int N_bins);
+void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
+    int rank);
 void load_step_data(STEP_DATA *step_data);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 

@@ -76,20 +76,24 @@ void load_bin_info(int *N_bins){
 
     *N_bins = N;
 
-    fprintf(stderr, "Bin information loaded. Using %d bins\n", N);
+    // fprintf(stderr, "Bin information loaded. Using %d bins\n", N);
 }
 
 /* ----------------------------------------------------------------------- */
 
 /* Read mock density and error information */
-void load_mock_data(int N_p, POINTING *p, int N_bins){
+// void load_mock_data(int N_p, POINTING *p, int N_bins){
+void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
+    int rank)
+{
 
     char mock_filename[256];
     FILE *mock_file;
     int i, j;
     RBIN *b;
 
-    for(i=0; i<N_p; i++){
+    // for(i=0; i<N_p; i++){
+    for(i=lower_ind; i<upper_ind; i++){
 
         snprintf(mock_filename, 256, "%sdensity_%s.dat", DENSITY_DIR,
             p[i].ID);
@@ -113,13 +117,16 @@ void load_mock_data(int N_p, POINTING *p, int N_bins){
         p[i].rbin = b;
     }
 
-    fprintf(stderr, "Mock data loaded from %s\n", DENSITY_DIR);
+    if(rank==0) fprintf(stderr, "Mock data loaded from %s\n", DENSITY_DIR);
 }
 
 /* ----------------------------------------------------------------------- */
 
 /* Load position and density weight data for model stars */
-void load_ZR(int N_p, POINTING *p, int N_bins){
+// void load_ZR(int N_p, POINTING *p, int N_bins){
+void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
+    int rank)
+{
 
     char ZR_filename[256];
     FILE *ZR_file;
@@ -129,7 +136,8 @@ void load_ZR(int N_p, POINTING *p, int N_bins){
     double * density;
 
     /* Read star data for each poiting */
-    for(i = 0; i < N_p; i++){
+    // for(i = 0; i < N_p; i++){
+    for(i = lower_ind; i < upper_ind; i++){
 
         for(j=0; j<N_bins; j++){
 
@@ -164,7 +172,7 @@ void load_ZR(int N_p, POINTING *p, int N_bins){
         }
     }
 
-    fprintf(stderr, "Model data loaded from %s\n", ZR_DIR);
+    if(rank==0) fprintf(stderr, "Model data loaded from %s\n", ZR_DIR);
 }
 
 /* ----------------------------------------------------------------------- */
