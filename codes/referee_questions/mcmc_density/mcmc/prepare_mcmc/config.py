@@ -30,7 +30,6 @@ mock_dir     = '../../prepare_mock_alt/data/'
 uni_dir      = '../../prepare_randoms/data/'
 zr_dir       = data_dir + 'model_positions/'
 rbins_dir    = data_dir + 'rbins/'
-error_dir    = data_dir + 'errors/'
 density_dir  = data_dir + 'mock_density/'
 
 #------------------------------------------------------------------------------
