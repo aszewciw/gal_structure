@@ -38,11 +38,11 @@ typedef struct {
   RBIN * rbin;  // Nbins of these; Nbins should be global or declared in main
 } POINTING;
 
-typedef struct {
-  double *r_inner;  /* array of inner distance */
-  double *r_outer;  /* array of outer distance */
-  double *volume;   /* array of bin volumes */
-} BIN_INFO;
+// typedef struct {
+//   double *r_inner;  /* array of inner distance */
+//   double *r_outer;   array of outer distance
+//   double *volume;   /* array of bin volumes */
+// } BIN_INFO;
 
 /* Data for each step in MCMC chain */
 typedef struct {
@@ -57,7 +57,7 @@ typedef struct {
 
 /* I/O functions */
 void load_pointingID(int *N_plist, POINTING **plist);
-void load_bin_info(int *N_bins, BIN_INFO *b);
+void load_bin_info(int *N_bins);
 void load_mock_data(int N_p, POINTING *p, int N_bins);
 void load_ZR(int N_p, POINTING *p, int N_bins);
 void load_step_data(STEP_DATA *step_data);

@@ -45,16 +45,13 @@ void load_pointingID(int *N_plist, POINTING **plist){
 
 /* ----------------------------------------------------------------------- */
 
-/* Load bin information (r_inner, r_outer, volume) */
-void load_bin_info(int *N_bins, BIN_INFO *b){
+/* Load bin information */
+void load_bin_info(int *N_bins){
 
     char bin_filename[256];
     FILE *bin_file;
 
-    int N, i;
-    double * r_in;
-    double * r_out;
-    double * vol;
+    int N;
 
     snprintf(bin_filename, 256, "%srbins.dat", BIN_DIR);
     if( (bin_file=fopen(bin_filename, "r"))==NULL ){
@@ -65,22 +62,19 @@ void load_bin_info(int *N_bins, BIN_INFO *b){
     /* first read in number of bins */
     fscanf(bin_file, "%d", &N);
 
-    r_in  = calloc(N, sizeof(double));
-    r_out = calloc(N, sizeof(double));
-    vol   = calloc(N, sizeof(double));
+    // r_in  = calloc(N, sizeof(double));
+    // r_out = calloc(N, sizeof(double));
+    // vol   = calloc(N, sizeof(double));
 
-    for(i=0; i<N; i++){
-        fscanf(bin_file, "%lf", &r_in[i]);
-        fscanf(bin_file, "%lf", &r_out[i]);
-        fscanf(bin_file, "%lf", &vol[i]);
-    }
+    // for(i=0; i<N; i++){
+    //     fscanf(bin_file, "%lf", &r_in[i]);
+    //     fscanf(bin_file, "%lf", &r_out[i]);
+    //     fscanf(bin_file, "%lf", &vol[i]);
+    // }
 
     fclose(bin_file);
 
-    *N_bins   = N;
-    *b.r_inner = r_in;
-    *b.r_outer = r_out;
-    *b.volume  = vol;
+    *N_bins = N;
 
     fprintf(stderr, "Bin information loaded. Using %d bins\n", N);
 }
@@ -99,7 +93,7 @@ void load_mock_data(int N_p, POINTING *p, int N_bins){
 
         snprintf(mock_filename, 256, "%sdensity_%s.dat", DENSITY_DIR,
             p[i].ID);
-        if((ZR_file=fopen(mock_filename,"r"))==NULL){
+        if((mock_file=fopen(mock_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s \n", mock_filename);
             exit(EXIT_FAILURE);
         }

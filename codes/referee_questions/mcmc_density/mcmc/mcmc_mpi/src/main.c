@@ -23,10 +23,9 @@ int main(int argc, char * argv[]){
     int N_plist;
     int N_bins;
     POINTING *plist;
-    BIN_INFO bin_info;
 
     load_pointingID(&N_plist, &plist);
-    load_bin_info(&N_bins, &bin_info);
+    load_bin_info(&N_bins);
     load_mock_data(N_plist, plist, N_bins);
     load_ZR(N_plist, plist, N_bins);
 
