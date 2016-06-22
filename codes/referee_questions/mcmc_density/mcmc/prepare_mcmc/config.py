@@ -26,7 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../../data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock_alt/data/'
+mock_dir     = '../../prepare_mock/data/'
 uni_dir      = '../../prepare_randoms/data/'
 zr_dir       = data_dir + 'model_positions/'
 rbins_dir    = data_dir + 'rbins/'
