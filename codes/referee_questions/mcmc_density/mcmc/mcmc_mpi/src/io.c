@@ -78,9 +78,9 @@ void load_bin_info(int *N_bins, BIN_INFO *b){
     fclose(bin_file);
 
     *N_bins   = N;
-    b.r_inner = r_in;
-    b.r_outer = r_out;
-    b.volume  = vol;
+    *b.r_inner = r_in;
+    *b.r_outer = r_out;
+    *b.volume  = vol;
 
     fprintf(stderr, "Bin information loaded. Using %d bins\n", N);
 }
