@@ -7,7 +7,7 @@
 
 /* Directories */
 #define RAW_DIR "../../data/"
-#define OUT_DIR "../data/"
+#define OUT_DIR "./data/"
 
 /* radius of a SEGUE plate */
 #define PLATE_RADIUS_DEG 1.49
