@@ -7,7 +7,7 @@ rm -rf ./data/mock*
 n=1;
 N_mocks=1000;
 while [ "$n" -le "$N_mocks" ]; do
-    mkdir "../data/mock_$n"
+    mkdir "./data/mock_$n"
     n=`expr "$n" + 1`;
 done
 
