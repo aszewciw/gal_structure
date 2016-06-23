@@ -6,7 +6,7 @@
 void load_pointing_list(int *N_plist, POINTING **plist){
 
     char plist_filename[256];
-    snprintf(plist_filename, 256, "%stodo_list.ascii.dat", DATA_DIR);
+    snprintf(plist_filename, 256, "%stodo_list.ascii.dat", RAW_DIR);
 
     FILE *plist_file;
     int N;
@@ -20,6 +20,10 @@ void load_pointing_list(int *N_plist, POINTING **plist){
     fprintf(stderr, "Read pointing list from %s \n", plist_filename);
 
     fscanf(plist_file, "%d", &N); /* first read in the length of the list */
+    if(N!=152){
+        fprintf(stderr, "Error reading in pointing list %s\n");
+        exit(EXIT_FAILURE);
+    }
 
     /* Claim an array for a list of pointing */
     p = calloc(N, sizeof(POINTING));
@@ -66,6 +70,7 @@ double integrate_Z(double z0, double z_min, double z_max){
 /* ----------------------------------------------------------------------- */
 
 
+
 double integrate_R(double r0, double r_min, double r_max){
 
     double integral;
@@ -105,13 +110,6 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->r0_thick = 2.51;
     p->ratio    = 0.1;
 
-    /* try different params */
-    // p->z0_thin  = 0.249964;
-    // p->r0_thin  = 2.467925;
-    // p->z0_thick = 0.706496;
-    // p->r0_thick = 2.546018;
-    // p->ratio    = 0.124842;
-
     /* Geometric sample limits */
     /* These are slightly generous limits. Sample is cut down
     appropriately elsewhere */
@@ -119,10 +117,6 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->r_max     = 11.5;
     p->z_min     = 0.0;
     p->z_max     = 3.1;
-    // p->r_min = 0.0;
-    // p->r_max = 100.0;
-    // p->z_min = 0.0;
-    // p->z_max = 100.0;
     p->phi_max   = atan(0.5);
     p->phi_min   = -p->phi_max;
     p->phi_min   += M_PI;
