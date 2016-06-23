@@ -17,12 +17,12 @@ def main():
 
     for i in mock_nums:
 
-        mock_dir = './data/mock_' + str(i+1) +'/'
+        mock_dir = './data/mock_' + str(i) +'/'
 
-        cmd = './bin/make_galaxy ' + N_stars + ' ' + str(i+1)
+        cmd = './bin/make_galaxy ' + N_stars + ' ' + str(i)
         os.system(cmd)
 
-        cmd2 = 'python clean_mocks.py ' + str(i+1)
+        cmd2 = 'python clean_mocks.py ' + str(i)
         os.system(cmd2)
 
         cmd3 = 'rm ' + mock_dir + 'temp*'
