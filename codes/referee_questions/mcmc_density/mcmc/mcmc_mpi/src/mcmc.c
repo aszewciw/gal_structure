@@ -223,8 +223,13 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
     p_new.chi2 = 0.0;
     p_new.chi2_reduced = 0.0;
 
+    fprintf(stderr, "Here!\n");
+
     /* get normalization */
     normalize_density(&p_new, N_total);
+
+    fprintf(stderr, "Now Here!\n");
+
 
     return p_new;
 }
