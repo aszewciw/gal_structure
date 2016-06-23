@@ -12,7 +12,7 @@ def main():
     N_mocks       = int(args_array[2])
     run_num       = int(args_array[3])
 
-    mock_num = np.arange(N_mocks)
+    mock_nums = np.arange(N_mocks)
     mock_nums += N_mocks * run_num
 
     for i in mock_nums:
