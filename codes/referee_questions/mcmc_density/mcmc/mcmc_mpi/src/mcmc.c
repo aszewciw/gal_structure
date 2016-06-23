@@ -132,8 +132,8 @@ void normalize_density(STEP_DATA *p, unsigned long int N){
     double z_max     = 3.1;
     double phi_max   = atan(0.5);
     double phi_min   = -phi_max;
-    double phi_min   += M_PI;
-    double phi_max   += M_PI;
+    phi_min   += M_PI;
+    phi_max   += M_PI;
     double phi_range = phi_max - phi_min;
 
     /* PDF normalizations */
