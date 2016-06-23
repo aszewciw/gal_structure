@@ -55,9 +55,9 @@ typedef struct {
 void load_pointingID(int *N_plist, POINTING **plist);
 void load_bin_info(int *N_bins);
 void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
-    int rank);
+  int rank);
 void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
-    int rank);
+  int rank);
 void load_step_data(STEP_DATA *step_data);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
@@ -66,10 +66,10 @@ void calculate_sigma2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 
 /* MCMC functions */
-void calculate_densities(STEP_DATA params, POINTING *p, int lower_ind,
-    int upper_ind);
-void average_density(STEP_DATA params, POINTING *p, int lower_ind,
-    int upper_ind);
+void calculate_densities(STEP_DATA params, POINTING *p, int N_bins,
+  int lower_ind, int upper_ind);
+void average_density(STEP_DATA params, POINTING *p, int N_bins,
+  int lower_ind, int upper_ind);
 double integrate_Z(double z0, double z_min, double z_max);
 double integrate_R(double r0, double r_min, double r_max);
 void normalize_density(STEP_DATA *p, unsigned long int N);
@@ -77,7 +77,7 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
   unsigned long int N_total);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank, int nprocs, int N_total);
+  int lower_ind, int upper_ind, int rank, int nprocs, int N_total);
 
 /* Other */
 double sech2(double x);

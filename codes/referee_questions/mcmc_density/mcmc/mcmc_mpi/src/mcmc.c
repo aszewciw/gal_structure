@@ -36,8 +36,8 @@ double sech2(double x){
 //     }
 // }
 /* Calculate density at each point in uniform sample */
-void calculate_densities(STEP_DATA params, POINTING *p, int lower_ind,
-    int upper_ind)
+void calculate_densities(STEP_DATA params, POINTING *p, int N_bins,
+    int lower_ind, int upper_ind)
 {
 
     int i, j, k;
@@ -62,8 +62,8 @@ void calculate_densities(STEP_DATA params, POINTING *p, int lower_ind,
     }
 }
 
-void average_density(STEP_DATA params, POINTING *p, int lower_ind,
-    int upper_ind)
+void average_density(STEP_DATA params, POINTING *p, int N_bins,
+    int lower_ind, int upper_ind)
 {
 
     int i, j, k;
@@ -259,7 +259,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     current = initial;
 
     /* set initial weights of model points */
-    calculate_densities(current, plist, lower_ind, upper_ind);
+    calculate_densities(current, plist, N_bins, lower_ind, upper_ind);
+    average_density(current, plist, N_bins, lower_ind, upper_ind);
     if(rank==0) fprintf(stderr, "Initial weights set \n");
 
     /* Calculate initial correlation value */
