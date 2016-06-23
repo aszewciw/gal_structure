@@ -30,6 +30,9 @@ int main(int argc, char * argv[]){
     int N_bins;
     POINTING *plist;
 
+    unsigned long int N_total; // total number of stars in galaxy
+    N_total = 30000000;
+
     /* have each process separately access this file */
     int current_rank = 0;
     while ( current_rank < nprocs ){
@@ -63,15 +66,16 @@ int main(int argc, char * argv[]){
 
     /* Calculate fractional error in DD/MM */
     /* Only must be done once */
-    // calculate_frac_error(plist, N_bins, lower_ind, upper_ind);
+    calculate_sigma2(plist, N_bins, lower_ind, upper_ind);
 
     /* -- Initialize parameters --*/
     STEP_DATA initial;
     load_step_data(&initial);
+    normalize_density(&initial, N_total);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
-    // run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
-    //     rank, nprocs);
+    run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
+        rank, nprocs, N_total);
 
     /* Free allocated values */
     for(i=lower_ind; i<upper_ind; i++){

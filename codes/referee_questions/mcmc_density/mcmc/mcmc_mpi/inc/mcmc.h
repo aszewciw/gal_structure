@@ -30,7 +30,7 @@ typedef struct {
   double * Z;               // height above plane of stars
   double * R;               // distance from Z axis of star
   double * density;         // density value, based on Z,R
-  double average_density;   // Average density value in bin
+  double ave_density;       // Average density value in bin
 } RBIN;
 
 /* Pointing line of sight in sky */
@@ -46,6 +46,7 @@ typedef struct {
   double thick_r0;          /* thick disk scale length */
   double thick_z0;          /* thick disk scale height */
   double ratio_thick_thin;  /* number density ratio */
+  double normalization;     /* overall density normalization */
   double chi2;              /* total chi2 for step */
   double chi2_reduced;      /* chi2/DOF */
 } STEP_DATA;
@@ -53,28 +54,30 @@ typedef struct {
 /* I/O functions */
 void load_pointingID(int *N_plist, POINTING **plist);
 void load_bin_info(int *N_bins);
-// void load_mock_data(int N_p, POINTING *p, int N_bins);
 void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
     int rank);
-// void load_ZR(int N_p, POINTING *p, int N_bins);
 void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
     int rank);
 void load_step_data(STEP_DATA *step_data);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
-// /* Stats functions */
-// void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind);
-// double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
+/* Stats functions */
+void calculate_sigma2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
+double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 
-// /* MCMC functions */
-// void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind);
-// double normalize_MM(double *weight, int N_stars);
-// double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm, double *weight );
-// void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind);
-// int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
-// STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
-// void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-//     int lower_ind, int upper_ind, int rank, int nprocs);
+/* MCMC functions */
+void calculate_densities(STEP_DATA params, POINTING *p, int lower_ind,
+    int upper_ind);
+void average_density(STEP_DATA params, POINTING *p, int lower_ind,
+    int upper_ind);
+double integrate_Z(double z0, double z_min, double z_max);
+double integrate_R(double r0, double r_min, double r_max);
+void normalize_density(STEP_DATA *p, unsigned long int N);
+int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
+STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
+  unsigned long int N_total);
+void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
+    int lower_ind, int upper_ind, int rank, int nprocs, int N_total);
 
-// /* Other */
-// double sech2(double x);
+/* Other */
+double sech2(double x);

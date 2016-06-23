@@ -11,7 +11,7 @@
 /* ----------------------------------------------------------------------- */
 
 /* Calculate fractional error in correlation */
-void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+void calculate_sigma2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
 
