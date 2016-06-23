@@ -17,7 +17,7 @@ def main():
 
     for i in mock_nums:
 
-        mock_dir = '../data/mock_' + str(i+1) +'/'
+        mock_dir = './data/mock_' + str(i+1) +'/'
 
         cmd = './bin/make_galaxy ' + N_stars + ' ' + str(i+1)
         os.system(cmd)

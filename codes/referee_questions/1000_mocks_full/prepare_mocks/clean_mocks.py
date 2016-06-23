@@ -33,7 +33,7 @@ def main():
     assert(N_args == elements_needed)
     mock_num = args_array[1]
 
-    OUT_DIR = '../data/mock_' + mock_num + '/'
+    OUT_DIR = './data/mock_' + mock_num + '/'
 
     print('Mocks are being randomly shuffled to mix disks.\n')
     np.random.seed()
