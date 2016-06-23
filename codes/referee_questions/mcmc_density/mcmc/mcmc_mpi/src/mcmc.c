@@ -327,8 +327,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
         /* Set weights from new parameters */
-        calculate_densities(current, plist, N_bins, lower_ind, upper_ind);
-        average_density(current, plist, N_bins, lower_ind, upper_ind);
+        calculate_densities(new, plist, N_bins, lower_ind, upper_ind);
+        average_density(new, plist, N_bins, lower_ind, upper_ind);
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
