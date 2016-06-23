@@ -21,7 +21,7 @@ void load_pointing_list(int *N_plist, POINTING **plist){
 
     fscanf(plist_file, "%d", &N); /* first read in the length of the list */
     if(N!=152){
-        fprintf(stderr, "Error reading in pointing list %s\n");
+        fprintf(stderr, "Error reading in pointing list\n");
         exit(EXIT_FAILURE);
     }
 
@@ -41,8 +41,8 @@ void load_pointing_list(int *N_plist, POINTING **plist){
         fscanf(plist_file, "%lf", &p[i].y);
         fscanf(plist_file, "%lf", &p[i].z);
         fscanf(plist_file, "%d", &p[i].N_data);
-        p[i].N_mock = 0;
-        p[i].flag = 0;
+        // p[i].N_mock = 0;
+        // p[i].flag = 0;
     }
 
     fclose(plist_file);
