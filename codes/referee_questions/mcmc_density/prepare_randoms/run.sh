@@ -2,5 +2,5 @@
 
 rm ./data/uniform*
 
-N_stars=10000;
+N_stars=20000;
 python generate_random.py $N_stars
