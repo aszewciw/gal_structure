@@ -319,7 +319,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Have only step 0 take random walk and send new params to all procs */
 
-        if(rank==0 && i!=0) new = update_parameters(current, GSL_r);
+        if(rank==0 && i!=0) new = update_parameters(current, GSL_r, N_total);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
         /* Set weights from new parameters */
