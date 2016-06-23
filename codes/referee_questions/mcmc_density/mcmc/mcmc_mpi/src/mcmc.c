@@ -223,12 +223,10 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
     p_new.chi2 = 0.0;
     p_new.chi2_reduced = 0.0;
 
-    fprintf(stderr, "Here!\n");
 
     /* get normalization */
     normalize_density(&p_new, N_total);
 
-    fprintf(stderr, "Now Here!\n");
 
 
     return p_new;
@@ -294,9 +292,10 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     disp[2] = offsetof( STEP_DATA, thick_r0 );
     disp[3] = offsetof( STEP_DATA, thick_z0 );
     disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
-    disp[4] = offsetof( STEP_DATA, normalization );
-    disp[5] = offsetof( STEP_DATA, chi2 );
-    disp[6] = offsetof( STEP_DATA, chi2_reduced );
+    disp[5] = offsetof( STEP_DATA, normalization );
+    disp[6] = offsetof( STEP_DATA, chi2 );
+    disp[7] = offsetof( STEP_DATA, chi2_reduced );
+
 
     /* build derived data type */
     MPI_Type_create_struct( 8, blocklen, disp, type, &MPI_STEP );
