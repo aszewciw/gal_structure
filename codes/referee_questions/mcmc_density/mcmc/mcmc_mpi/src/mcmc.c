@@ -279,96 +279,97 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     }
     int current_rank;
 
-    // /* Define MPI type to be communicated */
-    // MPI_Datatype MPI_STEP;
-    // MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
-    // int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
-    // MPI_Aint disp[7];
-    // disp[0] = offsetof( STEP_DATA, thin_r0 );
-    // disp[1] = offsetof( STEP_DATA, thin_z0 );
-    // disp[2] = offsetof( STEP_DATA, thick_r0 );
-    // disp[3] = offsetof( STEP_DATA, thick_z0 );
-    // disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
-    // disp[5] = offsetof( STEP_DATA, chi2 );
-    // disp[6] = offsetof( STEP_DATA, chi2_reduced );
+    /* Define MPI type to be communicated */
+    MPI_Datatype MPI_STEP;
+    MPI_Datatype type[8] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
+    int blocklen[8] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+    MPI_Aint disp[8];
+    disp[0] = offsetof( STEP_DATA, thin_r0 );
+    disp[1] = offsetof( STEP_DATA, thin_z0 );
+    disp[2] = offsetof( STEP_DATA, thick_r0 );
+    disp[3] = offsetof( STEP_DATA, thick_z0 );
+    disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
+    disp[4] = offsetof( STEP_DATA, normalization );
+    disp[5] = offsetof( STEP_DATA, chi2 );
+    disp[6] = offsetof( STEP_DATA, chi2_reduced );
 
-    // /* build derived data type */
-    // MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
-    // /* optimize memory layout of derived datatype */
-    // MPI_Type_commit(&MPI_STEP);
+    /* build derived data type */
+    MPI_Type_create_struct( 8, blocklen, disp, type, &MPI_STEP );
+    /* optimize memory layout of derived datatype */
+    MPI_Type_commit(&MPI_STEP);
 
-    // /* define file for output and have proc 0 open */
-    // char output_filename[256];
-    // FILE *output_file;
-    // snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
-    // if(rank==0){
-    //     output_file = fopen(output_filename, "a");
-    // }
+    /* define file for output and have proc 0 open */
+    char output_filename[256];
+    FILE *output_file;
+    snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+    if(rank==0){
+        output_file = fopen(output_filename, "a");
+    }
 
-    // /* Initialize random number to be used in MCMC */
-    // const gsl_rng_type * GSL_T;
-    // gsl_rng * GSL_r;
-    // gsl_rng_env_setup();
-    // GSL_T = gsl_rng_default;
-    // GSL_r = gsl_rng_alloc(GSL_T);
-    // gsl_rng_set(GSL_r, time(NULL));
+    /* Initialize random number to be used in MCMC */
+    const gsl_rng_type * GSL_T;
+    gsl_rng * GSL_r;
+    gsl_rng_env_setup();
+    GSL_T = gsl_rng_default;
+    GSL_r = gsl_rng_alloc(GSL_T);
+    gsl_rng_set(GSL_r, time(NULL));
 
 
-    // for( i = 0; i < max_steps; i++ ){
+    for( i = 0; i < max_steps; i++ ){
 
-    //     /* Have only step 0 take random walk and send new params to all procs */
+        /* Have only step 0 take random walk and send new params to all procs */
 
-    //     if(rank==0 && i!=0) new = update_parameters(current, GSL_r);
-    //     MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
+        if(rank==0 && i!=0) new = update_parameters(current, GSL_r);
+        MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
-    //     /* Set weights from new parameters */
-    //     set_weights(new, plist, lower_ind, upper_ind);
-    //     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
+        /* Set weights from new parameters */
+        calculate_densities(current, plist, N_bins, lower_ind, upper_ind);
+        average_density(current, plist, N_bins, lower_ind, upper_ind);
 
-    //     /* Calculate and gather chi2 */
-    //     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
-    //     MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    //     new.chi2_reduced = new.chi2 / (double)DOF;
+        /* Calculate and gather chi2 */
+        chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
+        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+        new.chi2_reduced = new.chi2 / (double)DOF;
 
-    //     /* If new chi2 is better, accept step.
-    //        If not, decide to accept/reject with some probability */
-    //     /* Only rank 0 needs to do this */
-    //     if(rank == 0){
+        /* If new chi2 is better, accept step.
+           If not, decide to accept/reject with some probability */
+        /* Only rank 0 needs to do this */
+        if(rank == 0){
 
-    //         delta_chi2 = new.chi2 - current.chi2;
+            delta_chi2 = new.chi2 - current.chi2;
 
-    //         if(delta_chi2 <= 0.0){
-    //             current = new;
-    //             eff_counter += 1;
-    //         }
-    //         else{
-    //             tmp = (double)rand() / (double)RAND_MAX;
-    //             if (tmp < exp( -delta_chi2 / 2.0 )){
-    //                 current = new;
-    //                 eff_counter += 1;
-    //             }
-    //             else{
-    //                 /* use old positions */
-    //             }
-    //         }
-    //         if(i % 1000 == 0){
-    //             fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
-    //                 i, current.chi2);
-    //             fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
-    //                 current.thin_z0, current.thin_r0, current.thick_z0,
-    //                 current.thick_r0, current.ratio_thick_thin);
-    //         }
-    //         output_mcmc(i, current, output_file);
-    //         if(i % 50 == 0) fflush(output_file);
-    //     }
+            if(delta_chi2 <= 0.0){
+                current = new;
+                eff_counter += 1;
+            }
+            else{
+                tmp = (double)rand() / (double)RAND_MAX;
+                if (tmp < exp( -delta_chi2 / 2.0 )){
+                    current = new;
+                    eff_counter += 1;
+                }
+                else{
+                    /* use old positions */
+                }
+            }
+            if(i % 1000 == 0){
+                fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
+                    i, current.chi2);
+                fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
+                    current.thin_z0, current.thin_r0, current.thick_z0,
+                    current.thick_r0, current.ratio_thick_thin);
+            }
+            output_mcmc(i, current, output_file);
+            if(i % 50 == 0) fflush(output_file);
+        }
 
-    // }
-    // if(rank==0){
-    //     eff = (double)eff_counter / (double)max_steps;
-    //     fclose(output_file);
-    //     fprintf(stderr, "Efficiency of MCMC: %lf\n", eff);
-    //     fprintf(stderr, "End MCMC calculation.\n");
-    // }
+    }
+    if(rank==0){
+        eff = (double)eff_counter / (double)max_steps;
+        fclose(output_file);
+        fprintf(stderr, "Efficiency of MCMC: %lf\n", eff);
+        fprintf(stderr, "End MCMC calculation.\n");
+    }
 
 }
 
