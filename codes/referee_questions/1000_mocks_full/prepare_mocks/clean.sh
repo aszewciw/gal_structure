@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 #remove directories
-rm -rf ../data/mock*
+rm -rf ./data/mock*
 
 # make directories
 n=1;
