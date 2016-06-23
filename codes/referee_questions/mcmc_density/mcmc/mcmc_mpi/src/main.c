@@ -31,7 +31,7 @@ int main(int argc, char * argv[]){
     POINTING *plist;
 
     unsigned long int N_total; // total number of stars in galaxy
-    N_total = 30000000;
+    N_total = 28000000;
 
     /* have each process separately access this file */
     int current_rank = 0;
