@@ -3,7 +3,7 @@
 # Add number of stars as first line in output file
 
 import numpy as np
-import sys
+import sys, os
 
 RAW_DIR = '../../data/'
 
@@ -37,14 +37,8 @@ def main():
 
         OUT_DIR = './data/mock_' + str(j+1) + '/'
 
-        print('Fuck me. I screwed up\n')
+        # print('On mock %d \n', j+1)
         np.random.seed()
-
-        # Load pointing IDs and desired number of stars
-        pointing_file = RAW_DIR + 'todo_list.ascii.dat'
-        ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
-            dtype=int, usecols=[0, 10])
-        N_pointings = len(ID)
 
         # Load stars from each l.o.s., shuffle, cut, and output
         for i in range(N_pointings):
@@ -54,6 +48,9 @@ def main():
 
             # Load position data for mock stars
             mock_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
+            if not os.path.isfile(mock_file):
+                sys.stderr.write('Error: ' + mock_file + ' does not exist.\n')
+                sys.stderr.write('Remake mock # ' + str(j+1))
             xyz = np.genfromtxt(mock_file, skip_header=1)
             N_mock = len(xyz)
 
