@@ -72,7 +72,7 @@ def main():
         np.savetxt(out_file, xyz, fmt='%1.6f')
 
         # Add number of elements as first line in file
-        line_prepender(out_file, str(int(N_data)))
+        line_prepender(out_file, str(int(N_mock)))
 
     print('Data cleaned. Mocks completed.\n')
 
