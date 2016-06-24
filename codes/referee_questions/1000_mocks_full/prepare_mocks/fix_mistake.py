@@ -55,6 +55,7 @@ def main():
             # Load position data for mock stars
             mock_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
             xyz = np.genfromtxt(mock_file, skip_header=1)
+            N_mock = len(xyz)
 
             # delete_me = np.arange(diff)
             # xyz = np.delete(xyz, delete_me, 0)
