@@ -51,6 +51,7 @@ def main():
             if not os.path.isfile(mock_file):
                 sys.stderr.write('Error: ' + mock_file + ' does not exist.\n')
                 sys.stderr.write('Remake mock # ' + str(j+1))
+                continue
             xyz = np.genfromtxt(mock_file, skip_header=1)
             N_mock = len(xyz)
 
