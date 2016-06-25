@@ -50,7 +50,7 @@ def main():
             mock_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
             if not os.path.isfile(mock_file):
                 sys.stderr.write('Error: ' + mock_file + ' does not exist.\n')
-                sys.stderr.write('Remake mock # ' + str(j+1))
+                sys.stderr.write('Remake mock # ' + str(j+1) + '\n')
                 continue
             xyz = np.genfromtxt(mock_file, skip_header=1)
             N_mock = len(xyz)
