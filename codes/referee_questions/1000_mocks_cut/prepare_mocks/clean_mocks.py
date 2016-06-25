@@ -3,9 +3,9 @@
 # Add number of stars as first line in output file
 
 import numpy as np
+import sys
 
-DATA_DIR = '../data/'
-OUT_DIR = './data/'
+RAW_DIR = './data/'
 
 ## ------------------------------------------------------------------------- ##
 
@@ -26,11 +26,20 @@ def line_prepender(filename, line):
 
 def main():
 
-    print('Mocks have too many stars. Randomly removing some.\n')
+    elements_needed = int(2)
+
+    args_array = np.array(sys.argv)
+    N_args = len(args_array)
+    assert(N_args == elements_needed)
+    mock_num = args_array[1]
+
+    OUT_DIR = './data/mock_' + mock_num + '/'
+
+    print('Mocks are being randomly shuffled to mix disks.\n')
     np.random.seed()
 
     # Load pointing IDs and desired number of stars
-    pointing_file = DATA_DIR + 'todo_list.ascii.dat'
+    pointing_file = RAW_DIR + 'todo_list.ascii.dat'
     ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
         dtype=int, usecols=[0, 10])
     N_pointings = len(ID)
