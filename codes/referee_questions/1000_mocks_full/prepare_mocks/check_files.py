@@ -20,7 +20,7 @@ def main():
 
         for p in todo_list:
 
-            filename = 'mock_' + p.ID + '.xyz.dat'
+            filename = data_dir + 'mock_' + p.ID + '.xyz.dat'
 
             if not os.path.isfile(filename):
                 sys.stderr.write('Error: ' + filename + ' does not exist.\n')
