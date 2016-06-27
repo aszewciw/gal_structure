@@ -49,8 +49,5 @@ def main():
 
         np.savetxt(out_file, array)
 
-
-    sys.stderr.write(str(count) + ' files do not exist.\n')
-
 if __name__ == '__main__':
     main()
