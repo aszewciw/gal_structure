@@ -26,9 +26,9 @@ def main():
 
         index_num = i - 1
 
-        for p in todo_list:
+        sys.stderr.write('On mock number ' + str(i) + '\n')
 
-            sys.stderr.write('On pointing number ' + p.ID + '\n')
+        for p in todo_list:
 
             filename = mock_dir + 'mock_' + p.ID + '.xyz.dat'
 
