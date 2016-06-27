@@ -16,7 +16,7 @@ def main():
 
     for i in mock_num:
 
-        mock_dir = data_dir + 'mock_' str(i)
+        mock_dir = data_dir + 'mock_' + str(i) + '/'
 
         for p in todo_list:
 
