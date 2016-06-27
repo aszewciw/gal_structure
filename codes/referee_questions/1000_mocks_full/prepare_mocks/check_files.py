@@ -26,7 +26,7 @@ def main():
                 count+=1
                 sys.stderr.write('Error: ' + filename + ' does not exist.\n')
 
-    sys.stderr.write(str(count) + 'files do not exist.\n')
+    sys.stderr.write(str(count) + ' files do not exist.\n')
 
 if __name__ == '__main__':
     main()
