@@ -41,9 +41,9 @@ def main():
 
         for i in mock_nums:
 
-            mock_dir = mock_dir + 'mock_' + str(i) + '/'
+            current_dir = mock_dir + 'mock_' + str(i) + '/'
 
-            mock_file = mock_dir + 'mock_' + p.ID + '.xyz.dat'
+            mock_file = current_dir + 'mock_' + p.ID + '.xyz.dat'
             if not os.path.isfile(mock_file):
                 sys.stderr.write('Error: ' + mock_file + ' does not exist.\n')
                 continue
