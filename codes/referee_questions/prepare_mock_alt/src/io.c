@@ -105,13 +105,6 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->r0_thick = 2.51;
     p->ratio    = 0.1;
 
-    /* try different params */
-    // p->z0_thin  = 0.249964;
-    // p->r0_thin  = 2.467925;
-    // p->z0_thick = 0.706496;
-    // p->r0_thick = 2.546018;
-    // p->ratio    = 0.124842;
-
     /* Geometric sample limits */
     /* These are slightly generous limits. Sample is cut down
     appropriately elsewhere */
@@ -119,10 +112,6 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->r_max     = 11.5;
     p->z_min     = 0.0;
     p->z_max     = 3.1;
-    // p->r_min = 0.0;
-    // p->r_max = 100.0;
-    // p->z_min = 0.0;
-    // p->z_max = 100.0;
     p->phi_max   = atan(0.5);
     p->phi_min   = -p->phi_max;
     p->phi_min   += M_PI;
@@ -151,13 +140,13 @@ void get_params( PARAMS *p, unsigned long int N ){
     density_const = (double)N / (thin_term + thick_term);
 
     /* get stars in thin disk */
-    double temp = density_const * thin_term;
-    p->N_thin = (int)temp;
+    long double temp = density_const * thin_term;
+    p->N_thin = (unsigned long int)temp;
 
     /* get stars in thick disk */
     /* add 1 to account for int roundoff */
     temp = density_const * thick_term;
-    p->N_thick = (int)temp + 1;
+    p->N_thick = (unsigned long int)temp + 1;
 
     fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
     fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
