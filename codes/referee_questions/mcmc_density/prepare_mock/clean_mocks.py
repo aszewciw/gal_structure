@@ -45,6 +45,8 @@ def main():
         mock_file = OUT_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
         xyz = np.genfromtxt(mock_file)
 
+        N_mock = len(xyz)
+
         np.random.shuffle(xyz)
 
         # Output new data
