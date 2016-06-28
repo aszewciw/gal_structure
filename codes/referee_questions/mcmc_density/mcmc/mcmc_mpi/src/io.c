@@ -59,18 +59,8 @@ void load_bin_info(int *N_bins){
         exit(EXIT_FAILURE);
     }
 
-    /* first read in number of bins */
+    /* read in number of bins */
     fscanf(bin_file, "%d", &N);
-
-    // r_in  = calloc(N, sizeof(double));
-    // r_out = calloc(N, sizeof(double));
-    // vol   = calloc(N, sizeof(double));
-
-    // for(i=0; i<N; i++){
-    //     fscanf(bin_file, "%lf", &r_in[i]);
-    //     fscanf(bin_file, "%lf", &r_out[i]);
-    //     fscanf(bin_file, "%lf", &vol[i]);
-    // }
 
     fclose(bin_file);
 
@@ -113,7 +103,7 @@ void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
         fclose(mock_file);
 
         /* check errors file */
-        snprintf(mock_filename, 256, "%sdensity_%s.dat", ERROR_DIR,
+        snprintf(mock_filename, 256, "%serrors_%s.dat", ERROR_DIR,
             p[i].ID);
         if((mock_file=fopen(mock_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s \n", mock_filename);
