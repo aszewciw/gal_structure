@@ -83,11 +83,6 @@ double dot_product(VECTOR v1, VECTOR v2){
 /* make a temporary number of stars */
 void generate_stars( STAR *s, PARAMS *p, int disk_type ){
 
-    // int flag;                   // check if star is within distance limits
-    // double Z_temp;              // temp galactic height
-    // double R_temp;              // temp galactic in-plane distance
-    // double phi_temp;            // temp galactic angle
-    // double dist_temp;           // temporary sun-star distance
     double z0;                  // disk scale height
     double r0;                  // disk scale length
     double z0_pdf_norm;         // PDF height normalization
@@ -177,8 +172,6 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
                     p[i].ID);
                 file = fopen(filename, "a");
 
-                /* add 1 to number of stars */
-                p[i].N_mock+=1;
                 /* write star to file */
                 output_star( file, s[j] );
                 fclose(file);

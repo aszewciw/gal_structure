@@ -158,10 +158,6 @@ typedef struct POINTING{
     double r_max;
     /* number of data points (post cleaning) in SEGUE l.o.s. */
     int N_data;
-    /* current number of data points in mock l.o.s. */
-    int N_mock;
-    /* Set=0 until N_mock >= N_data. Then set=1 */
-    int flag;
 
 } POINTING;
 
