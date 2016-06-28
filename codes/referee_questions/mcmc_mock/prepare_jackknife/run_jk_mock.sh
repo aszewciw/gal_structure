@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 
 rm ../data/rbins/*.dat
 python set_rbins.py
