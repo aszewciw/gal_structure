@@ -37,8 +37,6 @@ void load_pointing_list(int *N_plist, POINTING **plist){
         fscanf(plist_file, "%lf", &p[i].y);
         fscanf(plist_file, "%lf", &p[i].z);
         fscanf(plist_file, "%d", &p[i].N_data);
-        p[i].N_mock = 0;
-        p[i].flag = 0;
     }
 
     fclose(plist_file);
