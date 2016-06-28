@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 
 rm ../data/model_pairs/*.dat
 rm uni_pair_count
