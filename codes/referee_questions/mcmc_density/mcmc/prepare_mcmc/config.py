@@ -28,9 +28,11 @@ rawdata_dir  = '../../../data/'
 data_dir     = '../data/'
 mock_dir     = '../../prepare_mock/data/'
 uni_dir      = '../../prepare_randoms/data/'
+stats_dir    = '../../../1000_mocks_full/errors_pairs/data/mean_var_std/'
 zr_dir       = data_dir + 'model_positions/'
 rbins_dir    = data_dir + 'rbins/'
 density_dir  = data_dir + 'mock_density/'
+errors_dir   = data_dir + 'mock_errors/'
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):

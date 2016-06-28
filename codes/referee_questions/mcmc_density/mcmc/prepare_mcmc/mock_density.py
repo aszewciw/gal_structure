@@ -44,10 +44,12 @@ def main():
         err_density = err_counts / volume
 
         output_file = density_dir + 'density_' + p.ID + '.dat'
-        with open(output_file, 'w') as f:
-            for i in range(Nbins):
-                f.write('{}\t{}\t{}\t{}\n'.format(counts[i], err_counts[i],
-                    density[i], err_density[i]))
+
+        np.savetxt(output_file, density)
+        # with open(output_file, 'w') as f:
+        #     for i in range(Nbins):
+        #         f.write('{}\t{}\t{}\t{}\n'.format(counts[i], err_counts[i],
+        #             density[i], err_density[i]))
 
 
 
