@@ -16,25 +16,6 @@ double sech2(double x){
 }
 
 /* ----------------------------------------------------------------------- */
-
-// /* Set weights for all model points based on disk parameters */
-// void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
-
-//     int i, j;
-
-//     for(i = lower_ind; i < upper_ind; i++){
-
-//         for(j = 0; j < p[i].N_stars; j++){
-
-//             p[i].weight[j] = (
-//                 ( sech2( p[i].Z[j] / (2.0 * params.thin_z0) )
-//                     * exp( -p[i].R[j] / params.thin_r0 ) )
-//                 + params.ratio_thick_thin *
-//                 ( sech2( p[i].Z[j] / (2.0 * params.thick_z0) )
-//                     * exp( -p[i].R[j] / params.thick_r0 ) ) );
-//         }
-//     }
-// }
 /* Calculate density at each point in uniform sample */
 void calculate_densities(STEP_DATA params, POINTING *p, int N_bins,
     int lower_ind, int upper_ind)
@@ -223,11 +204,8 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
     p_new.chi2 = 0.0;
     p_new.chi2_reduced = 0.0;
 
-
     /* get normalization */
     normalize_density(&p_new, N_total);
-
-
 
     return p_new;
 }
@@ -241,17 +219,18 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
 
 /* Run mcmc chain */
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank, int nprocs, int N_total)
+    int lower_ind, int upper_ind, int rank, int nprocs,
+    unsigned long int N_total)
 {
     int i;
-    int eff_counter = 0; // number of accepted steps
-    double eff; // number accepted / total
+    int eff_counter = 0;    // number of accepted steps
+    double eff;             // number accepted / total
     STEP_DATA current;
-    STEP_DATA new; // mcmc parameters to test
+    STEP_DATA new;          // mcmc parameters to test
     double delta_chi2, tmp;
-    int DOF = 0; // total degrees of freedom
-    int DOF_proc; // d.o.f. of each process
-    int N_params = 5; // number of parameters -- should automate this
+    int DOF = 0;            // total degrees of freedom
+    int DOF_proc;           // d.o.f. of each process
+    int N_params = 5;       // number of parameters -- should automate this
     double chi2 = 0.0;
 
     if (rank == 0){

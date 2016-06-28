@@ -81,8 +81,7 @@ void load_bin_info(int *N_bins){
 
 /* ----------------------------------------------------------------------- */
 
-/* Read mock density and error information */
-// void load_mock_data(int N_p, POINTING *p, int N_bins){
+/* Read mock density and error values */
 void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
     int rank)
 {
@@ -92,9 +91,12 @@ void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
     int i, j;
     RBIN *b;
 
-    // for(i=0; i<N_p; i++){
     for(i=lower_ind; i<upper_ind; i++){
 
+        /* reserve space for bin data */
+        b = calloc(N_bins, sizeof(RBIN));
+
+        /* check density file */
         snprintf(mock_filename, 256, "%sdensity_%s.dat", DENSITY_DIR,
             p[i].ID);
         if((mock_file=fopen(mock_filename,"r"))==NULL){
@@ -102,13 +104,24 @@ void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
             exit(EXIT_FAILURE);
         }
 
-        b = calloc(N_bins, sizeof(RBIN));
+        /* load density data */
+        for(j=0; j<N_bins; j++){
+            snprintf(b[j].binID, 256, "%d", j);
+            fscanf(mock_file, "%lf", &b[j].density_mock);
+        }
+
+        fclose(mock_file);
+
+        /* check errors file */
+        snprintf(mock_filename, 256, "%sdensity_%s.dat", ERROR_DIR,
+            p[i].ID);
+        if((mock_file=fopen(mock_filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s \n", mock_filename);
+            exit(EXIT_FAILURE);
+        }
 
         for(j=0; j<N_bins; j++){
             snprintf(b[j].binID, 256, "%d", j);
-            fscanf(mock_file, "%lf", &b[j].N_mock);
-            fscanf(mock_file, "%lf", &b[j].N_mock_err);
-            fscanf(mock_file, "%lf", &b[j].density_mock);
             fscanf(mock_file, "%lf", &b[j].density_mock_err);
         }
 
@@ -180,17 +193,17 @@ void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data){
 
-    step_data->thin_r0          = 3.0;
-    step_data->thin_z0          = 0.3;
-    step_data->thick_r0         = 4.0;
-    step_data->thick_z0         = 1.2;
-    step_data->ratio_thick_thin = 0.1;
-
-    // step_data->thin_r0 = 2.34;
-    // step_data->thin_z0 = 0.233;
-    // step_data->thick_r0 = 2.51;
-    // step_data->thick_z0 = 0.674;
+    // step_data->thin_r0          = 3.0;
+    // step_data->thin_z0          = 0.3;
+    // step_data->thick_r0         = 4.0;
+    // step_data->thick_z0         = 1.2;
     // step_data->ratio_thick_thin = 0.1;
+
+    step_data->thin_r0 = 2.34;
+    step_data->thin_z0 = 0.233;
+    step_data->thick_r0 = 2.51;
+    step_data->thick_z0 = 0.674;
+    step_data->ratio_thick_thin = 0.1;
 }
 
 /* ----------------------------------------------------------------------- */

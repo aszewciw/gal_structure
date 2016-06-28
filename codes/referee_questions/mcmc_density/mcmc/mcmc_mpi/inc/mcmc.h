@@ -14,6 +14,7 @@
 #define DATA_DIR    "../data/"
 #define BIN_DIR     "../data/rbins/"
 #define DENSITY_DIR "../data/mock_density/"
+#define ERROR_DIR   "../data/mock_errors/"
 #define ZR_DIR      "../data/model_positions/"
 #define OUT_DIR     "../data/mcmc_output/"
 
@@ -21,8 +22,8 @@
 /* Data for each radial bin */
 typedef struct {
   char binID[256];          // ID for each radial bin
-  double N_mock;            // raw counts in bin
-  double N_mock_err;        // sqrt(N) Poisson error
+  // double N_mock;            // raw counts in bin
+  // double N_mock_err;        // sqrt(N) Poisson error
   double density_mock;      // Npoints/volume
   double density_mock_err;  // propagated error in density
   double sigma2;            // err**2 for use in chi2 calculation
@@ -77,7 +78,8 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
   unsigned long int N_total);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-  int lower_ind, int upper_ind, int rank, int nprocs, int N_total);
+  int lower_ind, int upper_ind, int rank, int nprocs,
+  unsigned long int N_total);
 
 /* Other */
 double sech2(double x);

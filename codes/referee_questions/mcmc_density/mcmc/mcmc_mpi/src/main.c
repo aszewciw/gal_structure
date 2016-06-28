@@ -14,14 +14,17 @@ int main(int argc, char * argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if (argc!=2){
+    if (argc!=3){
         fprintf(stderr, "Usage: %s\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
     /* number of steps in mcmc */
     int max_steps;
+    /* total stars in galaxy */
+    unsigned long int N_total;
     sscanf(argv[1], "%d", &max_steps);
+    sscanf(argv[2], "%lu", &N_total);
     if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
 
     /* -- Load data from various files --*/
@@ -29,9 +32,6 @@ int main(int argc, char * argv[]){
     int N_plist;
     int N_bins;
     POINTING *plist;
-
-    unsigned long int N_total; // total number of stars in galaxy
-    N_total = 28000000;
 
     /* have each process separately access this file */
     int current_rank = 0;
