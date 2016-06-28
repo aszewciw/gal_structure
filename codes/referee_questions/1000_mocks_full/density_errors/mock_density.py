@@ -60,14 +60,14 @@ def main():
 
                 counts[j] = len( np.where((distance>r1)&(distance<=r2))[0] )
 
-            density[i] = counts / volume
+            density[i-1] = counts / volume
 
         # Output file with all density values
         out_filename = data_dir + 'density_' + p.ID + '.dat'
         np.savetxt(out_filename, density)
 
         # Get averages and standard deviation
-        averages = np.mean(density,0)
+        averages = np.mean(density, 0)
 
         stdev = np.std(density, 0)
 
