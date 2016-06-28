@@ -19,7 +19,7 @@ def main():
             sys.stderr.write('On pointing #{} of {} ..\n'
                              .format(todo_list.index(p), len(todo_list)))
 
-        error_file = stats_dir + 'stats_' + p.ID + '.dat'
+        error_file = stats_dir + 'ave_std_' + p.ID + '.dat'
         stdev = np.genfromtxt(error_file, unpack=True, usecols=[1])
 
         output_file = errors_dir + 'errors_' + p.ID + '.dat'
