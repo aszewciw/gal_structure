@@ -37,7 +37,7 @@ typedef struct {
 /* Pointing line of sight in sky */
 typedef struct {
   char ID[256]; // Unique ID for pointing
-  int N_stars; //Number of stars in model sample
+  int N_stars; // Number of stars in model sample
   double * Z; // array of star heights above gal plane
   double * R; // array of star distances from gal center in gal plane
   double * weight; // star's density weight based on Z, R
