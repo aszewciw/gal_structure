@@ -71,7 +71,7 @@ def main():
 
         stdev = np.std(density, 0)
 
-        out_data = np.column_stack((averages,std))
+        out_data = np.column_stack((averages,stdev))
 
         out_filename = data_dir + 'ave_std_' + p.ID + '.dat'
 
