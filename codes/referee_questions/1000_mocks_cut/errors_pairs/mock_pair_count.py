@@ -30,7 +30,7 @@ def main():
     for i in range(N_mocks):
 
         # First remove any existing files
-        cmd = 'rm ' + mock_dir + 'mock_' + str(i+1) + '/mock_pairs*'
+        cmd = 'rm ' + data_dir + 'mock_' + str(i+1) + '/mock_pairs*'
         os.system(cmd)
 
         # Loop over l.o.s.
@@ -44,7 +44,7 @@ def main():
                 sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
                 continue
 
-            output_file = ( mock_dir + 'mock_' + str(i+1) + '/mock_pairs_'
+            output_file = ( data_dir + 'mock_' + str(i+1) + '/mock_pairs_'
                 + p.ID + '.dat' )
 
             cmd = ( './mock_pair_count ' + in_file + ' ' + bins_file

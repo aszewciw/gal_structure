@@ -37,7 +37,7 @@ def main():
         for i in range(N_mocks):
 
             # Load counts for a single mock
-            corr_file = ( mock_dir + 'mock_' + str(i+1) + '/mock_pairs_'
+            corr_file = ( data_dir + 'mock_' + str(i+1) + '/mock_pairs_'
                 + p.ID + '.dat' )
             DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
                 usecols=[4, 5] )
