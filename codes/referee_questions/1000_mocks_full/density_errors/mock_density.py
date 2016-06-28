@@ -11,7 +11,6 @@ def main():
     N_args          = len(args_array)
     assert(N_args   == elements_needed)
     N_mocks         = int(args_array[1])
-    run_num         = int(args_array[2])
 
     # load the todo pointing list
     input_filename = rawdata_dir + 'todo_list.dat'
@@ -21,7 +20,6 @@ def main():
     input_file.close()
 
     mock_nums = np.arange(N_mocks) + 1
-    mock_nums += N_mocks * run_num
 
     # load the bins list
     bins_file = data_dir + 'rbins.dat'
@@ -30,38 +28,54 @@ def main():
 
     Nbins = len(rlower)
 
-    # Loop over mocks
-    for i in mock_nums:
+    # Loop over l.o.s.
+    for p in todo_list:
 
-        mock_dir = mock_dir + 'mock_' + str(i) + '/'
-        out_dir  = data_dir + 'density_' + str(i) + '/'
+        # Array of density values for this pointing
+        density = np.zeros((N_mocks, Nbins))
 
-        for p in todo_list:
+        # a progress indicator
+        # if todo_list.index(p) % 10 == 0:
+        sys.stderr.write('On pointing #{} of {} ..\n'
+                         .format(todo_list.index(p), len(todo_list)))
 
-            # a progress indicator
-            if todo_list.index(p) % 10 == 0:
-                sys.stderr.write('On pointing #{} of {} ..\n'
-                                 .format(todo_list.index(p), len(todo_list)))
+        for i in mock_nums:
+
+            mock_dir = mock_dir + 'mock_' + str(i) + '/'
 
             mock_file = mock_dir + 'mock_' + p.ID + '.xyz.dat'
+            if not os.path.isfile(mock_file):
+                sys.stderr.write('Error: ' + mock_file + ' does not exist.\n')
+                continue
+
             x,y,z     = np.genfromtxt(mock_file, skip_header=1, unpack=True)
             distance  = np.sqrt(x**2 + y**2 + z**2)
 
             counts = np.zeros(Nbins)
 
-            for i in range(Nbins):
+            for j in range(Nbins):
 
-                r1 = rlower[i]
-                r2 = rupper[i]
+                r1 = rlower[j]
+                r2 = rupper[j]
 
-                counts[i] = len( np.where((distance>r1)&(distance<=r2))[0] )
+                counts[j] = len( np.where((distance>r1)&(distance<=r2))[0] )
 
-            density     = counts / volume
+            density[i] = counts / volume
 
-            output_file = density_dir + 'density_' + p.ID + '.dat'
-            with open(output_file, 'w') as f:
-                for j in range(Nbins):
-                    f.write('{}\t{}\n'.format(counts[j], density[j])
+        # Output file with all density values
+        out_filename = data_dir + 'density_' + p.ID + '.dat'
+        np.savetxt(out_filename, density)
+
+        # Get averages and standard deviation
+        averages = np.mean(density,0)
+
+        stdev = np.std(density, 0)
+
+        out_data = np.column_stack((averages,std))
+
+        out_filename = data_dir + 'ave_std_' + p.ID + '.dat'
+
+        np.savetxt(out_filename, out_data)
 
 
 if __name__ == '__main__':
