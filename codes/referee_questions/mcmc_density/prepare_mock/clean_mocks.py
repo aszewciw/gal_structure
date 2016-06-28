@@ -45,13 +45,6 @@ def main():
         mock_file = OUT_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
         xyz = np.genfromtxt(mock_file)
 
-        # Randomly cut from mock sample to make it size of SEGUE data
-        N_mock = len(xyz)
-        diff = N_mock - N_data
-        if diff < 0:
-            print("Oh no! We didn't make enough stars for " + ID_current)
-            continue
-
         np.random.shuffle(xyz)
 
         # Output new data

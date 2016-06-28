@@ -57,15 +57,13 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 
         f_c = exp(-c/r0)*(c+r0) - const3;
         f_b = exp(-b/r0)*(b+r0) - const3;
-        // fprintf(stderr, "C is %lf\n", c);
-        // fprintf(stderr, "F(c) is %lf\n", f_c);
 
         if((f_c * f_b)>0) b = c;
         else a = c;
     }
 
     if(i==max_steps) fprintf(stderr, "Oh no! Took more than 100 steps to converge!\n");
-    // fprintf(stderr, "%d steps\n", i);
+
     return c;
 }
 
@@ -86,11 +84,6 @@ double dot_product(VECTOR v1, VECTOR v2){
 /* make a temporary number of stars */
 void generate_stars( STAR *s, PARAMS *p, int disk_type ){
 
-    // int flag;                // check if star is within distance limits
-    // double Z_temp;              // temp galactic height
-    // double R_temp;              // temp galactic in-plane distance
-    // double phi_temp;            // temp galactic angle
-    // double dist_temp;           // temporary sun-star distance
     double z0;                  // disk scale height
     double r0;                  // disk scale length
     double z0_pdf_norm;         // PDF height normalization
@@ -149,7 +142,6 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
     VECTOR point;           // current star's unit vector
     double dot_prod;        // dot product for two above vectors
     double plate_cos;       // used to assign stars to pointings
-    // int star_count;         // number of stars added to current l.o.s.
 
     /* Calculate limit for assigning star to pointing */
     plate_cos = cos( PLATE_RADIUS_DEG * M_PI / 180. );
@@ -180,8 +172,6 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
                 snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
                 file = fopen(filename, "a");
 
-                /* add 1 to number of stars */
-                p[i].N_mock+=1;
                 /* write star to file */
                 output_star( file, s[j] );
                 fclose(file);
