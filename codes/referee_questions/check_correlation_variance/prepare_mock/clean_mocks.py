@@ -30,7 +30,8 @@ def main():
 
     # Load pointing IDs and desired number of stars
     pointing_file = DATA_DIR + 'corr_list.ascii.dat'
-    ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True, dtype=int, usecols=[0, 10])
+    ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
+        dtype=int, usecols=[0, 10])
     N_pointings = len(ID)
 
     # Load stars from each l.o.s., shuffle, cut, and output
@@ -43,7 +44,7 @@ def main():
         mock_file = DATA_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
         xyz = np.genfromtxt(mock_file)
 
-        # Randomly cut from mock sample to make it size of SEGUE data
+        # Randomly shuffle disks
         N_mock = len(xyz)
 
         np.random.shuffle(xyz)
