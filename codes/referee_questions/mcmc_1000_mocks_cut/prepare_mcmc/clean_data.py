@@ -53,10 +53,24 @@ def main():
         np.savetxt(outfile, uni_jk_err)
 
         # Repack mock error files
-        dat_jk_file = jk_dir + 'mock_' + p + '_jk_error.dat'
-        dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        outfile     = errors_dir + 'mock_' + p + '_frac_error.dat'
-        np.savetxt(outfile, dat_jk_err)
+        # Get a fractional error so we don't have to change mcmc code
+        mock_sigma_file = sigma_dir + 'stats_' + p + '.dat'
+        mock_sigma = np.genfromtxt(mock_sigma_file, unpack=True,
+            usecols = [2])
+        dd_file = mock_dd_dir + 'dd_' + p + '.dat'
+        dd      = np.genfromtxt(dd_file)
+
+        mock_frac_error = np.zeros(len(dd))
+
+        for i in range(len(dd)):
+
+            # skip if either is 0 and ignore in chi2 calc
+            if dd[i]==0 or mock_sigma[i]==0:
+                continue
+            mock_frac_error[i] = mock_sigma[i] / dd[i]
+
+        outfile = errors_dir + 'mock_' + p + '_frac_error.dat'
+        np.savetxt(outfile, mock_frac_error)
 
 if __name__ == '__main__':
     main()
