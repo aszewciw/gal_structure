@@ -9,5 +9,5 @@ N_bins=5;
 
 python choose_r_values.py $N_bins
 python separate_randoms.py
-python mock_density.py
+python normalized_mock_density.py
 python errors.py
