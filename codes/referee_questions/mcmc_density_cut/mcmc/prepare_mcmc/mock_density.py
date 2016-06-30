@@ -1,5 +1,6 @@
 '''
-Calculate mock density and Poisson error in calculation.
+For each l.o.s., calculate the density in different subvolumes of the pointing.
+Then normalize each density by the average density in the whole pointing.
 '''
 from config import *
 
@@ -16,6 +17,9 @@ def main():
     bins_file = rbins_dir + 'rbins.dat'
     rlower, rupper, volume = np.genfromtxt(bins_file, skip_header=1,
         unpack=True)
+
+    # get volume of whole pointing
+    volume_los = np.sum(volume)
 
     Nbins = len(rlower)
 
@@ -39,18 +43,19 @@ def main():
 
             counts[i] = len( np.where((distance>r1)&(distance<=r2))[0] )
 
-        err_counts  = np.sqrt(counts)
-        density     = counts / volume
-        err_density = err_counts / volume
+        # raw density in each subvolume
+        density_real = counts / volume
 
-        output_file = density_dir + 'density_' + p.ID + '.dat'
+        # average density in whole l.o.s.
+        N_points = len(distance)
+        density_los = N_points / volume_los
 
-        np.savetxt(output_file, density)
-        # with open(output_file, 'w') as f:
-        #     for i in range(Nbins):
-        #         f.write('{}\t{}\t{}\t{}\n'.format(counts[i], err_counts[i],
-        #             density[i], err_density[i]))
+        # Normalize density and add to array
+        density_norm = density_real / density_los
 
+        output_file = density_dir + 'density_norm_' + p.ID + '.dat'
+
+        np.savetxt(output_file, density_norm)
 
 
 if __name__ == '__main__':
