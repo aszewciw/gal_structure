@@ -76,7 +76,7 @@ def main():
 
         # Output file with all density values
         out_filename = data_dir + 'density_norm_' + p.ID + '.dat'
-        np.savetxt(out_filename, density)
+        np.savetxt(out_filename, density_norm)
 
         # Get averages and standard deviation
         averages = np.mean(density_norm, 0)
