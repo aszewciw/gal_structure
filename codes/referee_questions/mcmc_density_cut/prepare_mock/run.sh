@@ -1,13 +1,11 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 
 rm ./data/*.dat
 
 make cleanall
 make
 
-Nstars=30000000;
-
-time ./bin/make_galaxy $Nstars
+time ./bin/make_galaxy 1000000
 python clean_mocks.py
 
 rm ./data/temp*

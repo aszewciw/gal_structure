@@ -26,7 +26,7 @@ def line_prepender(filename, line):
 
 def main():
 
-    print('Mocks are being randomly shuffled to mix disks.\n')
+    print('Mocks have too many stars. Randomly removing some.\n')
     np.random.seed()
 
     # Load pointing IDs and desired number of stars
@@ -45,16 +45,25 @@ def main():
         mock_file = OUT_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
         xyz = np.genfromtxt(mock_file)
 
+        # Randomly cut from mock sample to make it size of SEGUE data
         N_mock = len(xyz)
-
+        diff = N_mock - N_data
+        if diff < 0:
+            print("Oh no! We didn't make enough stars for " + ID_current)
+            continue
+        delete_me = np.arange(diff)
         np.random.shuffle(xyz)
+        xyz = np.delete(xyz, delete_me, 0)
+        if N_data != len(xyz):
+            print("Something went wrong! Incorrect number of stars for " + ID_current)
+            continue
 
         # Output new data
         out_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
         np.savetxt(out_file, xyz, fmt='%1.6f')
 
         # Add number of elements as first line in file
-        line_prepender(out_file, str(int(N_mock)))
+        line_prepender(out_file, str(int(N_data)))
 
     print('Data cleaned. Mocks completed.\n')
 

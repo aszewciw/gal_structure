@@ -57,13 +57,15 @@ double random_gal_R(double r0, double pdf_norm, double r_min, double r_max)
 
         f_c = exp(-c/r0)*(c+r0) - const3;
         f_b = exp(-b/r0)*(b+r0) - const3;
+        // fprintf(stderr, "C is %lf\n", c);
+        // fprintf(stderr, "F(c) is %lf\n", f_c);
 
         if((f_c * f_b)>0) b = c;
         else a = c;
     }
 
     if(i==max_steps) fprintf(stderr, "Oh no! Took more than 100 steps to converge!\n");
-
+    // fprintf(stderr, "%d steps\n", i);
     return c;
 }
 
@@ -142,42 +144,54 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
     VECTOR point;           // current star's unit vector
     double dot_prod;        // dot product for two above vectors
     double plate_cos;       // used to assign stars to pointings
+    int star_count;         // number of stars added to current l.o.s.
 
     /* Calculate limit for assigning star to pointing */
     plate_cos = cos( PLATE_RADIUS_DEG * M_PI / 180. );
 
-    for(j=0; j<N_s; j++){
 
-        /* skip if outside distance range */
-        if( (s[j].distance < 1.0) || (s[j].distance > 3.0) ) continue;
+    for(i=0; i<N_p; i++){
 
-        /* star unit vectors */
-        point.x = s[j].x / s[j].distance;
-        point.y = s[j].y / s[j].distance;
-        point.z = s[j].z / s[j].distance;
+        /* skip this pointing if we have enough stars */
+        if( p[i].flag == 1) continue;
 
-        for(i=0; i<N_p; i++){
+        /* if we need more stars, open the file */
+        snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR, p[i].ID);
+        file = fopen(filename, "a");
 
-            /* plate unit vector */
-            plate.x = p[i].x;
-            plate.y = p[i].y;
-            plate.z = p[i].z;
+        /* set number of stars added for this mock to 0 */
+        star_count = 0;
+
+        /* plate unit vector */
+        plate.x = p[i].x;
+        plate.y = p[i].y;
+        plate.z = p[i].z;
+
+        for(j=0; j<N_s; j++){
+
+            /* skip if outside distance range */
+            if( (s[j].distance < 1.0) || (s[j].distance > 3.0) ) continue;
+
+            /* star unit vectors */
+            point.x = s[j].x / s[j].distance;
+            point.y = s[j].y / s[j].distance;
+            point.z = s[j].z / s[j].distance;
 
             /* get dot product of unit vectors */
             dot_prod = dot_product(plate, point);
 
             /* check assignment to this pointing */
             if(dot_prod >= plate_cos){
-
-                snprintf(filename, 256, "%stemp_mock_%s.xyz.dat", OUT_DIR,
-                    p[i].ID);
-                file = fopen(filename, "a");
-
+                star_count += 1;
                 /* write star to file */
                 output_star( file, s[j] );
-                fclose(file);
             }
         }
+
+        /* update number of stars in this l.o.s. of mock */
+        p[i].N_mock += star_count;
+
+        fclose(file);
     }
 }
 
