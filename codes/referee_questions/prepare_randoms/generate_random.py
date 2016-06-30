@@ -148,8 +148,10 @@ def main():
             sys.stderr.write('Error: Empty star list. \n')
             continue
 
-        Ntot = p.N_star * star_factor # total number of random points to generate
+        # total number of stars in each l.o.s.
+        # Ntot = p.N_star * star_factor
         # Ntot = 2000
+        Ntot = 1500
 
         # generate random numbers on a unit sphere
         random_sample = random_unit(Ntot, p)
@@ -165,7 +167,8 @@ def main():
             i.galactic_l_rad, i.galactic_b_rad = eq2gal(i.ra_rad, i.dec_rad)
             i.galactic_l_deg = math.degrees(i.galactic_l_rad)
             i.galactic_b_deg = math.degrees(i.galactic_b_rad)
-            i.galactic_Z, i.galactic_R = gal2ZR(i.galactic_l_rad, i.galactic_b_rad, i.distance)
+            i.galactic_Z, i.galactic_R = gal2ZR(i.galactic_l_rad,
+                i.galactic_b_rad, i.distance)
 
         # set random points' weight to 1
         for i in random_sample:
