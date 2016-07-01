@@ -41,8 +41,8 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             /* ignore lines of sight with 0 counts */
             if( p[i].rbin[j].sigma2 == 0.0 ) continue;
 
-            chi2 += ( (p[i].rbin[j].density_mock - p[i].rbin[j].ave_density)
-                * (p[i].rbin[j].density_mock - p[i].rbin[j].ave_density)
+            chi2 += ( (p[i].rbin[j].density_mock - p[i].rbin[j].ave_density_norm)
+                * (p[i].rbin[j].density_mock - p[i].rbin[j].ave_density_norm)
                 / p[i].rbin[j].sigma2 );
         }
     }

@@ -22,22 +22,22 @@
 /* Data for each radial bin */
 typedef struct {
   char binID[256];          // ID for each radial bin
-  // double N_mock;            // raw counts in bin
-  // double N_mock_err;        // sqrt(N) Poisson error
-  double density_mock;      // Npoints/volume
-  double density_mock_err;  // propagated error in density
+  double density_mock;      // Npoints/volume normalized
+  double density_mock_err;  // standard deviation from 1000 mocks
   double sigma2;            // err**2 for use in chi2 calculation
   double N_uniform;         // number of uniform stars in bin
   double * Z;               // height above plane of stars
   double * R;               // distance from Z axis of star
   double * density;         // density value, based on Z,R
   double ave_density;       // Average density value in bin
+  double ave_density_norm;  // ave_density / average_los_density
 } RBIN;
 
 /* Pointing line of sight in sky */
 typedef struct {
-  char ID[256]; // Unique ID for pointing
-  RBIN * rbin;  // Nbins of these; Nbins should be global or declared in main
+  char ID[256];           // Unique ID for pointing
+  RBIN * rbin;            // Nbins of these: global or declared in main
+  double density_los;     // average model density of whole l.o.s.
 } POINTING;
 
 /* Data for each step in MCMC chain */
@@ -47,7 +47,7 @@ typedef struct {
   double thick_r0;          /* thick disk scale length */
   double thick_z0;          /* thick disk scale height */
   double ratio_thick_thin;  /* number density ratio */
-  double normalization;     /* overall density normalization */
+  // double normalization;     /* overall density normalization */
   double chi2;              /* total chi2 for step */
   double chi2_reduced;      /* chi2/DOF */
 } STEP_DATA;
@@ -73,7 +73,7 @@ void average_density(STEP_DATA params, POINTING *p, int N_bins,
   int lower_ind, int upper_ind);
 double integrate_Z(double z0, double z_min, double z_max);
 double integrate_R(double r0, double r_min, double r_max);
-void normalize_density(STEP_DATA *p, unsigned long int N);
+// void normalize_density(STEP_DATA *p, unsigned long int N);
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
   unsigned long int N_total);

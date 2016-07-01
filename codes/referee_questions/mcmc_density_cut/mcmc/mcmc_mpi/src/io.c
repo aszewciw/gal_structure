@@ -65,8 +65,6 @@ void load_bin_info(int *N_bins){
     fclose(bin_file);
 
     *N_bins = N;
-
-    // fprintf(stderr, "Bin information loaded. Using %d bins\n", N);
 }
 
 /* ----------------------------------------------------------------------- */
@@ -87,7 +85,7 @@ void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
         b = calloc(N_bins, sizeof(RBIN));
 
         /* check density file */
-        snprintf(mock_filename, 256, "%sdensity_%s.dat", DENSITY_DIR,
+        snprintf(mock_filename, 256, "%sdensity_norm_%s.dat", DENSITY_DIR,
             p[i].ID);
         if((mock_file=fopen(mock_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s \n", mock_filename);
@@ -126,7 +124,6 @@ void load_mock_data(POINTING *p, int N_bins, int lower_ind, int upper_ind,
 /* ----------------------------------------------------------------------- */
 
 /* Load position and density weight data for model stars */
-// void load_ZR(int N_p, POINTING *p, int N_bins){
 void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
     int rank)
 {
@@ -138,8 +135,7 @@ void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
     double * R;
     double * density;
 
-    /* Read star data for each poiting */
-    // for(i = 0; i < N_p; i++){
+    /* Read star data for each pointing */
     for(i = lower_ind; i < upper_ind; i++){
 
         for(j=0; j<N_bins; j++){
@@ -183,17 +179,17 @@ void load_ZR(POINTING *p, int N_bins, int lower_ind, int upper_ind,
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data){
 
-    step_data->thin_r0          = 3.0;
-    step_data->thin_z0          = 0.3;
-    step_data->thick_r0         = 4.0;
-    step_data->thick_z0         = 1.2;
-    step_data->ratio_thick_thin = 0.1;
-
-    // step_data->thin_r0 = 2.34;
-    // step_data->thin_z0 = 0.233;
-    // step_data->thick_r0 = 2.51;
-    // step_data->thick_z0 = 0.674;
+    // step_data->thin_r0          = 3.0;
+    // step_data->thin_z0          = 0.3;
+    // step_data->thick_r0         = 4.0;
+    // step_data->thick_z0         = 1.2;
     // step_data->ratio_thick_thin = 0.1;
+
+    step_data->thin_r0 = 2.34;
+    step_data->thin_z0 = 0.233;
+    step_data->thick_r0 = 2.51;
+    step_data->thick_z0 = 0.674;
+    step_data->ratio_thick_thin = 0.1;
 }
 
 /* ----------------------------------------------------------------------- */

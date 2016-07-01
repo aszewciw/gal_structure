@@ -32,7 +32,7 @@ void calculate_densities(STEP_DATA params, POINTING *p, int N_bins,
             /* loop over elements */
             for(k = 0; k < p[i].rbin[j].N_uniform; k++){
 
-                p[i].rbin[j].density[k] = params.normalization * (
+                p[i].rbin[j].density[k] = (
                     ( sech2( p[i].rbin[j].Z[k] / (2.0 * params.thin_z0) )
                         * exp( -p[i].rbin[j].R[k] / params.thin_r0 ) )
                     + params.ratio_thick_thin *
@@ -48,93 +48,118 @@ void average_density(STEP_DATA params, POINTING *p, int N_bins,
 {
 
     int i, j, k;
-    double average_density;
+    double density_bin_sum; // sum of uniform densities for each bin
+    double density_los_sum; // sum of uniform densities for whole l.o.s.
+    double N_bin;           // number of stars in current bin
+    double N_los;           // number of stars in whole l.o.s.
 
     /* loop over pointings of this slice */
     for(i = lower_ind; i < upper_ind; i++){
 
+        density_los_sum = 0.0;
+
+        N_los = 0.0;
+
         /* loop over bins */
         for(j = 0; j < N_bins; j++){
 
-            average_density = 0.0;
+            N_bin = p[i].rbin[j].N_uniform;
 
-            /* loop over elements */
+            N_los += N_bin;
+
+            density_bin_sum = 0.0;
+
+            /* loop over uniform points in bin */
             for(k = 0; k < p[i].rbin[j].N_uniform; k++){
 
-                average_density += p[i].rbin[j].density[k];
+                density_bin_sum += p[i].rbin[j].density[k];
+
             }
 
-            average_density /= p[i].rbin[j].N_uniform;
-            p[i].rbin[j].ave_density = average_density;
+            /* add to overall sum for los */
+            density_los_sum += density_bin_sum;
+
+            /* assign to average density element */
+            p[i].rbin[j].ave_density = density_bin_sum / N_bin;
+        }
+
+        /* calculate average density of entire los */
+        p[i].density_los = density_los_sum / N_los;
+
+        /* now get normalized average density */
+        for(j=0; j<N_bins; j++){
+            p[i].rbin[j].ave_density_norm = ( p[i].rbin[j].ave_density /
+                p[i].density_los );
         }
     }
 }
+
 /* ----------------------------------------------------------------------- */
-double integrate_Z(double z0, double z_min, double z_max){
+// double integrate_Z(double z0, double z_min, double z_max){
 
-    double integral;
+//     double integral;
 
-    /* integral of sech^2(z/2z0)*dz */
-    integral = ( 2.0 * z0 * ( tanh( z_max / (2.0 * z0) )
-        - tanh( z_min / (2.0 * z0) ) ) );
+//     /* integral of sech^2(z/2z0)*dz */
+//     integral = ( 2.0 * z0 * ( tanh( z_max / (2.0 * z0) )
+//         - tanh( z_min / (2.0 * z0) ) ) );
 
-    return integral;
-}
+//     return integral;
+// }
 
-double integrate_R(double r0, double r_min, double r_max){
+// double integrate_R(double r0, double r_min, double r_max){
 
-    double integral;
+//     double integral;
 
-    /* integral of r*exp(-r/r0)*dr */
-    integral = ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
-        - exp(-r_min/r0)*(r_min + r0) ) );
+//     /* integral of r*exp(-r/r0)*dr */
+//     integral = ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
+//         - exp(-r_min/r0)*(r_min + r0) ) );
 
-    return integral;
-}
+//     return integral;
+// }
 
-void normalize_density(STEP_DATA *p, unsigned long int N){
+// void normalize_density(STEP_DATA *p, unsigned long int N){
 
-    double z_thin_integral;
-    double r_thin_integral;
-    double z_thick_integral;
-    double r_thick_integral;
-    /* combined integral terms */
-    double thin_term;
-    double thick_term;
-    /* normalization of density */
-    double density_const;
+//     double z_thin_integral;
+//     double r_thin_integral;
+//     double z_thick_integral;
+//     double r_thick_integral;
+//     /* combined integral terms */
+//     double thin_term;
+//     double thick_term;
+//     /* normalization of density */
+//     double density_const;
 
-    /* Geometric sample limits */
-    /* These are slightly generous limits. Sample is cut down
-    appropriately elsewhere */
-    double r_min     = 4.5;
-    double r_max     = 11.5;
-    double z_min     = 0.0;
-    double z_max     = 3.1;
-    double phi_max   = atan(0.5);
-    double phi_min   = -phi_max;
-    phi_min   += M_PI;
-    phi_max   += M_PI;
-    double phi_range = phi_max - phi_min;
+//     /* Geometric sample limits */
+//     /* These are slightly generous limits. Sample is cut down
+//     appropriately elsewhere */
+//     double r_min     = 4.5;
+//     double r_max     = 11.5;
+//     double z_min     = 0.0;
+//     double z_max     = 3.1;
+//     double phi_max   = atan(0.5);
+//     double phi_min   = -phi_max;
+//     phi_min   += M_PI;
+//     phi_max   += M_PI;
+//     double phi_range = phi_max - phi_min;
 
-    /* PDF normalizations */
-    z_thin_integral  = integrate_Z(p->thin_z0, z_min, z_max);
-    r_thin_integral  = integrate_R(p->thin_r0, r_min, r_max);
-    z_thick_integral = integrate_Z(p->thick_z0, z_min, z_max);
-    r_thick_integral = integrate_R(p->thick_r0, r_min, r_max);
+//     /* PDF normalizations */
+//     z_thin_integral  = integrate_Z(p->thin_z0, z_min, z_max);
+//     r_thin_integral  = integrate_R(p->thin_r0, r_min, r_max);
+//     z_thick_integral = integrate_Z(p->thick_z0, z_min, z_max);
+//     r_thick_integral = integrate_R(p->thick_r0, r_min, r_max);
 
-    /* Get number of stars in each disk */
-    /* extra factor of 2 accounts for symmetry about MW plane */
+//     /* Get number of stars in each disk */
+//     /* extra factor of 2 accounts for symmetry about MW plane */
 
-    /* thin and thick integrals */
-    thin_term  = 2.0 * z_thin_integral * r_thin_integral * phi_range;
-    thick_term = ( 2.0 * p->ratio_thick_thin * z_thick_integral
-        * r_thick_integral * phi_range );
+//     /* thin and thick integrals */
+//     thin_term  = 2.0 * z_thin_integral * r_thin_integral * phi_range;
+//     thick_term = ( 2.0 * p->ratio_thick_thin * z_thick_integral
+//         * r_thick_integral * phi_range );
 
-    /* normalize to get density constant */
-    p->normalization = (double)N / (thin_term + thick_term);
+//     /* normalize to get density constant */
+//     p->normalization = (double)N / (thin_term + thick_term);
 
-}
+// }
 
 /* ----------------------------------------------------------------------- */
 
@@ -205,7 +230,7 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r,
     p_new.chi2_reduced = 0.0;
 
     /* get normalization */
-    normalize_density(&p_new, N_total);
+    // normalize_density(&p_new, N_total);
 
     return p_new;
 }
@@ -263,21 +288,20 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
     /* Define MPI type to be communicated */
     MPI_Datatype MPI_STEP;
-    MPI_Datatype type[8] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
-    int blocklen[8] = { 1, 1, 1, 1, 1, 1, 1, 1 };
-    MPI_Aint disp[8];
+    MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
+    int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
+    MPI_Aint disp[7];
     disp[0] = offsetof( STEP_DATA, thin_r0 );
     disp[1] = offsetof( STEP_DATA, thin_z0 );
     disp[2] = offsetof( STEP_DATA, thick_r0 );
     disp[3] = offsetof( STEP_DATA, thick_z0 );
     disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
-    disp[5] = offsetof( STEP_DATA, normalization );
-    disp[6] = offsetof( STEP_DATA, chi2 );
-    disp[7] = offsetof( STEP_DATA, chi2_reduced );
+    disp[5] = offsetof( STEP_DATA, chi2 );
+    disp[6] = offsetof( STEP_DATA, chi2_reduced );
 
 
     /* build derived data type */
-    MPI_Type_create_struct( 8, blocklen, disp, type, &MPI_STEP );
+    MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
     /* optimize memory layout of derived datatype */
     MPI_Type_commit(&MPI_STEP);
 

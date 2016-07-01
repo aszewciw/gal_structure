@@ -71,7 +71,7 @@ int main(int argc, char * argv[]){
     /* -- Initialize parameters --*/
     STEP_DATA initial;
     load_step_data(&initial);
-    normalize_density(&initial, N_total);
+    // normalize_density(&initial, N_total);
     if(rank==0) fprintf(stderr, "Default initial parameters set...\n");
 
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
