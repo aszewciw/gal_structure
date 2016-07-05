@@ -71,6 +71,7 @@ def main():
             plt.figure(1)
             # plt.hist(density, hist_bins, normed=1, color='blue')
             counts, edges = np.histogram(density, hist_bins, normed=True)
+            edges = np.asarray(edges)
             binWidth = edges[1] - edges[0]
             print(edges)
             sys.exit()
