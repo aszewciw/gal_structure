@@ -7,6 +7,7 @@ standard deviation.
 
 from config import *
 import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
 
 def main():
 
@@ -42,8 +43,13 @@ def main():
         density_raw_all = np.zeros((N_mocks, N_bins))
         density_all     = np.zeros((N_mocks, N_bins))
 
+        # Load array of density values
         density_file = data_dir + 'density_norm_' + p.ID + '.dat'
         density_norm = np.genfromtxt(density_file)
+
+        # Load mean and standard deviation
+        stats_file = data_dir + 'ave_std_' + p.ID + '.dat'
+        mu_list, sigma_list = np.genfromtxt(stats_file)
 
         # Plot histogram for each bin
         for i in range(N_bins):
@@ -65,6 +71,12 @@ def main():
             counts, edges = np.histogram(density, hist_bins, normed=True)
             binWidth = edges[1] - edges[0]
             plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue')
+
+            # Get Stats for this bin
+            mu    = mu_list[i]
+            sigma = sigma_list[i]
+            x = np.linspace(edges[0], edges[-1], 1000)
+            plt.plot(x,mlab.normpdf(x, mu, sigma))
 
             # print(counts)
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
