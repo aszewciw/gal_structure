@@ -127,3 +127,9 @@ def main():
 
     filename = 'std_mean.dat'
     np.savetxt(filename, std_mean)
+
+
+
+
+if __name__ == '__main__':
+    main()
