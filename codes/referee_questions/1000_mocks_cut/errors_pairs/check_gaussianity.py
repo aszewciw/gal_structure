@@ -56,13 +56,13 @@ def main():
         # Load mean and standard deviation
         stats_file = stats_dir + 'stats_' + p.ID + '.dat'
         mu_list, sigma_list = np.genfromtxt(stats_file, unpack=True,
-                                usecols=[0,3])
+                                usecols=[0,2])
 
         # Plot histogram for each bin
         for i in range(N_bins):
 
             # get current array for hist
-            DD = DD_raw_all[:, i]
+            DD = DD_all[:, i]
 
             # Make histogram bins
             hist_min  = min(DD)
