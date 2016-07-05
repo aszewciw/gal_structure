@@ -73,11 +73,9 @@ def main():
             counts, edges = np.histogram(density, hist_bins, normed=True)
             edges = np.asarray(edges)
             binWidth = edges[1] - edges[0]
-            print(edges)
-            centers = edges[:-1]+0.5*(edges[1:]-edges[:-1])
-            print(centers)
-            sys.exit()
-
+            # print(edges)
+            centers = edges[:-1]+0.5*(edges[1:]-edges[:-1])
+            # print(centers)
             # print(len(counts))
             # print(edges)
             plt.bar(centers, counts*binWidth, binWidth, color='blue', alpha=0.1)
