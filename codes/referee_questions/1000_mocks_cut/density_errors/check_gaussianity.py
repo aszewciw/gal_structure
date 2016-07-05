@@ -87,7 +87,7 @@ def main():
             # Get Stats for this bin
             mu    = mu_list[i]
             sigma = sigma_list[i]
-            x = np.linspace(centers[0], centers[-1], 100)
+            x = np.linspace(centers[0], centers[-1], N_hist)
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
             plt.plot(x,norm.pdf(x, mu, sigma)*binWidth, color='r')
 
