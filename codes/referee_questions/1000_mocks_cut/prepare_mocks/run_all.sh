@@ -19,3 +19,4 @@ N_mocks=1000;
 run_num=0;
 
 time python make_mocks.py $N_stars $N_mocks $run_num
+python check_files.py

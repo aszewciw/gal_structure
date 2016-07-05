@@ -1,13 +1,18 @@
-# Take mock stars in each line of sight, randomly shuffle them,
-# and output exact number as are in each cleaned SEGUE l.o.s.
-# Add number of stars as first line in output file
-
 import numpy as np
 import sys
 
+#-----------------------------------------------------------------------------#
+'''
+Take mocks, which have unshuffled thin and thick disks upon creation, with more
+stars than are in the corresponding line of sight. Shuffle mocks, cut out some
+stars to produce files which contain the same number of stars as are in the
+corresponding SEGUE l.o.s.
+'''
+#-----------------------------------------------------------------------------#
+
 RAW_DIR = './data/'
 
-## ------------------------------------------------------------------------- ##
+#-----------------------------------------------------------------------------#
 
 def line_prepender(filename, line):
     '''
@@ -22,17 +27,17 @@ def line_prepender(filename, line):
         f.seek(0, 0)
         f.write(line.rstrip('\r\n') + '\n' + content)
 
-## ------------------------------------------------------------------------- ##
+#-----------------------------------------------------------------------------#
 
 def main():
 
     elements_needed = int(2)
+    args_array      = np.array(sys.argv)
+    N_args          = len(args_array)
+    assert(N_args   == elements_needed)
+    mock_num        = args_array[1]     # Which of the 1000 mocks we're on
 
-    args_array = np.array(sys.argv)
-    N_args = len(args_array)
-    assert(N_args == elements_needed)
-    mock_num = args_array[1]
-
+    # Establish proper directory
     OUT_DIR = './data/mock_' + mock_num + '/'
 
     print('Mocks are being randomly shuffled to mix disks.\n')
@@ -40,7 +45,7 @@ def main():
 
     # Load pointing IDs and desired number of stars
     pointing_file = RAW_DIR + 'todo_list.ascii.dat'
-    ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
+    ID, N_stars   = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
         dtype=int, usecols=[0, 10])
     N_pointings = len(ID)
 
@@ -48,14 +53,14 @@ def main():
     for i in range(N_pointings):
 
         ID_current = str(ID[i])
-        N_data = N_stars[i]
+        N_data     = N_stars[i]
 
         # Load position data for mock stars
         mock_file = OUT_DIR + 'temp_mock_' + ID_current + '.xyz.dat'
-        xyz = np.genfromtxt(mock_file)
+        xyz       = np.genfromtxt(mock_file)
+        N_mock    = len(xyz)
 
         # Randomly cut from mock sample to make it size of SEGUE data
-        N_mock = len(xyz)
         diff = N_mock - N_data
         if diff < 0:
             print("Oh no! We didn't make enough stars for " + ID_current)

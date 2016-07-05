@@ -68,28 +68,24 @@ def main():
             N_hist    = 30
             hist_bins = np.linspace(hist_min, hist_max, num=N_hist)
 
-            plt.clf()
-            plt.figure(1)
-            # plt.hist(density, hist_bins, normed=1, color='blue')
+            # Get normalized counts, bin edges, bin centers
             counts, edges = np.histogram(density, hist_bins, normed=True)
             binWidth      = edges[1] - edges[0]
             centers       = edges[:-1]+0.5*(edges[1:]-edges[:-1])
 
-            # print(edges)
+            # Plot bar graph with transparency
+            # Multiply by binWidth because np.histogram divides by it by default
+            plt.clf()
+            plt.figure(1)
             plt.bar(centers, counts*binWidth, binWidth, color='blue', alpha=0.1)
-            # plt.bar(edges[:-1], counts, binWidth, color='blue')
-
-
-            N_hist = len(edges)
 
             # Get Stats for this bin
             mu    = mu_list[i]
             sigma = sigma_list[i]
-            x = np.linspace(centers[0], centers[-1], N_hist)
-            # # plt.plot(x,mlab.normpdf(x, mu, sigma))
+            x     = np.linspace(centers[0], centers[-1], N_hist)
             plt.plot(x, norm.pdf(x, mu, sigma)*binWidth, color='r')
 
-            # print(counts)
+            # Save figure
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
                             + '.png' )
             plt.savefig(figure_name)

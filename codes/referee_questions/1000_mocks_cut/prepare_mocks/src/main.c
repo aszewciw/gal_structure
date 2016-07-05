@@ -32,24 +32,26 @@ int main( int argc, char **argv ){
         exit(EXIT_FAILURE);
     }
 
-    unsigned long int N_stars;  // total stars in mock galaxy
-    int mock_num;               // which mock we're making (1 - 1000)
+    unsigned long int N_stars;  /* Number of stars in temp galaxy wedge */
+    int mock_num;               /* which mock we're making (1 - 1000) */
+
+    /* get arguments from CL input */
     sscanf(argv[1], "%lu", &N_stars);
     sscanf(argv[2], "%d", &mock_num);
     fprintf(stderr, "On mock number %d \n", mock_num);
-    fprintf(stderr, "%lu stars per temporary galaxy.\n", N_stars);
+    fprintf(stderr, "%lu stars per temporary galaxy wedge.\n", N_stars);
 
     /* different variables used in main */
-    POINTING *plist;        // a pointing structure
-    int N_plist;            // number of l.o.s.
-    int loop_flag;          // set = 0 when file creation complete
-    int pointings_in_need;  // a progress checker
-    PARAMS params;          // parameters for mock creation
-    time_t t;               // initialization of random seed
-    int N_mock;             // # of stars in current mock l.o.s.
-    int N_data;             // desired # of stars in current l.o.s.
-    int i;                  // for loop index
-    int loop_counter;       // a progress checker
+    POINTING *plist;        /* a pointing structure */
+    int N_plist;            /* number of l.o.s. */
+    int loop_flag;          /* set = 0 when file creation complete */
+    int pointings_in_need;  /* a progress checker */
+    PARAMS params;          /* parameters for mock creation */
+    time_t t;               /* initialization of random seed */
+    int N_mock;             /* # of stars in current mock l.o.s. */
+    int N_data;             /* desired # of stars in current l.o.s. */
+    int i;                  /* for loop index */
+    int loop_counter;       /* a progress checker */
 
     /* load info for different pointings */
     load_pointing_list(&N_plist, &plist);
@@ -109,7 +111,7 @@ int main( int argc, char **argv ){
             fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
             fprintf(stderr, "Making more stars. \n");
         }
-        else fprintf(stderr, "All poitings have an adequate number of stars. \n");
+        else fprintf(stderr, "All pointings have an adequate number of stars. \n");
     }
 
     /* Deallocate arrays */

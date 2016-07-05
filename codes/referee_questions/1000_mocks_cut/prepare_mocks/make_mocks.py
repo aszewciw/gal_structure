@@ -1,17 +1,27 @@
 import numpy as np
 import os, sys
 
+#------------------------------------------------------------------------------#
+'''
+Make N_mocks mocks with the same number of points as are in SEGUE data.
+See C code for more details.
+
+Input is such that we can make several mocks simultaneously by opening different
+screen sessions and running different bash scripts
+'''
+#------------------------------------------------------------------------------#
+
 def main():
 
     elements_needed = int(4)
+    args_array      = np.array(sys.argv)
+    N_args          = len(args_array)
+    assert(N_args   == elements_needed)
+    N_stars         = args_array[1]         # Number of stars per temp galaxy
+    N_mocks         = int(args_array[2])    # Number of mocks to make
+    run_num         = int(args_array[3])    # Which we start at
 
-    args_array    = np.array(sys.argv)
-    N_args        = len(args_array)
-    assert(N_args == elements_needed)
-    N_stars       = args_array[1]
-    N_mocks       = int(args_array[2])
-    run_num       = int(args_array[3])
-
+    # Establish which mocks are to be made
     mock_nums = np.arange(N_mocks) + 1
     mock_nums += N_mocks * run_num
 

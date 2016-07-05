@@ -61,12 +61,14 @@ void ZR_to_gal(STAR *s){
 void gal_to_eq(STAR *s){
 
     double alpha, delta, la;
+
     /* convert params to radians */
     alpha = Galactic_North_Pole_RA * M_PI / 180.0;
     delta = Galactic_North_Pole_Dec * M_PI / 180.0;
     la    = Galactic_Ascending_Node * M_PI / 180.0;
 
-    double ra, dec, l, b;     /* temporary holders*/
+    /* temporary holders*/
+    double ra, dec, l, b;
 
     l = s->gal_l_rad;
     b = s->gal_b_rad;

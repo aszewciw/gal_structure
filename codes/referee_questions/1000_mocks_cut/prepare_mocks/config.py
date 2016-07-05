@@ -28,10 +28,6 @@ rawdata_dir = '../../data/'
 mock_dir    = '../prepare_mocks/data/'
 data_dir    = './data/'
 
-
-# number of jackknife samples to use
-N_jackknife = 10
-
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
