@@ -51,7 +51,7 @@ void pairs( POINT *data, int N_data, CORRELATION *corr, int N_corr ){
 
 long int pairs_norm( POINT *data, int N_data ){
 
-    long int total;
+    long int total=0;
     int i, j;
 
     for( i=0; i<N_data; i++ ){

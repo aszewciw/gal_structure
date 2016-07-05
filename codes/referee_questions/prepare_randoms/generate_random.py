@@ -149,9 +149,9 @@ def main():
             continue
 
         # total number of stars in each l.o.s.
-        # Ntot = p.N_star * star_factor
+        Ntot = p.N_star * star_factor
         # Ntot = 2000
-        Ntot = 1500
+        # Ntot = 1500
 
         # generate random numbers on a unit sphere
         random_sample = random_unit(Ntot, p)
