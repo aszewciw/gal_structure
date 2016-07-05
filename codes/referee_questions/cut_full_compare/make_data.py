@@ -4,10 +4,10 @@ import math
 # folders containing counts and standard deviations
 cut_dir        = '../mcmc_1000_mocks_cut/data/'
 cut_dd_dir     = cut_dir + 'mock_dd/'
-cut_sigma_dir  = cut_dir + 'errors/'
+cut_sigma_dir  = '../1000_mocks_cut/errors_pairs/data/mean_var_std/'
 full_dir       = '../mcmc_1000_mocks_full/data/'
 full_dd_dir    = full_dir + 'mock_dd/'
-full_sigma_dir = full_dir + 'errors/'
+full_sigma_dir = '../1000_mocks_full/errors_pairs/data/mean_var_std/'
 pointing_dir   = '../data/'
 bins_dir       = cut_dir + 'rbins/'
 
@@ -72,16 +72,16 @@ def main():
         cut_dd      = np.genfromtxt(cut_dd_file)
 
         # Sigma for cut sample
-        cut_sigma_file = cut_sigma_dir + 'mock_' + ID + '_frac_error.dat'
-        cut_sigma      = np.genfromtxt(cut_sigma_file)
+        cut_sigma_file = cut_sigma_dir + 'stats_' + ID + '.dat'
+        cut_sigma      = np.genfromtxt(cut_sigma_file, unpack=True, usecols=[2])
 
         # Normalized pair counts of full sample
         full_dd_file = full_dd_dir + 'dd_' + ID + '.dat'
         full_dd      = np.genfromtxt(full_dd_file)
 
         # Sigma for full sample
-        full_sigma_file = full_sigma_dir + 'mock_' + ID + '_frac_error.dat'
-        full_sigma      = np.genfromtxt(full_sigma_file)
+        full_sigma_file = full_sigma_dir + 'stats_' + ID + '.dat'
+        full_sigma      = np.genfromtxt(full_sigma_file, unpack=True, usecols=[2])
 
         # Get dd_cut / dd_full
         fraction, sigma = propagate_error( cut_dd, full_dd, cut_sigma,
