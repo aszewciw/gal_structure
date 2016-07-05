@@ -26,7 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock_alt/data/'
+mock_dir     = '../../prepare_mock_full/data/'
 uni_dir      = '../../prepare_randoms/data/'
 errors_dir   = data_dir + 'errors/'
 jk_dir       = data_dir + 'jackknife/'
@@ -37,11 +37,6 @@ zrw_dir      = data_dir + 'model_positions/'
 rbins_dir    = data_dir + 'rbins/'
 
 # create array of bins evenly spaced in log
-# Nbins   = 12
-# bin_min = 0.005
-# bin_max = 2
-# bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
-# bins    = np.power(10, bins)
 R_min = 0.005
 R_max = 2.0
 N_rbins = 12

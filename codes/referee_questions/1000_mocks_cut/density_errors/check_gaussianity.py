@@ -1,23 +1,19 @@
 '''
-Produces histograms for all bins for whichever l.o.s.
-I choose.
-As of now, there is no intelligent place of storing these
-files because I just wanted to check the Gaussianity of a
-few.
+Contains histograms of the density distributions, produced from 1000 mocks.
 
-It looks good.
-
+Overplotted above the histogram is a Gaussian curve taken from the mean and
+standard deviation.
 '''
-
-
 
 from config import *
 import matplotlib.pyplot as plt
 
 def main():
 
+    # Number of mocks
     N_mocks = 1000
 
+    # Load list of pointings
     input_filename = rawdata_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
@@ -25,7 +21,7 @@ def main():
     input_file.close()
 
     # Load bins information -- this is made in a separate place
-    bins_file = bins_dir + 'rbins.ascii.dat'
+    bins_file = data_dir + 'rbins.dat'
     if not os.path.isfile(bins_file):
         sys.stderr.write('Error: ' + bins_file + ' does not exist.\n')
 
@@ -36,34 +32,28 @@ def main():
     # loop over each l.o.s.
     for p in todo_list:
 
+        # Select pointing to make plot of
         if p.ID != '27':
             continue
 
         sys.stderr.write('Making histogram for pointing {}\n'.format(p.ID))
 
         # Empty arrays where each row is counts for 1 mock in current l.o.s.
-        DD_raw_all = np.zeros((N_mocks, N_bins))
-        DD_all     = np.zeros((N_mocks, N_bins))
+        density_raw_all = np.zeros((N_mocks, N_bins))
+        density_all     = np.zeros((N_mocks, N_bins))
 
-        # loop over all mocks
-        for i in range(N_mocks):
-
-            # Load counts for a single mock
-            corr_file = ( mock_dir + 'mock_' + str(i+1) + '/mock_pairs_'
-                + p.ID + '.dat' )
-            DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
-                usecols=[4, 5] )
-
+        density_file = data_dir + 'density_norm_' + p.ID + '.dat'
+        density_norm = np.genfromtxt(density_file)
 
         # Plot histogram for each bin
         for i in range(N_bins):
 
             # get current array for hist
-            DD = DD_raw_all[:, i]
+            density = density_norm[:, i]
 
             # Make histogram bins
-            hist_min  = min(DD)
-            hist_max  = max(DD)
+            hist_min  = min(density)
+            hist_max  = max(density)
             offset    = 0.001*hist_max
             hist_max  += offset # make sure max is in a bin
             N_hist    = 30
@@ -71,9 +61,10 @@ def main():
 
             plt.clf()
             plt.figure(1)
-            plt.hist(DD, hist_bins, color='blue')
+            plt.hist(density, hist_bins, color='blue')
 
-            figure_name = 'histogram_bin_' + str(i) + '.png'
+            figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
+                            + '.png' )
             plt.savefig(figure_name)
 
 

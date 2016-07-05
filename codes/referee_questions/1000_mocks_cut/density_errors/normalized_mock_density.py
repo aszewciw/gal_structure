@@ -1,8 +1,12 @@
+from config import *
+
+# ---------------------------------------------------------------------------- #
+
 '''
 For each l.o.s., calculate the density in different subvolumes of the pointing.
 Then normalize each density by the average density in the whole pointing.
 '''
-from config import *
+# ---------------------------------------------------------------------------- #
 
 def main():
 
@@ -20,17 +24,16 @@ def main():
     todo_list      = pickle.load(input_file)
     input_file.close()
 
+    # Mock numbering starts at 1 because I'm a jackass
     mock_nums = np.arange(N_mocks) + 1
 
     # load the bins list
     bins_file = data_dir + 'rbins.dat'
-    rlower, rupper, volume = np.genfromtxt(bins_file, skip_header=1,
-        unpack=True)
+    rlower, rupper, volume = np.genfromtxt(bins_file, skip_header=1, unpack=True)
+    Nbins = len(rlower)
 
     # get volume of whole pointing
     volume_los = np.sum(volume)
-
-    Nbins = len(rlower)
 
     # Loop over l.o.s.
     for p in todo_list:
@@ -39,39 +42,47 @@ def main():
         density_norm = np.zeros((N_mocks, Nbins))
 
         # a progress indicator
-        # if todo_list.index(p) % 10 == 0:
         sys.stderr.write('On pointing #{} of {} ..\n'
                          .format(todo_list.index(p), len(todo_list)))
 
+        # Loop over different mocks
         for i in mock_nums:
 
+            # Establish mock directory
             current_dir = mock_dir + 'mock_' + str(i) + '/'
 
+            # Get xyz data
             mock_file = current_dir + 'mock_' + p.ID + '.xyz.dat'
             if not os.path.isfile(mock_file):
                 sys.stderr.write('Error: ' + mock_file + ' does not exist.\n')
                 continue
 
-            x,y,z     = np.genfromtxt(mock_file, skip_header=1, unpack=True)
-            distance  = np.sqrt(x**2 + y**2 + z**2)
+            x,y,z    = np.genfromtxt(mock_file, skip_header=1, unpack=True)
+            distance = np.sqrt(x**2 + y**2 + z**2)
 
+            # Total points in pointing
+            N_points = len(x)
+
+            # Average density of whole l.o.s.
+            density_los = N_points / volume_los
+
+            # Initialize counts in each sub-volume
             counts = np.zeros(Nbins)
 
             for j in range(Nbins):
 
+                # Limits of current bin
                 r1 = rlower[j]
                 r2 = rupper[j]
 
+                # Number of points in current sub-volume
                 counts[j] = len( np.where((distance>r1)&(distance<=r2))[0] )
 
-            # raw density in each subvolume
+            # raw average density in each subvolume
             density_real = counts / volume
 
-            # average density in whole l.o.s.
-            N_points = len(distance)
-            density_los = N_points / volume_los
-
             # Normalize density and add to array
+            # "i" is the mock number (1-1000); corresponding index is i-1
             density_norm[i-1] = density_real / density_los
 
         # Output file with all density values
@@ -80,13 +91,11 @@ def main():
 
         # Get averages and standard deviation
         averages = np.mean(density_norm, 0)
+        stdev    = np.std(density_norm, 0)
 
-        stdev = np.std(density_norm, 0)
-
-        out_data = np.column_stack((averages,stdev))
-
+        # Output file of average and std
+        out_data     = np.column_stack((averages,stdev))
         out_filename = data_dir + 'ave_std_' + p.ID + '.dat'
-
         np.savetxt(out_filename, out_data)
 
 

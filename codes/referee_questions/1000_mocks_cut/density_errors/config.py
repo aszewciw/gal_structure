@@ -27,10 +27,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 rawdata_dir = '../../data/'
 mock_dir    = '../prepare_mocks/data/'
 data_dir    = './data/'
-
-
-# number of jackknife samples to use
-N_jackknife = 10
+plots_dir   = './gaussian_plots/'
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):

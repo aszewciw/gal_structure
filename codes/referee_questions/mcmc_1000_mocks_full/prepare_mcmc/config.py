@@ -26,7 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock_alt/data/'
+mock_dir     = '../../prepare_mock_full/data/'
 uni_dir      = '../../prepare_randoms/data/'
 sigma_dir    = '../../1000_mocks_full/errors_pairs/data/mean_var_std/'
 errors_dir   = data_dir + 'errors/'
