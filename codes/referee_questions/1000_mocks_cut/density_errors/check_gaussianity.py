@@ -36,7 +36,7 @@ def main():
     for p in todo_list:
 
         # Select pointing to make plot of
-        if p.ID != '27':
+        if p.ID != '28':
             continue
 
         sys.stderr.write('Making histogram for pointing {}\n'.format(p.ID))
