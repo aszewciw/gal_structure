@@ -61,7 +61,7 @@ def main():
 
             plt.clf()
             plt.figure(1)
-            plt.hist(density, hist_bins, normed=True, color='blue')
+            plt.hist(density, hist_bins, normed=1, color='blue')
 
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
                             + '.png' )
