@@ -75,7 +75,7 @@ def main():
             # Get Stats for this bin
             mu    = mu_list[i]
             sigma = sigma_list[i]
-            x = np.linspace(edges[0], edges[-1], 1000)
+            x = np.linspace(edges[0], edges[-1], 100)
             plt.plot(x,mlab.normpdf(x, mu, sigma))
 
             # print(counts)
