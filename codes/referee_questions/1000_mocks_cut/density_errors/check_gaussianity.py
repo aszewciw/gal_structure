@@ -64,7 +64,7 @@ def main():
             hist_max  = max(density)
             offset    = 0.001*hist_max
             hist_max  += offset # make sure max is in a bin
-            N_hist    = 60
+            N_hist    = 30
             hist_bins = np.linspace(hist_min, hist_max, num=N_hist)
 
             plt.clf()
@@ -88,7 +88,7 @@ def main():
             sigma = sigma_list[i]
             x = np.linspace(centers[0], centers[-1], N_hist)
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
-            plt.plot(x,norm.pdf(x, mu, sigma)*binWidth, color='r')
+            plt.plot(x, norm.pdf(x, mu, sigma)*binWidth, color='r')
 
             # x = np.linspace(edges[0], edges[-1], N_hist)
             # x = (-10, 10, 1000)
