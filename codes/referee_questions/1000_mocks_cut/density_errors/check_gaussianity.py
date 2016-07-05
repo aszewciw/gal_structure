@@ -7,7 +7,7 @@ standard deviation.
 
 from config import *
 import matplotlib.pyplot as plt
-import matplotlib.mlab as mlab
+from scipy.stats import norm
 
 def main():
 
@@ -76,7 +76,8 @@ def main():
             mu    = mu_list[i]
             sigma = sigma_list[i]
             x = np.linspace(edges[0], edges[-1], 100)
-            plt.plot(x,mlab.normpdf(x, mu, sigma))
+            # plt.plot(x,mlab.normpdf(x, mu, sigma))
+            plt.plot(x,norm.pdf(x, mu, sigma))
 
             # print(counts)
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
