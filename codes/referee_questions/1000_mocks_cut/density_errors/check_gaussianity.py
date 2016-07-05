@@ -72,8 +72,8 @@ def main():
             # plt.hist(density, hist_bins, normed=1, color='blue')
             counts, edges = np.histogram(density, hist_bins, normed=True)
             binWidth = edges[1] - edges[0]
-            # plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue')
-            plt.bar(edges[:-1], counts, binWidth, color='blue')
+            plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue', alpha=0.1)
+            # plt.bar(edges[:-1], counts, binWidth, color='blue')
 
 
             N_hist = len(edges)
@@ -83,7 +83,7 @@ def main():
             sigma = sigma_list[i]
             x = np.linspace(edges[0], edges[-1], 100)
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
-            plt.plot(x,norm.pdf(x, mu, sigma))
+            plt.plot(x,norm.pdf(x, mu, sigma)*binWidth, color='r')
 
             # x = np.linspace(edges[0], edges[-1], N_hist)
             # x = (-10, 10, 1000)
