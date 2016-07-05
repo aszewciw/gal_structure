@@ -9,6 +9,7 @@ from config import *
 import matplotlib.pyplot as plt
 import pylab
 from scipy.stats import norm
+import seaborn.apionly as sns
 
 def main():
 
@@ -73,6 +74,8 @@ def main():
             binWidth = edges[1] - edges[0]
             plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue')
 
+            N_hist = len(edges)
+
             # Get Stats for this bin
             mu    = mu_list[i]
             sigma = sigma_list[i]
@@ -80,7 +83,7 @@ def main():
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
             # plt.plot(x,norm.pdf(x, mu, sigma, scale=1))
 
-            x = np.linspace(edges[0], edges[-1], 1000)
+            x = np.linspace(edges[0], edges[-1], N_hist)
             y = norm.pdf(x, loc=mu, scale=sigma)
             pylab.plot(x,y)
 
