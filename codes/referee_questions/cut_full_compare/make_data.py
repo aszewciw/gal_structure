@@ -38,8 +38,8 @@ def propagate_error(f, g, f_sigma, g_sigma):
 
         term1 = 0
         term2 = 0
-        # term1      = f_sigma[i]**2 / f[i]**2
-        term2      = g_sigma[i]**2 / g[i]**2
+        term1      = f_sigma[i]**2 / f[i]**2
+        # term2      = g_sigma[i]**2 / g[i]**2
         h_sigma[i] = math.sqrt( (term1 + term2) * h[i]**2 )
 
     return h, h_sigma
