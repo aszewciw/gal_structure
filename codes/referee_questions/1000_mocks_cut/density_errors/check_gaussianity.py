@@ -77,7 +77,7 @@ def main():
             sigma = sigma_list[i]
             x = np.linspace(edges[0], edges[-1], 100)
             # plt.plot(x,mlab.normpdf(x, mu, sigma))
-            plt.plot(x,norm.pdf(x, mu, sigma))
+            plt.plot(x,norm.pdf(x, mu, sigma, scale=1))
 
             # print(counts)
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
