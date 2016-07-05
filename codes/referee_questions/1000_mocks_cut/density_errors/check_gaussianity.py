@@ -64,7 +64,7 @@ def main():
             hist_max  = max(density)
             offset    = 0.001*hist_max
             hist_max  += offset # make sure max is in a bin
-            N_hist    = 50
+            N_hist    = 30
             hist_bins = np.linspace(hist_min, hist_max, num=N_hist)
 
             plt.clf()
@@ -72,6 +72,8 @@ def main():
             # plt.hist(density, hist_bins, normed=1, color='blue')
             counts, edges = np.histogram(density, hist_bins, normed=True)
             binWidth = edges[1] - edges[0]
+            print(len(counts))
+            print(len(edges))
             plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue', alpha=0.1)
             # plt.bar(edges[:-1], counts, binWidth, color='blue')
 
@@ -81,7 +83,7 @@ def main():
             # Get Stats for this bin
             mu    = mu_list[i]
             sigma = sigma_list[i]
-            x = np.linspace(edges[0], edges[-1], 100)
+            x = np.linspace(hist_bins[0], hist_bins[-1], 100)
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
             plt.plot(x,norm.pdf(x, mu, sigma)*binWidth, color='r')
 
