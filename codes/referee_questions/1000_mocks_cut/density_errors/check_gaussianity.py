@@ -73,7 +73,6 @@ def main():
             counts, edges = np.histogram(density, hist_bins, normed=True)
             binWidth = edges[1] - edges[0]
             print(edges)
-            import sys
             sys.exit()
             # centers  = edges[:-1]+0.5*(edges[1:]-edges[:-1])
             # print(len(counts))
