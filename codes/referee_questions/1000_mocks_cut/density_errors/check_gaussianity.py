@@ -49,7 +49,7 @@ def main():
 
         # Load mean and standard deviation
         stats_file = data_dir + 'ave_std_' + p.ID + '.dat'
-        mu_list, sigma_list = np.genfromtxt(stats_file)
+        mu_list, sigma_list = np.genfromtxt(stats_file, unpack=True)
 
         # Plot histogram for each bin
         for i in range(N_bins):
