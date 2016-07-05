@@ -72,7 +72,9 @@ def main():
             # plt.hist(density, hist_bins, normed=1, color='blue')
             counts, edges = np.histogram(density, hist_bins, normed=True)
             binWidth = edges[1] - edges[0]
-            plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue')
+            # plt.bar(edges[:-1], counts*binWidth, binWidth, color='blue')
+            plt.bar(edges[:-1], counts, binWidth, color='blue')
+
 
             N_hist = len(edges)
 
