@@ -29,14 +29,7 @@ bins_dir    = '../../mcmc_mock/data/rbins/'
 mock_dir    = '../prepare_mocks/data/'
 data_dir    = './data/'
 stats_dir   = data_dir + 'mean_var_std/'
-
-# bin information
-R_min = 0.005
-R_max = 2.0
-N_rbins = 12
-
-# number of jackknife samples to use
-N_jackknife = 10
+plots_dir   = './gaussian_plots/'
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):

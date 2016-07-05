@@ -1,6 +1,9 @@
 from config import *
 
+# ---------------------------------------------------------------------------- #
+
 def main():
+
     # Read in number of mocks
     elements_needed = int(2)
     args_array      = np.array(sys.argv)
@@ -38,22 +41,30 @@ def main():
 
             # Load counts for a single mock
             corr_file = ( data_dir + 'mock_' + str(i+1) + '/mock_pairs_'
-                + p.ID + '.dat' )
+                        + p.ID + '.dat' )
             DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
-                usecols=[4, 5] )
+                                        usecols=[4, 5] )
 
 
-        # Find mean across all mocks
-        DD_raw_mean = np.sum(DD_raw_all, axis=0) / N_mocks
-        DD_mean     = np.sum(DD_all, axis=0) / N_mocks
+        # # Find mean across all mocks
+        # DD_raw_mean = np.sum(DD_raw_all, axis=0) / N_mocks
+        # DD_mean     = np.sum(DD_all, axis=0) / N_mocks
 
-        # Find variance and stdev
-        DD_raw_diff_sq = ( DD_raw_all - DD_raw_mean )**2
-        DD_diff_sq     = ( DD_all - DD_mean )**2
-        DD_raw_var = np.sum(DD_raw_diff_sq, axis=0) / N_mocks
-        DD_var     = np.sum(DD_diff_sq, axis=0) / N_mocks
-        DD_raw_std = np.sqrt(DD_raw_var)
-        DD_std     = np.sqrt(DD_var)
+        # # Find variance and stdev
+        # DD_raw_diff_sq = ( DD_raw_all - DD_raw_mean )**2
+        # DD_diff_sq     = ( DD_all - DD_mean )**2
+        # DD_raw_var = np.sum(DD_raw_diff_sq, axis=0) / N_mocks
+        # DD_var     = np.sum(DD_diff_sq, axis=0) / N_mocks
+        # DD_raw_std = np.sqrt(DD_raw_var)
+        # DD_std     = np.sqrt(DD_var)
+
+        # Find mean, standard deviation, and variance
+        DD_raw_mean = np.mean(DD_raw_all, axis=0)
+        DD_mean     = np.mean(DD_all, axis=0)
+        DD_raw_std  = np.std(DD_raw_var, axis=0)
+        DD_std      = np.std(DD_var, axis=0)
+        DD_raw_var  = DD_raw_std**2
+        DD_var      = DD_std**2
 
         # Output data
         output_filename = stats_dir + 'stats_' + p.ID + '.dat'

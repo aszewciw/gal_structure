@@ -1,15 +1,16 @@
+from config import *
+import matplotlib.pyplot as plt
+import pylab
+from scipy.stats import norm
+
+# ---------------------------------------------------------------------------- #
 '''
 Contains histograms of the density distributions, produced from 1000 mocks.
 
 Overplotted above the histogram is a Gaussian curve taken from the mean and
 standard deviation.
 '''
-
-from config import *
-import matplotlib.pyplot as plt
-import pylab
-from scipy.stats import norm
-import seaborn.apionly as sns
+# ---------------------------------------------------------------------------- #
 
 def main():
 
@@ -71,11 +72,9 @@ def main():
             plt.figure(1)
             # plt.hist(density, hist_bins, normed=1, color='blue')
             counts, edges = np.histogram(density, hist_bins, normed=True)
-            binWidth = edges[1] - edges[0]
-            print(len(edges))
-            centers = edges[:-1]+0.5*(edges[1:]-edges[:-1])
-            print(len(centers))
-            print(len(counts))
+            binWidth      = edges[1] - edges[0]
+            centers       = edges[:-1]+0.5*(edges[1:]-edges[:-1])
+
             # print(edges)
             plt.bar(centers, counts*binWidth, binWidth, color='blue', alpha=0.1)
             # plt.bar(edges[:-1], counts, binWidth, color='blue')
@@ -89,12 +88,6 @@ def main():
             x = np.linspace(centers[0], centers[-1], N_hist)
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
             plt.plot(x, norm.pdf(x, mu, sigma)*binWidth, color='r')
-
-            # x = np.linspace(edges[0], edges[-1], N_hist)
-            # x = (-10, 10, 1000)
-            # y = norm.pdf(x, loc=mu, scale=sigma)
-            # pylab.plot(x,y)
-            # plt.axis([edges[0], edges[-1], 0, 0.5])
 
             # print(counts)
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)

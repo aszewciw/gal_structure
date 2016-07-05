@@ -27,6 +27,7 @@ def main():
         sys.stderr.write('Error: ' + bins_file + ' does not exist.\n')
 
     # Loop over mocks
+    # Mock folders are indexed 1-1000
     for i in range(N_mocks):
 
         # First remove any existing files

@@ -1,21 +1,20 @@
-'''
-Produces histograms for all bins for whichever l.o.s.
-I choose.
-As of now, there is no intelligent place of storing these
-files because I just wanted to check the Gaussianity of a
-few.
-
-It looks good.
-
-'''
-
-
-
 from config import *
 import matplotlib.pyplot as plt
+import pylab
+from scipy.stats import norm
+
+# ---------------------------------------------------------------------------- #
+'''
+Contains histograms of the pair count distributions, produced from 1000 mocks.
+
+Overplotted above the histogram is a Gaussian curve taken from the mean and
+standard deviation.
+'''
+# ---------------------------------------------------------------------------- #
 
 def main():
 
+    # Number of mocks
     N_mocks = 1000
 
     input_filename = rawdata_dir + 'todo_list.dat'
@@ -45,7 +44,7 @@ def main():
         DD_raw_all = np.zeros((N_mocks, N_bins))
         DD_all     = np.zeros((N_mocks, N_bins))
 
-        # loop over all mocks
+        # loop over all mocks and add DD values to array
         for i in range(N_mocks):
 
             # Load counts for a single mock
@@ -54,6 +53,9 @@ def main():
             DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
                 usecols=[4, 5] )
 
+        # Load mean and standard deviation
+        stats_file = stats_dir + 'stats_' + p.ID + '.dat'
+        mu_list, sigma_list = np.genfromtxt(stats_file, unpack=True)
 
         # Plot histogram for each bin
         for i in range(N_bins):
@@ -69,11 +71,26 @@ def main():
             N_hist    = 30
             hist_bins = np.linspace(hist_min, hist_max, num=50)
 
+            # Get normalized counts, bin edges, bin centers
+            counts, edges = np.histogram(density, hist_bins, normed=True)
+            binWidth      = edges[1] - edges[0]
+            centers       = edges[:-1]+0.5*(edges[1:]-edges[:-1])
+
+            # Plot bar graph with transparency
+            # Multiply by binWidth because np.histogram divides by it by default
             plt.clf()
             plt.figure(1)
-            plt.hist(DD, hist_bins, color='blue')
+            plt.bar(centers, counts*binWidth, binWidth, color='blue', alpha=0.1)
 
-            figure_name = 'histogram_bin_' + str(i) + '.png'
+            # Add a normal curve on top of the histogram
+            mu    = mu_list[i]
+            sigma = sigma_list[i]
+            x     = np.linspace(centers[0], centers[-1], N_hist)
+            plt.plot(x, norm.pdf(x, mu, sigma)*binWidth, color='r')
+
+            # Save figure
+            figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
+                            + '.png' )
             plt.savefig(figure_name)
 
 
