@@ -46,7 +46,9 @@ def main():
         density_norm = np.genfromtxt(density_file)
 
         # Plot histogram for each bin
-        for i in range(N_bins):
+        # for i in range(N_bins):
+        for i in range(1):
+
 
             # get current array for hist
             density = density_norm[:, i]
@@ -57,15 +59,17 @@ def main():
             offset    = 0.001*hist_max
             hist_max  += offset # make sure max is in a bin
             N_hist    = 30
-            hist_bins = np.linspace(hist_min, hist_max, num=50)
+            hist_bins = np.linspace(hist_min, hist_max, num=N_hist)
 
             plt.clf()
             plt.figure(1)
-            plt.hist(density, hist_bins, normed=1, color='blue')
+            # plt.hist(density, hist_bins, normed=1, color='blue')
+            counts, bin_edges = np.histogram(density, hist_bins, normed=True)
 
-            figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
-                            + '.png' )
-            plt.savefig(figure_name)
+            print(counts)
+            # figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
+            #                 + '.png' )
+            # plt.savefig(figure_name)
 
 
 if __name__ == '__main__':
