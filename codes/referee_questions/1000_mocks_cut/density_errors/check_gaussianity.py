@@ -64,7 +64,7 @@ def main():
             hist_max  = max(density)
             offset    = 0.001*hist_max
             hist_max  += offset # make sure max is in a bin
-            N_hist    = 40
+            N_hist    = 60
             hist_bins = np.linspace(hist_min, hist_max, num=N_hist)
 
             plt.clf()
