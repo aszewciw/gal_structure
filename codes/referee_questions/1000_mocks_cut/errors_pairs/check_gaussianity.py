@@ -73,7 +73,7 @@ def main():
             hist_bins = np.linspace(hist_min, hist_max, num=50)
 
             # Get normalized counts, bin edges, bin centers
-            counts, edges = np.histogram(density, hist_bins, normed=True)
+            counts, edges = np.histogram(DD, hist_bins, normed=True)
             binWidth      = edges[1] - edges[0]
             centers       = edges[:-1]+0.5*(edges[1:]-edges[:-1])
 
