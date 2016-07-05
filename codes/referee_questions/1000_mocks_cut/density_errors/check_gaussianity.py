@@ -83,10 +83,11 @@ def main():
             # # plt.plot(x,mlab.normpdf(x, mu, sigma))
             # plt.plot(x,norm.pdf(x, mu, sigma, scale=1))
 
-            x = np.linspace(edges[0], edges[-1], N_hist)
-            # x = (-10, 10, 1000)
+            # x = np.linspace(edges[0], edges[-1], N_hist)
+            x = (-10, 10, 1000)
             y = norm.pdf(x, loc=mu, scale=sigma)
             pylab.plot(x,y)
+            plt.axis([edges[0], edges[-1], 0, 0.5])
 
             # print(counts)
             figure_name = ( plots_dir + 'histogram_' + p.ID + 'bin_' + str(i)
