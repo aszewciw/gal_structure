@@ -1,8 +1,14 @@
-# Take mock stars in each line of sight, randomly shuffle them,
-# and output exact number as are in each cleaned SEGUE l.o.s.
-# Add number of stars as first line in output file
-
 import numpy as np
+
+#-----------------------------------------------------------------------------#
+'''
+Take mocks, which have unshuffled thin and thick disks upon creation, with more
+stars than are in the corresponding line of sight. Shuffle mocks, cut out some
+stars to produce files which contain the same number of stars as are in the
+corresponding SEGUE l.o.s.
+'''
+#-----------------------------------------------------------------------------#
+
 
 DATA_DIR = '../data/'
 OUT_DIR = './data/'

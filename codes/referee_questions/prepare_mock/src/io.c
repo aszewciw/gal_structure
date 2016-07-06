@@ -52,20 +52,12 @@ void load_pointing_list(int *N_plist, POINTING **plist){
 
 /* ----------------------------------------------------------------------- */
 
-// double normalize_PDF_Z(double z0, double z_min, double z_max){
-
-//     double pdf_norm;
-
-//     pdf_norm = 1.0 / ( 2.0 * z0 * ( tanh( z_max / (2.0 * z0) )
-//         - tanh( z_min / (2.0 * z0) ) ) );
-
-//     return pdf_norm;
-// }
+/* Perform integral over bounds in galactic Z */
+/* integral of sech^2(z/2z0)*dz */
 double integrate_Z(double z0, double z_min, double z_max){
 
     double integral;
 
-    /* integral of sech^2(z/2z0)*dz */
     integral = ( 2.0 * z0 * ( tanh( z_max / (2.0 * z0) )
         - tanh( z_min / (2.0 * z0) ) ) );
 
@@ -74,21 +66,12 @@ double integrate_Z(double z0, double z_min, double z_max){
 
 /* ----------------------------------------------------------------------- */
 
-// double normalize_PDF_R(double r0, double r_min, double r_max){
-
-//     double pdf_norm;
-
-//     pdf_norm = 1.0 / ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
-//         - exp(-r_min/r0)*(r_min + r0) ) );
-
-//     return pdf_norm;
-// }
-
+/* Perform integral over bounds in galactic R */
+/* integral of r*exp(-r/r0)*dr */
 double integrate_R(double r0, double r_min, double r_max){
 
     double integral;
 
-    /* integral of r*exp(-r/r0)*dr */
     integral = ( -r0 * ( exp(-r_max/r0)*(r_max + r0)
         - exp(-r_min/r0)*(r_min + r0) ) );
 
@@ -106,13 +89,16 @@ form that is used throughout this project.
 */
 void get_params( PARAMS *p, unsigned long int N ){
 
+    /* Integral of thick and thin density functions */
     double z_thin_integral;
     double r_thin_integral;
     double z_thick_integral;
     double r_thick_integral;
+
     /* combined integral terms */
     double thin_term;
     double thick_term;
+
     /* normalization of density */
     double density_const;
 
@@ -123,37 +109,33 @@ void get_params( PARAMS *p, unsigned long int N ){
     p->r0_thick = 2.51;
     p->ratio    = 0.1;
 
-    /* Geometric sample limits */
-    /* These are slightly generous limits. Sample is cut down
-    appropriately elsewhere */
+    /* Generous sized geometric sample limits */
+    /* Use to make stars only roughly in solar neighbordhood */
     p->r_min     = 4.5;
     p->r_max     = 11.5;
     p->z_min     = 0.0;
     p->z_max     = 3.1;
-    // p->r_min = 0.0;
-    // p->r_max = 100.0;
-    // p->z_min = 0.0;
-    // p->z_max = 100.0;
     p->phi_max   = atan(0.5);
     p->phi_min   = -p->phi_max;
     p->phi_min   += M_PI;
     p->phi_max   += M_PI;
     p->phi_range = p->phi_max - p->phi_min;
 
-    /* PDF normalizations */
+    /* Partial integrals */
     z_thin_integral  = integrate_Z(p->z0_thin, p->z_min, p->z_max);
     r_thin_integral  = integrate_R(p->r0_thin, p->r_min, p->r_max);
     z_thick_integral = integrate_Z(p->z0_thick, p->z_min, p->z_max);
     r_thick_integral = integrate_R(p->r0_thick, p->r_min, p->r_max);
 
+    /* PDF normalizations */
     p->z0_pdf_norm_thin  = 1.0 / z_thin_integral;
     p->r0_pdf_norm_thin  = 1.0 / r_thin_integral;
     p->z0_pdf_norm_thick = 1.0 / z_thick_integral;
     p->r0_pdf_norm_thick = 1.0 / r_thick_integral;
 
+
     /* Get number of stars in each disk */
     /* extra factor of 2 accounts for symmetry about MW plane */
-
     /* thin and thick integrals */
     thin_term  = 2.0 * z_thin_integral * r_thin_integral * p->phi_range;
     thick_term = 2.0 * p->ratio * z_thick_integral * r_thick_integral * p->phi_range;

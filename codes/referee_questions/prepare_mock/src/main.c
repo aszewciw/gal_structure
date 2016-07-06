@@ -37,16 +37,16 @@ int main( int argc, char **argv ){
     fprintf(stderr, "%lu stars per temporary galaxy.\n", N_stars);
 
     /* different variables used in main */
-    POINTING *plist;        // a pointing structure
-    int N_plist;            // number of l.o.s.
-    int loop_flag;          // set = 0 when file creation complete
-    int pointings_in_need;  // a progress checker
-    PARAMS params;          // parameters for mock creation
-    time_t t;               // initialization of random seed
-    int N_mock;             // # of stars in current mock l.o.s.
-    int N_data;             // desired # of stars in current l.o.s.
-    int i;                  // for loop index
-    int loop_counter;       // a progress checker
+    POINTING *plist;        /* a pointing structure */
+    int N_plist;            /* number of l.o.s. */
+    int loop_flag;          /* set = 0 when file creation complete */
+    int pointings_in_need;  /* a progress checker */
+    PARAMS params;          /* parameters for mock creation */
+    time_t t;               /* initialization of random seed */
+    int N_mock;             /* # of stars in current mock l.o.s. */
+    int N_data;             /* desired # of stars in current l.o.s. */
+    int i;                  /* for loop index */
+    int loop_counter;       /* a progress checker */
 
     /* load info for different pointings */
     load_pointing_list(&N_plist, &plist);
