@@ -30,7 +30,7 @@ int main(int argc, char * argv[]){
 
     /* -- Initialize parameters --*/
     STEP_DATA initial;
-    load_step_data(&initial, int param_flag, int rank);
+    load_step_data(&initial, param_flag, rank);
 
     /* -- Load data from various files --*/
     int i, j;
