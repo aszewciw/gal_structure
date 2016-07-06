@@ -1,5 +1,13 @@
 from config import *
 
+#------------------------------------------------------------------------------#
+'''
+Perform pair counting on jackknife'd mock samples.
+Output file containing counts for each.
+Also output file containing jackknife errors to be used in mcmc.
+'''
+#------------------------------------------------------------------------------#
+
 def main():
 
     # load pointing list
@@ -15,6 +23,7 @@ def main():
     input_file     = open(input_filename, 'rb')
     bins_list      = pickle.load(input_file)
     input_file.close()
+
     if len(bins_list) != N_rbins:
         sys.stderr.write("Error: Inconsistent R bins. Check set_rbins and config. \n")
         sys.exit()
@@ -66,7 +75,6 @@ def main():
             r_middle = counts_all[k][2]
             dr       = counts_all[k][3]
             counts   = counts_all[k][4]
-            corr     = counts_all[k][5]
             # check if the total counts is zero.
             # if so, set jackknife error to zero,
             # and this point should be excluded when doing mcmc.

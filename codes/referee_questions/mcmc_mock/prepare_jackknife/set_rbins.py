@@ -1,10 +1,14 @@
 import config
 import math, pickle, sys
+#------------------------------------------------------------------------------#
+'''
+Make a set of distance bins, and output in different format.
+These will be used for error calculation and mcmc.
+'''
+#------------------------------------------------------------------------------#
 
 def main():
-    '''Make a set of distance bins, and output in different format.
-    These will be used for error calculation and mcmc.
-    '''
+
     # set the initials from config.py
     r_min = config.R_min
     r_max = config.R_max
