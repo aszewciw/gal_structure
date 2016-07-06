@@ -38,7 +38,7 @@ void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind)
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    double chi2 = 0.0; //initialize
+    double chi2 = 0.0;
 
     for(i = lower_ind; i < upper_ind; i++){
 

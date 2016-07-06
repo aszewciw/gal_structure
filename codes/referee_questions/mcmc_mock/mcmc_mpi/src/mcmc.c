@@ -96,6 +96,7 @@ void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind
                 p[i].rbin[j].pair1, p[i].rbin[j].pair2, MM_norm,
                 p[i].weight );
 
+            /* skip where any values = 0. No chi2 contribution */
             if( p[i].rbin[j].DD == 0.0 || p[i].rbin[j].MM == 0.0 ){
                 p[i].rbin[j].corr = 0.0;
                 continue;
@@ -110,6 +111,7 @@ void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind
 
 /* Calculate degrees of freedom -- only do once */
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+
     int dof = 0;
     int i, j;
 
@@ -185,16 +187,17 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     int lower_ind, int upper_ind, int rank, int nprocs)
 {
-    int i;
-    int eff_counter = 0; // number of accepted steps
-    double eff; // number accepted / total
-    STEP_DATA current;
-    STEP_DATA new; // mcmc parameters to test
-    double delta_chi2, tmp;
-    int DOF = 0; // total degrees of freedom
-    int DOF_proc; // d.o.f. of each process
-    int N_params = 5; // number of parameters -- should automate this
-    double chi2 = 0.0;
+    int i;                  /* mcmc index */
+    int eff_counter = 0;    /* number of accepted steps */
+    double eff;             /* number accepted / total */
+    STEP_DATA current;      /* current params */
+    STEP_DATA new;          /* new mcmc parameters to test */
+    double delta_chi2;      /* new - old chi2 */
+    double tmp;             /* temp holder */
+    int DOF = 0;            /* total degrees of freedom */
+    int DOF_proc;           /* d.o.f. of each process */
+    int N_params = 5;       /* number of parameters */
+    double chi2 = 0.0;      /* chi2 value for each process */
 
     if (rank == 0){
         fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
@@ -222,7 +225,6 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         fprintf(stderr, "Degrees of freedom is: %d\n", DOF);
         fprintf(stderr, "Chi2 value for intital params is %lf\n", current.chi2);
     }
-    int current_rank;
 
     /* Define MPI type to be communicated */
     MPI_Datatype MPI_STEP;
@@ -258,12 +260,13 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     GSL_r = gsl_rng_alloc(GSL_T);
     gsl_rng_set(GSL_r, time(NULL));
 
-
+    /* Here is the mcmc */
     for( i = 0; i < max_steps; i++ ){
 
         /* Have only step 0 take random walk and send new params to all procs */
 
         if(rank==0 && i!=0) new = update_parameters(current, GSL_r);
+        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&new, 1, MPI_STEP, 0, MPI_COMM_WORLD);
 
         /* Set weights from new parameters */
@@ -272,6 +275,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
+        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         new.chi2_reduced = new.chi2 / (double)DOF;
 
@@ -308,6 +312,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         }
 
     }
+
+    /* print lines indicating end of mcmc */
     if(rank==0){
         eff = (double)eff_counter / (double)max_steps;
         fclose(output_file);
