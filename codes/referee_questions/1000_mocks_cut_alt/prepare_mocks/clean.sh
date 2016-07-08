@@ -3,6 +3,7 @@
 #remove directories
 rm -rf ./data/mock*
 
+cp ../../data/todo_list.ascii.dat ./data/
 # make directories
 n=1;
 N_mocks=1000;
