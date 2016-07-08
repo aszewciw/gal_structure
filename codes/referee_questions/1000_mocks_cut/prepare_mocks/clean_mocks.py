@@ -40,7 +40,7 @@ def main():
     # Establish proper directory
     OUT_DIR = './data/mock_' + mock_num + '/'
 
-    print('Mocks are being randomly shuffled to mix disks.\n')
+    print('Made too many points. Randomly removing some.\n')
     np.random.seed()
 
     # Load pointing IDs and desired number of stars
