@@ -61,8 +61,8 @@ def main():
         # Find mean, standard deviation, and variance
         DD_raw_mean = np.mean(DD_raw_all, axis=0)
         DD_mean     = np.mean(DD_all, axis=0)
-        DD_raw_std  = np.std(DD_raw_var, axis=0)
-        DD_std      = np.std(DD_var, axis=0)
+        DD_raw_std  = np.std(DD_raw_all, axis=0)
+        DD_std      = np.std(DD_all, axis=0)
         DD_raw_var  = DD_raw_std**2
         DD_var      = DD_std**2
 
