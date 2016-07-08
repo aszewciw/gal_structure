@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-N_stars=30000000;
+N_stars=1000000;
 N_mocks=100;
 run_num=5;
 
