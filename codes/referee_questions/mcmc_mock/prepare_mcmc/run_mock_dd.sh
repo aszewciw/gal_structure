@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 
 rm ../data/mock_dd/*.dat
 rm mock_pair_count
