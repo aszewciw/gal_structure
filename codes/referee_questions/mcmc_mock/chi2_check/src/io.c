@@ -209,12 +209,12 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
         step_data->ratio_thick_thin = 0.1;
     }
     else if(flag==1){
-        if(rank==0) fprintf(stderr, "Starting parameters greater than true.\n");
-        step_data->thin_r0  = 3.0;
-        step_data->thin_z0  = 0.3;
-        step_data->thick_r0 = 4.0;
-        step_data->thick_z0 = 1.2;
-        step_data->ratio_thick_thin = 0.12;
+        if(rank==0) fprintf(stderr, "Testing best fit parameters.\n");
+        step_data->thin_r0  = 3.407983;
+        step_data->thin_z0  = 0.213811;
+        step_data->thick_r0 = 2.536759;
+        step_data->thick_z0 = 0.646234;
+        step_data->ratio_thick_thin = 0.342763;
     }
     else if(flag==-1){
         if(rank==0) fprintf(stderr, "Starting parameters less than true.\n");

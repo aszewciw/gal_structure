@@ -85,7 +85,7 @@ int main(int argc, char * argv[]){
     /* write info to file */
     char output_filename[256];
     FILE *output_file;
-    snprintf(output_filename, 256, "%schi2_truth.dat", OUT_DIR);
+    snprintf(output_filename, 256, "%schi2_best.dat", OUT_DIR);
     if(rank==0){
         output_file = fopen(output_filename, "a");
     }
