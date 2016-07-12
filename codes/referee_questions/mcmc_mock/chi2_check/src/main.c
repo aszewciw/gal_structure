@@ -76,7 +76,7 @@ int main(int argc, char * argv[]){
 
     calculate_correlation(plist, N_bins, lower_ind, upper_ind);
     double chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
-    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&chi2, &initial.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
     /* Run mcmc */
     // run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
@@ -92,7 +92,7 @@ int main(int argc, char * argv[]){
     if(rank==0){
         output_data(N_plist, N_bins, plist, output_file);
     }
-    fclose(output_filename);
+    fclose(output_file);
     /* Free allocated values */
     for(i=lower_ind; i<upper_ind; i++){
         for(j=0; j<N_bins; j++){
