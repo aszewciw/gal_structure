@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
-rm ../data/mcmc_output/mcmc*
+# rm ../data/mcmc_output/mcmc*
 make cleanall
 make
 
 N_procs=20;
-N_steps=500000;
-params=1;
+N_steps=0;
+params=0;
 
 time mpirun -n $N_procs ./bin/run_mcmc $N_steps $params

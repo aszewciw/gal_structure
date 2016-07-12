@@ -198,22 +198,37 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 /* ----------------------------------------------------------------------- */
 
 /* Load starting data for MCMC loop */
-void load_step_data(STEP_DATA *step_data){
+void load_step_data(STEP_DATA *step_data, int flag, int rank){
 
-    step_data->thin_r0 = 3.0;
-    step_data->thin_z0 = 0.3;
-    step_data->thick_r0 = 4.0;
-    step_data->thick_z0 = 1.2;
-    step_data->ratio_thick_thin = 0.1;
-
-    // step_data->thin_r0 = 2.34;
-    // step_data->thin_z0 = 0.233;
-    // step_data->thick_r0 = 2.51;
-    // step_data->thick_z0 = 0.674;
-    // step_data->ratio_thick_thin = 0.1;
-
+    if(flag==0){
+        if(rank==0) fprintf(stderr, "Testing correct parameters.\n");
+        step_data->thin_r0  = 2.34;
+        step_data->thin_z0  = 0.233;
+        step_data->thick_r0 = 2.51;
+        step_data->thick_z0 = 0.674;
+        step_data->ratio_thick_thin = 0.1;
+    }
+    else if(flag==1){
+        if(rank==0) fprintf(stderr, "Starting parameters greater than true.\n");
+        step_data->thin_r0  = 3.0;
+        step_data->thin_z0  = 0.3;
+        step_data->thick_r0 = 4.0;
+        step_data->thick_z0 = 1.2;
+        step_data->ratio_thick_thin = 0.12;
+    }
+    else if(flag==-1){
+        if(rank==0) fprintf(stderr, "Starting parameters less than true.\n");
+        step_data->thin_r0  = 1.8;
+        step_data->thin_z0  = 0.1;
+        step_data->thick_r0 = 2.0;
+        step_data->thick_z0 = 0.3;
+        step_data->ratio_thick_thin = 0.5;
+    }
+    else{
+        fprintf(stderr, "Parameter flag unrecognized. Pass -1, 0, or 1.\n");
+        exit(EXIT_FAILURE);
+    }
 }
-
 /* ----------------------------------------------------------------------- */
 
 

@@ -44,7 +44,6 @@ typedef struct {
   RBIN * rbin;      /* Nbins of these structures */
 } POINTING;
 
-
 /* Data for each step in MCMC chain */
 typedef struct {
   double thin_r0;           /* thin disk scale length */
