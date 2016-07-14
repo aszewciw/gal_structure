@@ -5,7 +5,7 @@ make cleanall
 make
 
 N_procs=20;
-N_steps=500000;
+N_steps=300000;
 params=1;
 
 time mpirun -n $N_procs ./bin/run_mcmc $N_steps $params

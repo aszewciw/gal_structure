@@ -12,7 +12,7 @@
 /* I/O directories */
 #define RAW_DIR "../../data/"
 #define DATA_DIR "../data/"
-#define DD_DIR "../data/mock_dd/"
+#define DD_DIR "../data/data_dd/"
 #define ERR_DIR "../data/errors/"
 #define OUT_DIR "../data/mcmc_output/"
 #define PAIRS_DIR "../data/model_pairs/"
