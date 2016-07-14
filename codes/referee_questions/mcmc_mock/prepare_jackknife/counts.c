@@ -102,7 +102,6 @@ int main(int argc, char **argv){
     corr[k].r2_lower = corr[k].r_lower * corr[k].r_lower;
     corr[k].r2_upper = corr[k].r_upper * corr[k].r_upper;
     corr[k].DD_raw = 0;
-    corr[k].DD = 0.0;
   }
 
 
