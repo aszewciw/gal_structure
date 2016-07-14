@@ -19,7 +19,8 @@ def main():
     for p in todo_list:
 
         data_filename = segue_dir + 'star_' + p.ID + '.xyzw.dat'
-        x,y,z = np.genfromtxt( data_filename, skip_header=1, usecols=[0,1,2] )
+        x,y,z = np.genfromtxt( data_filename, skip_header=1, unpack=True,
+                                usecols=[0,1,2] )
 
         # put together x,y,z
         xy  = np.column_stack((x,y))
