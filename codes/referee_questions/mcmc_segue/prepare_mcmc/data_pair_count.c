@@ -10,8 +10,8 @@ typedef struct POINT{
 typedef struct CORRELATION{
     double r_lower, r_upper, r_middle, bin_size;
     double r2_lower, r2_upper;
-    long int DD_N; /* raw pair counts */
-    double DD; /* normalized pair counts */
+    double DD_N;    /* weighted raw pair counts */
+    double DD;      /* normalized pair counts */
 } CORRELATION;
 
 /* ------------------------------------------------------------------------- */
@@ -105,7 +105,7 @@ int main(int argc, char **argv){
         fscanf(bins_file, "%lf", &corr[k].bin_size);
         corr[k].r2_lower = corr[k].r_lower * corr[k].r_lower;
         corr[k].r2_upper = corr[k].r_upper * corr[k].r_upper;
-        corr[k].DD_N = 0; //raw pair counts
+        corr[k].DD_N = 0.0; //raw pair counts
         corr[k].DD = 0.0; //normalized pair counts
     }
 
