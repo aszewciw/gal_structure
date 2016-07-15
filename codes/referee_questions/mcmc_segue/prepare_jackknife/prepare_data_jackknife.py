@@ -17,12 +17,16 @@ def main():
 
     sys.stderr.write('Prepare data files for correlation function calculation...\n')
 
+    np.random.seed()
+
     for p in todo_list:
 
         # Load data file containing cartesian positions
         # datas were randomly shuffled upon creation -- no need to reshuffle
         data_filename = segue_dir + 'star_' + p.ID + '.xyz.dat'
         xyz = np.genfromtxt( data_filename, skip_header=1 )
+
+        np.random.shuffle(xyz)
 
         # jackknife samples
         N_data = len( xyz )
