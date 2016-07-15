@@ -49,7 +49,7 @@ void pairs( POINT *data, int N_data, CORRELATION *corr, int N_corr ){
 
 long int pairs_norm( POINT *data, int N_data ){
 
-    double total=0;
+    double total=0.0;
     int i, j;
 
     for( i=0; i<N_data; i++ ){
@@ -136,13 +136,13 @@ int main(int argc, char **argv){
     /* calculate the correlation */
     fprintf(stderr, "Start calculating mock pair counts... \n");
 
-    long int normalization = pairs_norm(data, N_data);
+    double normalization = pairs_norm(data, N_data);
     pairs(data, N_data, corr, nbins);
 
     /* output */
     for(k = 0; k < nbins; k++){
 
-        corr[k].DD = (double)corr[k].DD_N / (double)normalization;
+        corr[k].DD = corr[k].DD_N / normalization;
         // fprintf(stdout, "%lf\t%lf\t%lf\t%lf\t%ld\t%le\n",
         //     corr[k].r_lower, corr[k].r_upper, corr[k].r_middle, corr[k].bin_size,
         //     corr[k].DD_N, corr[k].DD);
