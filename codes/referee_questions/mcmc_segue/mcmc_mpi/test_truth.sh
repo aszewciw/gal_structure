@@ -4,7 +4,7 @@
 make cleanall
 make
 
-N_procs=20;
+N_procs=16;
 N_steps=0;
 params=0;
 
