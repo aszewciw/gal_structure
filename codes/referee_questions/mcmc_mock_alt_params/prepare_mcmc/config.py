@@ -26,7 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock/data/'
+mock_dir     = '../../prepare_mock_alt_params/data/'
 uni_dir      = '../../prepare_randoms/data/'
 errors_dir   = data_dir + 'errors/'
 jk_dir       = data_dir + 'jackknife/'
