@@ -37,7 +37,7 @@ def main():
 
             # Make samples different sizes
             # Establish a slice to be deleted from array
-            # slice_length = int( N_uni / N_jackknife )
+            # slice_length = int( N_data / N_jackknife )
             # lower_ind    = i * slice_length
             # if i < remain:
             #     lower_ind    += i
@@ -47,7 +47,7 @@ def main():
             # upper_ind = lower_ind + slice_length
 
             # Make every sub-sample the same size
-            slice_length = int(N_uni / N_jackknife)
+            slice_length = int(N_data / N_jackknife)
             lower_ind = i * slice_length
             upper_ind = lower_ind + slice_length
             remove_me = np.arange(lower_ind, upper_ind, 1)
