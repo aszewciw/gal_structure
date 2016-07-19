@@ -87,8 +87,7 @@ int main(int argc, char **argv){
 
   int nbins;
   fscanf(bins_file, "%d", &nbins);
-
-  COUNTS *corr;
+ COUNTS *corr;
   corr = calloc(nbins, sizeof(COUNTS));
 
   int i, k;
