@@ -218,11 +218,12 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
     }
     else if(flag==-1){
         if(rank==0) fprintf(stderr, "Starting parameters less than true.\n");
-        step_data->thin_r0  = 1.8;
-        step_data->thin_z0  = 0.1;
-        step_data->thick_r0 = 2.0;
-        step_data->thick_z0 = 0.3;
-        step_data->ratio_thick_thin = 0.5;
+        step_data->thin_r0  = 3.291442;
+        step_data->thin_z0  = 0.233466;
+        step_data->thick_r0 = 3.250080;
+        step_data->thick_z0 = 0.678937;
+        step_data->ratio_thick_thin = 0.099351;
+        // 3.291442    0.233466    3.250080    0.678937    0.099351
     }
     else{
         fprintf(stderr, "Parameter flag unrecognized. Pass -1, 0, or 1.\n");
