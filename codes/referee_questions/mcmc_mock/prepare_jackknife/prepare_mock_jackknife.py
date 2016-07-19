@@ -19,34 +19,34 @@ def main():
 
     for p in todo_list:
 
-        # Load mock file containing cartesian positions
-        # Mocks were randomly shuffled upon creation -- no need to reshuffle
-        mock_filename = mock_dir + 'mock_' + p.ID + '.xyz.dat'
-        xyz = np.genfromtxt( mock_filename, skip_header=1 )
+        # Load data file containing cartesian positions
+        data_filename = segue_dir + 'star_' + p.ID + '.xyz.dat'
+        xyz = np.genfromtxt( data_filename, skip_header=1 )
+
+        np.random.shuffle(xyz)
 
         # jackknife samples
-        N_mock = len( xyz )
+        N_data = len( xyz )
         # remain used to slice samples as evenly as possible
-        remain = N_mock % N_jackknife
+        remain = N_data % N_jackknife
 
         for i in range( N_jackknife ):
 
+            # Make samples different sizes
             # Establish a slice to be deleted from array
-            # First get minimum size of slice and minimum lower index
-            slice_length = int( N_mock / N_jackknife )
-            lower_ind    = i * slice_length
+            # slice_length = int( N_data / N_jackknife )
+            # lower_ind    = i * slice_length
+            # if i < remain:
+            #     lower_ind    += i
+            #     slice_length += 1
+            # else:
+            #     lower_ind += remain
+            # upper_ind = lower_ind + slice_length
 
-            # Correct length and lower index for uneven samples
-            if i < remain:
-                lower_ind    += i
-                slice_length += 1
-            else:
-                lower_ind += remain
-
-            # Get (excluded) upper index of slice
+            # Make every sub-sample the same size
+            slice_length = int(N_data / N_jackknife)
+            lower_ind = i * slice_length
             upper_ind = lower_ind + slice_length
-
-            # Get indices slice to be removed
             remove_me = np.arange(lower_ind, upper_ind, 1)
 
             # Remove slice
