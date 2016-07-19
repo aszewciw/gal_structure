@@ -18,7 +18,7 @@ def main():
 
     for p in todo_list:
 
-        # Mocks were randomly shuffled upon creation
+        # Randoms were random upon creation -- no need to shuffle
         uni_filename = uni_dir + 'uniform_' + p.ID + '.xyz.dat'
         xyz = np.genfromtxt( uni_filename, skip_header=1 )
 
@@ -28,14 +28,20 @@ def main():
 
         for i in range( N_jackknife ):
 
+            # Make samples different sizes
             # Establish a slice to be deleted from array
-            slice_length = int( N_uni / N_jackknife )
-            lower_ind    = i * slice_length
-            if i < remain:
-                lower_ind    += i
-                slice_length += 1
-            else:
-                lower_ind += remain
+            # slice_length = int( N_uni / N_jackknife )
+            # lower_ind    = i * slice_length
+            # if i < remain:
+            #     lower_ind    += i
+            #     slice_length += 1
+            # else:
+            #     lower_ind += remain
+            # upper_ind = lower_ind + slice_length
+
+            # Make every sub-sample the same size
+            slice_length = int(N_uni / N_jackknife)
+            lower_ind = i * slice_length
             upper_ind = lower_ind + slice_length
             remove_me = np.arange(lower_ind, upper_ind, 1)
 

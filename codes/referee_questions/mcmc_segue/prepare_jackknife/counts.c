@@ -19,7 +19,7 @@ typedef struct POINT{
 typedef struct COUNTS{
   double r_lower, r_upper, r_middle, bin_size;  /* bin limits */
   double r2_lower, r2_upper;                    /* r^2 of bin */
-  long DD_raw;                                  /* raw pair counts */
+  long int DD_raw;                              /* raw pair counts */
 } COUNTS;
 /* ------------------------------------------------------------------------- */
 
