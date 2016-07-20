@@ -57,7 +57,7 @@ def main():
 
         # Output data
         output_filename = data_dir + 'counts_all_' + p.ID + '.dat'
-        np.savetxt(output_filename, DD_raw_all,)
+        np.savetxt(output_filename, DD_raw_all, fmt='%d')
 
 
 if __name__ == '__main__':
