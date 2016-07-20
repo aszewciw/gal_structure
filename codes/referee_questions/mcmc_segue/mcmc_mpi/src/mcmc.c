@@ -266,6 +266,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
             current.thin_z0, current.thin_r0, current.thick_z0,
             current.thick_r0, current.ratio_thick_thin);
+    }
 
     /* set initial weights of model points */
     set_weights(current, plist, lower_ind, upper_ind);
