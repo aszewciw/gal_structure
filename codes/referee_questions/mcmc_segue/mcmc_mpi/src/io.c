@@ -226,7 +226,7 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
         step_data->thick_z0 = 0.3;
         step_data->ratio_thick_thin = 0.5;
     }
-    else if(flag==-1){
+    else if(flag==2){
         if(rank==0) fprintf(stderr, "Choosing random starting point.\n");
 
         srand(time(NULL));
