@@ -42,7 +42,7 @@ def main():
 
         # Empty arrays where each row is counts for 1 mock in current l.o.s.
         DD_raw_all = np.zeros((N_mocks, N_bins))
-        DD_all     = np.zeros((N_mocks, N_bins))
+        # DD_all     = np.zeros((N_mocks, N_bins))
 
         # loop over all mocks
         for i in range(N_mocks):
@@ -50,12 +50,14 @@ def main():
             # Load counts for a single mock
             corr_file = ( data_dir + 'mock_' + str(i+1) + '/mock_pairs_'
                         + p.ID + '.dat' )
-            DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
-                                        usecols=[4, 5] )
+            # DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
+            #                             usecols=[4, 5] )
+            DD_raw_all[i] = np.genfromtxt( corr_file, dtype=int, unpack=True,
+                                        usecols=[4] )
 
         # Output data
         output_filename = data_dir + 'counts_all_' + p.ID + '.dat'
-        np.savetxt(output_filename, DD_raw_all)
+        np.savetxt(output_filename, DD_raw_all,)
 
 
 if __name__ == '__main__':
