@@ -200,8 +200,6 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data, int flag, int rank){
 
-    /* Putting in a number of different starting conditions with flags 2-11 */
-
     if(flag==0){
         if(rank==0) fprintf(stderr, "Testing correct parameters.\n");
         step_data->thin_r0  = 2.34;
@@ -274,6 +272,9 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
         fprintf(stderr, "Parameter flag unrecognized. Pass -1, 0, or 1.\n");
         exit(EXIT_FAILURE);
     }
+
+    step_data->chi2 = 0.0;
+    step_data->chi2_reduced = 0.0;
 }
 
 /* ----------------------------------------------------------------------- */

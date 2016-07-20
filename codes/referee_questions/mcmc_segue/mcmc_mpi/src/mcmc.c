@@ -246,23 +246,23 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
         fprintf(stderr, "Chi2 value for intital params is %lf\n", current.chi2);
     }
 
-    /* Define MPI type to be communicated */
-    MPI_Datatype MPI_STEP;
-    MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
-    int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
-    MPI_Aint disp[7];
-    disp[0] = offsetof( STEP_DATA, thin_r0 );
-    disp[1] = offsetof( STEP_DATA, thin_z0 );
-    disp[2] = offsetof( STEP_DATA, thick_r0 );
-    disp[3] = offsetof( STEP_DATA, thick_z0 );
-    disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
-    disp[5] = offsetof( STEP_DATA, chi2 );
-    disp[6] = offsetof( STEP_DATA, chi2_reduced );
+    // /* Define MPI type to be communicated */
+    // MPI_Datatype MPI_STEP;
+    // MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
+    // int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
+    // MPI_Aint disp[7];
+    // disp[0] = offsetof( STEP_DATA, thin_r0 );
+    // disp[1] = offsetof( STEP_DATA, thin_z0 );
+    // disp[2] = offsetof( STEP_DATA, thick_r0 );
+    // disp[3] = offsetof( STEP_DATA, thick_z0 );
+    // disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
+    // disp[5] = offsetof( STEP_DATA, chi2 );
+    // disp[6] = offsetof( STEP_DATA, chi2_reduced );
 
-    /* build derived data type */
-    MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
-    /* optimize memory layout of derived datatype */
-    MPI_Type_commit(&MPI_STEP);
+    // /* build derived data type */
+    // MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
+    // /* optimize memory layout of derived datatype */
+    // MPI_Type_commit(&MPI_STEP);
 
     /* define file for output and have proc 0 open */
     char output_filename[256];

@@ -28,9 +28,45 @@ int main(int argc, char * argv[]){
     sscanf(argv[2], "%d", &param_flag);
     if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
 
+    /* Define MPI type to be communicated */
+    MPI_Datatype MPI_STEP;
+    MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
+    int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
+    MPI_Aint disp[7];
+    disp[0] = offsetof( STEP_DATA, thin_r0 );
+    disp[1] = offsetof( STEP_DATA, thin_z0 );
+    disp[2] = offsetof( STEP_DATA, thick_r0 );
+    disp[3] = offsetof( STEP_DATA, thick_z0 );
+    disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
+    disp[5] = offsetof( STEP_DATA, chi2 );
+    disp[6] = offsetof( STEP_DATA, chi2_reduced );
+
+    /* build derived data type */
+    MPI_Type_create_struct( 7, blocklen, disp, type, &MPI_STEP );
+    /* optimize memory layout of derived datatype */
+    MPI_Type_commit(&MPI_STEP);
+
     /* -- Initialize parameters --*/
     STEP_DATA initial;
-    load_step_data(&initial, param_flag, rank);
+    if(rank==0){
+        load_step_data(&initial, param_flag, rank);
+    }
+
+    MPI_Bcast(&initial, 1, MPI_STEP, 0, MPI_COMM_WORLD);
+
+    /* have each proc print its steps to ensure it worked */
+    int tmp_rank=0;
+    while ( current_rank < nprocs ){
+        if (current_rank == rank) {
+            fprintf(stderr, "Starting parameters according to proc %d are: \n", rank);
+            fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
+                current.thin_z0, current.thin_r0, current.thick_z0,
+                current.thick_r0, current.ratio_thick_thin);
+            }
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+        current_rank++;
+    }
 
     /* -- Load data from various files --*/
     int i, j;
