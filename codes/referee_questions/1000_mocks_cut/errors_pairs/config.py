@@ -32,6 +32,20 @@ stats_dir   = data_dir + 'mean_var_std/'
 plots_dir   = './gaussian_plots/'
 
 #------------------------------------------------------------------------------
+def line_prepender(filename, line):
+    '''
+    Appends a line to the beginning of a file.
+
+    Arguments:
+    1. filename : (str) name of file
+    2. line : (str) line to be appended
+    '''
+    with open(filename, 'r+') as f:
+        content = f.read()
+        f.seek(0, 0)
+        f.write(line.rstrip('\r\n') + '\n' + content)
+
+#------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
     Convert Equatorial coordinates to Cartesian coordinates.
