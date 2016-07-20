@@ -200,6 +200,8 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 /* Load starting data for MCMC loop */
 void load_step_data(STEP_DATA *step_data, int flag, int rank){
 
+    /* Putting in a number of different starting conditions with flags 2-11 */
+
     if(flag==0){
         if(rank==0) fprintf(stderr, "Testing correct parameters.\n");
         step_data->thin_r0  = 2.34;
@@ -223,6 +225,50 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
         step_data->thick_r0 = 2.0;
         step_data->thick_z0 = 0.3;
         step_data->ratio_thick_thin = 0.5;
+    }
+    else if(flag==-1){
+        if(rank==0) fprintf(stderr, "Choosing random starting point.\n");
+
+        srand(time(NULL));
+        double rand1, rand2;
+        double r0_min, r0_max, z0_min, z0_max, ratio_min, ratio_max;
+
+        r0_min    = 1.0;
+        r0_max    = 10.0;
+        z0_min    = 0.1;
+        z0_max    = 2.0;
+        ratio_min = 0.01;
+        ratio_max = 0.8;
+
+        /* generate two random numbers for z0 */
+        rand1 = (double)rand() / (double)RAND_MAX;
+        rand1 = rand1 * (z0_max - z0_min) + z0_min;
+
+        rand2 = (double)rand() / (double)RAND_MAX;
+        rand2 = rand2 * (z0_max - z0_min) + z0_min;
+
+        /* assign larger number to thick disk */
+        if(rand2>=rand1){
+            step_data->thin_z0 = rand1;
+            step_data->thick_z0 = rand2;
+        }
+        else{
+            step_data->thin_z0 = rand2;
+            step_data->thick_z0 = rand1;
+        }
+
+        rand1 = (double)rand() / (double)RAND_MAX;
+        rand1 = rand1 * (r0_max - r0_min) + r0_min;
+        step_data->thin_r0 = rand1;
+
+        rand1 = (double)rand() / (double)RAND_MAX;
+        rand1 = rand1 * (z0_max - z0_min) + z0_min;
+        step_data->thick_r0 = rand1;
+
+        rand1 = (double)rand() / (double)RAND_MAX;
+        rand1 = rand1 * (ratio_max - ratio_min) + ratio_min;
+        step_data->ratio_thick_thin = rand1;
+
     }
     else{
         fprintf(stderr, "Parameter flag unrecognized. Pass -1, 0, or 1.\n");

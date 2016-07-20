@@ -5,7 +5,7 @@ python set_rbins.py
 
 rm ../../prepare_segue_data/data/*xyz.dat
 
-rm ../data/jackknife/data*
+rm ../data/jackknife/star*
 rm ../data/jackknife/uniform*
 rm counts
 

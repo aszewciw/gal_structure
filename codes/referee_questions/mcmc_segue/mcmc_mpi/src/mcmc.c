@@ -136,31 +136,51 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     double delta;
     STEP_DATA p_new;
 
-    double thin_r0_sigma = 0.05;
-    double thin_z0_sigma = 0.005;
-    double thick_r0_sigma = 0.05;
-    double thick_z0_sigma = 0.005;
-    double ratio_thick_thin_sigma = 0.002;
+    // double thin_r0_sigma = 0.05;
+    // double thin_z0_sigma = 0.005;
+    // double thick_r0_sigma = 0.05;
+    // double thick_z0_sigma = 0.005;
+    // double ratio_thick_thin_sigma = 0.002;
 
-    /* try alternate step sizes */
-    // double thin_r0_sigma = 0.2;
-    // double thin_z0_sigma = 0.01;
-    // double thick_r0_sigma = 0.25;
-    // double thick_z0_sigma = 0.025;
-    // double ratio_thick_thin_sigma = 0.05;
+    /* actual standard deviations from running a chain */
+    // double thin_r0_sigma = 0.806853;
+    // double thin_z0_sigma = 0.006224;
+    // double thick_r0_sigma = 0.235886;
+    // double thick_z0_sigma = 0.013991;
+    // double ratio_thick_thin_sigma = 0.046787;
+
+    /* slightly undercutting above deviations to be slightly conservative */
+    double thin_r0_sigma = 0.75;
+    double thin_z0_sigma = 0.005;
+    double thick_r0_sigma = 0.2;
+    double thick_z0_sigma = 0.01;
+    double ratio_thick_thin_sigma = 0.04;
 
     /* change the position based on Gaussian distributions.  */
-    delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
-    p_new.thin_r0 = p.thin_r0 + delta;
+    /* explicitly restrict any negative values */
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
+        p_new.thin_r0 = p.thin_r0 + delta;
+        if(p_new.thin_r0 > 0.0) break;
+    }
 
-    delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
-    p_new.thin_z0 = p.thin_z0 + delta;
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
+        p_new.thin_z0 = p.thin_z0 + delta;
+        if(p_new.thin_z0 > 0.0) break;
+    }
 
-    delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
-    p_new.thick_r0 = p.thick_r0 + delta;
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
+        p_new.thick_r0 = p.thick_r0 + delta;
+        if(p_new.thick_r0 > 0.0) break;
+    }
 
-    delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
-    p_new.thick_z0 = p.thick_z0 + delta;
+    while(1){
+        delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
+        p_new.thick_z0 = p.thick_z0 + delta;
+        if(p_new.thick_z0 > 0.0) break;
+    }
 
     /* avoid having ratio > 1 or < 0 */
     while(1){

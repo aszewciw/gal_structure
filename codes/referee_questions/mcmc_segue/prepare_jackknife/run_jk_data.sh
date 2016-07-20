@@ -5,7 +5,7 @@ python set_rbins.py
 
 rm ../../prepare_segue_data/data/*xyz.dat
 
-rm ../data/jackknife/data*
+rm ../data/jackknife/star*
 rm counts
 
 icc -Wall -xHost -O3 -vec_report2 counts.c -o counts
