@@ -2,7 +2,7 @@ from config import *
 
 #------------------------------------------------------------------------------#
 '''
-Jackknife mock x,y,z data into N_jackknife samples. See config for number.
+Jackknife data x,y,z data into N_jackknife samples. See config for number.
 '''
 #------------------------------------------------------------------------------#
 
@@ -15,12 +15,14 @@ def main():
     todo_list      = pickle.load(input_file)
     input_file.close()
 
-    sys.stderr.write('Prepare mock files for correlation function calculation...\n')
+    sys.stderr.write('Prepare data files for correlation function calculation...\n')
+
+    np.random.seed()
 
     for p in todo_list:
 
         # Load data file containing cartesian positions
-        data_filename = mock_dir + 'mock_' + p.ID + '.xyz.dat'
+        data_filename = segue_dir + 'star_' + p.ID + '.xyz.dat'
         xyz = np.genfromtxt( data_filename, skip_header=1 )
 
         np.random.shuffle(xyz)
@@ -54,7 +56,7 @@ def main():
             N_temp   = len(xyz_temp)
 
             # Output jackknife'd file
-            out_file = data_dir + 'mock_' + p.ID + '_jk_' + str(i) + '.dat'
+            out_file = data_dir + 'star_' + p.ID + '_jk_' + str(i) + '.dat'
             np.savetxt(out_file, xyz_temp, fmt='%1.6f')
 
             # Add number of elements as first line in file

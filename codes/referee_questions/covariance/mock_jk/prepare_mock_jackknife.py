@@ -20,7 +20,7 @@ def main():
     for p in todo_list:
 
         # Load data file containing cartesian positions
-        data_filename = mock_dir + 'mock_' + p.ID + '.xyz.dat'
+        data_filename = segue_dir + 'mock_' + p.ID + '.xyz.dat'
         xyz = np.genfromtxt( data_filename, skip_header=1 )
 
         np.random.shuffle(xyz)

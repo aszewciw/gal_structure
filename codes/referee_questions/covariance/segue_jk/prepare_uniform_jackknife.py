@@ -2,10 +2,9 @@ from config import *
 
 #------------------------------------------------------------------------------#
 '''
-Jackknife mock x,y,z data into N_jackknife samples. See config for number.
+Jackknife uniform x,y,z data into N_jackknife samples. See config for number.
 '''
 #------------------------------------------------------------------------------#
-
 def main():
 
     # load pointing list
@@ -15,26 +14,23 @@ def main():
     todo_list      = pickle.load(input_file)
     input_file.close()
 
-    sys.stderr.write('Prepare mock files for correlation function calculation...\n')
+    sys.stderr.write('Prepare uniform files for correlation function calculation..\n')
 
     for p in todo_list:
 
-        # Load data file containing cartesian positions
-        data_filename = mock_dir + 'mock_' + p.ID + '.xyz.dat'
-        xyz = np.genfromtxt( data_filename, skip_header=1 )
-
-        np.random.shuffle(xyz)
+        # Randoms were random upon creation -- no need to shuffle
+        uni_filename = uni_dir + 'uniform_' + p.ID + '.xyz.dat'
+        xyz = np.genfromtxt( uni_filename, skip_header=1 )
 
         # jackknife samples
-        N_data = len( xyz )
-        # remain used to slice samples as evenly as possible
-        remain = N_data % N_jackknife
+        N_uni = len( xyz )
+        remain = N_uni % N_jackknife
 
         for i in range( N_jackknife ):
 
             # Make samples different sizes
             # Establish a slice to be deleted from array
-            # slice_length = int( N_data / N_jackknife )
+            # slice_length = int( N_uni / N_jackknife )
             # lower_ind    = i * slice_length
             # if i < remain:
             #     lower_ind    += i
@@ -44,21 +40,20 @@ def main():
             # upper_ind = lower_ind + slice_length
 
             # Make every sub-sample the same size
-            slice_length = int(N_data / N_jackknife)
+            slice_length = int(N_uni / N_jackknife)
             lower_ind = i * slice_length
             upper_ind = lower_ind + slice_length
             remove_me = np.arange(lower_ind, upper_ind, 1)
 
             # Remove slice
             xyz_temp = np.delete(xyz, remove_me, 0)
-            N_temp   = len(xyz_temp)
+            N_temp = len(xyz_temp)
 
             # Output jackknife'd file
-            out_file = data_dir + 'mock_' + p.ID + '_jk_' + str(i) + '.dat'
+            out_file = data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.dat'
             np.savetxt(out_file, xyz_temp, fmt='%1.6f')
 
             # Add number of elements as first line in file
-            N_temp   = len(xyz_temp)
             line_prepender(out_file, str(N_temp))
 
 
