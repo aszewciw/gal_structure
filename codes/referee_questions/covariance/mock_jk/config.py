@@ -33,7 +33,7 @@ R_max = 2.0
 N_rbins = 12
 
 # number of jackknife samples to use
-N_jackknife = 30
+N_jackknife = 40
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
