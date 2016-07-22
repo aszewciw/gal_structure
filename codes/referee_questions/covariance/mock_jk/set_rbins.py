@@ -51,7 +51,7 @@ def main():
                           .format(b.r_lower, b.r_upper, b.r_middle, b.dr))
     output_file.close()
 
-    sys.stderr.write('Bins list output to {}\n\n'.format(config.rbins_dir))
+    sys.stderr.write('Bins list output to {}\n\n'.format(config.data_dir))
 
 
 if __name__ == '__main__':

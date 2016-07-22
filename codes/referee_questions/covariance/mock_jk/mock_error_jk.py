@@ -48,7 +48,7 @@ def main():
             os.system(cmd)
 
         # Write array of counts to a file for use in pandas
-        counts_array = np.zeros(N_jackknife, N_rbins)
+        counts_array = np.zeros((N_jackknife, N_rbins))
 
         # calculate jackknife errors
         for i in range(N_jackknife):
