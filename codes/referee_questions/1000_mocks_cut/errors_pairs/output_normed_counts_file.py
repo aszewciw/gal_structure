@@ -52,11 +52,11 @@ def main():
                         + p.ID + '.dat' )
             # DD_raw_all[i], DD_all[i] = np.genfromtxt( corr_file, unpack=True,
             #                             usecols=[4, 5] )
-            DD_all[i] = np.genfromtxt( corr_file, dtype=int, unpack=True, usecols=[5] )
+            DD_all[i] = np.genfromtxt( corr_file, dtype=float, unpack=True, usecols=[5] )
 
         # Output data
         output_filename = data_dir + 'normed_counts_all_' + p.ID + '.dat'
-        np.savetxt(output_filename, DD_all, fmt='%d')
+        np.savetxt(output_filename, DD_all, fmt='%.6f')
 
 
 if __name__ == '__main__':
