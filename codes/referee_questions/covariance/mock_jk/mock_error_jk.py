@@ -53,11 +53,11 @@ def main():
         # calculate jackknife errors
         for i in range(N_jackknife):
             counts_filename = data_dir + 'mock_' + p.ID + '_jk_' + str(i) + '.counts.dat'
-            counts_tmp = np.genfromtxt(counts_filename, unpack=True, usecols=[4])
+            counts_tmp = np.genfromtxt(counts_filename, unpack=True, usecols=[4], dtype=int)
             counts_array[i] = counts_tmp
 
         output_filename = data_dir + 'mock_all_counts_' + p.ID + '.dat'
-        np.savetxt(output_filename, counts_array)
+        np.savetxt(output_filename, counts_array, dtype=int)
 
         # N_jk = N_jackknife
 
