@@ -36,13 +36,13 @@ def main():
         bins_list.append(b)
 
     # pickle output
-    output_filename = config.rbins_dir + 'rbins.dat'
+    output_filename = config.data_dir + 'rbins.dat'
     output_file     = open(output_filename, 'wb')
     pickle.dump(bins_list, output_file)
     output_file.close()
 
     # ascii output
-    output_filename = config.rbins_dir + 'rbins.ascii.dat'
+    output_filename = config.data_dir + 'rbins.ascii.dat'
     output_file = open(output_filename, 'w')
     # output number of bins first
     output_file.write('{}\n'.format(len(bins_list)))
@@ -51,7 +51,7 @@ def main():
                           .format(b.r_lower, b.r_upper, b.r_middle, b.dr))
     output_file.close()
 
-    sys.stderr.write('Bins list output to {}\n\n'.format(config.rbins_dir))
+    sys.stderr.write('Bins list output to {}\n\n'.format(config.data_dir))
 
 
 if __name__ == '__main__':
