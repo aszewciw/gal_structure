@@ -57,7 +57,7 @@ def main():
             counts_array[i] = counts_tmp
 
         output_filename = data_dir + 'mock_all_counts_' + p.ID + '.dat'
-        np.savetxt(output_filename, counts_array, fmt=int)
+        np.savetxt(output_filename, counts_array, fmt='%d')
 
         # N_jk = N_jackknife
 
