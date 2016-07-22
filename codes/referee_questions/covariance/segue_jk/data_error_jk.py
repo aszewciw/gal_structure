@@ -18,7 +18,7 @@ def main():
     input_file.close()
 
     # load bin settings
-    input_filename = rbins_dir + 'rbins.dat'
+    input_filename = data_dir + 'rbins.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
     bins_list      = pickle.load(input_file)
@@ -28,7 +28,7 @@ def main():
         sys.stderr.write("Error: Inconsistent R bins. Check set_rbins and config. \n")
         sys.exit()
 
-    bins_filename = rbins_dir + 'rbins.ascii.dat'
+    bins_filename = data_dir + 'rbins.ascii.dat'
 
     for p in todo_list:
         # counting pairs for the whole sample
@@ -47,50 +47,62 @@ def main():
                    + ' > ' + counts_filename)
             os.system(cmd)
 
+        # Write array of counts to a file for use in pandas
+        counts_array = np.zeros((N_jackknife, N_rbins))
+
         # calculate jackknife errors
-        counts_list = []
         for i in range(N_jackknife):
             counts_filename = data_dir + 'star_' + p.ID + '_jk_' + str(i) + '.counts.dat'
-            counts_list.append(np.loadtxt(counts_filename, comments='#'))
+            counts_tmp = np.genfromtxt(counts_filename, unpack=True, usecols=[4], dtype=int)
+            counts_array[i] = counts_tmp
 
-        N_jk = N_jackknife
+        output_filename = data_dir + 'star_all_counts_' + p.ID + '.dat'
+        np.savetxt(output_filename, counts_array, fmt='%d')
 
-        jk_mean = [0.0 for k in range(N_rbins)]
-        jk_std = [0.0 for k in range(N_rbins)]
+        # # calculate jackknife errors
+        # counts_list = []
+        # for i in range(N_jackknife):
+        #     counts_filename = data_dir + 'star_' + p.ID + '_jk_' + str(i) + '.counts.dat'
+        #     counts_list.append(np.loadtxt(counts_filename, comments='#'))
 
-        for k in range(N_rbins):
-            for i in range(N_jk):
-                jk_mean[k] += counts_list[i][k][4]
-            jk_mean[k] /= N_jk
+        # N_jk = N_jackknife
 
-            for i in range(N_jk):
-                jk_std[k] += (counts_list[i][k][4] - jk_mean[k])**2
-            jk_std[k] = math.sqrt(jk_std[k] * (N_jk - 1) / N_jk)
+        # jk_mean = [0.0 for k in range(N_rbins)]
+        # jk_std = [0.0 for k in range(N_rbins)]
 
-        output_filename = data_dir + 'star_' + p.ID + '_jk_error.dat'
-        output_file     = open(output_filename, 'w')
-        for k in range(N_rbins):
-            r_lower  = counts_all[k][0]
-            r_upper  = counts_all[k][1]
-            r_middle = counts_all[k][2]
-            dr       = counts_all[k][3]
-            counts   = counts_all[k][4]
-            # check if the total counts is zero.
-            # if so, set jackknife error to zero,
-            # and this point should be excluded when doing mcmc.
-            if counts == 0:
-                err_jk = 0.0
-            else:
-                # This is actually a fractional error of pair counting
-                # When dealing with correlation function measurement, the final error
-                # should be this fractional error times the weighted measurement.
-                err_jk = jk_std[k] / counts
+        # for k in range(N_rbins):
+        #     for i in range(N_jk):
+        #         jk_mean[k] += counts_list[i][k][4]
+        #     jk_mean[k] /= N_jk
 
-            output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:e}\n'
-                              .format(r_lower, r_upper, r_middle, dr,
-                                      jk_mean[k], jk_std[k], counts, err_jk))
+        #     for i in range(N_jk):
+        #         jk_std[k] += (counts_list[i][k][4] - jk_mean[k])**2
+        #     jk_std[k] = math.sqrt(jk_std[k] * (N_jk - 1) / N_jk)
 
-        output_file.close()
+        # output_filename = data_dir + 'star_' + p.ID + '_jk_error.dat'
+        # output_file     = open(output_filename, 'w')
+        # for k in range(N_rbins):
+        #     r_lower  = counts_all[k][0]
+        #     r_upper  = counts_all[k][1]
+        #     r_middle = counts_all[k][2]
+        #     dr       = counts_all[k][3]
+        #     counts   = counts_all[k][4]
+        #     # check if the total counts is zero.
+        #     # if so, set jackknife error to zero,
+        #     # and this point should be excluded when doing mcmc.
+        #     if counts == 0:
+        #         err_jk = 0.0
+        #     else:
+        #         # This is actually a fractional error of pair counting
+        #         # When dealing with correlation function measurement, the final error
+        #         # should be this fractional error times the weighted measurement.
+        #         err_jk = jk_std[k] / counts
+
+        #     output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:e}\n'
+        #                       .format(r_lower, r_upper, r_middle, dr,
+        #                               jk_mean[k], jk_std[k], counts, err_jk))
+
+        # output_file.close()
 
 
 if __name__ == '__main__':

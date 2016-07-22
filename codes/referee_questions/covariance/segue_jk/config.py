@@ -25,17 +25,15 @@ INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir = '../../data/'
-data_dir    = '../data/jackknife/'
-rbins_dir   = '../data/rbins/'
+data_dir    = './data/'
 segue_dir   = '../../prepare_segue_data/data/'
-uni_dir     = '../../prepare_randoms/data/'
 
 R_min = 0.005
 R_max = 2.0
 N_rbins = 12
 
 # number of jackknife samples to use
-N_jackknife = 10
+N_jackknife = 30
 
 #------------------------------------------------------------------------------
 
