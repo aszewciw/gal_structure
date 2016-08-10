@@ -24,7 +24,7 @@ int main(int argc, char * argv[]){
     /* flag to indicate starting parameters */
     int param_flag;
     /* name of file to output -- not including path */
-    char file_string[256];
+    char *file_string[256];
 
     sscanf(argv[1], "%d", &max_steps);
     sscanf(argv[2], "%d", &param_flag);

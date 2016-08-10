@@ -1,10 +1,9 @@
 #!/usr/bin/bash
 
-rm ../data/mcmc_output/mcmc*
 make cleanall
 make
 
-N_procs=30;
+N_procs=20;
 N_steps=10000;
 params=1;
 filename=mcmc_result.dat;
