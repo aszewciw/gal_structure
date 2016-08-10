@@ -81,7 +81,12 @@ def plot_mcmc_steps(DF, outfile, ticks):
 def main():
 
     # Create list of files for which we want plots
-    filenames = ['mcmc_result.dat', 'mcmc_result_new.dat']
+    filenames = [
+                'result_1.dat', 'result_2.dat', 'result_3.dat',
+                'result_4.dat', 'result_5.dat', 'result_6.dat',
+                'result_7.dat', 'result_8.dat', 'result_9.dat',
+                'result_10.dat'
+                ]
 
     # path to files
     data_path = '../data/mcmc_output/'
