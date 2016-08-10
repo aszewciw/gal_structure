@@ -122,7 +122,7 @@ def main():
         x = np.column_stack((MCMC['z0_thin'].values, MCMC['z0_thick'].values))
         fig = corner.corner(x, levels=levels, labels=["$Z_{0,thin}$", "$Z_{0,thick}$"],
             truths=[z0_thin_true, z0_thick_true])
-        fig.suptitle(r"Mock Density MCMC Results (more $N_{stars}$ per l.o.s.)")
+        fig.suptitle(r"Mock Density MCMC Results (using galaxy normalization)")
         plot_name = plot_path + file_prefix + '_z0.png'
         plt.savefig(plot_name)
 
@@ -133,7 +133,7 @@ def main():
         x = np.column_stack((MCMC['r0_thin'].values, MCMC['r0_thick'].values))
         fig = corner.corner(x, levels=levels, labels=["$R_{0,thin}$", "$R_{0,thick}$"],
             truths=[r0_thin_true, r0_thick_true])
-        fig.suptitle(r"Mock MCMC Results (more $N_{stars}$ per l.o.s.)")
+        fig.suptitle(r"Mock Density MCMC Results (using galaxy normalization)")
         plot_name = plot_path + file_prefix + '_r0.png'
         plt.savefig(plot_name)
 

@@ -1,103 +1,155 @@
-import numpy as np
+#!/usr/bin/env python
+'''
+Create plots for an MCMC chain.
+
+For a list of MCMC data files, create the following plots:
+1. r0_thick vs r0_thin (contour)
+2. z0_thick vs z0_thin (contour)
+3. chi2 color-barred steps for each parameter
+
+My MCMC files output the following columns:
+    step number
+    chi2
+    reduced chi2
+    r0_thin
+    z0_thin
+    r0_thick
+    z0_thick
+    thick_thin_ratio
+'''
+
+# from custom_plotting import mcmc_plot as mcpl
 import matplotlib.pyplot as plt
+import corner
+import pandas as pd
+import sys
+import numpy as np
 
-filename = '../data/mcmc_output/mcmc_result.dat'
-
-loop, chi2, chi2_r, thin_r0, thin_z0, thick_r0, thick_z0, a = np.genfromtxt(
-    filename, unpack=True)
-
-loop_start = min(loop)
-loop_end = max(loop)
-
-# Delete first N elements of numpy array
-frac_deleted = 0.05
-num_deleted  = frac_deleted * len(a)
-index_delete = np.arange(num_deleted)
-loop         = np.delete(loop, index_delete)
-chi2         = np.delete(chi2, index_delete)
-chi2_r       = np.delete(chi2_r, index_delete)
-thin_r0      = np.delete(thin_r0, index_delete)
-thin_z0      = np.delete(thin_z0, index_delete)
-thick_r0     = np.delete(thick_r0, index_delete)
-thick_z0     = np.delete(thick_z0, index_delete)
-a            = np.delete(a, index_delete)
-
-index_min = np.argmin(chi2)
-# print(thin_z0[index_min], thin_r0[index_min], thick_z0[index_min], thick_r0[index_min], a[index_min])
-
+# "True" parameters for use mainly in mock contour plots
 z0_thin_true  = 0.233
 r0_thin_true  = 2.34
 z0_thick_true = 0.674
 r0_thick_true = 2.51
 ratio_true    = 0.1
 
-plt.clf()
+def plot_mcmc_steps(DF, outfile, ticks):
+    '''
+    Plot the chi2 coloring
+    '''
+    plt.clf()
 
-fig1_name = 'heights_cut_jk.png'
-fig2_name = 'lengths_cut_jk.png'
-fig3_name = 'steps_cut_jk.png'
+    plt.subplot(321)
+    # plt.ylabel("$Z_{0,thin} (kpc)$")
+    plt.ylabel('z0 thin')
+    plt.scatter(DF['step'].values, DF['z0_thin'].values, c=DF['chi2'].values, s=2)
+    plt.axis([0, DF['step'].values[-1], min(DF['z0_thin']), max(DF['z0_thin'])])
+    plt.xticks(ticks)
 
-plt.figure(1)
-plt.xlabel("Thin Disk Scale Height (kpc)")
-plt.ylabel("Thick Disk Scale Height (kpc)")
-plt.scatter(thin_z0, thick_z0, c=chi2, s=3)
-plt.colorbar()
-# plt.scatter(thin_z0[index_min], thick_z0[index_min], c='m', marker='*', s=1000)
-plt.scatter(z0_thin_true, z0_thick_true, c='m', marker='*', s=1000)
-plt.axes().set_aspect('equal', 'datalim')
-# plt.axis([min(thin_z0), max(thin_z0), min(thick_z0), max(thick_z0)])
-plt.savefig(fig1_name)
+    plt.subplot(322)
+    # plt.ylabel("$Z_{0,thick} (kpc)$")
+    plt.ylabel('z0 thick')
+    plt.scatter(DF['step'].values, DF['z0_thick'].values, c=DF['chi2'].values, s=2)
+    plt.axis([0, DF['step'].values[-1], min(DF['z0_thick']), max(DF['z0_thick'])])
+    plt.xticks(ticks)
 
-plt.figure(2)
-plt.xlabel("Thin Disk Scale Length (kpc)")
-plt.ylabel("Thick Disk Scale Length (kpc)")
-plt.scatter(thin_r0, thick_r0, c=chi2, s=3)
-plt.colorbar()
-# plt.scatter(thin_r0[index_min], thick_r0[index_min], c='m', marker='*', s=1000)
-plt.scatter(r0_thin_true, r0_thick_true, c='m', marker='*', s=1000)
-plt.axes().set_aspect('equal', 'datalim')
-plt.axis([min(thin_r0), max(thin_r0), min(thick_r0), max(thick_r0)])
-plt.savefig(fig2_name)
+    plt.subplot(323)
+    # plt.ylabel("$R_{0,thin} (kpc)$")
+    plt.ylabel('r0 thin')
+    plt.scatter(DF['step'].values, DF['r0_thin'].values, c=DF['chi2'].values, s=2)
+    plt.axis([0, DF['step'].values[-1], min(DF['r0_thin']), max(DF['r0_thin'])])
+
+    plt.subplot(324)
+    plt.xlabel("Loop Number")
+    # plt.ylabel("$R_{0,thick} (kpc)$")
+    plt.ylabel('r0 thick')
+    plt.scatter(DF['step'].values, DF['r0_thick'].values, c=DF['chi2'].values, s=2)
+    plt.axis([0, DF['step'].values[-1], min(DF['r0_thick']), max(DF['r0_thick'])])
+    plt.xticks(ticks)
+
+    plt.subplot(325)
+    plt.xlabel("Loop Number")
+    # plt.ylabel(r"$\displaystyle\frac{n_{thick}}{n_{thin}}$")
+    plt.ylabel('thick to thin ratio')
+    plt.scatter(DF['step'].values, DF['z0_thin'].values, c=DF['chi2'].values, s=2)
+    plt.axis([0, DF['step'].values[-1], min(DF['z0_thin']), max(DF['z0_thin'])])
+    plt.xticks(ticks)
+    plt.colorbar()
+
+    plt.savefig(outfile)
 
 
-x = np.array([0, 100000, 200000, 300000])
+def main():
 
-plt.figure(3)
+    # Create list of files for which we want plots
+    filenames = ['mcmc_result.dat', 'mcmc_result_new.dat']
 
-plt.subplot(321)
-plt.ylabel("Thin Sc Height (kpc)")
-plt.scatter(loop, thin_z0, c=chi2, s=2)
-plt.axis([loop_start, loop_end, min(thin_z0), max(thin_z0)])
-plt.xticks(x)
+    # path to files
+    data_path = '../data/mcmc_output/'
+    plot_path = '../plots/'
 
-plt.subplot(322)
-plt.ylabel("Thick Sc Height (kpc)")
-plt.scatter(loop, thick_z0, c=chi2, s=2)
-plt.axis([loop_start, loop_end, min(thick_z0), max(thick_z0)])
-plt.xticks(x)
 
-plt.subplot(323)
-plt.ylabel("Thin Sc Length (kpc)")
-plt.scatter(loop, thin_r0, c=chi2, s=2)
-plt.axis([loop_start, loop_end, min(thin_r0), max(thin_r0)])
-plt.xticks(x)
+    # Create plots for each file in list
+    for f in filenames:
 
-plt.subplot(324)
-plt.xlabel("Loop Number")
-plt.ylabel("Thick Sc Length (kpc)")
-plt.scatter(loop, thick_r0, c=chi2, s=2)
-plt.axis([loop_start, loop_end, min(thick_r0), max(thick_r0)])
-plt.xticks(x)
+        # Remove .dat for naming of plots
+        file_prefix = f.split('.')[0]
 
-plt.subplot(325)
-plt.xlabel("Loop Number")
-plt.ylabel("Thick:thin ratio")
-plt.scatter(loop, a, c=chi2, s=2)
-plt.axis([loop_start, loop_end, min(a), max(a)])
-plt.xticks(x)
-plt.colorbar()
+        # Choose file for reading
+        file = data_path + f
 
-plt.savefig(fig3_name)
+        # Load MCMC data frame
+        MCMC = pd.read_csv(file, sep='\s+')
 
-# plt.show()
-plt.clf()
+        # Check that names were included in header
+        # First column should be headers listed above
+        if MCMC.columns[0]!='step':
+            print('This file needs header names as its first row!')
+            continue
+
+        # Cut a fraction of the data as "burn-in"
+        # Could improve method for deciding on this fraction
+        frac_cut = 0.05
+        N_drop   = len(MCMC) * frac_cut
+        MCMC     = MCMC[MCMC['step']>N_drop]
+
+        # Set significance levels for contour plots
+        signif_levels = np.array([1.0,2.0,3.0])
+        levels = 1.0 - np.exp(-0.5*signif_levels**2)
+
+        print('Beginning Plotting...')
+        # Plot scale heights
+        plt.clf()
+        x = np.column_stack((MCMC['z0_thin'].values, MCMC['z0_thick'].values))
+        fig = corner.corner(x, levels=levels, labels=["$Z_{0,thin}$", "$Z_{0,thick}$"],
+            truths=[z0_thin_true, z0_thick_true])
+        fig.suptitle("SEGUE MCMC Results")
+        plot_name = plot_path + file_prefix + '_z0.png'
+        plt.savefig(plot_name)
+
+        print('Finished plotting Scale Heights')
+
+        # Plot scale lengths
+        plt.clf()
+        x = np.column_stack((MCMC['r0_thin'].values, MCMC['r0_thick'].values))
+        fig = corner.corner(x, levels=levels, labels=["$R_{0,thin}$", "$R_{0,thick}$"],
+            truths=[r0_thin_true, r0_thick_true])
+        fig.suptitle("SEGUE MCMC Results")
+        plot_name = plot_path + file_prefix + '_r0.png'
+        plt.savefig(plot_name)
+
+        print('Finished plotting Scale Lengths')
+
+        # Plot steps
+        # Create ticks
+        tick_start = 0
+        tick_end   = MCMC['step'].values[-1]
+        tick_size  = 100000
+        step_ticks = np.arange(tick_start, tick_end, tick_size)
+        plot_name  = plot_path + file_prefix + '_steps.png'
+        # plot_mcmc_steps(MCMC, plot_name, step_ticks)
+
+        print('Finished plotting Steps...or did I? Welp, I am done plotting.')
+
+
+if __name__ == '__main__':
+    main()

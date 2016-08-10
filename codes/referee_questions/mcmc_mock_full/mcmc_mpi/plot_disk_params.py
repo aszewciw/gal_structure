@@ -122,7 +122,7 @@ def main():
         x = np.column_stack((MCMC['z0_thin'].values, MCMC['z0_thick'].values))
         fig = corner.corner(x, levels=levels, labels=["$Z_{0,thin}$", "$Z_{0,thick}$"],
             truths=[z0_thin_true, z0_thick_true])
-        fig.suptitle(r"Mock Density MCMC Results (more $N_{stars}$ per l.o.s.)")
+        fig.suptitle(r"Mock MCMC Results (more $N_{stars}$ per l.o.s.)")
         plot_name = plot_path + file_prefix + '_z0.png'
         plt.savefig(plot_name)
 
