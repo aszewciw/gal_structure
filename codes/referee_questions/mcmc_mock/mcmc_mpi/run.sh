@@ -5,7 +5,12 @@ make cleanall
 make
 
 N_procs=30;
-N_steps=300000;
+N_steps=10000;
 params=1;
+filename=mcmc_result.dat;
 
-time mpirun -n $N_procs ./bin/run_mcmc $N_steps $params
+rm ../data/mcmc_output/$filename
+
+time mpirun -n $N_procs ./bin/run_mcmc $N_steps $params $filename
+
+python plot_disk_params.py

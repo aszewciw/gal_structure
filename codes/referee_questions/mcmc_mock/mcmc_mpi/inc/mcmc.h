@@ -17,6 +17,7 @@
 #define OUT_DIR "../data/mcmc_output/"
 #define PAIRS_DIR "../data/model_pairs/"
 #define ZRW_DIR "../data/model_positions/"
+#define BINS_DIR "../data/rbins/"
 
 
 /* Data for each radial bin */
@@ -57,6 +58,7 @@ typedef struct {
 
 /* I/O functions */
 void load_pointingID(int *N_plist, POINTING **plist);
+int load_Nbins(void);
 void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
 void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
@@ -76,7 +78,7 @@ void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank, int nprocs);
+    int lower_ind, int upper_ind, int rank, int nprocs, char file_string[256]);
 
 /* Other */
 double sech2(double x);

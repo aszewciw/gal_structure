@@ -45,6 +45,25 @@ void load_pointingID(int *N_plist, POINTING **plist){
 
 /* ----------------------------------------------------------------------- */
 
+/* Load number of bins. Bin edge values are not needed in chain. */
+int load_Nbins(void){
+
+    int N;
+    char bin_filename[256];
+    FILE *bin_file;
+    snprintf(bin_filename, 256, "%srbins.ascii.dat", BINS_DIR);
+    if((bin_file=fopen(bin_filename,"r"))==NULL){
+        fprintf(stderr, "Error: Cannot open file %s \n", bin_filename);
+        exit(EXIT_FAILURE);
+    }
+    fscanf(bin_file, "%d", &N);
+    fclose(bin_file);
+
+    return N;
+}
+
+/* ----------------------------------------------------------------------- */
+
 /* Load position and density weight data for model stars */
 void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
 
@@ -235,6 +254,11 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
 
 /* Output mcmc data to a file */
 void output_mcmc(int index, STEP_DATA p, FILE *output_file){
+
+    /* Output column headers as first line */
+    if(index==0){
+        fprintf( output_file, "step\tchi2\tchi2_red\tr0_thin\tz0_thin\tr0_thick\tz0_thick\tratio\n");
+    }
 
     fprintf( output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
         index, p.chi2, p.chi2_reduced, p.thin_r0, p.thin_z0,

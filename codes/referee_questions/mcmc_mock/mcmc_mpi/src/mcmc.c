@@ -185,7 +185,7 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 
 /* Run mcmc chain */
 void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank, int nprocs)
+    int lower_ind, int upper_ind, int rank, int nprocs, char file_string[256])
 {
     int i;                  /* mcmc index */
     int eff_counter = 0;    /* number of accepted steps */
@@ -247,7 +247,7 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     /* define file for output and have proc 0 open */
     char output_filename[256];
     FILE *output_file;
-    snprintf(output_filename, 256, "%smcmc_result.dat", OUT_DIR);
+    snprintf(output_filename, 256, "%s%s", OUT_DIR, file_string);
     if(rank==0){
         output_file = fopen(output_filename, "a");
     }

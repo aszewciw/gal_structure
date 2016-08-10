@@ -14,7 +14,7 @@ int main(int argc, char * argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if (argc!=3){
+    if (argc!=4){
         fprintf(stderr, "Usage: %s\n", argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -23,10 +23,13 @@ int main(int argc, char * argv[]){
     int max_steps;
     /* flag to indicate starting parameters */
     int param_flag;
+    /* name of file to output -- not including path */
+    char file_string[256];
 
     sscanf(argv[1], "%d", &max_steps);
     sscanf(argv[2], "%d", &param_flag);
     if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
+    sscanf(argv[3], 256, "%s", &file_string);
 
     /* -- Initialize parameters --*/
     STEP_DATA initial;
@@ -35,15 +38,17 @@ int main(int argc, char * argv[]){
     /* -- Load data from various files --*/
     int i, j;
     int N_plist;
-    int N_bins = 12;
+    int N_bins;
     POINTING *plist;
 
-    /* have each process separately access this file */
+    /* have each process separately access these files */
     int current_rank = 0;
     while ( current_rank < nprocs ){
         if (current_rank == rank) {
             load_pointingID(&N_plist, &plist);
             if(rank == 0) fprintf(stderr, "%d pointings to do\n", N_plist);
+            N_bins = load_Nbins();
+            if(rank == 0) fprintf(stderr, "%d bins per pointing\n", N_bins);
         }
         MPI_Barrier(MPI_COMM_WORLD);
         current_rank++;
@@ -75,7 +80,7 @@ int main(int argc, char * argv[]){
 
     /* Run mcmc */
     run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
-        rank, nprocs);
+        rank, nprocs, file_string);
 
     /* Free allocated values */
     for(i=lower_ind; i<upper_ind; i++){
