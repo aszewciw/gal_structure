@@ -29,7 +29,7 @@ int main(int argc, char * argv[]){
     sscanf(argv[1], "%d", &max_steps);
     sscanf(argv[2], "%d", &param_flag);
     if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
-    sscanf(argv[3], 256, "%s", &file_string);
+    sscanf(argv[3], "%s", &file_string);
 
     /* -- Initialize parameters --*/
     STEP_DATA initial;
