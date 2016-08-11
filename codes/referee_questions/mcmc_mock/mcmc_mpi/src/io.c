@@ -184,7 +184,8 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
     for(i=lower_ind; i<upper_ind; i++){
 
         for(j=0; j<N_bins; j++){
-            snprintf(pair_filename, 256, "%scounts_%s.bin_%s.dat", PAIRS_DIR, plist[i].ID, plist[i].rbin[j].binID);
+            snprintf(pair_filename, 256, "%scounts_%s.bin_%s.dat", PAIRS_DIR,
+                plist[i].ID, plist[i].rbin[j].binID);
             if((pair_file=fopen(pair_filename,"r"))==NULL){
                 fprintf(stderr, "Error: Cannot open file %s\n", pair_filename);
                 exit(EXIT_FAILURE);
