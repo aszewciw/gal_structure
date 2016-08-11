@@ -38,6 +38,7 @@ def plot_mcmc_steps(DF, outfile, ticks):
     '''
     plt.clf()
 
+    fig = plt.figure(1)
     plt.subplot(321)
     # plt.ylabel("$Z_{0,thin} (kpc)$")
     plt.ylabel('z0 thin')
@@ -76,6 +77,7 @@ def plot_mcmc_steps(DF, outfile, ticks):
     plt.colorbar()
 
     plt.savefig(outfile)
+    plt.close(fig)
 
 
 def main():
@@ -130,6 +132,7 @@ def main():
         fig.suptitle("SEGUE MCMC Results")
         plot_name = plot_path + file_prefix + '_z0.png'
         plt.savefig(plot_name)
+        plt.close(fig)
 
         print('Finished plotting Scale Heights')
 
@@ -141,6 +144,7 @@ def main():
         fig.suptitle("SEGUE MCMC Results")
         plot_name = plot_path + file_prefix + '_r0.png'
         plt.savefig(plot_name)
+        plt.close(fig)
 
         print('Finished plotting Scale Lengths')
 
