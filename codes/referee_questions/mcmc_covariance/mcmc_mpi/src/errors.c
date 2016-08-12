@@ -76,6 +76,8 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
         }
     }
 
+    fprintf(stderr, "Count: %d\n", count);
+
     return chi2;
 }
 
