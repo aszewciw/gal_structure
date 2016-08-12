@@ -63,6 +63,12 @@ def main():
         out_file = errors_dir + 'covariance_' + ID + '.dat'
         np.savetxt(out_file, cov.values, fmt='%.6e')
 
+        # Calculate correlation matrix
+        corr = DD_RR.corr()
+
+        out_file = errors_dir + 'correlation_' + ID + '.dat'
+        np.savetxt(out_file, corr.values, fmt='%.6f')
+
         # Add to dictionary
         # corr_dict[ID] = corr.values
 
