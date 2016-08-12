@@ -39,6 +39,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j, k;
     double chi2 = 0.0;
+    double chi2_temp;
 
     /* loop over pointings */
     for(i = lower_ind; i < upper_ind; i++){
@@ -60,6 +61,8 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 }
                 if(p[i].cov_row[j].cov_col[k] == 0.0 || p[i].cov_row[j].cov_col[k] != p[i].cov_row[j].cov_col[k]) continue;
 
+                chi2_temp = p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
+                if( fabs(chi2_temp)>10000.0 ) fprintf(stderr, "Pointing %s. Element: %d %d \n", p[i].ID, j, k);
                 chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
 
             }
