@@ -53,7 +53,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             /* loop over bin columns */
             for(k = j; k < N_bins; k++){
 
-                // if(k!=j) continue;
+                if(k!=j) continue;
 
                 /* skip any 0 counts in DD, MM, RR, or covariance */
                 if(p[i].rbin[j].DD_RR == 0.0 || p[i].rbin[j].MM_RR == 0.0){
