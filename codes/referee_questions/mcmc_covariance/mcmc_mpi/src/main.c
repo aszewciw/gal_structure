@@ -131,6 +131,7 @@ int main(int argc, char * argv[]){
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
     load_covariance(plist, N_bins, lower_ind, upper_ind, rank);
+    load_correlation(plist, N_bins, lower_ind, upper_ind, rank);
 
     /* test loading of covariance */
     // if(rank==0){

@@ -212,13 +212,9 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
 
     char cov_filename[256];
     FILE *cov_file;
-    char cor_filename[256];
-    FILE *cor_file;
     int i, j, k;
     COV *row;
-    COR *row2;
     double *col;
-    double *col2;
 
     /* Loop over each pointing */
     for(i=lower_ind; i<upper_ind; i++){
@@ -253,13 +249,29 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
 
         /* Assign values to plist elements */
         plist[i].cov_row = row;
+    }
 
 
+    if(rank == 0)fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
 
-        /* Now assign correlation matrix terms */
+}
+
+/* load the correlation matrix from mock pair counts */
+void load_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank){
+
+    char cor_filename[256];
+    FILE *cor_file;
+    int i, j, k;
+    COR *row;
+    double *col;
+
+    /* Loop over each pointing */
+    for(i=lower_ind; i<upper_ind; i++){
+
+        /* First assign correlation matrix terms */
 
         /* Claim space for bin data */
-        row2 = calloc(N_bins, sizeof(COR));
+        row = calloc(N_bins, sizeof(cor));
 
         /* read in file */
         snprintf(cor_filename, 256, "%scorrelation_%s.dat", ERR_DIR, plist[i].ID);
@@ -272,25 +284,24 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
         for(j=0; j<N_bins; j++){
 
             /* claim array for columns */
-            col2 = calloc(N_bins, sizeof(double));
+            col = calloc(N_bins, sizeof(double));
 
             for(k=0; k<N_bins; k++){
                 fscanf(cor_file, "%le", &col[k]);
             }
 
             /* assign each column element to its row */
-            row2[j].cor_col = col;
+            row[j].cor_col = col;
         }
 
         fclose(cor_file);
 
         /* Assign values to plist elements */
-        plist[i].cor_row = row2;
-
-    }
+        plist[i].cor_row = row;
 
     if(rank == 0)fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
 
+    }
 }
 
 
