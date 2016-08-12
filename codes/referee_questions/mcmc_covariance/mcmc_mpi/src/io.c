@@ -240,7 +240,7 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
             }
 
             /* assign each column element to its row */
-            row[j] = col;
+            row[j].cov_col = col;
         }
 
         fclose(cov_file);
