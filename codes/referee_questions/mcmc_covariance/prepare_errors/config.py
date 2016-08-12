@@ -23,13 +23,12 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 # control the inner and outer limit of the sample to be used. Distances in kpc
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
-
+mocks_1000_dir = '../../1000_mocks_cut/errors_pairs/data/'
 rawdata_dir  = '../../data/'
 mock_dir     = '../../prepare_mock/data/'
 uniform_dir  = '../prepare_randoms/data/'
 data_dir     = '../data/'
 errors_dir   = data_dir + 'errors/'
-jk_dir       = data_dir + 'jackknife/'
 mcmc_out_dir = data_dir + 'mcmc_output/'
 mock_dd_dir  = data_dir + 'mock_dd/'
 pairs_dir    = data_dir + 'model_pairs/'
