@@ -61,7 +61,7 @@ def main():
 
         # Save to a file
         out_file = errors_dir + 'covariance_' + ID + '.dat'
-        np.savetxt(out_file, cov.values)
+        np.savetxt(out_file, cov.values, fmt='%.6e')
 
         # Add to dictionary
         # corr_dict[ID] = corr.values
