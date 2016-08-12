@@ -252,7 +252,7 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
     }
 
 
-    if(rank == 0)fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
+    if(rank == 0)fprintf(stderr, "Covariance matrix loaded from %s\n", ERR_DIR);
 
 }
 
@@ -298,10 +298,9 @@ void load_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind,
 
         /* Assign values to plist elements */
         plist[i].cor_row = row;
-
-    if(rank == 0)fprintf(stderr, "Errors loaded from %s\n", ERR_DIR);
-
     }
+    if(rank == 0)fprintf(stderr, "Correlation matrix loaded from %s\n", ERR_DIR);
+
 }
 
 
