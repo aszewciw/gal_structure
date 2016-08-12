@@ -58,7 +58,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 if(p[i].rbin[k].DD_RR == 0.0 || p[i].rbin[k].MM_RR == 0.0){
                     continue;
                 }
-                if(p[i].cov_row[j].cov_col[k] == 0.0 || p[i].cov_row[j].cov_col[k]==nan) continue;
+                if(p[i].cov_row[j].cov_col[k] == 0.0 || p[i].cov_row[j].cov_col[k] != p[i].cov_row[j].cov_col[k]) continue;
 
                 chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
 
