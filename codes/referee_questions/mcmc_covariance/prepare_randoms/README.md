@@ -1,0 +1,1 @@
+# Prepare a set of uniform points in each SEGUE pointing. Each pointing will have 10 times the number of stars as the SEGUE/mock data.

@@ -1,0 +1,2 @@
+# Prepare a set of uniform points in each SEGUE pointing. Each pointing will have 10 times the number of stars as the SEGUE/mock data.
+## These points are to be used as the model stars. See project ipynb for more details.
