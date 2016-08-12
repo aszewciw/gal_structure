@@ -212,6 +212,8 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
 
     char cov_filename[256];
     FILE *cov_file;
+    char cor_filename[256];
+    FILE *cor_file;
     int i, j, k;
     COV *row;
     COR *row2;
