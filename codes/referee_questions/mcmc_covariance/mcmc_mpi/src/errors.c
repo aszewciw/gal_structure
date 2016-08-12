@@ -1,4 +1,4 @@
-// #include "mcmc.h"
+#include "mcmc.h"
 
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
@@ -35,28 +35,37 @@
 /* ----------------------------------------------------------------------- */
 
 /* Calculate chi2 for a process's given slice of pointings */
-// double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
-//     int i, j;
-//     double chi2 = 0.0;
+    int i, j;
+    double chi2 = 0.0;
 
-//     for(i = lower_ind; i < upper_ind; i++){
+    /* loop over pointings */
+    for(i = lower_ind; i < upper_ind; i++){
 
-//         for(j = 0; j < N_bins; j++){
+        /* loop over bin rows */
+        for(j = 0; j < N_bins; j++){
 
-//             /* multiplying by fractional error */
-//             p[i].rbin[j].sigma2 = ( p[i].rbin[j].corr * p[i].rbin[j].corr *
-//                 p[i].rbin[j].err2_frac );
+            /* loop over bin columns */
+            for(k=j; k<N_bins; k++){
 
-//             /* ignore lines of sight with 0 counts */
-//             if( p[i].rbin[j].sigma2 == 0.0 ) continue;
+                /* skip any 0 counts in DD, MM, RR, or covariance */
+                if(p[i].rbin[j].DD_RR == 0.0 || p[i].rbin[j].MM_RR == 0.0){
+                    continue;
+                }
+                if(p[i].rbin[k].DD_RR == 0.0 || p[i].rbin[k].MM_RR == 0.0){
+                    continue;
+                }
+                if(p[i].cov_row[j]cov_col[k] == 0.0) continue;
 
-//             chi2 += ( ( p[i].rbin[j].corr - 1.0 ) * ( p[i].rbin[j].corr - 1.0 )
-//                 / p[i].rbin[j].sigma2 );
-//         }
-//     }
+                chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j]cov_col[k];
 
-//     return chi2;
-// }
+            }
+
+        }
+    }
+
+    return chi2;
+}
 
 /* ----------------------------------------------------------------------- */

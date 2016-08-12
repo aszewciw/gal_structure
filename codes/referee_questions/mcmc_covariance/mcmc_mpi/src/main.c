@@ -132,24 +132,25 @@ int main(int argc, char * argv[]){
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
     load_covariance(plist, N_bins, lower_ind, upper_ind, rank);
 
-    if(rank==0){
-        for(i=0; i<N_bins; i++){
-            for(j=0; j<N_bins; j++){
-                fprintf(stderr, "Value: %le, Row: %d, Col: %d \n",
-                    plist[1].cov_row[i].cov_col[j], i, j);
-            }
-        }
+    /* test loading of covariance */
+    // if(rank==0){
+    //     for(i=0; i<N_bins; i++){
+    //         for(j=0; j<N_bins; j++){
+    //             fprintf(stderr, "Value: %le, Row: %d, Col: %d \n",
+    //                 plist[1].cov_row[i].cov_col[j], i, j);
+    //         }
+    //     }
 
-    }
-    MPI_Barrier(MPI_COMM_WORLD);
+    // }
+    // MPI_Barrier(MPI_COMM_WORLD);
 
-    /* Calculate fractional error in DD/MM */
+    /* Calculate DD/RR */
     /* Only must be done once */
-    // calculate_frac_error(plist, N_bins, lower_ind, upper_ind);
+    calculate_DD_RR(plist, N_bins, lower_ind, upper_ind);
 
     /* Run mcmc */
-    // run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
-    //     rank, nprocs, file_string);
+    run_mcmc(plist, initial, N_bins, max_steps, lower_ind, upper_ind,
+        rank, nprocs, file_string);
 
     /* Free allocated values */
     for(i=lower_ind; i<upper_ind; i++){
