@@ -156,7 +156,7 @@ int main(int argc, char * argv[]){
         for(j=0; j<N_bins; j++){
             free(plist[i].rbin[j].pair1);
             free(plist[i].rbin[j].pair2);
-            free(plist[i].cov[j].cov_col);
+            free(plist[i].cov_row[j].cov_col);
         }
         free(plist[i].rbin);
         free(plist[i].cov_row);
