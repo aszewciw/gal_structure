@@ -1,0 +1,1 @@
+# Output of MCMC containing information about each step in the chain.
