@@ -285,7 +285,7 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
         fclose(cor_file);
 
         /* Assign values to plist elements */
-        plist[i].cor_row = row;
+        plist[i].cor_row = row2;
 
     }
 
