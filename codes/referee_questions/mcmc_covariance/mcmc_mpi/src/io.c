@@ -227,7 +227,7 @@ void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_i
         /* read in file */
         snprintf(invcov_filename, 256, "%sinv_covariance_%s.dat", ERR_DIR, plist[i].ID);
         if((invcov_file=fopen(invcov_filename,"r"))==NULL){
-            fprintf(stderr, "Error: Cannot open file %s\n", cov_filename);
+            fprintf(stderr, "Error: Cannot open file %s\n", invcov_filename);
             exit(EXIT_FAILURE);
         }
 
