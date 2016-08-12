@@ -34,29 +34,17 @@ def main():
     for p in ID:
 
         # # Repack file containing Z, R, and W=1.0 only
-        ZRW_file = uni_dir + 'uniform_' + p + '.ascii.dat'
+        ZRW_file = model_dir + 'model_' + p + '.ascii.dat'
         Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
             usecols=[5, 6, 10], dtype=None)
         N_points = len(Z)
-        outfile  = zrw_dir + 'uniform_ZRW_' + p + '.dat'
+        outfile  = zrw_dir + 'model_ZRW_' + p + '.dat'
         with open(outfile, 'w') as f:
             f.write(str(N_points))
             f.write('\n')
             for i in range(N_points):
                 f.write("{} {} {}\n".format(
                     str(Z[i]), str(R[i]), str(W[i])))
-
-        # Repack uniform error files
-        uni_jk_file = jk_dir + 'uniform_' + p + '_jk_error.dat'
-        uni_jk_err  = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
-        outfile     = errors_dir + 'uniform_' + p + '_frac_error.dat'
-        np.savetxt(outfile, uni_jk_err)
-
-        # Repack mock error files
-        dat_jk_file = jk_dir + 'mock_' + p + '_jk_error.dat'
-        dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        outfile     = errors_dir + 'mock_' + p + '_frac_error.dat'
-        np.savetxt(outfile, dat_jk_err)
 
 if __name__ == '__main__':
     main()
