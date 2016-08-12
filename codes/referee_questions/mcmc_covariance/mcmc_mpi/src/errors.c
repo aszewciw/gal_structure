@@ -62,7 +62,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                     continue;
                 }
                 if(fabs(p[i].cov_row[j].cov_col[k]) < tol){
-                    count+=1
+                    count+=1;
                     continue;
                 }
                 if (p[i].cov_row[j].cov_col[k] != p[i].cov_row[j].cov_col[k]) continue;
