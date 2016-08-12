@@ -40,7 +40,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     int i, j, k;
     double chi2 = 0.0;
     double chi2_temp;
-    double tol = 0.1;
+    double tol = 0.05;
     int skip_count = 0;
     int good_count = 0;
 
