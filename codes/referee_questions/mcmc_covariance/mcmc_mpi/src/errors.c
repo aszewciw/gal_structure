@@ -41,6 +41,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     double chi2 = 0.0;
     double chi2_temp;
     double tol = 1e-3;
+    int count = 0;
 
     /* loop over pointings */
     for(i = lower_ind; i < upper_ind; i++){
@@ -60,7 +61,10 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 if(p[i].rbin[k].DD_RR == 0.0 || p[i].rbin[k].MM_RR == 0.0){
                     continue;
                 }
-                if(fabs(p[i].cov_row[j].cov_col[k]) < tol) continue;
+                if(fabs(p[i].cov_row[j].cov_col[k]) < tol){
+                    count+=1
+                    continue;
+                }
                 if (p[i].cov_row[j].cov_col[k] != p[i].cov_row[j].cov_col[k]) continue;
 
                 chi2_temp = p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
