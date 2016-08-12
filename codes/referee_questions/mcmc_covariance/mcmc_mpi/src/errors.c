@@ -42,6 +42,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     double chi2_temp;
     double tol = 1e-3;
     int count = 0;
+    int good_count = 0;
 
     /* loop over pointings */
     for(i = lower_ind; i < upper_ind; i++){
@@ -71,12 +72,14 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 if( fabs(chi2_temp)>10000.0 ) fprintf(stderr, "Chi2: %lf Pointing %s. Element: %d %d \n", chi2_temp, p[i].ID, j, k);
                 chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
 
+                good_count+=1;
             }
 
         }
     }
 
-    fprintf(stderr, "Count: %d\n", count);
+    fprintf(stderr, "Bad count: %d\n", count);
+    fprintf(stderr, "Good count: %d\n", count);
 
     return chi2;
 }
