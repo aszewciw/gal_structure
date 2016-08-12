@@ -130,8 +130,9 @@ int main(int argc, char * argv[]){
     load_ZRW(plist, lower_ind, upper_ind, rank);
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
-    load_covariance(plist, N_bins, lower_ind, upper_ind, rank);
-    load_correlation(plist, N_bins, lower_ind, upper_ind, rank);
+    // load_covariance(plist, N_bins, lower_ind, upper_ind, rank);
+    // load_correlation(plist, N_bins, lower_ind, upper_ind, rank);
+    load_inv_covariance(plist, N_bins, lower_ind, upper_ind, rank);
 
     /* test loading of covariance */
     // if(rank==0){
@@ -158,12 +159,14 @@ int main(int argc, char * argv[]){
         for(j=0; j<N_bins; j++){
             free(plist[i].rbin[j].pair1);
             free(plist[i].rbin[j].pair2);
-            free(plist[i].cov_row[j].cov_col);
-            free(plist[i].cor_row[j].cor_col);
+            // free(plist[i].cov_row[j].cov_col);
+            // free(plist[i].cor_row[j].cor_col);
+            free(plist[i].invcov_row[j].invcov_col);
         }
         free(plist[i].rbin);
-        free(plist[i].cov_row);
-        free(plist[i].cor_row);
+        // free(plist[i].cov_row);
+        // free(plist[i].cor_row);
+        free(plist[i].invcov_row);
         free(plist[i].Z);
         free(plist[i].R);
         free(plist[i].weight);

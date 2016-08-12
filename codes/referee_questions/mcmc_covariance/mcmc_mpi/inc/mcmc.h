@@ -40,15 +40,20 @@ typedef struct {
 //   double * column;
 // } ROW;
 
-/* A covariance matrix -- accessed as cov_row[i].cov_col[j] */
-typedef struct {
-  double * cov_col; /* each column value corresponding to a row value */
-} COV;
+// /* A covariance matrix -- accessed as cov_row[i].cov_col[j] */
+// typedef struct {
+//   double * cov_col; /* each column value corresponding to a row value */
+// } COV;
 
-/* A correlation matrix -- accessed as cor_row[i].cor_col[j] */
+/* Inverted covariance matrix -- accessed as cov_row[i].cov_col[j] */
 typedef struct {
-  double * cor_col; /* each column value corresponding to a row value */
-} COR;
+  double * invcov_col; /* each column value corresponding to a row value */
+} INVCOV;
+
+// /* A correlation matrix -- accessed as cor_row[i].cor_col[j] */
+// typedef struct {
+//   double * cor_col; /* each column value corresponding to a row value */
+// } COR;
 
 /* Pointing line of sight in sky */
 typedef struct {
@@ -58,8 +63,9 @@ typedef struct {
   double * R;       /* array of star distances from gal center in gal plane */
   double * weight;  /* star's density weight based on Z, R */
   RBIN * rbin;      /* Nbins of these structures */
-  COV * cov_row;    /* Covariance matrix: first index is a row */
-  COR * cor_row;    /* Correlation matrix: first index is a row */
+  //COV * cov_row;    /* Covariance matrix: first index is a row */
+  //COR * cor_row;    /* Correlation matrix: first index is a row */
+  INVCOV * invcov_row; /* Inverted covariance matrix: first index is a row */
 } POINTING;
 
 /* Data for each step in MCMC chain */
@@ -79,8 +85,9 @@ int load_Nbins(void);
 void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
 void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
-void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
-void load_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
+// void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
+// void load_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
+void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_step_data(STEP_DATA *step_data, int flag, int rank);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
