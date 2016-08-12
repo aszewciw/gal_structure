@@ -45,6 +45,11 @@ typedef struct {
   double * cov_col; /* each column value corresponding to a row value */
 } COV;
 
+/* A correlation matrix -- accessed as cor_row[i].cor_col[j] */
+typedef struct {
+  double * cor_col; /* each column value corresponding to a row value */
+} COR;
+
 /* Pointing line of sight in sky */
 typedef struct {
   char ID[256];     /* Unique ID for pointing */
@@ -54,6 +59,7 @@ typedef struct {
   double * weight;  /* star's density weight based on Z, R */
   RBIN * rbin;      /* Nbins of these structures */
   COV * cov_row;    /* Covariance matrix: first index is a row */
+  COR * cor_row;    /* Correlation matrix: first index is a row */
 } POINTING;
 
 /* Data for each step in MCMC chain */

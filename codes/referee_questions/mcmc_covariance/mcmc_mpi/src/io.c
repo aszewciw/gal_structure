@@ -214,10 +214,13 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
     FILE *cov_file;
     int i, j, k;
     COV *row;
+    COR *row2;
     double *col;
 
     /* Loop over each pointing */
     for(i=lower_ind; i<upper_ind; i++){
+
+        /* First assign covariance matrix terms */
 
         /* Claim space for bin data */
         row = calloc(N_bins, sizeof(COV));
@@ -247,6 +250,39 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
 
         /* Assign values to plist elements */
         plist[i].cov_row = row;
+
+
+
+        /* Now assign correlation matrix terms */
+
+        /* Claim space for bin data */
+        row2 = calloc(N_bins, sizeof(COR));
+
+        /* read in file */
+        snprintf(cor_filename, 256, "%scorrelation_%s.dat", ERR_DIR, plist[i].ID);
+        if((cor_file=fopen(cor_filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", cor_filename);
+            exit(EXIT_FAILURE);
+        }
+
+        /* loop over rows covariance matrix, reading in data */
+        for(j=0; j<N_bins; j++){
+
+            /* claim array for columns */
+            col = calloc(N_bins, sizeof(double));
+
+            for(k=0; k<N_bins; k++){
+                fscanf(cor_file, "%le", &col[k]);
+            }
+
+            /* assign each column element to its row */
+            row2[j].cor_col = col;
+        }
+
+        fclose(cor_file);
+
+        /* Assign values to plist elements */
+        plist[i].cor_row = row;
 
     }
 

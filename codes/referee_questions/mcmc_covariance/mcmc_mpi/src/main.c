@@ -158,9 +158,11 @@ int main(int argc, char * argv[]){
             free(plist[i].rbin[j].pair1);
             free(plist[i].rbin[j].pair2);
             free(plist[i].cov_row[j].cov_col);
+            free(plist[i].cor_row[j].cor_col);
         }
         free(plist[i].rbin);
         free(plist[i].cov_row);
+        free(plist[i].cor_row);
         free(plist[i].Z);
         free(plist[i].R);
         free(plist[i].weight);

@@ -40,8 +40,8 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     int i, j, k;
     double chi2 = 0.0;
     double chi2_temp;
-    double tol = 1e-3;
-    int count = 0;
+    double tol = 0.1;
+    int skip_count = 0;
     int good_count = 0;
 
     /* loop over pointings */
@@ -51,7 +51,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
         for(j = 0; j < N_bins; j++){
 
             /* loop over bin columns */
-            for(k=j; k<N_bins; k++){
+            for(k = j; k < N_bins; k++){
 
                 // if(k!=j) continue;
 
@@ -62,7 +62,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 if(p[i].rbin[k].DD_RR == 0.0 || p[i].rbin[k].MM_RR == 0.0){
                     continue;
                 }
-                if(fabs(p[i].cov_row[j].cov_col[k]) < tol){
+                if(fabs(p[i].cor_row[j].cor_col[k]) < tol){
                     count+=1;
                     continue;
                 }
@@ -78,7 +78,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
         }
     }
 
-    fprintf(stderr, "Bad count: %d\n", count);
+    fprintf(stderr, "Skipped: %d\n", skip_count);
     fprintf(stderr, "Good count: %d\n", good_count);
 
     return chi2;
