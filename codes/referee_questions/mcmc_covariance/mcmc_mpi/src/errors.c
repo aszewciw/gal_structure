@@ -78,8 +78,8 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
         }
     }
 
-    fprintf(stderr, "Skipped: %d\n", skip_count);
-    fprintf(stderr, "Good count: %d\n", good_count);
+    // fprintf(stderr, "Skipped: %d\n", skip_count);
+    // fprintf(stderr, "Good count: %d\n", good_count);
 
     return chi2;
 }
