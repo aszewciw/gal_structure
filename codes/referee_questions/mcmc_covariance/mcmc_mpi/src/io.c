@@ -218,6 +218,7 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
     COV *row;
     COR *row2;
     double *col;
+    double *col2;
 
     /* Loop over each pointing */
     for(i=lower_ind; i<upper_ind; i++){
@@ -267,11 +268,11 @@ void load_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, 
             exit(EXIT_FAILURE);
         }
 
-        /* loop over rows covariance matrix, reading in data */
+        /* loop over rows correlation matrix, reading in data */
         for(j=0; j<N_bins; j++){
 
             /* claim array for columns */
-            col = calloc(N_bins, sizeof(double));
+            col2 = calloc(N_bins, sizeof(double));
 
             for(k=0; k<N_bins; k++){
                 fscanf(cor_file, "%le", &col[k]);
