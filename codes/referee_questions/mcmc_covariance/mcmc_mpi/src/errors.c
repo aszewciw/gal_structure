@@ -49,7 +49,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             /* loop over bin columns */
             for(k=j; k<N_bins; k++){
 
-                if(k!=j) continue;
+                // if(k!=j) continue;
 
                 /* skip any 0 counts in DD, MM, RR, or covariance */
                 if(p[i].rbin[j].DD_RR == 0.0 || p[i].rbin[j].MM_RR == 0.0){
@@ -58,7 +58,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 if(p[i].rbin[k].DD_RR == 0.0 || p[i].rbin[k].MM_RR == 0.0){
                     continue;
                 }
-                if(p[i].cov_row[j].cov_col[k] == 0.0) continue;
+                if(p[i].cov_row[j].cov_col[k] == 0.0 || p[i].cov_row[j].cov_col[k]==NaN) continue;
 
                 chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
 
