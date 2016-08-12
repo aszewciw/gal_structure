@@ -271,7 +271,7 @@ void load_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind,
         /* First assign correlation matrix terms */
 
         /* Claim space for bin data */
-        row = calloc(N_bins, sizeof(cor));
+        row = calloc(N_bins, sizeof(COR));
 
         /* read in file */
         snprintf(cor_filename, 256, "%scorrelation_%s.dat", ERR_DIR, plist[i].ID);
