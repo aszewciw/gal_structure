@@ -13,7 +13,7 @@
 #define RAW_DIR "../../data/"
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/mock_dd/"
-#define RR_DIR "../data/uniform_rr"
+#define RR_DIR "../data/uniform_rr/"
 #define ERR_DIR "../data/errors/"
 #define OUT_DIR "../data/mcmc_output/"
 #define PAIRS_DIR "../data/model_pairs/"
