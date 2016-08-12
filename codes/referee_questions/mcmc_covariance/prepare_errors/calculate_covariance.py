@@ -1,5 +1,6 @@
 import pandas as pd
 from config import *
+from scipy import linalg
 
 #------------------------------------------------------------------------------#
 '''
@@ -57,17 +58,23 @@ def main():
         DD_RR = DD/RR
 
         # Calculate covariance matrix
-        cov = DD_RR.cov()
+        cov = DD_RR.cov().values
 
         # Save to a file
         out_file = errors_dir + 'covariance_' + ID + '.dat'
-        np.savetxt(out_file, cov.values, fmt='%.6e')
+        np.savetxt(out_file, cov, fmt='%.6e')
 
         # Calculate correlation matrix
-        corr = DD_RR.corr()
+        corr = DD_RR.corr().values
 
         out_file = errors_dir + 'correlation_' + ID + '.dat'
-        np.savetxt(out_file, corr.values, fmt='%.6f')
+        np.savetxt(out_file, corr, fmt='%.6f')
+
+        # Invert covariance matrix and save to file
+        inv_cov = linalg.inv(cov)
+
+        out_file = errors_dir + 'inv_covariance_' + ID + '.dat'
+        np.savetxt(out_file, inv_cov, fmt='%.6f')
 
         # Add to dictionary
         # corr_dict[ID] = corr.values
