@@ -30,7 +30,7 @@ def main():
         line_prepender(out_file, str(len(xyz)))
 
         # jackknife samples
-        N_uni = len( xyz )
+        N_uni = len( xyzw )
         remain = N_uni % N_jackknife
 
         for i in range( N_jackknife ):
@@ -53,12 +53,12 @@ def main():
             remove_me = np.arange(lower_ind, upper_ind, 1)
 
             # Remove slice
-            xyz_temp = np.delete(xyz, remove_me, 0)
-            N_temp = len(xyz_temp)
+            xyzw_temp = np.delete(xyzw, remove_me, 0)
+            N_temp = len(xyzw_temp)
 
             # Output jackknife'd file
             out_file = data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.dat'
-            np.savetxt(out_file, xyz_temp, fmt='%1.6f')
+            np.savetxt(out_file, xyzw_temp, fmt='%1.6f')
 
             # Add number of elements as first line in file
             line_prepender(out_file, str(N_temp))
