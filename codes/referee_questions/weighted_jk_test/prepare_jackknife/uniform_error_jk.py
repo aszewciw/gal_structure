@@ -28,7 +28,7 @@ def main():
         sys.stderr.write("Error: Inconsistent R bins. Check set_rbins and config. \n")
         sys.exit()
 
-    bins_filename = rbins_dir + 'rbins.ascii.dat'
+    bins_filename = data_dir + 'rbins.ascii.dat'
 
     for p in todo_list:
         # counting pairs for the whole sample
