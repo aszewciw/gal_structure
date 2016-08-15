@@ -64,7 +64,7 @@ def main():
                 + ' does not exist.\n')
             continue
 
-        output_file = data_dir + 'MWM_type' + str(model) + '_' + p.ID + 'xyzw.dat'
+        output_file = out_dir + 'MWM_type' + str(model) + '_' + p.ID + 'xyzw.dat'
 
         x, y, z = np.genfromtxt(rand_file, skip_header=1, unpack=True)
 
