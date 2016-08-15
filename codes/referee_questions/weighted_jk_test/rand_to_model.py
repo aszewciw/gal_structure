@@ -71,6 +71,7 @@ def main():
         ra, dec, r = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
         l, b = np.zeros(len(x)), np.zeros(len(x))
         Z, R = np.zeros(len(x)), np.zeros(len(x))
+        w    = np.zeros((len(x)))
 
         for i in range(len(x)):
             ra[i], dec[i], r[i] = cart2eq(x[i], y[i], z[i])
