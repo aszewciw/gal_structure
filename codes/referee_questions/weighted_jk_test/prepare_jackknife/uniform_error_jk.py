@@ -18,7 +18,7 @@ def main():
     input_file.close()
 
     # load bin settings
-    input_filename = rbins_dir + 'rbins.dat'
+    input_filename = data_dir + 'rbins.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
     bins_list      = pickle.load(input_file)
