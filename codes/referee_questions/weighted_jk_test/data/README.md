@@ -1,0 +1,1 @@
+# Store all data for comparison of jackknife errors.
