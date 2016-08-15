@@ -159,7 +159,7 @@ int main(int argc, char **argv){
   /* output */
   for(k = 0; k < nbins; k++){
     corr[k].DD = corr[k].DD_weighted / norm;
-    fprintf(stdout, "%lf\t%lf\t%lf\t%lf\t%lf%lf\n",
+    fprintf(stdout, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
 	    corr[k].r_lower, corr[k].r_upper, corr[k].r_middle, corr[k].bin_size,
 	    corr[k].DD_weighted, corr[k].DD, norm);
   }
