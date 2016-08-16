@@ -16,7 +16,6 @@ int main( int argc, char **argv ){
 
     time_t t;
     srand((unsigned) time(&t));
-    fprintf(stderr, "time_t is\n", t);
 
     double proc_rnd = (double)rand() / (double)RAND_MAX + (double)rank;
     srand(proc_rnd);
