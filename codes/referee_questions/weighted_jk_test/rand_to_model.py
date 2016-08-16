@@ -83,9 +83,9 @@ def main():
         xyzw = np.column_stack((xyzw, z))
         xyzw = np.column_stack((xyzw, w))
 
-        np.savetxt(output_file, xyzw)
+        np.savetxt(output_file, xyzw, fmt='%1.6f')
         N_stars = str(len(xyzw))
-        line_prepender(output_file, N_stars, fmt='%1.6f')
+        line_prepender(output_file, N_stars)
 
 
 if __name__ == '__main__':
