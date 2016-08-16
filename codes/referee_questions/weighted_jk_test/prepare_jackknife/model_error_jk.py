@@ -66,7 +66,7 @@ def main():
         #     counts_filename = data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.counts.dat'
         #     counts_list.append(np.loadtxt(counts_filename, comments='#'))
         # # calculate jackknife errors
-        # counts_list = []
+        counts_list = []
         for i in range(N_jackknife):
             counts_filename = ( data_dir + 'MWM_type' + str(model) + '_' + p.ID
                 + '_jk_' + str(i) + '.counts.dat' )
