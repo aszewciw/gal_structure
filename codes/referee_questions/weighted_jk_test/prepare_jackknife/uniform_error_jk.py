@@ -39,6 +39,7 @@ def main():
                + ' > ' + counts_filename)
         os.system(cmd)
 
+        # counts_all = pd.read_csv(counts_filename, sep='\+s')
 
         counts_all = np.loadtxt(counts_filename, comments='#')
 
@@ -50,8 +51,13 @@ def main():
                    + ' > ' + counts_filename)
             os.system(cmd)
 
-        # calculate jackknife errors
-        counts_list = []
+        # # calculate jackknife errors
+        # counts_list = []
+        # for i in range(N_jackknife):
+        #     counts_filename = data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.counts.dat'
+        #     counts_list.append(np.loadtxt(counts_filename, comments='#'))
+        # # calculate jackknife errors
+        # counts_list = []
         for i in range(N_jackknife):
             counts_filename = data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.counts.dat'
             counts_list.append(np.loadtxt(counts_filename, comments='#'))

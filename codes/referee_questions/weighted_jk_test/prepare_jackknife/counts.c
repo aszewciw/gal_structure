@@ -157,6 +157,9 @@ int main(int argc, char **argv){
   double norm = pairs_norm(data, N_data);
   pairs(data, N_data, corr, nbins);
 
+  /* write column names as first line */
+  // fprintf(stdout, "r_low\tr_up\tr_mid\tbin_size\tDD_w\tDD_n\tnorm\n");
+
   /* output */
   for(k = 0; k < nbins; k++){
     corr[k].DD = corr[k].DD_weighted / norm;
