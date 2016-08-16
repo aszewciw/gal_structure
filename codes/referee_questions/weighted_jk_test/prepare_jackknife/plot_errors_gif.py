@@ -88,7 +88,7 @@ def main():
             ratio_MM_0_RR[i] = MM_0_frac_err[i] / RR_frac_err[i]
             ratio_MM_1_RR[i] = MM_1_frac_err[i] / RR_frac_err[i]
 
-
+        plt.close()
         plt.clf()
         xmin = min(bin_centers)
         xmax = max(bin_centers)
@@ -98,7 +98,7 @@ def main():
         plt.title('Fractional error ratios for l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=18)
-        plt.semilogx(bin_centers, ratio_MM_0_RR, color='red')
+        # plt.semilogx(bin_centers, ratio_MM_0_RR, color='red')
         plt.semilogx(bin_centers, ratio_MM_1_RR, color='blue')
         plt.axis([xmin, xmax, ymin, ymax])
         fig_name = plots_dir + 'frac_error_ratio_' + ID + '.png'
