@@ -85,7 +85,7 @@ def main():
 
         np.savetxt(output_file, xyzw)
         N_stars = str(len(xyzw))
-        line_prepender(output_file, N_stars)
+        line_prepender(output_file, N_stars, fmt='%1.6f')
 
 
 if __name__ == '__main__':
