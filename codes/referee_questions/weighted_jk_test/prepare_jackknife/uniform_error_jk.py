@@ -1,4 +1,5 @@
 from config import *
+# import pandas as pd
 
 #------------------------------------------------------------------------------#
 '''
@@ -32,11 +33,13 @@ def main():
 
     for p in todo_list:
         # counting pairs for the whole sample
-        data_filename = uniform_dir + 'uniform_' + p.ID + '.xyzw.dat'
+        data_filename = data_dir + 'uniform_' + p.ID + '.xyzw.dat'
         counts_filename = data_dir + 'uniform_' + p.ID + '_jk_all.counts.dat'
         cmd = ('./counts ' + data_filename + ' ' + bins_filename
                + ' > ' + counts_filename)
         os.system(cmd)
+
+
         counts_all = np.loadtxt(counts_filename, comments='#')
 
         # counting pairs for each jackknife sample
