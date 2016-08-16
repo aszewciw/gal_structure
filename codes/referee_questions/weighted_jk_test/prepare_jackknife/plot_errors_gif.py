@@ -1,19 +1,11 @@
-import numpy as np
-import seaborn as sns
-import pandas as pd
+from config import *
 import matplotlib.pyplot as plt
-import os
 
 #------------------------------------------------------------------------------#
 '''
 Produce a correlation matrix plot for each SEGUE l.o.s. using 1000 mocks.
 Make a gif from the files.
 '''
-#------------------------------------------------------------------------------#
-
-rawdata_dir = '../data/'
-counts_dir  = '../1000_mocks_cut/errors_pairs/data/'
-plots_dir   = './plots/'
 
 #------------------------------------------------------------------------------#
 def GIF_MOVIE(files, output_gif, delay=60, repeat=True, removef=False):
