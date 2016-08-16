@@ -81,7 +81,7 @@ def main():
         ratio_MM_1_RR = np.zeros(N_bins)
 
         for i in range(N_bins):
-            if(RR_frac_err == 0.0):
+            if(RR_frac_err[i] == 0.0):
                 continue
             ratio_MM_0_RR[i] = MM_0_frac_err[i] / RR_frac_err[i]
             ratio_MM_1_RR[i] = MM_1_frac_err[i] / RR_frac_err[i]
