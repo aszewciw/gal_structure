@@ -63,9 +63,6 @@ def main():
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
-        if ID != '0':
-            continue
-
         # Load RR fractional errors
         RR_filename = data_dir + 'uniform_' + ID + '_jk_error.dat'
         RR_frac_err = np.genfromtxt(RR_filename, unpack=True, usecols=[7])
@@ -105,8 +102,8 @@ def main():
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-    # gif_name = plots_dir + 'corr_matrix.gif'
-    # GIF_MOVIE(png_list, gif_name)
+    gif_name = plots_dir + 'error_ratios.gif'
+    GIF_MOVIE(png_list, gif_name)
 
 if __name__ == '__main__':
     main()
