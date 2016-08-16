@@ -17,12 +17,14 @@ int main( int argc, char **argv ){
     time_t t;
     srand((unsigned) time(&t));
 
-    double proc_rnd = pow((double)rand() / (double)RAND_MAX, rank);
-    srand(proc_rnd);
+    printf(stderr, "%lld\n", (long long) time(NULL));
 
-    proc_rnd = (double)rand() / (double)RAND_MAX;
+    // double proc_rnd = pow((double)rand() / (double)RAND_MAX, rank);
+    // srand(proc_rnd);
 
-    fprintf(stderr, "Process %d has initial random as %lf\n", rank, proc_rnd);
+    // proc_rnd = (double)rand() / (double)RAND_MAX;
+
+    // fprintf(stderr, "Process %d has initial random as %lf\n", rank, proc_rnd);
     MPI_Finalize();
     return EXIT_SUCCESS;
 }
