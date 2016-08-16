@@ -69,11 +69,11 @@ def main():
         RR_frac_err = np.genfromtxt(RR_filename, unpack=True, usecols=[7])
 
         # Load MM_0 fractional errors
-        MM_0_filename = 'MWM_type0_' + ID + '_jk_error.dat'
+        MM_0_filename = data_dir + 'MWM_type0_' + ID + '_jk_error.dat'
         MM_0_frac_err = np.genfromtxt(MM_0_filename, unpack=True, usecols=[7])
 
         # Load MM_1 fractional errors
-        MM_1_filename = 'MWM_type1_' + ID + '_jk_error.dat'
+        MM_1_filename = data_dir + 'MWM_type1_' + ID + '_jk_error.dat'
         MM_1_frac_err = np.genfromtxt(MM_1_filename, unpack=True, usecols=[7])
 
         # Initialize ratio arrays
