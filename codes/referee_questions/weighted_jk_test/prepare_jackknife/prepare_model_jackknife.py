@@ -25,7 +25,10 @@ def main():
 
     for p in todo_list:
 
-        # We already have an xyzw file
+        model_file = data_dir + 'MWM_type' + str(model) + '_' + p.ID + '.xyzw.dat'
+        xyzw = np.genfromtxt(model_file, skip_header=1)
+        N_uni = len( xyzw )
+        remain = N_uni % N_jackknife
 
         for i in range( N_jackknife ):
 
@@ -41,7 +44,7 @@ def main():
             # upper_ind = lower_ind + slice_length
 
             # Make every sub-sample the same size
-            slice_length = int(N_uni / N_jackknife)
+            slice_length = int(N_model / N_jackknife)
             lower_ind = i * slice_length
             upper_ind = lower_ind + slice_length
             remove_me = np.arange(lower_ind, upper_ind, 1)
