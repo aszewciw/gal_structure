@@ -2,7 +2,6 @@ from config import *
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-matplotlib.rcparams()
 
 #------------------------------------------------------------------------------#
 '''
