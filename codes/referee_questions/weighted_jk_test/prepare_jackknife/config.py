@@ -27,6 +27,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 rawdata_dir = '../../data/'
 data_dir    = '../data/'
 uniform_dir = '../prepare_randoms/data/'
+plots_dir   = '../plots/'
 
 R_min = 0.005
 R_max = 2.0
