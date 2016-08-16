@@ -21,14 +21,14 @@ def main():
     todo_list      = pickle.load(input_file)
     input_file.close()
 
-    sys.stderr.write('Prepare uniform files for correlation function calculation..\n')
+    sys.stderr.write('Prepare model files for correlation function calculation..\n')
 
     for p in todo_list:
 
         model_file = data_dir + 'MWM_type' + str(model) + '_' + p.ID + '.xyzw.dat'
         xyzw = np.genfromtxt(model_file, skip_header=1)
-        N_uni = len( xyzw )
-        remain = N_uni % N_jackknife
+        N_model = len( xyzw )
+        remain = N_model % N_jackknife
 
         for i in range( N_jackknife ):
 
