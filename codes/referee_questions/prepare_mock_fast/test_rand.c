@@ -17,7 +17,7 @@ int main( int argc, char **argv ){
     time_t t;
     srand((unsigned) time(&t));
 
-    printf(stderr, "%lld\n", (long long) time(NULL));
+    fprintf(stderr, "%lld\n", (long long) time(NULL));
 
     // double proc_rnd = pow((double)rand() / (double)RAND_MAX, rank);
     // srand(proc_rnd);
