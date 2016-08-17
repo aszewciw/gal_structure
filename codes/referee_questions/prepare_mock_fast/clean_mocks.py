@@ -89,10 +89,14 @@ def main():
             if not os.path.isfile(mock_file):
                 continue
             xyz_tmp = np.genfromtxt(mock_file)
-            np.random.shuffle(xyz_tmp)
 
-            # Get number of stars in this file
-            N_tmp = len(xyz_tmp)
+            # Get the number of rows, and shuffle if > 1
+            if (len(xyz_tmp.shape)==1):
+                N_tmp = 1
+            else:
+                N_tmp = xyz_tmp.shape[0]
+                np.random.shuffle(xyz_tmp)
+
 
             # Find the segment of xyz to which we are adding this piece
             end_ind = start_ind + N_tmp
