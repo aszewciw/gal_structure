@@ -3,7 +3,7 @@
 /* ----------------------------------------------------------------------- */
 
 /* Load info for different SEGUE plate sky positions */
-void load_pointing_list(int *N_plist, POINTING **plist){
+void load_pointing_list(int *N_plist, POINTING **plist, int rank){
 
     char plist_filename[256];
     snprintf(plist_filename, 256, "%stodo_list.ascii.dat", DATA_DIR);
@@ -17,7 +17,7 @@ void load_pointing_list(int *N_plist, POINTING **plist){
         exit(EXIT_FAILURE);
     }
 
-    fprintf(stderr, "Read pointing list from %s \n", plist_filename);
+    if(rank==0) fprintf(stderr, "Read pointing list from %s \n", plist_filename);
 
     fscanf(plist_file, "%d", &N); /* first read in the length of the list */
 
@@ -48,7 +48,7 @@ void load_pointing_list(int *N_plist, POINTING **plist){
     *N_plist = N;
     *plist = p;
 
-    fprintf(stderr, "%d pointings to do.\n", N);
+    if(rank==0) fprintf(stderr, "%d pointings to do.\n", N);
 }
 
 /* ----------------------------------------------------------------------- */

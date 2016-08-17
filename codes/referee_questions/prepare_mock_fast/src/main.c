@@ -63,7 +63,7 @@ int main( int argc, char **argv ){
     /* have each proc separately load info for different pointings */
     int current_rank = 0;
     while ( current_rank < nprocs ){
-        if (current_rank == rank) load_pointing_list(&N_plist, &plist);
+        if (current_rank == rank) load_pointing_list(&N_plist, &plist, rank);
         MPI_Barrier(MPI_COMM_WORLD);
         current_rank++;
     }
@@ -143,7 +143,7 @@ int main( int argc, char **argv ){
     free(thin);
     free(thick);
     free(plist);
-    fprintf(stderr, "Files Written. Arrays deallocated.\n");
+    if(rank==0) fprintf(stderr, "Files Written. Arrays deallocated.\n");
 
     MPI_Finalize();
 
