@@ -2,7 +2,7 @@
 
 rm ./data/*.dat
 
-nprocs=20;
+nprocs=16;
 nstars=1000000;
 
 time mpirun -n $nprocs ./bin/make_galaxy $nstars
