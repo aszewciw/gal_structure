@@ -55,8 +55,8 @@ def main():
     # Load stars from each l.o.s., shuffle, cut, and output
     for i in range(N_pointings):
 
-        # if(ID[i]%10==0):
-        print('On pointing number {}\n'.format(ID[i]))
+        if(ID[i]%10==0):
+            print('On pointing number {}\n'.format(ID[i]))
 
         # Get info for current pointing
         ID_current = str(ID[i])
@@ -73,8 +73,6 @@ def main():
 
         # Loop over files from different processes
         for PID in proc_IDs:
-
-            print(PID)
 
             # Check if we have enough stars for this pointing
             if start_ind==N_data:
