@@ -7,7 +7,7 @@
 #include <mpi.h>
 
 /* Directories */
-#define DATA_DIR "../data/"
+#define DATA_DIR "../../../data/"
 #define OUT_DIR "./data/"
 
 /* radius of a SEGUE plate */
