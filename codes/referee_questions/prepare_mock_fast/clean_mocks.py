@@ -74,7 +74,7 @@ def main():
         # Loop over files from different processes
         for PID in proc_IDs:
 
-            print('Checking process number ' + PID + '\n')
+            print(PID)
 
             # Check if we have enough stars for this pointing
             if start_ind==N_data:
