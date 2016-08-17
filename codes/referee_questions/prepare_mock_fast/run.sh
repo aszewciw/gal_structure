@@ -6,7 +6,7 @@ make cleanall
 make
 
 nprocs=32;
-nstars=1000000;
+nstars=10000000;
 
 time mpirun -n $nprocs ./bin/make_galaxy $nstars
 python clean_mocks.py $nprocs

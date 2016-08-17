@@ -88,7 +88,7 @@ are their names?
 Regardless, can check Mao et al., 2015, for the functional
 form that is used throughout this project.
 */
-void get_params( PARAMS *p, unsigned long int N ){
+void get_params( PARAMS *p, unsigned long int N, int rank){
 
     /* Integral of thick and thin density functions */
     double z_thin_integral;
@@ -153,9 +153,11 @@ void get_params( PARAMS *p, unsigned long int N ){
     temp = density_const * thick_term;
     p->N_thick = (unsigned long int)temp + 1;
 
-    fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
-    fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
-    fprintf(stderr, "%lu total stars. \n", p->N_thin + p->N_thick);
+    if(rank==0){
+        fprintf(stderr, "%lu stars in the thin disk. \n", p->N_thin);
+        fprintf(stderr, "%lu stars in the thick disk. \n", p->N_thick);
+        fprintf(stderr, "%lu total stars. \n", p->N_thin + p->N_thick);
+    }
 }
 
 /* ----------------------------------------------------------------------- */

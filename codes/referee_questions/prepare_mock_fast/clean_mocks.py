@@ -55,7 +55,8 @@ def main():
     # Load stars from each l.o.s., shuffle, cut, and output
     for i in range(N_pointings):
 
-        print('On pointing number {}\n'.format(ID[i]))
+        if(ID[i]%10==0):
+            print('On pointing number {}\n'.format(ID[i]))
 
         # Get info for current pointing
         ID_current = str(ID[i])

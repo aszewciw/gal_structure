@@ -70,7 +70,7 @@ int main( int argc, char **argv ){
 
     /* get info for mock */
     /* change this to CL input eventually */
-    get_params(&params, N_stars);
+    get_params(&params, N_stars, rank);
 
     /* Allocate arrays for galactic coordinates */
     STAR * thin  = malloc(params.N_thin * sizeof(STAR));
