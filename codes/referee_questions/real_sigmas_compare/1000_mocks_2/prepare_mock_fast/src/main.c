@@ -149,12 +149,12 @@ int main( int argc, char **argv ){
             /* update progress and output results to user */
             loop_counter +=1;
             // if(rank==0){
-                // fprintf(stderr, "We've run the loop %d times.\n", loop_counter);
-                // if (pointings_in_need != 0){
-                //     fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
-                //     fprintf(stderr, "Making more stars. \n");
-                // }
-                // else fprintf(stderr, "All pointings have an adequate number of stars. \n");
+            //     fprintf(stderr, "We've run the loop %d times.\n", loop_counter);
+            //     if (pointings_in_need != 0){
+            //         fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
+            //         fprintf(stderr, "Making more stars. \n");
+            //     }
+            //     else fprintf(stderr, "All pointings have an adequate number of stars. \n");
             // }
         }
 
