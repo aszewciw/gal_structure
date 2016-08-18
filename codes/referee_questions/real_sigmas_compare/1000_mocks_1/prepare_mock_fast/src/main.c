@@ -158,8 +158,11 @@ int main( int argc, char **argv ){
             }
         }
 
-        /* reset all pointing flags */
-        for( i=0; i<N_plist; i++ ) plist[i].flag=0;
+        /* reset all pointing flags and N_mock */
+        for( i=0; i<N_plist; i++ ){
+            plist[i].flag=0;
+            plist[i].N_mock=0;
+        }
     }
 
     /* Deallocate arrays */
