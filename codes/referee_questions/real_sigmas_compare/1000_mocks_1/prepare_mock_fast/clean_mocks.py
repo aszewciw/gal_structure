@@ -39,94 +39,100 @@ def main():
     N_args          = len(args_array)
     assert(N_args   == elements_needed)
     N_procs         = int(args_array[1])
-    mock_num        = args_array[2]
+    # mock_num        = args_array[2]
+    N_mocks         = int(args_array[2])
 
-    OUT_DIR = './data/mock_' + mock_num + '/'
-
-    # Make array of process IDs
-    proc_IDs = np.arange(N_procs)
-
-    print('Merging files from all {} processes.\n'.format(N_procs))
-    np.random.seed()
-
-    # Load pointing IDs and desired number of stars
-    pointing_file = DATA_DIR + 'todo_list.ascii.dat'
-    ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
-        dtype=int, usecols=[0, 10])
-    N_pointings = len(ID)
-
-    # Load stars from each l.o.s., shuffle, cut, and output
-    for i in range(N_pointings):
-
-        # if(ID[i]%10==0):
-        #     print('On pointing number {}\n'.format(ID[i]))
-
-        # Get info for current pointing
-        ID_current = str(ID[i])
-        N_data = N_stars[i]
-
-        # Shuffle IDs so we read files from random procs
-        np.random.shuffle(proc_IDs)
-
-        # Make array of zeros to be filled by data from each file
-        xyz = np.zeros((N_data, 3))
-
-        # Counter to check which index we're starting from
-        start_ind = 0
-
-        # Loop over files from different processes
-        for PID in proc_IDs:
-
-            # Check if we have enough stars for this pointing
-            if start_ind==N_data:
-                break
-            elif start_ind>N_data:
-                sys.stderr.write('Error: we exceeded the number of desired stars\n')
-                sys.exit()
-
-            # Check if file exists for this process and load
-            mock_file = ( OUT_DIR + 'proc_' + str(PID) + '_mock_' + ID_current
-                + '.xyz.dat' )
-            if not os.path.isfile(mock_file):
-                continue
-            xyz_tmp = np.genfromtxt(mock_file)
-
-            # Get the number of rows, and shuffle if > 1
-            if (len(xyz_tmp.shape)==1):
-                N_tmp = 1
-            else:
-                N_tmp = xyz_tmp.shape[0]
-                np.random.shuffle(xyz_tmp)
+    mock_nums = np.arange(N_mocks) + 1
 
 
-            # Find the segment of xyz to which we are adding this piece
-            end_ind = start_ind + N_tmp
+    for mn in mock_nums:
 
-            # Check if we're past the end of the array
-            if end_ind > N_data:
+        OUT_DIR = './data/mock_' + str(mn) + '/'
 
-                # Cut elements from temporary array
-                N_cut = end_ind - N_data
-                xyz_tmp = xyz_tmp[N_cut:]
+        # Make array of process IDs
+        proc_IDs = np.arange(N_procs)
 
-                # Reassign ending index
-                end_ind = N_data
+        print('Mock {}: merging files from all {} processes.\n'.format(mn, N_procs))
+        np.random.seed()
 
-            # Assign these stars to main array
-            xyz[start_ind:end_ind] = xyz_tmp
+        # Load pointing IDs and desired number of stars
+        pointing_file = DATA_DIR + 'todo_list.ascii.dat'
+        ID, N_stars = np.genfromtxt(pointing_file, skip_header=1, unpack=True,
+            dtype=int, usecols=[0, 10])
+        N_pointings = len(ID)
 
-            # Add to counter how many stars we've assigned
-            start_ind = end_ind
+        # Load stars from each l.o.s., shuffle, cut, and output
+        for i in range(N_pointings):
 
-        # Shuffle finished pointing array and output to file
-        np.random.shuffle(xyz)
-        out_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
-        np.savetxt(out_file, xyz, fmt='%1.6f')
+            # if(ID[i]%10==0):
+            #     print('On pointing number {}\n'.format(ID[i]))
 
-        # Add number of elements as first line in file
-        line_prepender(out_file, str(int(N_data)))
+            # Get info for current pointing
+            ID_current = str(ID[i])
+            N_data = N_stars[i]
 
-    print('Data cleaned. Mocks completed.\n')
+            # Shuffle IDs so we read files from random procs
+            np.random.shuffle(proc_IDs)
+
+            # Make array of zeros to be filled by data from each file
+            xyz = np.zeros((N_data, 3))
+
+            # Counter to check which index we're starting from
+            start_ind = 0
+
+            # Loop over files from different processes
+            for PID in proc_IDs:
+
+                # Check if we have enough stars for this pointing
+                if start_ind==N_data:
+                    break
+                elif start_ind>N_data:
+                    sys.stderr.write('Error: we exceeded the number of desired stars\n')
+                    sys.exit()
+
+                # Check if file exists for this process and load
+                mock_file = ( OUT_DIR + 'proc_' + str(PID) + '_mock_' + ID_current
+                    + '.xyz.dat' )
+                if not os.path.isfile(mock_file):
+                    continue
+                xyz_tmp = np.genfromtxt(mock_file)
+
+                # Get the number of rows, and shuffle if > 1
+                if (len(xyz_tmp.shape)==1):
+                    N_tmp = 1
+                else:
+                    N_tmp = xyz_tmp.shape[0]
+                    np.random.shuffle(xyz_tmp)
+
+
+                # Find the segment of xyz to which we are adding this piece
+                end_ind = start_ind + N_tmp
+
+                # Check if we're past the end of the array
+                if end_ind > N_data:
+
+                    # Cut elements from temporary array
+                    N_cut = end_ind - N_data
+                    xyz_tmp = xyz_tmp[N_cut:]
+
+                    # Reassign ending index
+                    end_ind = N_data
+
+                # Assign these stars to main array
+                xyz[start_ind:end_ind] = xyz_tmp
+
+                # Add to counter how many stars we've assigned
+                start_ind = end_ind
+
+            # Shuffle finished pointing array and output to file
+            np.random.shuffle(xyz)
+            out_file = OUT_DIR + 'mock_' + ID_current + '.xyz.dat'
+            np.savetxt(out_file, xyz, fmt='%1.6f')
+
+            # Add number of elements as first line in file
+            line_prepender(out_file, str(int(N_data)))
+
+        # print('Data cleaned. Mocks completed.\n')
 
 if __name__ == '__main__':
     main()

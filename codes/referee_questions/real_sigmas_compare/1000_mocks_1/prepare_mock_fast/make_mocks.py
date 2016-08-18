@@ -28,12 +28,15 @@ def main():
     cmd = 'mpirun -n ' + N_procs + ' ./bin/make_galaxy ' + N_stars + ' ' + str(N_mocks)
     os.system(cmd)
 
+    cmd = 'python clean_mocks.py ' + N_procs + ' ' + str(N_mocks)
+    os.system(cmd)
+
     for i in mock_nums:
 
         mock_dir = './data/mock_' + str(i) +'/'
 
-        cmd = 'python clean_mocks.py ' + N_procs + ' ' + str(i)
-        os.system(cmd)
+        # cmd = 'python clean_mocks.py ' + N_procs + ' ' + str(i)
+        # os.system(cmd)
 
         cmd = 'rm ' + mock_dir + 'proc*'
         os.system(cmd)
