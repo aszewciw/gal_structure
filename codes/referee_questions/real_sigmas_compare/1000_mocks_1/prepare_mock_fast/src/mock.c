@@ -123,7 +123,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type, int rank ){
     if(rank==0) fprintf(stderr, "%lu\n", N_stars);
     /* calculate the remaining star attributes */
     for( i=0; i<N_stars; i++ ){
-        if(rank==0) fprintf(stderr, "%lu\n", i);
+        // if(rank==0) fprintf(stderr, "%lu\n", i);
         s[i].gal_z = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
         s[i].gal_r = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
         s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )
