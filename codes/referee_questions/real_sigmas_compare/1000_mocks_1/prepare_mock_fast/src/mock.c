@@ -120,7 +120,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type, int rank ){
         exit(EXIT_FAILURE);
     }
 
-    if(rank==0) fprintf(stderr, "%lu\n", N_stars);
+    // if(rank==0) fprintf(stderr, "%lu\n", N_stars);
     /* calculate the remaining star attributes */
     for( i=0; i<N_stars; i++ ){
         // if(rank==0) fprintf(stderr, "%lu\n", i);

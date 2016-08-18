@@ -6,9 +6,9 @@ N_procs=$1
 rm -rf ./data/mock*
 
 # make directories
-n=1;
+n=0;
 N_mocks=2;
-while [ "$n" -le "$N_mocks" ]; do
+while [ "$n" -l "$N_mocks" ]; do
     mkdir "./data/mock_$n"
     n=`expr "$n" + 1`;
 done
