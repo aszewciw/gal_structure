@@ -99,17 +99,23 @@ int main( int argc, char **argv ){
         /* create temp mocks until all l.o.s. are filled */
         while(loop_flag==0){
 
+            if(rank==0) fprintf(stderr, "Entered while\n");
+
             /* re-initialize at each step */
             pointings_in_need = 0;
             loop_flag         = 1;
 
             /* Make thin and thick disks */
             generate_stars(thin, &params, 0);
+            if(rank==0) fprintf(stderr, "Got thin positions\n");
             generate_stars(thick, &params, 1);
+            if(rank==0) fprintf(stderr, "Got thick positions\n");
 
             /* Separate stars into appropriate l.o.s. */
             separate_sample(plist, thin, N_plist, params.N_thin, rank, mock_num);
+            if(rank==0) fprintf(stderr, "Separated thin\n");
             separate_sample(plist, thick, N_plist, params.N_thick, rank, mock_num);
+            if(rank==0) fprintf(stderr, "Separated thick\n");
 
             /* Check all l.o.s. to see if we have enough stars */
             for( i=0; i<N_plist; i++ ){
