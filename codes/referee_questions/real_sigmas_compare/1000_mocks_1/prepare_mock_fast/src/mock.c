@@ -88,7 +88,7 @@ double dot_product(VECTOR v1, VECTOR v2){
 /*---------------------------------------------------------------------------*/
 
 /* make a temporary number of stars */
-void generate_stars( STAR *s, PARAMS *p, int disk_type ){
+void generate_stars( STAR *s, PARAMS *p, int disk_type, int rank ){
 
     double z0;                  /* disk scale height */
     double r0;                  /* disk scale length */
@@ -120,9 +120,10 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         exit(EXIT_FAILURE);
     }
 
-    fprintf(stderr, "%lu\n", N_stars);
+    if(rank==0) fprintf(stderr, "%lu\n", N_stars);
     /* calculate the remaining star attributes */
     for( i=0; i<N_stars; i++ ){
+        if(rank==0) fprintf(stderr, "%lu\n", i);
         s[i].gal_z = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
         s[i].gal_r = random_gal_R(r0, r0_pdf_norm, p->r_min, p->r_max);
         s[i].gal_phi = ( ( (double)rand() / (double)RAND_MAX )

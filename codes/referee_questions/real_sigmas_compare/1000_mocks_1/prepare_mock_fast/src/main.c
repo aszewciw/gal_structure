@@ -106,9 +106,9 @@ int main( int argc, char **argv ){
             loop_flag         = 1;
 
             /* Make thin and thick disks */
-            generate_stars(thin, &params, 0);
+            generate_stars(thin, &params, 0, rank);
             if(rank==0) fprintf(stderr, "Got thin positions\n");
-            generate_stars(thick, &params, 1);
+            generate_stars(thick, &params, 1, rank);
             if(rank==0) fprintf(stderr, "Got thick positions\n");
 
             /* Separate stars into appropriate l.o.s. */
