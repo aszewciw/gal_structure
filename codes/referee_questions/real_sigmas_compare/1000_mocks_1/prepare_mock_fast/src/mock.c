@@ -120,6 +120,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         exit(EXIT_FAILURE);
     }
 
+    fprintf(stderr, "%lu\n", N_stars);
     /* calculate the remaining star attributes */
     for( i=0; i<N_stars; i++ ){
         s[i].gal_z = random_gal_Z(z0, z0_pdf_norm, p->z_min, p->z_max);
@@ -130,6 +131,7 @@ void generate_stars( STAR *s, PARAMS *p, int disk_type ){
         ZR_to_gal(&s[i]);
         gal_to_eq(&s[i]);
         eq_to_cart(&s[i]);
+        // fprintf(stderr, "%d\n", i);
     }
 }
 
