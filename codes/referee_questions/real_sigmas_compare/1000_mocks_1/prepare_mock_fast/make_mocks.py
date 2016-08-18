@@ -22,7 +22,7 @@ def main():
     N_procs         = args_array[3]         # Number of processes to use
 
     # Establish which mocks are to be made
-    mock_nums = np.arange(N_mocks)
+    mock_nums = np.arange(N_mocks) + 1
 
     # Make all 1000 mocks
     cmd = 'mpirun -n ' + N_procs + ' ./bin/make_galaxy ' + N_stars + ' ' + str(N_mocks)

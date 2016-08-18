@@ -88,7 +88,7 @@ int main( int argc, char **argv ){
     srand((unsigned) time(&t) + (1+rank));
 
 
-    for(mock_num=0; mock_num<N_mocks; mock_num++){
+    for(mock_num=1; mock_num<N_mocks+1; mock_num++){
 
         if(rank==0) fprintf(stderr, "On mock number %d \n", mock_num);
 
