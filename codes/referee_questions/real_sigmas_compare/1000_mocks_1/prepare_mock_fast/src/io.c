@@ -104,11 +104,16 @@ void get_params( PARAMS *p, unsigned long int N, int rank){
     double density_const;
 
     /* Disk params */
-    p->z0_thin  = 0.233;
-    p->r0_thin  = 2.34;
-    p->z0_thick = 0.674;
-    p->r0_thick = 2.51;
-    p->ratio    = 0.1;
+    // p->z0_thin  = 0.233;
+    // p->r0_thin  = 2.34;
+    // p->z0_thick = 0.674;
+    // p->r0_thick = 2.51;
+    // p->ratio    = 0.1;
+    p->z0_thin  = 0.4;
+    p->r0_thin  = 3.0;
+    p->z0_thick = 0.8;
+    p->r0_thick = 4.0;
+    p->ratio    = 0.2;
 
     /* Generous sized geometric sample limits */
     /* Use to make stars only roughly in solar neighbordhood */
