@@ -39,11 +39,14 @@ int main( int argc, char **argv ){
     }
     unsigned long int N_stars;  /* Number of stars in temp galaxy wedge */
     int mock_num;               /* which mock we're making (1 - 1000) */
+    int N_mocks;                /* Number of total mocks */
 
     sscanf(argv[1], "%lu", &N_stars);
-    sscanf(argv[2], "%d", &mock_num);
+    // sscanf(argv[2], "%d", &mock_num);
+    sscanf(argv[2], "%d", &N_mocks);
     if(rank==0){
-        fprintf(stderr, "On mock number %d \n", mock_num);
+        // fprintf(stderr, "On mock number %d \n", mock_num);
+        fprintf(stderr, "Making %d total mocks.\n", N_mocks);
         fprintf(stderr, "%lu stars per temporary galaxy.\n", N_stars);
     }
 
@@ -84,64 +87,73 @@ int main( int argc, char **argv ){
     /* initialize random seed -- make different for each mock */
     srand((unsigned) time(&t) + (1+rank));
 
-    /* Initialize for while loop */
-    loop_flag    = 0;
-    loop_counter = 0;
 
-    /* create temp mocks until all l.o.s. are filled */
-    while(loop_flag==0){
+    for(mock_num=0; mock_num<N_mocks; mock_num++){
 
-        /* re-initialize at each step */
-        pointings_in_need = 0;
-        loop_flag         = 1;
+        if(rank==0) fprintf(stderr, "On mock number %d \n", mock_num);
 
-        /* Make thin and thick disks */
-        generate_stars(thin, &params, 0);
-        generate_stars(thick, &params, 1);
+        /* Initialize for while loop */
+        loop_flag    = 0;
+        loop_counter = 0;
 
-        /* Separate stars into appropriate l.o.s. */
-        separate_sample(plist, thin, N_plist, params.N_thin, rank, mock_num);
-        separate_sample(plist, thick, N_plist, params.N_thick, rank, mock_num);
+        /* create temp mocks until all l.o.s. are filled */
+        while(loop_flag==0){
 
-        /* Check all l.o.s. to see if we have enough stars */
-        for( i=0; i<N_plist; i++ ){
+            /* re-initialize at each step */
+            pointings_in_need = 0;
+            loop_flag         = 1;
 
-            /* set total stars for this temp gxy = 0 */
-            N_mock_temp = 0;
+            /* Make thin and thick disks */
+            generate_stars(thin, &params, 0);
+            generate_stars(thick, &params, 1);
 
-            /* current pointings stars/proc */
-            N_mock_proc = plist[i].N_mock_proc;
+            /* Separate stars into appropriate l.o.s. */
+            separate_sample(plist, thin, N_plist, params.N_thin, rank, mock_num);
+            separate_sample(plist, thick, N_plist, params.N_thick, rank, mock_num);
 
-            /* Sum stars across all processes to get pointing's total stars for this temp gxy */
-            MPI_Allreduce(&N_mock_proc, &N_mock_temp, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
+            /* Check all l.o.s. to see if we have enough stars */
+            for( i=0; i<N_plist; i++ ){
 
-            /* Add temp galaxy's stars to total */
-            plist[i].N_mock += N_mock_temp;
-            N_mock = plist[i].N_mock;
-            N_data = plist[i].N_data;
+                /* set total stars for this temp gxy = 0 */
+                N_mock_temp = 0;
 
-            if(N_mock<N_data){
-                /* indicate that we need more stars */
-                loop_flag         = 0;
-                plist[i].flag     = 0;
-                pointings_in_need += 1;
+                /* current pointings stars/proc */
+                N_mock_proc = plist[i].N_mock_proc;
+
+                /* Sum stars across all processes to get pointing's total stars for this temp gxy */
+                MPI_Allreduce(&N_mock_proc, &N_mock_temp, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
+
+                /* Add temp galaxy's stars to total */
+                plist[i].N_mock += N_mock_temp;
+                N_mock = plist[i].N_mock;
+                N_data = plist[i].N_data;
+
+                if(N_mock<N_data){
+                    /* indicate that we need more stars */
+                    loop_flag         = 0;
+                    plist[i].flag     = 0;
+                    pointings_in_need += 1;
+                }
+                else{
+                    /* we don't need more stars for this l.o.s. */
+                    plist[i].flag = 1;
+                }
             }
-            else{
-                /* we don't need more stars for this l.o.s. */
-                plist[i].flag = 1;
+
+            /* update progress and output results to user */
+            loop_counter +=1;
+            if(rank==0){
+                fprintf(stderr, "We've run the loop %d times.\n", loop_counter);
+                if (pointings_in_need != 0){
+                    fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
+                    fprintf(stderr, "Making more stars. \n");
+                }
+                else fprintf(stderr, "All pointings have an adequate number of stars. \n");
             }
         }
 
-        /* update progress and output results to user */
-        loop_counter +=1;
-        if(rank==0){
-            fprintf(stderr, "We've run the loop %d times.\n", loop_counter);
-            if (pointings_in_need != 0){
-                fprintf(stderr, "%d pointings need more stars.\n", pointings_in_need);
-                fprintf(stderr, "Making more stars. \n");
-            }
-            else fprintf(stderr, "All pointings have an adequate number of stars. \n");
-        }
+        /* reset all pointing flags */
+        for( i=0; i<N_plist; i++ ) plist[i].flag=0;
     }
 
     /* Deallocate arrays */

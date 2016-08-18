@@ -22,20 +22,21 @@ def main():
     N_procs         = args_array[3]         # Number of processes to use
 
     # Establish which mocks are to be made
-    mock_nums = np.arange(N_mocks) + 1
+    mock_nums = np.arange(N_mocks)
+
+    # Make all 1000 mocks
+    cmd = 'mpirun -n ' + N_procs + ' ./bin/make_galaxy ' + N_stars + ' ' + str(N_mocks)
+    os.system(cmd)
 
     for i in mock_nums:
 
         mock_dir = './data/mock_' + str(i) +'/'
 
-        cmd = 'mpirun -n ' + N_procs + ' ./bin/make_galaxy ' + N_stars + ' ' + str(i)
+        cmd = 'python clean_mocks.py ' + N_procs + ' ' + str(i)
         os.system(cmd)
 
-        cmd2 = 'python clean_mocks.py ' + N_procs + ' ' + str(i)
-        os.system(cmd2)
-
-        cmd3 = 'rm ' + mock_dir + 'proc*'
-        os.system(cmd3)
+        cmd = 'rm ' + mock_dir + 'proc*'
+        os.system(cmd)
 
 if __name__ == '__main__':
     main()
