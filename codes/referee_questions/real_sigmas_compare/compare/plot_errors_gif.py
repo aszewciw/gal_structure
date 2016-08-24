@@ -118,8 +118,9 @@ def main():
         png_std_list.append(fig_name)
 
 
-        ymin = 0
-        ymax = 5
+        # ymin = 0
+        # ymax = 5
+        ymax = 0.01
         # plt.close()
         plt.clf()
 
