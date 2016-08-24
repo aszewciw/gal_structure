@@ -120,7 +120,7 @@ def main():
 
         # ymin = 0
         # ymax = 5
-        ymax = 0.01
+        # ymax = 0.01
         # plt.close()
         plt.clf()
 
