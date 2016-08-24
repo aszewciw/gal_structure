@@ -120,6 +120,8 @@ def main():
 
         ymin = 0
         ymax = 5
+        plt.close()
+        plt.clf()
 
         plt.title('Fractional error ratios (different parameters) l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
