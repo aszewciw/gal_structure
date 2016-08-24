@@ -47,16 +47,6 @@ def main():
     # Round bin centers to three decimal places
     bin_centers = np.round(bin_centers, 3)
 
-    # Make array of column names for pandas Dataframe
-    # col_names = []
-
-    # for i in range(N_bins):
-    #     name = str(bin_centers[i])
-    #     col_names.append(name)
-
-    # # Recast as array
-    # col_names = np.asarray(col_names)
-
     # Create list of png's for use in making gif
     png_list =[]
 
