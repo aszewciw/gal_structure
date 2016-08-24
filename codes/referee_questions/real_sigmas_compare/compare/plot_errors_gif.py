@@ -64,22 +64,22 @@ def main():
         dd_2, std_2 = np.genfromtxt(mock2_file, unpack=True, usecols=[0,1])
 
         # Initialize ratio arrays
-        # std_ratio_10 = np.zeros(N_bins)
-        # std_ratio_20 = np.zeros(N_bins)
+        std_ratio_10 = np.zeros(N_bins)
+        std_ratio_20 = np.zeros(N_bins)
 
         # Initialize fractional ratio arrays
         frac_0 = np.zeros(N_bins)
         frac_1 = np.zeros(N_bins)
         frac_2 = np.zeros(N_bins)
-        # frac_ratio_10 = np.zeros(N_bins)
-        # frac_ratio_20 = np.zeros(N_bins)
+        frac_ratio_10 = np.zeros(N_bins)
+        frac_ratio_20 = np.zeros(N_bins)
 
-        # Fill std ratios
-        # for i in range(N_bins):
-        #     if(std_0[i] == 0.0):
-        #         continue
-        #     std_ratio_10[i] = std_1[i] / std_0[i]
-        #     std_ratio_20[i] = std_2[i] / std_0[i]
+        Fill std ratios
+        for i in range(N_bins):
+            if(std_0[i] == 0.0):
+                continue
+            std_ratio_10[i] = std_1[i] / std_0[i]
+            std_ratio_20[i] = std_2[i] / std_0[i]
 
         for i in range(N_bins):
             if(dd_0[i] > 0.0):
@@ -89,26 +89,64 @@ def main():
             if(dd_2[i] > 0.0):
                 frac_2[i] = std_2[i] / dd_2[i]
 
-        # for i in range(N_bins):
-        #     if(frac_0[i] == 0.0):
-        #         continue
-        #     frac_ratio_10[i] = frac_1[i] / frac_0[i]
-        #     frac_ratio_20[i] = frac_2[i] / frac_0[i]
+        for i in range(N_bins):
+            if(frac_0[i] == 0.0):
+                continue
+            frac_ratio_10[i] = frac_1[i] / frac_0[i]
+            frac_ratio_20[i] = frac_2[i] / frac_0[i]
+
+        # plt.close()
+        # plt.clf()
+        # xmin = min(bin_centers)
+        # xmax = max(bin_centers)
+        # ymin = 0
+        # ymax = 0.001
+
+        # plt.title('Sigma ratios (different parameters) l.o.s. ' + ID, fontsize=20)
+        # plt.xlabel('Bin Center (kpc)', fontsize=18)
+        # # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
+        # plt.ylabel(r'$\sigma_{DD}$', fontsize=24)
+        # plt.loglog(bin_centers, std_0, color='red')
+        # plt.loglog(bin_centers, std_1, color='blue')
+        # plt.loglog(bin_centers, std_2, color='green')
+        # plt.axis([xmin, xmax, ymin, ymax])
+        # fig_name = plots_dir + 'std_ratio_' + ID + '.png'
+        # plt.savefig(fig_name)
+        # png_std_list.append(fig_name)
+
+
+        # # ymin = 0
+        # # ymax = 5
+        # # ymax = 0.01
+        # # plt.close()
+        # plt.clf()
+
+        # plt.title('Fractional error ratios (different parameters) l.o.s. ' + ID, fontsize=20)
+        # plt.xlabel('Bin Center (kpc)', fontsize=18)
+        # # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
+        # plt.ylabel(r'$\frac{\sigma_{DD}}{DD}$', fontsize=24)
+        # plt.semilogx(bin_centers, frac_0, color='red')
+        # plt.semilogx(bin_centers, frac_1, color='blue')
+        # plt.semilogx(bin_centers, frac_2, color='green')
+        # plt.axis([xmin, xmax, ymin, ymax])
+        # fig_name = plots_dir + 'frac_ratio_' + ID + '.png'
+        # plt.savefig(fig_name)
+        # png_frac_list.append(fig_name)
 
         plt.close()
         plt.clf()
         xmin = min(bin_centers)
         xmax = max(bin_centers)
         ymin = 0
-        ymax = 0.001
+        ymax = 5
 
         plt.title('Sigma ratios (different parameters) l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
-        plt.ylabel(r'$\sigma_{DD}$', fontsize=24)
-        plt.loglog(bin_centers, std_0, color='red')
-        plt.loglog(bin_centers, std_1, color='blue')
-        plt.loglog(bin_centers, std_2, color='green')
+        plt.ylabel(r'$\frac{\sigma_{model1}}{\sigma_{model2}}$', fontsize=24)
+        plt.semilogx(bin_centers, std_ratio_10, color='red')
+        plt.semilogx(bin_centers, std_ratio_20, color='blue')
+        # plt.semilogx(bin_centers, std_2, color='green')
         plt.axis([xmin, xmax, ymin, ymax])
         fig_name = plots_dir + 'std_ratio_' + ID + '.png'
         plt.savefig(fig_name)
@@ -124,10 +162,10 @@ def main():
         plt.title('Fractional error ratios (different parameters) l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
-        plt.ylabel(r'$\frac{\sigma_{DD}}{DD}$', fontsize=24)
-        plt.semilogx(bin_centers, frac_0, color='red')
-        plt.semilogx(bin_centers, frac_1, color='blue')
-        plt.semilogx(bin_centers, frac_2, color='green')
+        plt.ylabel(r'$\frac{\sigma_{model1}/DD_{model1}}{\sigma_{model2}/DD_{model2}}$', fontsize=24)
+        plt.semilogx(bin_centers, frac_ratio_10, color='red')
+        plt.semilogx(bin_centers, frac_ratio_20, color='blue')
+        # plt.semilogx(bin_centers, frac_2, color='green')
         plt.axis([xmin, xmax, ymin, ymax])
         fig_name = plots_dir + 'frac_ratio_' + ID + '.png'
         plt.savefig(fig_name)
