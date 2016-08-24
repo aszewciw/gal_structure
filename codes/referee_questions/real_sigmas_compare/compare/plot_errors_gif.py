@@ -54,6 +54,9 @@ def main():
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
+        if(int(ID)>3):
+            continue
+
         mock0_file = mock0_dir + 'stats_' + ID + '.dat'
         dd_0, std_0 = np.genfromtxt(mock0_file, unpack=True, usecols=[0,1])
 
@@ -74,7 +77,7 @@ def main():
         frac_ratio_10 = np.zeros(N_bins)
         frac_ratio_20 = np.zeros(N_bins)
 
-        Fill std ratios
+        # Fill std ratios
         for i in range(N_bins):
             if(std_0[i] == 0.0):
                 continue
@@ -171,11 +174,11 @@ def main():
         plt.savefig(fig_name)
         png_frac_list.append(fig_name)
 
-    gif_name = plots_dir + 'std_ratios.gif'
-    GIF_MOVIE(png_std_list, gif_name)
+    # gif_name = plots_dir + 'std_ratios.gif'
+    # GIF_MOVIE(png_std_list, gif_name)
 
-    gif_name = plots_dir + 'frac_ratios.gif'
-    GIF_MOVIE(png_frac_list, gif_name)
+    # gif_name = plots_dir + 'frac_ratios.gif'
+    # GIF_MOVIE(png_frac_list, gif_name)
 
 if __name__ == '__main__':
     main()
