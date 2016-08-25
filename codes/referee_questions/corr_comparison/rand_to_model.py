@@ -23,7 +23,7 @@ def gal_weights(Z, R):
     thick_s_length = 2.51
     thin_s_height = 0.233
     thin_s_length = 2.34
-    a = 0.09                            #Taken from a paper (indicate which one)
+    a = 0.1
 
 
     weight = ( ( ( math.cosh(Z / 2 / thin_s_height) ) ** (-2) )
@@ -35,25 +35,24 @@ def gal_weights(Z, R):
 
 def main():
 
-    input_file = data_dir + 'todo_list.dat'
+    input_file = rawdata_dir + 'todo_list.dat'
 
     with open(input_file, 'rb') as data:
         todo_list = pickle.load(data)
 
     for p in todo_list:
 
-        rand_file = MW_dir + 'MW_datarandom_' + p.ID + '.xyzw.dat'
+        rand_file = data_dir + 'uniform_' + p.ID + '.xyz.dat'
 
         if not os.path.isfile(rand_file):
 
             sys.stderr.write('Error: ' + rand_file
                 + ' does not exist.\n')
-
             continue
 
-        output_file = MW_dir + 'MWM_' + p.ID + '.dat'
+        output_file = MW_dir + 'MWM_' + p.ID + 'xyzw.dat'
 
-        x, y, z, w = np.genfromtxt(rand_file, unpack = True)
+        x, y, z = np.genfromtxt(rand_file, skip_header=1, unpack=True)
 
         ra, dec, r = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
         l, b = np.zeros(len(x)), np.zeros(len(x))

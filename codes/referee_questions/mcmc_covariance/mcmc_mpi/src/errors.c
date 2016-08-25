@@ -39,10 +39,6 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j, k;
     double chi2 = 0.0;
-    double chi2_temp;
-    double tol = 0.05;
-    int skip_count = 0;
-    int good_count = 0;
 
     /* loop over pointings */
     for(i = lower_ind; i < upper_ind; i++){
@@ -53,8 +49,6 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             /* loop over bin columns */
             for(k = 0; k < N_bins; k++){
 
-                // if(k!=j) continue;
-
                 /* skip any 0 counts in DD, MM, RR, or covariance */
                 if(p[i].rbin[j].DD_RR == 0.0 || p[i].rbin[j].MM_RR == 0.0){
                     continue;
@@ -62,26 +56,10 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 if(p[i].rbin[k].DD_RR == 0.0 || p[i].rbin[k].MM_RR == 0.0){
                     continue;
                 }
-                // if(fabs(p[i].cor_row[j].cor_col[k]) < tol){
-                //     skip_count+=1;
-                //     continue;
-                // }
-                // if (p[i].cov_row[j].cov_col[k] != p[i].cov_row[j].cov_col[k]) continue;
-
-                // chi2_temp = p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
-                // if( fabs(chi2_temp)>10000.0 ) fprintf(stderr, "Chi2: %lf Pointing %s. Element: %d %d \n", chi2_temp, p[i].ID, j, k);
-                // chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff / p[i].cov_row[j].cov_col[k];
                 chi2 += p[i].rbin[j].diff * p[i].rbin[k].diff * p[i].invcov_row[j].invcov_col[k];
-
-                good_count+=1;
-            }
-
-        }
-    }
-
-    // fprintf(stderr, "Skipped: %d\n", skip_count);
-    // fprintf(stderr, "Good count: %d\n", good_count);
-
+            } /* end column loop */
+        } /* end row loop */
+    } /* end pointing loop */
     return chi2;
 }
 

@@ -9,7 +9,7 @@
 #include <gsl/gsl_integration.h>
 #include <mpi.h>
 
-/* Set the value of pi */
+/* I/O directories */
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/dd/"
 #define ERR_DIR "../data/errors/"
@@ -63,7 +63,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_step_data(STEP_DATA *step_data);
 
-/* Error functions */
+/* Stats functions */
 void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 

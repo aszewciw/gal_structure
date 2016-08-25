@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-rm ../data/rbins/*.dat
+rm ../data/*rbins
 python set_rbins.py
 
 rm ../data/jackknife/star*

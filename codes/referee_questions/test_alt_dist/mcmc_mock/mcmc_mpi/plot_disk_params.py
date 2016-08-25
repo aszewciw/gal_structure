@@ -59,36 +59,44 @@ plt.axes().set_aspect('equal', 'datalim')
 plt.axis([min(thin_r0), max(thin_r0), min(thick_r0), max(thick_r0)])
 plt.savefig('fake_pop_lengths.png')
 
+
+x = np.array([0, 100000, 200000, 300000, 400000])
+
 plt.figure(3)
 plt.subplot(321)
 plt.ylabel("Z1 (kpc)")
 plt.scatter(loop, thin_z0, c=chi2, s=2)
 plt.axis([loop_start, loop_end, min(thin_z0), max(thin_z0)])
+plt.xticks(x)
 
 plt.subplot(322)
 plt.ylabel("Z2 (kpc)")
 plt.scatter(loop, thick_z0, c=chi2, s=2)
 plt.axis([loop_start, loop_end, min(thick_z0), max(thick_z0)])
+plt.xticks(x)
 
 plt.subplot(323)
 plt.ylabel("R1 (kpc)")
 plt.scatter(loop, thin_r0, c=chi2, s=2)
 plt.axis([loop_start, loop_end, min(thin_r0), max(thin_r0)])
+plt.xticks(x)
 
 plt.subplot(324)
 plt.xlabel("Loop Number")
 plt.ylabel("R2 (kpc)")
 plt.scatter(loop, thick_r0, c=chi2, s=2)
 plt.axis([loop_start, loop_end, min(thick_r0), max(thick_r0)])
+plt.xticks(x)
 
 plt.subplot(325)
 plt.xlabel("Loop Number")
 plt.ylabel("Pop2:Pop1 ratio")
 plt.scatter(loop, a, c=chi2, s=2)
 plt.axis([loop_start, loop_end, min(a), max(a)])
+plt.xticks(x)
 plt.colorbar()
 
-plt.savefig('results_more_dense_2.png')
+plt.savefig('fake_pop_steps.png')
 
 plt.show()
 plt.clf()

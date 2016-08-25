@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 '''
 Contains several repeatedly used directories and functions. To be
 imported by essentially every other script. My data structure on Bender
@@ -33,6 +32,9 @@ data_dir = '../../correlation/data/'
 corrdata_dir = './data/'
 # plots_dir = './plots/'
 MW_dir = './MW_data/'
+
+# rawdata_dir = '../data/'
+# data_dir = './data/'
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """

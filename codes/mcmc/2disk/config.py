@@ -32,6 +32,7 @@ DD_dir        = mcmc_dir + 'data_DD/'
 uni_pairs_dir = mcmc_dir + 'uni_pairs/'
 uni100_dir    = data_dir + 'uni100_xyzw/'
 uni10_dir     = data_dir + 'uni10_xyzw/'
+out_dir       = './data/'
 
 # create array of bins evenly spaced in log
 Nbins   = 12

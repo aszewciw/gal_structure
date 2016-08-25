@@ -24,7 +24,8 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-data_dir = '../data/'
+data_dir  = '../data/'
+plots_dir = '../plots/'
 
 R_min = 0.005
 R_max = 2.0

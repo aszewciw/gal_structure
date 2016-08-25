@@ -1,10 +1,67 @@
 #include "mcmc.h"
 
+// /* Parse command line for info on how to run chain */
+// args parse_command_line(const int n_args, char ** arg_array)
+// {
+
+//    /* defaults */
+//    args cl_args;
+//    cl_args.min_steps = 0;
+//    cl_args.max_steps = 500000;
+//    cl_args.params    = 1;
+//    cl_args.filename  = "mcmc_result.dat"
+
+//    // cl_args.N = 100;
+//    // cl_args.n_timesteps = 10000;
+//    // cl_args.xyz_freq = 100;
+//    // cl_args.thermo_freq = 100;
+
+//    int cnt = 1;
+//    while ( cnt < n_args )
+//    {
+
+//       if ( !strcmp(arg_array[cnt],"-min") )
+//          cl_args.N = check_arg_sane( arg_array,++cnt,n_args );
+//       else if ( !strcmp(arg_array[cnt],"-max") )
+//          cl_args.n_timesteps = check_arg_sane( arg_array,++cnt,n_args );
+//       else if ( !strcmp(arg_array[cnt],"-p") )
+//          cl_args.xyz_freq = check_arg_sane( arg_array,++cnt,n_args );
+//       else if ( !strcmp(arg_array[cnt],"-fn") )
+//          cl_args.thermo_freq = check_arg_sane( arg_array,++cnt,n_args );
+//       else if ( !strcmp(arg_array[cnt],"--help") || !strcmp(arg_array[cnt],"-h") ) {
+//          printf("Usage: ./run_md [-N <n_particles>] [-ts <n_timesteps>] [-xyz <xyz_file_output_frequency>] [-o <thermo_output_frequency>]\n");
+//          printf("Defaults:\nn_particles: 100\nn_timesteps: 10000\nxyz_file_output_fequency: 100\nthermo_output_frequency: 100\n");
+//          exit(-1);
+//       }
+//       else {
+//          printf("\n***Error: Unrecognized CL option: %s\n\n",arg_array[cnt]);
+//          printf("Usage: ./run_md [-N <n_particles>] [-ts <n_timesteps>] [-xyz <xyz_file_output_frequency>] [-o <thermo_output_frequency>]\n");
+//          printf("Defaults:\nn_particles: 100\nn_timesteps: 10000\nxyz_file_output_fequency: 100\nthermo_output_frequency: 100\n");
+//          exit(-1);
+//       }
+//       cnt++;
+
+//    }
+
+//    printf("=======Command line arguments=======\n");
+//    printf("N_atoms: %d\n",cl_args.N);
+//    printf("n_timesteps: %d\n",cl_args.n_timesteps);
+//    printf("xyz_file_output_frequency: %d\n",cl_args.xyz_freq);
+//    printf("thermo_output_frequency: %d\n",cl_args.thermo_freq);
+//    printf("====================================\n");
+
+//    return cl_args;
+
+// }
+
+
+
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* -------------------------------- MAIN --------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
+
 
 int main(int argc, char * argv[]){
 

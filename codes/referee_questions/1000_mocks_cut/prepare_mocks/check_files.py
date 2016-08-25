@@ -6,7 +6,6 @@ Check whether any of the files in any of the mocks were not made.
 Print out which ones and how many (if any).
 '''
 #------------------------------------------------------------------------------#
-
 rawdata_dir = '../../data/'
 data_dir    = './data/'
 #------------------------------------------------------------------------------#

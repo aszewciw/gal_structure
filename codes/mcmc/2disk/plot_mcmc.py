@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # def main():
 
 # filename = str(input('Enter filename with .npz extension: '))
-filename = 'victor_test.npz'
+filename = out_dir + 'mcmc_10000_Fe18.npz'
 # filename = mcmcdata_dir + filename
 
 with np.load(filename) as d:
