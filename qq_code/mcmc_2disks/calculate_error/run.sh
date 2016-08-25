@@ -5,5 +5,5 @@
 gcc -Wall -O3 -lm -o counts counts.c
 
 
-./error.py
-./error_uniform.py
+python error.py
+python error_uniform.py
