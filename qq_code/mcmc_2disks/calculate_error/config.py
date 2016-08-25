@@ -2,7 +2,7 @@
 
 import os, sys, math, random
 import string, csv
-import pickle, cPickle
+import pickle
 
 class Point:
     pass
@@ -25,7 +25,7 @@ INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
 # how many uniform points comparing to real stars
-# N_uniform = N_star * multi 
+# N_uniform = N_star * multi
 multi = 10
 
 # number of jackknife samples for each line of sight
@@ -37,31 +37,31 @@ R_max = 2.0
 N_rbins = 12
 
 data_dir = '../data/'
-rawdata_dir = '../../segue/correlation/data/'
+rawdata_dir = '/fs1/mqq/Projects/StarClustering/segue/correlation/data/'
 
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
     Convert Equatorial coordinates to Cartesian coordinates.
     Return a tuple (x, y, z) in the same unit of the input distance.
-    
+
     Keywords arguments:
     ra  -- Right Ascension (in radians)
     dec -- Declination (in radians)
     r   -- Distance
-    
+
     """
-    
+
     x = r * math.cos(ra) * math.cos(dec)
     y = r * math.sin(ra) * math.cos(dec)
     z = r * math.sin(dec)
-    
+
     return x, y, z
 #------------------------------------------------------------------------------
 def cart2eq(x, y, z):
     """
     Convert Cartesian coordinates to Equatorial coordinates
-    
+
     Keywords arguments:
     x -- x coordinate
     y -- y coordinate
@@ -89,7 +89,7 @@ Galactic_Northpole_Equatorial=(math.radians(192.859508), math.radians(27.128336)
 def eq2gal(ra,dec):
     """
     Convert Equatorial coordinates to Galactic Coordinates in the epch J2000.
-    
+
     Keywords arguments:
     ra  -- Right Ascension (in radians)
     dec -- Declination (in radians)
@@ -102,12 +102,12 @@ def eq2gal(ra,dec):
     alpha = Galactic_Northpole_Equatorial[0]
     delta = Galactic_Northpole_Equatorial[1]
     la = math.radians(33.0)
-    
+
     b = math.asin(math.sin(dec) * math.sin(delta) +
                   math.cos(dec) * math.cos(delta) * math.cos(ra - alpha))
 
-    l = math.atan2(math.sin(dec) * math.cos(delta) - 
-                   math.cos(dec) * math.sin(delta) * math.cos(ra - alpha), 
+    l = math.atan2(math.sin(dec) * math.cos(delta) -
+                   math.cos(dec) * math.sin(delta) * math.cos(ra - alpha),
                    math.cos(dec) * math.sin(ra - alpha)
                    ) + la
 
@@ -120,7 +120,7 @@ def eq2gal(ra,dec):
 def gal2eq(l, b):
     """
     Convert Galatic coordinates to Equatorial Coordinates in the epch J2000.
-    
+
     Keywords arguments:
     l -- Galactic longitude (in radians)
     b -- Galactic latitude (in radians)
@@ -137,15 +137,15 @@ def gal2eq(l, b):
     dec = math.asin(math.sin(b) * math.sin(delta) +
                     math.cos(b) * math.cos(delta) * math.sin(l - la))
 
-    ra = math.atan2(math.cos(b) * math.cos(l - la), 
-                    math.sin(b) * math.cos(delta) - 
-                    math.cos(b) * math.sin(delta) * math.sin(l - la) 
+    ra = math.atan2(math.cos(b) * math.cos(l - la),
+                    math.sin(b) * math.cos(delta) -
+                    math.cos(b) * math.sin(delta) * math.sin(l - la)
                     ) + alpha
 
     ra = ra if ra>=0 else (ra + math.pi * 2.0)
 
     ra = ra % (2.0 * math.pi)
-    
+
     return ra, dec
 #------------------------------------------------------------------------------
 # sun's distance away from the galactic center
@@ -153,23 +153,23 @@ Galactic_Sun_Position = 8.0
 
 def gal2ZR(l, b, distance):
     """
-    Transfer helio-centered galactic coordinates to galactic center based 
-    z and r (cylinder coordinates). 
-    Used to put into the galactic disk model to calculate the density. 
-    
+    Transfer helio-centered galactic coordinates to galactic center based
+    z and r (cylinder coordinates).
+    Used to put into the galactic disk model to calculate the density.
+
     Keywords arguments:
     l -- Galactic longitude (in radians)
     b -- Galactic latitude (in radians)
 
     Return a tuple (Z, R):
     Z  -- absolute distance above/below the galactic disk
-    R -- distance away from the galactic center axis 
+    R -- distance away from the galactic center axis
     """
-   
+
     # z projection
     Z = abs(distance * math.sin(b))
     # Law of cosines
-    x = distance * math.cos(b) 
+    x = distance * math.cos(b)
     y = Galactic_Sun_Position
     R = math.sqrt(x * x + y * y - 2.0 * x * y * math.cos(l))
 
@@ -190,7 +190,7 @@ def dot(vec1, vec2):
     if len(vec1) is not 3 or len(vec2) is not 3:
         sys.stderr.write("Error: Wrong vector dimenson for dot product.\n")
         sys.exit()
-    
+
     a1, a2, a3 = vec1[0], vec1[1], vec1[2]
     b1, b2, b3 = vec2[0], vec2[1], vec2[2]
 
@@ -212,7 +212,7 @@ def cross(vec1, vec2):
     if len(vec1) is not 3 or len(vec2) is not 3:
         sys.stderr.write("Error: Wrong vector dimenson for cross product.\n")
         sys.exit()
-    
+
     a1, a2, a3 = vec1[0], vec1[1], vec1[2]
     b1, b2, b3 = vec2[0], vec2[1], vec2[2]
 
@@ -258,7 +258,7 @@ def rodrigues(axis, vec, theta):
 
     z = (vec[2] * math.cos(theta) + cp[2] * math.sin(theta)
          + z0 * dp * (1 - math.cos(theta)))
-    
+
     return x, y, z
 #------------------------------------------------------------------------------
-                    
+

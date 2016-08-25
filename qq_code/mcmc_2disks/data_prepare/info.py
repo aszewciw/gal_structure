@@ -9,18 +9,18 @@ def main():
     # load pointing list
     input_filename = config.data_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
+    input_file = open(input_filename, 'rb')
     todo_list = pickle.load(input_file)
     input_file.close()
 
     sys.stderr.write('Prepare data files for correlation function calculation..\n')
-    
+
     N_tot = 0
 
     for p in todo_list:
 
         star_filename = config.rawdata_dir + 'star_' + p.ID + '.dat'
-        star_file = open(star_filename, 'r')
+        star_file = open(star_filename, 'rb')
         star_list = pickle.load(star_file)
         star_file.close()
 
@@ -34,6 +34,6 @@ if __name__ == '__main__' :
     main()
 
 
-    
+
 
 

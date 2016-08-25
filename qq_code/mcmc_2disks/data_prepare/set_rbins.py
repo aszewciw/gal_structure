@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-import sys, math, cPickle
-import config
+import sys, math
+import config, pickle
 
 def main():
-    '''Make a set of distance bins, and output in different format. 
+    '''Make a set of distance bins, and output in different format.
     These will be used for error calculation and mcmc.
     '''
     # set the initials from config.py
@@ -35,8 +35,8 @@ def main():
 
     # pickle output
     output_filename = config.data_dir + 'rbins.dat'
-    output_file = open(output_filename, 'w')
-    cPickle.dump(bins_list, output_file)
+    output_file = open(output_filename, 'wb')
+    pickle.dump(bins_list, output_file)
     output_file.close()
 
     # ascii output

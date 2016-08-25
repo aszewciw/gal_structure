@@ -6,31 +6,31 @@ import numpy
 import config
 
 def main():
-    
+
     # load pointing list
     input_filename = config.data_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
+    input_file = open(input_filename, 'rb')
     todo_list = pickle.load(input_file)
     input_file.close()
 
     # load bin settings
     input_filename = config.data_dir + 'rbins.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
+    input_file = open(input_filename, 'rb')
     bins_list = pickle.load(input_file)
     input_file.close()
     if len(bins_list) != config.N_rbins:
         sys.stderr.write("Error: Inconsistent R bins. Check set_rbins and config. \n")
         sys.exit()
-    
+
     bins_filename = config.data_dir + 'rbins.ascii.dat'
 
     for p in todo_list:
         # counting pairs for the whole box
         data_filename = config.data_dir + 'uniform_' + p.ID + '_jk_all.dat'
         counts_filename = config.data_dir + 'uniform_' + p.ID + '_jk_all.counts.dat'
-        cmd = ('./counts ' + data_filename + ' ' + bins_filename 
+        cmd = ('./counts ' + data_filename + ' ' + bins_filename
                + ' > ' + counts_filename)
         os.system(cmd)
         counts_all = numpy.loadtxt(counts_filename, comments='#')
@@ -39,7 +39,7 @@ def main():
         for i in range(config.N_jackknife):
             jackknife_filename = config.data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.dat'
             counts_filename = config.data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.counts.dat'
-            cmd = ('./counts ' + jackknife_filename + ' ' + bins_filename 
+            cmd = ('./counts ' + jackknife_filename + ' ' + bins_filename
                    + ' > ' + counts_filename)
             os.system(cmd)
 
@@ -48,7 +48,7 @@ def main():
         for i in range(config.N_jackknife):
             counts_filename = config.data_dir + 'uniform_' + p.ID + '_jk_' + str(i) + '.counts.dat'
             counts_list.append(numpy.loadtxt(counts_filename, comments='#'))
-            
+
         N_rbins = len(bins_list)
         N_jk = config.N_jackknife
 
@@ -74,18 +74,18 @@ def main():
             counts = counts_all[k][4]
             corr = counts_all[k][5]
             # check if the total counts is zero.
-            # if so, set jackknife error to zero, 
+            # if so, set jackknife error to zero,
             # and this point should be excluded when doing mcmc.
             if counts == 0:
                 err_jk = 0.0
             else:
                 # This is actually a fractional error of pair counting
-                # When dealing with correlation function measurement, the final error 
+                # When dealing with correlation function measurement, the final error
                 # should be this fractional error times the weighted measurement.
                 err_jk = jk_std[k] / counts
-                
+
             output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:e}\n'
-                              .format(r_lower, r_upper, r_middle, dr, 
+                              .format(r_lower, r_upper, r_middle, dr,
                                       jk_mean[k], jk_std[k], counts, err_jk))
 
         output_file.close()

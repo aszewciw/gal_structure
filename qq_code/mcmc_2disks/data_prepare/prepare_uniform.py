@@ -9,7 +9,7 @@ def random_unit(Ntot, pointing):
 
     Keywords arguments:
     Ntot  -- Total number of random points needed.
-    pointing -- A Pointing instance. 
+    pointing -- A Pointing instance.
 
     Return a list of random points.
     Each element in the list is a Point instance, which should contain
@@ -19,13 +19,13 @@ def random_unit(Ntot, pointing):
     plate_size_cos = math.cos(PLATE_RADIUS_RADIANS) # the cos of the plate size
 
     center = (pointing.cartesian_x, pointing.cartesian_y, pointing.cartesian_z)
-    
+
     random_sample = []
-    
+
     while len(random_sample) < Ntot :
 
         aRandom = Point() # create a random point as a Point instance
-        
+
         # generate a random number on [0,1]
         u = random.random()
         v = random.random()
@@ -43,9 +43,9 @@ def random_unit(Ntot, pointing):
         # using Rodrigues' formula
 
         theta = v * 2.0 * math.pi
-        
+
         vec_rotated = rodrigues(center, vec, theta)
-        
+
         eq = cart2eq(vec_rotated[0], vec_rotated[1], vec_rotated[2])
 
         aRandom.cartesian_x = vec_rotated[0]
@@ -62,7 +62,7 @@ def random_unit(Ntot, pointing):
         #quickly check distance, should be 1
         if math.fabs(aRandom.distance - 1) > 1.0e-5:
             sys.stderr.write("Error: rotated vector is not unit!\n")
-        
+
         #using dot product to check
         if dot(vec_rotated, center) < plate_size_cos:
             sys.stderr.write("Warning: there is certainly something wrong..\n")
@@ -86,12 +86,12 @@ def assign_distance(random_sample, r1, r2):
                          "Shell parameters error.\n"
                          "The max radius smaller than the min.\n ")
         sys.exit()
-    
+
     a = r1 ** 3
     b = r2 ** 3 - a
 
     for p in random_sample:
-        
+
         u = random.random()
 
         p.distance = (u * b + a) ** (1.0 / 3.0)
@@ -99,9 +99,9 @@ def assign_distance(random_sample, r1, r2):
     # recalculate the x, y, z of random points based on the assigned distance.
     for p in random_sample:
         p.cartesian_x, p.cartesian_y, p.cartesian_z = eq2cart(p.ra_rad, p.dec_rad, p.distance)
-        
+
     return random_sample
-    
+
 #--------------------------------------------------------------------------
 
 def main():
@@ -109,13 +109,13 @@ def main():
     # load the todo pointing list
     input_filename = data_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
-    input_file = open(input_filename, 'r')
+    input_file = open(input_filename, 'rb')
     todo_list = pickle.load(input_file)
     input_file.close()
 
     sys.stderr.write('Generating random samples..\n')
     sys.stderr.write('{} line-of-sight to generate..\n'.format(len(todo_list)))
-    
+
     # generate random sample and star sample for individual plates
     for p in todo_list:
 
@@ -123,17 +123,17 @@ def main():
         if todo_list.index(p) % (len(todo_list) / 10) == 0:
             sys.stderr.write('Generating #{} of {} ..\n'
                              .format(todo_list.index(p), len(todo_list)))
-        
+
         if p.N_star == 0:
             sys.stderr.write('Error: Empty star list. \n')
             continue
-        
+
         Ntot = p.N_star * multi # total number of random points to generate
 
         # generate random numbers on a unit sphere
         random_sample = random_unit(Ntot, p)
-    
-        r1 = INNER_DISTANCE_LIMIT 
+
+        r1 = INNER_DISTANCE_LIMIT
         r2 = OUTER_DISTANCE_LIMIT
 
         # assign distance to random sample
@@ -149,10 +149,10 @@ def main():
         # set random points' weight to 1
         for i in random_sample:
             i.weight = 1.0
-            
+
         # pickle output
         output_filename = data_dir + 'uniform_' + p.ID + '.dat'
-        output_file = open(output_filename, "w")
+        output_file = open(output_filename, "wb")
         pickle.dump(random_sample, output_file)
         output_file.close()
 
@@ -163,16 +163,16 @@ def main():
         output_file.write('{}\n'.format(len(random_sample)))
         for i in random_sample:
             output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'
-                              .format(i.ra_rad, i.dec_rad, i.distance, 
-                                      i.galactic_l_rad, i.galactic_b_rad, 
+                              .format(i.ra_rad, i.dec_rad, i.distance,
+                                      i.galactic_l_rad, i.galactic_b_rad,
                                       i.galactic_Z, i.galactic_R,
-                                      i.cartesian_x, i.cartesian_y, i.cartesian_z, 
+                                      i.cartesian_x, i.cartesian_y, i.cartesian_z,
                                       i.weight))
         output_file.close()
 
-        
+
     sys.stderr.write('Done. Random samples output to {} .\n\n'.format(data_dir))
-    
+
 if __name__ == '__main__' :
     main()
 
