@@ -35,7 +35,7 @@ def main():
 
     # pickle output
     output_filename = config.data_dir + 'rbins.dat'
-    output_file = open(output_filename, 'wb')
+    output_file = open(output_filename, 'w')
     pickle.dump(bins_list, output_file)
     output_file.close()
 
