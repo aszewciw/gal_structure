@@ -4,7 +4,7 @@ make cleanall
 make
 
 N_procs=20;
-N_steps=50000;
+N_steps=300000;
 params=1;
 filename=mcmc_result.dat;
 
