@@ -25,7 +25,7 @@ def line_prepender(filename, line):
 
 def main():
 
-    input_filename = rawdata_dir + 'todo_list.dat'
+    input_filename = todo_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
     todo_list      = pickle.load(input_file)
@@ -42,7 +42,7 @@ def main():
 
     for p in todo_list:
 
-        in_file = uni_dir + 'uniform_' + p.ID + '.xyz.dat'
+        in_file = jk_dir + 'uniform_' + p.ID + '_jk_all.dat'
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
             continue

@@ -7,7 +7,7 @@ from config import *
 
 def main():
 
-    input_filename = rawdata_dir + 'todo_list.dat'
+    input_filename = todo_dir + 'todo_list.dat'
     sys.stderr.write('Loading from file {} ...\n'.format(input_filename))
     input_file     = open(input_filename, 'rb')
     todo_list      = pickle.load(input_file)

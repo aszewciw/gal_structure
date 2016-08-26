@@ -24,10 +24,10 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir  = '../../data/'
+# rawdata_dir  = '../../data/'
+mock_dir     = '/fs1/szewciw/gal_structure/codes/referee_questions/prepare_mock/data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock/data/'
-uni_dir      = '../../prepare_randoms/data/'
+todo_dir     = data_dir + 'todo/'
 errors_dir   = data_dir + 'errors/'
 jk_dir       = data_dir + 'jackknife/'
 mcmc_out_dir = data_dir + 'mcmc_output/'
@@ -35,6 +35,7 @@ mock_dd_dir  = data_dir + 'mock_dd/'
 pairs_dir    = data_dir + 'model_pairs/'
 zrw_dir      = data_dir + 'model_positions/'
 rbins_dir    = data_dir + 'rbins/'
+uniform_dir  = data_dir + 'uniform/'
 
 # create array of bins evenly spaced in log
 # Nbins   = 12

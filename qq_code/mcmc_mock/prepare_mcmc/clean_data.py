@@ -18,12 +18,12 @@ from config import *
 
 def main():
 
-    todo_file = rawdata_dir + 'todo_list.ascii.dat'
+    todo_file = todo_dir + 'todo_list.ascii.dat'
     ID        = np.genfromtxt(todo_file, unpack=True, skip_header=1,
         usecols=[0], dtype=str)
 
     # Repack file of just pointing IDs
-    outfile   = rawdata_dir + 'pointing_ID.dat'
+    outfile   = todo_dir + 'pointing_ID.dat'
     with open(outfile, 'w') as f:
         f.write(str(len(ID)))
         f.write('\n')
@@ -34,7 +34,7 @@ def main():
     for p in ID:
 
         # # Repack file containing Z, R, and W=1.0 only
-        ZRW_file = uni_dir + 'uniform_' + p + '.ascii.dat'
+        ZRW_file = uniform_dir + 'uniform_' + p + '.ascii.dat'
         Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
             usecols=[5, 6, 10], dtype=None)
         N_points = len(Z)
@@ -53,9 +53,9 @@ def main():
         np.savetxt(outfile, uni_jk_err)
 
         # Repack mock error files
-        dat_jk_file = jk_dir + 'mock_' + p + '_jk_error.dat'
+        dat_jk_file = jk_dir + 'star_' + p + '_jk_error.dat'
         dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        outfile     = errors_dir + 'mock_' + p + '_frac_error.dat'
+        outfile     = errors_dir + 'star_' + p + '_frac_error.dat'
         np.savetxt(outfile, dat_jk_err)
 
 if __name__ == '__main__':
