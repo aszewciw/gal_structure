@@ -156,14 +156,14 @@ int main(int argc, char* argv[]){
     PARAMETERS tmp_p;
     tmp_mc = mcmc_chain[i];
     tmp_p = tmp_mc.params;
-    fprintf(stderr, "Made it here\n");
-    fprintf(file_chain_realtime, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%d\t%lf\n",
-	    i+50000, tmp_p.thindisk_r0, tmp_p.thindisk_z0, tmp_p.thickdisk_r0, tmp_p.thickdisk_z0, tmp_p.thickdisk_n0,
-	    tmp_mc.chi2, (int)tmp_mc.dof, tmp_mc.chi2/dof);
-    fprintf(stderr, "Printed to file.\n");
-    if(i % 50 == 0){
-      fflush(file_chain_realtime);
-    }
+    // fprintf(stderr, "Made it here\n");
+    // fprintf(file_chain_realtime, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%d\t%lf\n",
+	   //  i+50000, tmp_p.thindisk_r0, tmp_p.thindisk_z0, tmp_p.thickdisk_r0, tmp_p.thickdisk_z0, tmp_p.thickdisk_n0,
+	   //  tmp_mc.chi2, (int)tmp_mc.dof, tmp_mc.chi2/dof);
+    // fprintf(stderr, "Printed to file.\n");
+    // if(i % 50 == 0){
+    //   fflush(file_chain_realtime);
+    // }
 
   } /* end of mcmc */
 
