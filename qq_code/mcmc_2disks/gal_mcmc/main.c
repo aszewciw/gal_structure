@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
 
   fprintf(stderr, "Star data loaded from %s\n", data_dir);
 
-  /* Read model data for each pointing, 
+  /* Read model data for each pointing,
      here each file starts with uniformly distributed random */
   for(i = 0; i < N_plist; i++){
     char model_filename[256];
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
   params.thindisk_r0 = 2.475508;
   params.thindisk_z0 = 0.241209;
   params.thindisk_n0 = 1.0;
-  
+
   params.thickdisk_type = 1;	/* turn on thick disk */
   params.thickdisk_r0 = 2.417346;
   params.thickdisk_z0 = 0.694395;
@@ -73,14 +73,14 @@ int main(int argc, char* argv[]){
   mcmc_steps = 500000;
   mcmc_chain = calloc(mcmc_steps, sizeof(MCMC));
 
-  FILE *file_chain_realtime; 
+  FILE *file_chain_realtime;
   file_chain_realtime = fopen("./data/mcmc.dat", "a");
-  
+
   fprintf(stderr, "Allocate MCMC chain..Max steps = %d \n", mcmc_steps);
-  
-  /* set the first element as the initial parameters. 
+
+  /* set the first element as the initial parameters.
    Then calculate the chi2 for the initial parameters. */
-  mcmc_chain[0].params = params; 
+  mcmc_chain[0].params = params;
 
   set_weights(mcmc_chain[0].params, plist, N_plist);
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]){
 
   /* load the jackknife fractional errors */
   load_errors(plist, N_plist);
-  
+
   mcmc_chain[0].dof = degrees_of_freedom(plist, N_plist, params);
   mcmc_chain[0].chi2 = chi_square(plist, N_plist);
 
@@ -114,16 +114,16 @@ int main(int argc, char* argv[]){
 
     /* get chi squares */
     dof = degrees_of_freedom(plist, N_plist, params);
-    
+
     chi2 = chi_square(plist, N_plist);
-    
+
     delta_chi2 = chi2 - mcmc_chain[i - 1].chi2;
 
     fprintf(stderr, "delta_chi2 = %le \n", delta_chi2);
 
     if(delta_chi2 <= 0.0){
       /* if delta chisquare is smaller then record*/
-      mcmc_chain[i].params = params; 
+      mcmc_chain[i].params = params;
       mcmc_chain[i].chi2 = chi2;
       mcmc_chain[i].dof = dof;
       efficiency_counter++;
@@ -133,14 +133,14 @@ int main(int argc, char* argv[]){
       /* !!! replace with GSL random generator later !!! */
       double tmp = (double)rand() / (double)RAND_MAX; /* a random number in [0,1] */
       if (tmp < exp(- delta_chi2 / 2.0)){
-	mcmc_chain[i].params = params; 
+	mcmc_chain[i].params = params;
 	mcmc_chain[i].chi2 = chi2;
 	mcmc_chain[i].dof = dof;
 	efficiency_counter++;
       }
       else{
 	/* record the old position. */
-	mcmc_chain[i] = mcmc_chain[i - 1]; 	
+	mcmc_chain[i] = mcmc_chain[i - 1];
       }
     }
 
@@ -149,17 +149,18 @@ int main(int argc, char* argv[]){
     /* if(i % (mcmc_steps / 100) == 0){ */
     /*   fprintf(stderr, "MCMC... %d / %d: chi2 = %lf \n", i, mcmc_steps, chi2); */
     /* } */
-    fprintf(stderr, "MCMC... %d / %d: efficiency = %lf \n z0_thin = %lf, r0_thin = %lf, z0_thick = %lf, r0_thick = %lf, n0_thick = %lf \n chi2 = %lf, dof = %d, chi2_reduced = %lf \n\n", 
+    fprintf(stderr, "MCMC... %d / %d: efficiency = %lf \n z0_thin = %lf, r0_thin = %lf, z0_thick = %lf, r0_thick = %lf, n0_thick = %lf \n chi2 = %lf, dof = %d, chi2_reduced = %lf \n\n",
 	    i, mcmc_steps, efficiency, params.thindisk_z0, params.thindisk_r0, params.thickdisk_z0, params.thickdisk_r0, params.thickdisk_n0, chi2, dof, chi2/dof);
 
     MCMC tmp_mc;
     PARAMETERS tmp_p;
     tmp_mc = mcmc_chain[i];
     tmp_p = tmp_mc.params;
+    fprintf(stderr, "Made it here\n");
     fprintf(file_chain_realtime, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%d\t%lf\n",
-	    i+50000, tmp_p.thindisk_r0, tmp_p.thindisk_z0, tmp_p.thickdisk_r0, tmp_p.thickdisk_z0, tmp_p.thickdisk_n0, 
+	    i+50000, tmp_p.thindisk_r0, tmp_p.thindisk_z0, tmp_p.thickdisk_r0, tmp_p.thickdisk_z0, tmp_p.thickdisk_n0,
 	    tmp_mc.chi2, (int)tmp_mc.dof, tmp_mc.chi2/dof);
-
+    fprintf(stderr, "Printed to file.\n");
     if(i % 50 == 0){
       fflush(file_chain_realtime);
     }
@@ -170,7 +171,7 @@ int main(int argc, char* argv[]){
   output_mcmc(mcmc_chain, mcmc_steps);
 
   fprintf(stderr, "End MCMC calculation..\n");
-  
+
   for(i = 0; i < N_plist; i++){
     free(plist[i].data);
     free(plist[i].model);
