@@ -70,7 +70,7 @@ int main(int argc, char* argv[]){
   double chi2, delta_chi2;
   int dof;
 
-  mcmc_steps = 500000;
+  mcmc_steps = 30000;
   mcmc_chain = calloc(mcmc_steps, sizeof(MCMC));
 
   FILE *file_chain_realtime;
