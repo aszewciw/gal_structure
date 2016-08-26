@@ -2,6 +2,7 @@
 
 # import sys, math, pickle
 # import config
+import numpy as np
 from config import *
 
 #------------------------------------------------------------------------------
