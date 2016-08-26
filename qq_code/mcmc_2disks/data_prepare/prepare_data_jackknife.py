@@ -18,7 +18,7 @@ def main():
     for p in todo_list:
 
         star_filename = config.rawdata_dir + 'star_' + p.ID + '.dat'
-        star_file = open(star_filename, 'r')
+        star_file = open(star_filename, 'rb')
         star_list = pickle.load(star_file)
         star_file.close()
 
