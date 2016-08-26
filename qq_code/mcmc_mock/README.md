@@ -1,0 +1,1 @@
+# Running my mcmc code using Qingqing's random sample and jackknifing code.

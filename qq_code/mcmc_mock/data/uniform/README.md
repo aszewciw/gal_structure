@@ -1,0 +1,1 @@
+# Uniform points to be used in MCMC
