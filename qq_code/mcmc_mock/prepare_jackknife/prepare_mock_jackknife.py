@@ -62,7 +62,7 @@ def main():
         for i in range(N_jackknife):
 
             temp = xyz[:(N*i)]
-            temp = np.append(temp, xyz[(N*i + N)])
+            temp = np.append(temp, xyz[(N*i + N):])
             # output_list = star_list[:(N * i)] + star_list[(N * i + N):]
 
             output_filename = config.jk_dir + 'star_' + p.ID + '_jk_' + str(i) + '.dat'
