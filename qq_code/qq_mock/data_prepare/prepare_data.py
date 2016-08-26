@@ -53,7 +53,7 @@ def main():
                               .format(ra_rad[i], dec_rad[i], distance[i],
                                       l_rad[i], b_rad[i],
                                       gal_Z[i], gal_R[i],
-                                      x[i], y[i], z[i]
+                                      x[i], y[i], z[i],
                                       weight[i]))
         output_file.close()
 
