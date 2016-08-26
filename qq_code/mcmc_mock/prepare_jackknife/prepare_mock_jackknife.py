@@ -57,7 +57,7 @@ def main():
         # make jackknife samples
         N_jackknife = config.N_jackknife # number of jackknife samples
 
-        N = int(len(star_list) / N_jackknife)
+        N = int(len(xyz) / N_jackknife)
 
         for i in range(N_jackknife):
 
