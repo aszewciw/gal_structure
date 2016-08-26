@@ -38,7 +38,7 @@ def main():
         # number of jackknife samples
         N_jackknife = config.N_jackknife
 
-        N = len(uniform_list) / N_jackknife
+        N = int(len(uniform_list) / N_jackknife)
 
         for i in range(N_jackknife):
             output_list = uniform_list[:(N * i)] + uniform_list[(N * i + N):]
