@@ -23,7 +23,7 @@ def main():
         uniform_file.close()
 
         # random shuffle
-        random.shuffle(uniform_list)
+        # random.shuffle(uniform_list)
 
         # first output a full shuffled data set
         output_filename = config.jk_dir + 'uniform_' + p.ID + '_jk_all.dat'
