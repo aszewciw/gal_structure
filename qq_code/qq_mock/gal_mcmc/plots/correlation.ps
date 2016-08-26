@@ -1,0 +1,3495 @@
+%!PS-Adobe-2.0
+%%Title: ./correlation.ps
+%%Creator: gnuplot 4.6 patchlevel 1
+%%CreationDate: Sun Aug 11 12:44:34 2013
+%%DocumentFonts: (atend)
+%%BoundingBox: 50 50 554 770
+%%Orientation: Portrait
+%%Pages: (atend)
+%%EndComments
+%%BeginProlog
+/gnudict 256 dict def
+gnudict begin
+%
+% The following true/false flags may be edited by hand if desired.
+% The unit line width and grayscale image gamma correction may also be changed.
+%
+/Color true def
+/Blacktext false def
+/Solid false def
+/Dashlength 1 def
+/Landscape false def
+/Level1 false def
+/Rounded false def
+/ClipToBoundingBox false def
+/SuppressPDFMark false def
+/TransparentPatterns false def
+/gnulinewidth 5.000 def
+/userlinewidth gnulinewidth def
+/Gamma 1.0 def
+/BackgroundColor {-1.000 -1.000 -1.000} def
+%
+/vshift -46 def
+/dl1 {
+  10.0 Dashlength mul mul
+  Rounded { currentlinewidth 0.75 mul sub dup 0 le { pop 0.01 } if } if
+} def
+/dl2 {
+  10.0 Dashlength mul mul
+  Rounded { currentlinewidth 0.75 mul add } if
+} def
+/hpt_ 31.5 def
+/vpt_ 31.5 def
+/hpt hpt_ def
+/vpt vpt_ def
+/doclip {
+  ClipToBoundingBox {
+    newpath 50 50 moveto 554 50 lineto 554 770 lineto 50 770 lineto closepath
+    clip
+  } if
+} def
+%
+% Gnuplot Prolog Version 4.6 (September 2012)
+%
+%/SuppressPDFMark true def
+%
+/M {moveto} bind def
+/L {lineto} bind def
+/R {rmoveto} bind def
+/V {rlineto} bind def
+/N {newpath moveto} bind def
+/Z {closepath} bind def
+/C {setrgbcolor} bind def
+/f {rlineto fill} bind def
+/g {setgray} bind def
+/Gshow {show} def   % May be redefined later in the file to support UTF-8
+/vpt2 vpt 2 mul def
+/hpt2 hpt 2 mul def
+/Lshow {currentpoint stroke M 0 vshift R 
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/Rshow {currentpoint stroke M dup stringwidth pop neg vshift R
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/Cshow {currentpoint stroke M dup stringwidth pop -2 div vshift R 
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/UP {dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
+  /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def} def
+/DL {Color {setrgbcolor Solid {pop []} if 0 setdash}
+ {pop pop pop 0 setgray Solid {pop []} if 0 setdash} ifelse} def
+/BL {stroke userlinewidth 2 mul setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/AL {stroke userlinewidth 2 div setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/UL {dup gnulinewidth mul /userlinewidth exch def
+	dup 1 lt {pop 1} if 10 mul /udl exch def} def
+/PL {stroke userlinewidth setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+3.8 setmiterlimit
+% Default Line colors
+/LCw {1 1 1} def
+/LCb {0 0 0} def
+/LCa {0 0 0} def
+/LC0 {1 0 0} def
+/LC1 {0 1 0} def
+/LC2 {0 0 1} def
+/LC3 {1 0 1} def
+/LC4 {0 1 1} def
+/LC5 {1 1 0} def
+/LC6 {0 0 0} def
+/LC7 {1 0.3 0} def
+/LC8 {0.5 0.5 0.5} def
+% Default Line Types
+/LTw {PL [] 1 setgray} def
+/LTb {BL [] LCb DL} def
+/LTa {AL [1 udl mul 2 udl mul] 0 setdash LCa setrgbcolor} def
+/LT0 {PL [] LC0 DL} def
+/LT1 {PL [4 dl1 2 dl2] LC1 DL} def
+/LT2 {PL [2 dl1 3 dl2] LC2 DL} def
+/LT3 {PL [1 dl1 1.5 dl2] LC3 DL} def
+/LT4 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
+/LT5 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC5 DL} def
+/LT6 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC6 DL} def
+/LT7 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC7 DL} def
+/LT8 {PL [2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 4 dl2] LC8 DL} def
+/Pnt {stroke [] 0 setdash gsave 1 setlinecap M 0 0 V stroke grestore} def
+/Dia {stroke [] 0 setdash 2 copy vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke
+  Pnt} def
+/Pls {stroke [] 0 setdash vpt sub M 0 vpt2 V
+  currentpoint stroke M
+  hpt neg vpt neg R hpt2 0 V stroke
+ } def
+/Box {stroke [] 0 setdash 2 copy exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke
+  Pnt} def
+/Crs {stroke [] 0 setdash exch hpt sub exch vpt add M
+  hpt2 vpt2 neg V currentpoint stroke M
+  hpt2 neg 0 R hpt2 vpt2 V stroke} def
+/TriU {stroke [] 0 setdash 2 copy vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke
+  Pnt} def
+/Star {2 copy Pls Crs} def
+/BoxF {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath fill} def
+/TriUF {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath fill} def
+/TriD {stroke [] 0 setdash 2 copy vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke
+  Pnt} def
+/TriDF {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath fill} def
+/DiaF {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath fill} def
+/Pent {stroke [] 0 setdash 2 copy gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore Pnt} def
+/PentF {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath fill grestore} def
+/Circle {stroke [] 0 setdash 2 copy
+  hpt 0 360 arc stroke Pnt} def
+/CircleF {stroke [] 0 setdash hpt 0 360 arc fill} def
+/C0 {BL [] 0 setdash 2 copy moveto vpt 90 450 arc} bind def
+/C1 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C2 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C3 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C4 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C5 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc
+	2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc} bind def
+/C6 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C7 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C8 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C9 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 450 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C10 {BL [] 0 setdash 2 copy 2 copy moveto vpt 270 360 arc closepath fill
+	2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C11 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C12 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C13 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C14 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 360 arc closepath fill
+	vpt 0 360 arc} bind def
+/C15 {BL [] 0 setdash 2 copy vpt 0 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/Rec {newpath 4 2 roll moveto 1 index 0 rlineto 0 exch rlineto
+	neg 0 rlineto closepath} bind def
+/Square {dup Rec} bind def
+/Bsquare {vpt sub exch vpt sub exch vpt2 Square} bind def
+/S0 {BL [] 0 setdash 2 copy moveto 0 vpt rlineto BL Bsquare} bind def
+/S1 {BL [] 0 setdash 2 copy vpt Square fill Bsquare} bind def
+/S2 {BL [] 0 setdash 2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S3 {BL [] 0 setdash 2 copy exch vpt sub exch vpt2 vpt Rec fill Bsquare} bind def
+/S4 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S5 {BL [] 0 setdash 2 copy 2 copy vpt Square fill
+	exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S6 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S7 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S8 {BL [] 0 setdash 2 copy vpt sub vpt Square fill Bsquare} bind def
+/S9 {BL [] 0 setdash 2 copy vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S10 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt Square fill
+	Bsquare} bind def
+/S11 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt2 vpt Rec fill
+	Bsquare} bind def
+/S12 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill Bsquare} bind def
+/S13 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S14 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S15 {BL [] 0 setdash 2 copy Bsquare fill Bsquare} bind def
+/D0 {gsave translate 45 rotate 0 0 S0 stroke grestore} bind def
+/D1 {gsave translate 45 rotate 0 0 S1 stroke grestore} bind def
+/D2 {gsave translate 45 rotate 0 0 S2 stroke grestore} bind def
+/D3 {gsave translate 45 rotate 0 0 S3 stroke grestore} bind def
+/D4 {gsave translate 45 rotate 0 0 S4 stroke grestore} bind def
+/D5 {gsave translate 45 rotate 0 0 S5 stroke grestore} bind def
+/D6 {gsave translate 45 rotate 0 0 S6 stroke grestore} bind def
+/D7 {gsave translate 45 rotate 0 0 S7 stroke grestore} bind def
+/D8 {gsave translate 45 rotate 0 0 S8 stroke grestore} bind def
+/D9 {gsave translate 45 rotate 0 0 S9 stroke grestore} bind def
+/D10 {gsave translate 45 rotate 0 0 S10 stroke grestore} bind def
+/D11 {gsave translate 45 rotate 0 0 S11 stroke grestore} bind def
+/D12 {gsave translate 45 rotate 0 0 S12 stroke grestore} bind def
+/D13 {gsave translate 45 rotate 0 0 S13 stroke grestore} bind def
+/D14 {gsave translate 45 rotate 0 0 S14 stroke grestore} bind def
+/D15 {gsave translate 45 rotate 0 0 S15 stroke grestore} bind def
+/DiaE {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke} def
+/BoxE {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke} def
+/TriUE {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke} def
+/TriDE {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke} def
+/PentE {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore} def
+/CircE {stroke [] 0 setdash 
+  hpt 0 360 arc stroke} def
+/Opaque {gsave closepath 1 setgray fill grestore 0 setgray closepath} def
+/DiaW {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V Opaque stroke} def
+/BoxW {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V Opaque stroke} def
+/TriUW {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V Opaque stroke} def
+/TriDW {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V Opaque stroke} def
+/PentW {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  Opaque stroke grestore} def
+/CircW {stroke [] 0 setdash 
+  hpt 0 360 arc Opaque stroke} def
+/BoxFill {gsave Rec 1 setgray fill grestore} def
+/Density {
+  /Fillden exch def
+  currentrgbcolor
+  /ColB exch def /ColG exch def /ColR exch def
+  /ColR ColR Fillden mul Fillden sub 1 add def
+  /ColG ColG Fillden mul Fillden sub 1 add def
+  /ColB ColB Fillden mul Fillden sub 1 add def
+  ColR ColG ColB setrgbcolor} def
+/BoxColFill {gsave Rec PolyFill} def
+/PolyFill {gsave Density fill grestore grestore} def
+/h {rlineto rlineto rlineto gsave closepath fill grestore} bind def
+%
+% PostScript Level 1 Pattern Fill routine for rectangles
+% Usage: x y w h s a XX PatternFill
+%	x,y = lower left corner of box to be filled
+%	w,h = width and height of box
+%	  a = angle in degrees between lines and x-axis
+%	 XX = 0/1 for no/yes cross-hatch
+%
+/PatternFill {gsave /PFa [ 9 2 roll ] def
+  PFa 0 get PFa 2 get 2 div add PFa 1 get PFa 3 get 2 div add translate
+  PFa 2 get -2 div PFa 3 get -2 div PFa 2 get PFa 3 get Rec
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+  clip
+  currentlinewidth 0.5 mul setlinewidth
+  /PFs PFa 2 get dup mul PFa 3 get dup mul add sqrt def
+  0 0 M PFa 5 get rotate PFs -2 div dup translate
+  0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 M 0 PFs V} for
+  0 PFa 6 get ne {
+	0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 2 1 roll M PFs 0 V} for
+ } if
+  stroke grestore} def
+%
+/languagelevel where
+ {pop languagelevel} {1} ifelse
+ 2 lt
+	{/InterpretLevel1 true def}
+	{/InterpretLevel1 Level1 def}
+ ifelse
+%
+% PostScript level 2 pattern fill definitions
+%
+/Level2PatternFill {
+/Tile8x8 {/PaintType 2 /PatternType 1 /TilingType 1 /BBox [0 0 8 8] /XStep 8 /YStep 8}
+	bind def
+/KeepColor {currentrgbcolor [/Pattern /DeviceRGB] setcolorspace} bind def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke} 
+>> matrix makepattern
+/Pat1 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke
+	0 4 M 4 8 L 8 4 L 4 0 L 0 4 L stroke}
+>> matrix makepattern
+/Pat2 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 0 8 L
+	8 8 L 8 0 L 0 0 L fill}
+>> matrix makepattern
+/Pat3 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 8 M 8 -4 L
+	0 12 M 12 0 L stroke}
+>> matrix makepattern
+/Pat4 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 0 M 8 12 L
+	0 -4 M 12 8 L stroke}
+>> matrix makepattern
+/Pat5 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 8 M 4 -4 L
+	0 12 M 8 -4 L 4 12 M 10 0 L stroke}
+>> matrix makepattern
+/Pat6 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 0 M 4 12 L
+	0 -4 M 8 12 L 4 -4 M 10 8 L stroke}
+>> matrix makepattern
+/Pat7 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 8 -2 M -4 4 L
+	12 0 M -4 8 L 12 4 M 0 10 L stroke}
+>> matrix makepattern
+/Pat8 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 -2 M 12 4 L
+	-4 0 M 12 8 L -4 4 M 8 10 L stroke}
+>> matrix makepattern
+/Pat9 exch def
+/Pattern1 {PatternBgnd KeepColor Pat1 setpattern} bind def
+/Pattern2 {PatternBgnd KeepColor Pat2 setpattern} bind def
+/Pattern3 {PatternBgnd KeepColor Pat3 setpattern} bind def
+/Pattern4 {PatternBgnd KeepColor Landscape {Pat5} {Pat4} ifelse setpattern} bind def
+/Pattern5 {PatternBgnd KeepColor Landscape {Pat4} {Pat5} ifelse setpattern} bind def
+/Pattern6 {PatternBgnd KeepColor Landscape {Pat9} {Pat6} ifelse setpattern} bind def
+/Pattern7 {PatternBgnd KeepColor Landscape {Pat8} {Pat7} ifelse setpattern} bind def
+} def
+%
+%
+%End of PostScript Level 2 code
+%
+/PatternBgnd {
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+} def
+%
+% Substitute for Level 2 pattern fill codes with
+% grayscale if Level 2 support is not selected.
+%
+/Level1PatternFill {
+/Pattern1 {0.250 Density} bind def
+/Pattern2 {0.500 Density} bind def
+/Pattern3 {0.750 Density} bind def
+/Pattern4 {0.125 Density} bind def
+/Pattern5 {0.375 Density} bind def
+/Pattern6 {0.625 Density} bind def
+/Pattern7 {0.875 Density} bind def
+} def
+%
+% Now test for support of Level 2 code
+%
+Level1 {Level1PatternFill} {Level2PatternFill} ifelse
+%
+/Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
+dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
+currentdict end definefont pop
+/MFshow {
+   { dup 5 get 3 ge
+     { 5 get 3 eq {gsave} {grestore} ifelse }
+     {dup dup 0 get findfont exch 1 get scalefont setfont
+     [ currentpoint ] exch dup 2 get 0 exch R dup 5 get 2 ne {dup dup 6
+     get exch 4 get {Gshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
+     {dup 3 get {2 get neg 0 exch R pop} {pop aload pop M} ifelse} {dup 5
+     get 1 eq {dup 2 get exch dup 3 get exch 6 get stringwidth pop -2 div
+     dup 0 R} {dup 6 get stringwidth pop -2 div 0 R 6 get
+     show 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
+     pop aload pop M} ifelse }ifelse }ifelse }
+     ifelse }
+   forall} def
+/Gswidth {dup type /stringtype eq {stringwidth} {pop (n) stringwidth} ifelse} def
+/MFwidth {0 exch { dup 5 get 3 ge { 5 get 3 eq { 0 } { pop } ifelse }
+ {dup 3 get{dup dup 0 get findfont exch 1 get scalefont setfont
+     6 get Gswidth pop add} {pop} ifelse} ifelse} forall} def
+/MLshow { currentpoint stroke M
+  0 exch R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/MRshow { currentpoint stroke M
+  exch dup MFwidth neg 3 -1 roll R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/MCshow { currentpoint stroke M
+  exch dup MFwidth -2 div 3 -1 roll R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/XYsave    { [( ) 1 2 true false 3 ()] } bind def
+/XYrestore { [( ) 1 2 true false 4 ()] } bind def
+Level1 SuppressPDFMark or 
+{} {
+/SDict 10 dict def
+systemdict /pdfmark known not {
+  userdict /pdfmark systemdict /cleartomark get put
+} if
+SDict begin [
+  /Title (./correlation.ps)
+  /Subject (gnuplot plot)
+  /Creator (gnuplot 4.6 patchlevel 1)
+  /Author (maoq)
+%  /Producer (gnuplot)
+%  /Keywords ()
+  /CreationDate (Sun Aug 11 12:44:34 2013)
+  /DOCINFO pdfmark
+end
+} ifelse
+end
+%%EndProlog
+%%Page: 1 1
+gnudict begin
+gsave
+doclip
+50 50 translate
+0.100 0.100 scale
+0 setgray
+newpath
+(Helvetica) findfont 140 scalefont setfont
+BackgroundColor 0 lt 3 1 roll 0 lt exch 0 lt or or not {gsave BackgroundColor C clippath fill grestore} if
+1.000 UL
+LTb
+770 1731 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 1731 M
+[ [(Helvetica) 220.0 0.0 true true 0 (-1)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 2401 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 2401 M
+[ [(Helvetica) 220.0 0.0 true true 0 (-0.5)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 3070 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 3070 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 0)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 3740 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 3740 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 0.5)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 4409 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 4409 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 1)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 5079 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 5079 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 1.5)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 5748 M
+63 0 V
+3954 0 R
+-63 0 V
+stroke
+686 5748 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 2)]
+] -73.3 MRshow
+1.000 UL
+LTb
+770 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+892 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+996 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+89 -3986 R
+0 31 V
+0 3986 R
+0 -31 V
+79 -3986 R
+0 31 V
+0 3986 R
+0 -31 V
+71 -3986 R
+0 63 V
+0 3954 R
+0 -63 V
+stroke
+1235 1591 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 0.01)]
+] -73.3 MCshow
+1.000 UL
+LTb
+1699 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+1971 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+2164 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+2314 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+2436 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+2539 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+90 -3986 R
+0 31 V
+0 3986 R
+0 -31 V
+79 -3986 R
+0 31 V
+0 3986 R
+0 -31 V
+71 -3986 R
+0 63 V
+0 3954 R
+0 -63 V
+stroke
+2779 1591 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 0.1)]
+] -73.3 MCshow
+1.000 UL
+LTb
+3243 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+3515 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+3708 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+3858 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+3980 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+4083 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+90 -3986 R
+0 31 V
+0 3986 R
+0 -31 V
+79 -3986 R
+0 31 V
+0 3986 R
+0 -31 V
+70 -3986 R
+0 63 V
+0 3954 R
+0 -63 V
+stroke
+4322 1591 M
+[ [(Helvetica) 220.0 0.0 true true 0 ( 1)]
+] -73.3 MCshow
+1.000 UL
+LTb
+4787 1731 M
+0 31 V
+0 3986 R
+0 -31 V
+stroke
+770 5748 N
+0 -4017 V
+4017 0 V
+0 4017 V
+-4017 0 V
+Z stroke
+LCb setrgbcolor
+112 3739 M
+currentpoint gsave translate -270 rotate 0 0 moveto
+[ [(Symbol) 260.0 0.0 true true 0 (x)]
+[(Helvetica) 260.0 0.0 true true 0 (\(r\))]
+] -86.7 MCshow
+grestore
+LTb
+LCb setrgbcolor
+2778 1381 M
+[ [(Helvetica) 260.0 0.0 true true 0 (r \(kpc\))]
+] -86.7 MCshow
+LTb
+1.000 UP
+1.000 UL
+LTb
+% Begin plot #1
+0.100 UL
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3857 M
+335 -507 V
+335 -79 V
+335 -143 V
+334 97 V
+335 -148 V
+335 -60 V
+335 130 V
+334 -53 V
+335 -40 V
+335 33 V
+335 -120 V
+% End plot #1
+% Begin plot #2
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1086 5748 M
+1272 2797 L
+335 1058 V
+335 -345 V
+334 -95 V
+335 -346 V
+335 61 V
+335 24 V
+334 -93 V
+335 49 V
+335 -110 V
+335 -43 V
+% End plot #2
+% Begin plot #3
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3506 M
+335 144 V
+335 956 V
+1942 2738 L
+334 883 V
+335 -575 V
+335 41 V
+335 99 V
+334 -14 V
+335 -110 V
+335 -23 V
+335 -195 V
+% End plot #3
+% Begin plot #4
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4006 M
+1272 2547 L
+335 618 V
+335 24 V
+334 -206 V
+335 -108 V
+335 114 V
+335 -88 V
+334 27 V
+335 13 V
+335 104 V
+335 815 V
+% End plot #4
+% Begin plot #5
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1717 V
+335 -151 V
+335 -288 V
+334 277 V
+335 -223 V
+335 23 V
+335 -62 V
+334 3 V
+335 -30 V
+335 32 V
+335 259 V
+% End plot #5
+% Begin plot #6
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5209 M
+1272 3189 L
+335 424 V
+335 -328 V
+334 -230 V
+335 75 V
+335 31 V
+335 -82 V
+334 -48 V
+335 -119 V
+335 231 V
+335 -26 V
+% End plot #6
+% Begin plot #7
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2620 M
+335 1879 V
+1607 3335 L
+335 -28 V
+334 -96 V
+335 -138 V
+335 53 V
+335 106 V
+334 5 V
+335 -16 V
+335 -290 V
+335 -207 V
+% End plot #7
+% Begin plot #8
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3709 M
+1272 2349 L
+335 469 V
+335 192 V
+334 155 V
+335 -73 V
+335 0 V
+335 71 V
+334 -141 V
+335 -29 V
+335 98 V
+335 17 V
+% End plot #8
+% Begin plot #9
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3853 M
+335 -425 V
+335 1052 V
+335 -914 V
+334 -466 V
+335 0 V
+335 -193 V
+335 112 V
+334 48 V
+335 21 V
+335 76 V
+335 -227 V
+% End plot #9
+% Begin plot #10
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3112 M
+335 -560 V
+335 767 V
+335 30 V
+334 -159 V
+335 -142 V
+335 -64 V
+335 41 V
+334 3 V
+335 -34 V
+335 39 V
+335 280 V
+% End plot #10
+% Begin plot #11
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3016 M
+335 -486 V
+335 1244 V
+335 -86 V
+334 -362 V
+335 -338 V
+335 26 V
+335 -92 V
+334 101 V
+335 -46 V
+335 155 V
+335 107 V
+% End plot #11
+% Begin plot #12
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 3017 V
+1607 3554 L
+335 -350 V
+334 -72 V
+335 -31 V
+335 81 V
+335 -98 V
+334 -60 V
+335 95 V
+335 -28 V
+335 -172 V
+% End plot #12
+% Begin plot #13
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1031 5748 M
+1272 2252 L
+335 541 V
+335 855 V
+334 -869 V
+335 472 V
+335 -298 V
+335 -44 V
+334 -107 V
+335 151 V
+335 252 V
+335 311 V
+% End plot #13
+% Begin plot #14
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1083 5748 M
+1272 2808 L
+335 -269 V
+335 521 V
+334 235 V
+335 -275 V
+335 94 V
+335 -88 V
+334 -37 V
+335 -5 V
+335 90 V
+335 183 V
+% End plot #14
+% Begin plot #15
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2638 M
+335 598 V
+335 551 V
+335 -602 V
+334 119 V
+335 -321 V
+335 2 V
+335 -45 V
+334 90 V
+335 -10 V
+335 57 V
+335 219 V
+% End plot #15
+% Begin plot #16
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2726 M
+335 50 V
+335 555 V
+335 206 V
+334 -65 V
+335 -414 V
+335 -2 V
+335 89 V
+334 -250 V
+335 222 V
+335 -128 V
+335 212 V
+% End plot #16
+% Begin plot #17
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 0 V
+335 1508 V
+335 117 V
+334 -141 V
+335 271 V
+335 7 V
+335 -278 V
+334 -240 V
+335 269 V
+335 -262 V
+335 -419 V
+% End plot #17
+% Begin plot #18
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1886 V
+335 -336 V
+335 393 V
+334 -410 V
+335 -265 V
+335 -7 V
+335 34 V
+334 73 V
+335 -101 V
+335 72 V
+335 98 V
+% End plot #18
+% Begin plot #19
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3180 M
+335 -207 V
+335 290 V
+335 -75 V
+334 -70 V
+335 -59 V
+335 -26 V
+335 -35 V
+334 157 V
+335 -38 V
+335 -47 V
+335 -97 V
+% End plot #19
+% Begin plot #20
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3015 M
+335 2662 V
+1607 3917 L
+335 -844 V
+334 387 V
+335 -210 V
+335 -188 V
+335 -60 V
+334 31 V
+335 4 V
+335 63 V
+335 -93 V
+% End plot #20
+% Begin plot #21
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2103 M
+335 1285 V
+335 87 V
+335 -139 V
+334 -7 V
+335 -161 V
+335 -43 V
+335 -29 V
+334 -15 V
+335 105 V
+335 -88 V
+335 -372 V
+% End plot #21
+% Begin plot #22
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1023 5748 M
+1272 3605 L
+335 154 V
+335 -302 V
+334 -339 V
+335 -48 V
+335 13 V
+335 -41 V
+334 37 V
+335 39 V
+335 -18 V
+335 -206 V
+% End plot #22
+% Begin plot #23
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4625 M
+335 -517 V
+335 -614 V
+335 -198 V
+334 -16 V
+335 -236 V
+335 107 V
+335 4 V
+334 13 V
+335 -64 V
+335 -111 V
+335 -115 V
+% End plot #23
+% Begin plot #24
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1613 V
+335 2301 V
+1942 3443 L
+334 -205 V
+335 -300 V
+335 81 V
+335 -120 V
+334 -15 V
+335 38 V
+335 219 V
+335 548 V
+% End plot #24
+% Begin plot #25
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 653 V
+335 703 V
+335 -42 V
+334 -159 V
+335 120 V
+335 158 V
+335 -124 V
+334 79 V
+335 -68 V
+335 59 V
+335 -86 V
+% End plot #25
+% Begin plot #26
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2922 M
+335 46 V
+335 89 V
+335 -40 V
+334 45 V
+335 -127 V
+335 66 V
+335 63 V
+334 -64 V
+335 85 V
+335 -29 V
+335 182 V
+% End plot #26
+% Begin plot #27
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2874 M
+335 255 V
+335 -115 V
+335 68 V
+334 34 V
+335 -60 V
+335 -58 V
+335 128 V
+334 -90 V
+335 -47 V
+335 98 V
+335 90 V
+% End plot #27
+% Begin plot #28
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 977 V
+335 -74 V
+335 541 V
+334 -312 V
+335 15 V
+335 -1 V
+335 180 V
+334 26 V
+335 37 V
+335 109 V
+335 -254 V
+% End plot #28
+% Begin plot #29
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3599 M
+1272 2508 L
+335 591 V
+335 261 V
+334 155 V
+335 -448 V
+335 -98 V
+335 59 V
+334 246 V
+335 -157 V
+335 -9 V
+335 -406 V
+% End plot #29
+% Begin plot #30
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2525 M
+335 52 V
+335 581 V
+335 -285 V
+334 46 V
+335 91 V
+335 5 V
+335 -99 V
+334 191 V
+335 -42 V
+335 104 V
+335 -81 V
+% End plot #30
+% Begin plot #31
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1035 V
+335 -41 V
+335 66 V
+334 404 V
+335 -63 V
+335 -67 V
+335 43 V
+334 12 V
+335 46 V
+335 -44 V
+335 -398 V
+% End plot #31
+% Begin plot #32
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2918 M
+335 615 V
+335 1375 V
+1942 3412 L
+334 -722 V
+335 251 V
+335 -26 V
+335 -68 V
+334 23 V
+335 26 V
+335 231 V
+335 942 V
+% End plot #32
+% Begin plot #33
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4250 M
+1272 2699 L
+335 564 V
+335 -110 V
+334 243 V
+335 -277 V
+335 12 V
+335 85 V
+334 -69 V
+335 79 V
+335 -221 V
+335 -342 V
+% End plot #33
+% Begin plot #34
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 814 V
+335 977 V
+335 -636 V
+334 241 V
+335 -206 V
+335 136 V
+335 168 V
+334 -150 V
+335 14 V
+335 -70 V
+335 47 V
+% End plot #34
+% Begin plot #35
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3391 M
+335 -747 V
+335 583 V
+335 -243 V
+334 337 V
+335 -98 V
+335 -263 V
+335 274 V
+334 -164 V
+335 29 V
+335 -27 V
+335 -215 V
+% End plot #35
+% Begin plot #36
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2505 M
+335 -371 V
+335 954 V
+335 133 V
+334 200 V
+335 -426 V
+335 5 V
+335 156 V
+334 -116 V
+335 34 V
+335 22 V
+335 -117 V
+% End plot #36
+% Begin plot #37
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3062 M
+335 445 V
+335 -677 V
+335 206 V
+334 170 V
+335 -220 V
+335 122 V
+335 38 V
+334 -58 V
+335 62 V
+335 -40 V
+335 -253 V
+% End plot #37
+% Begin plot #38
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2880 M
+335 -91 V
+335 459 V
+335 -71 V
+334 -30 V
+335 -115 V
+335 -166 V
+335 90 V
+334 56 V
+335 17 V
+335 67 V
+335 194 V
+% End plot #38
+% Begin plot #39
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4568 M
+335 -659 V
+335 -680 V
+335 132 V
+334 -29 V
+335 -153 V
+335 -122 V
+335 -48 V
+334 9 V
+335 179 V
+335 -105 V
+335 -219 V
+% End plot #39
+% Begin plot #40
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 777 V
+335 507 V
+335 333 V
+334 -189 V
+335 -41 V
+335 -110 V
+335 94 V
+334 -62 V
+335 -55 V
+335 84 V
+335 132 V
+% End plot #40
+% Begin plot #41
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 2179 V
+1607 2436 L
+335 1606 V
+334 -318 V
+335 -904 V
+335 241 V
+335 -279 V
+334 279 V
+335 -97 V
+335 98 V
+335 506 V
+% End plot #41
+% Begin plot #42
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2812 M
+335 948 V
+1607 2636 L
+335 670 V
+334 -73 V
+335 -168 V
+335 -44 V
+335 -41 V
+334 111 V
+335 -19 V
+335 -3 V
+335 30 V
+% End plot #42
+% Begin plot #43
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+978 5748 M
+1272 2405 L
+335 497 V
+335 292 V
+334 -33 V
+335 -66 V
+335 -18 V
+335 10 V
+334 -142 V
+335 10 V
+335 91 V
+335 306 V
+% End plot #43
+% Begin plot #44
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3206 M
+335 -849 V
+335 335 V
+335 516 V
+334 -399 V
+335 285 V
+335 -87 V
+335 96 V
+334 69 V
+335 33 V
+335 -154 V
+335 -179 V
+% End plot #44
+% Begin plot #45
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1061 5748 M
+1272 2875 L
+335 412 V
+335 -305 V
+334 5 V
+335 82 V
+335 -127 V
+335 29 V
+334 97 V
+335 37 V
+335 -27 V
+335 96 V
+% End plot #45
+% Begin plot #46
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1126 V
+335 -176 V
+335 717 V
+334 -588 V
+335 250 V
+335 -146 V
+335 258 V
+334 -128 V
+335 125 V
+335 -98 V
+335 -83 V
+% End plot #46
+% Begin plot #47
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 0 V
+335 416 V
+335 1122 V
+334 -49 V
+335 -131 V
+335 -153 V
+335 165 V
+334 -1 V
+335 121 V
+335 -140 V
+335 -284 V
+% End plot #47
+% Begin plot #48
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 227 V
+335 862 V
+335 144 V
+334 202 V
+335 -248 V
+335 131 V
+335 86 V
+334 -167 V
+335 135 V
+335 -18 V
+335 40 V
+% End plot #48
+% Begin plot #49
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+938 5748 M
+1272 1731 L
+335 329 V
+335 902 V
+334 -82 V
+335 285 V
+335 -116 V
+335 -111 V
+334 41 V
+335 -31 V
+335 110 V
+335 523 V
+% End plot #49
+% Begin plot #50
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+978 5748 M
+1272 3448 L
+335 193 V
+335 -354 V
+334 -104 V
+335 64 V
+335 -237 V
+335 -69 V
+334 93 V
+335 82 V
+335 -80 V
+335 80 V
+% End plot #50
+% Begin plot #51
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 2454 V
+1607 2745 L
+335 247 V
+334 49 V
+335 -13 V
+335 -125 V
+335 -12 V
+334 137 V
+335 147 V
+335 -99 V
+335 113 V
+% End plot #51
+% Begin plot #52
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1116 5748 M
+1272 4148 L
+335 -662 V
+335 -202 V
+334 -124 V
+335 -58 V
+335 -107 V
+335 24 V
+334 -15 V
+335 102 V
+335 -79 V
+335 156 V
+% End plot #52
+% Begin plot #53
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 2393 V
+1607 3067 L
+335 84 V
+334 -80 V
+335 -55 V
+335 76 V
+335 -48 V
+334 5 V
+335 -15 V
+335 79 V
+335 -15 V
+% End plot #53
+% Begin plot #54
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 2325 V
+1607 2156 L
+335 719 V
+334 305 V
+335 24 V
+335 -346 V
+335 323 V
+334 -47 V
+335 5 V
+335 -57 V
+335 -269 V
+% End plot #54
+% Begin plot #55
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 0 V
+335 1340 V
+335 32 V
+334 -100 V
+335 219 V
+335 -78 V
+335 -169 V
+334 34 V
+335 104 V
+335 11 V
+335 -150 V
+% End plot #55
+% Begin plot #56
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1195 5748 M
+77 -2438 V
+335 -131 V
+335 341 V
+334 -513 V
+335 -2 V
+335 -10 V
+335 120 V
+334 -106 V
+335 138 V
+335 -21 V
+335 -197 V
+% End plot #56
+% Begin plot #57
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3059 M
+335 570 V
+335 314 V
+335 49 V
+2276 2877 L
+335 371 V
+335 -296 V
+335 -48 V
+334 259 V
+335 -100 V
+335 -1 V
+335 13 V
+% End plot #57
+% Begin plot #58
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1173 5748 M
+99 -556 V
+1607 3253 L
+335 343 V
+334 -152 V
+335 -236 V
+335 -146 V
+335 9 V
+334 101 V
+335 -55 V
+335 -119 V
+335 -155 V
+% End plot #58
+% Begin plot #59
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3551 M
+1272 2220 L
+335 944 V
+335 -556 V
+334 308 V
+335 130 V
+335 63 V
+335 -19 V
+334 119 V
+335 -40 V
+335 -93 V
+335 -218 V
+% End plot #59
+% Begin plot #60
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3498 M
+335 -116 V
+335 -244 V
+335 221 V
+334 -184 V
+335 -118 V
+335 -7 V
+335 76 V
+334 -37 V
+335 65 V
+335 -99 V
+335 -139 V
+% End plot #60
+% Begin plot #61
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2241 M
+335 1011 V
+335 152 V
+335 -42 V
+334 -38 V
+335 -203 V
+335 -63 V
+335 -43 V
+334 -62 V
+335 38 V
+335 63 V
+335 232 V
+% End plot #61
+% Begin plot #62
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2171 M
+335 704 V
+335 613 V
+335 -391 V
+334 13 V
+335 7 V
+335 -110 V
+335 51 V
+334 -56 V
+335 42 V
+335 14 V
+335 157 V
+% End plot #62
+% Begin plot #63
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2452 M
+335 318 V
+335 1190 V
+1942 2918 L
+334 174 V
+335 -117 V
+335 -52 V
+335 29 V
+334 64 V
+335 42 V
+335 41 V
+335 178 V
+% End plot #63
+% Begin plot #64
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2027 M
+335 1075 V
+335 -96 V
+335 515 V
+334 -416 V
+335 68 V
+335 -61 V
+335 -117 V
+334 67 V
+335 -214 V
+335 171 V
+335 381 V
+% End plot #64
+% Begin plot #65
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2119 M
+335 792 V
+335 457 V
+335 -286 V
+334 111 V
+335 -135 V
+335 24 V
+335 -25 V
+334 83 V
+335 -84 V
+335 -64 V
+335 138 V
+% End plot #65
+% Begin plot #66
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3036 M
+335 26 V
+335 941 V
+1942 2971 L
+334 106 V
+335 -11 V
+335 -171 V
+335 -6 V
+334 67 V
+335 152 V
+335 -16 V
+335 227 V
+% End plot #66
+% Begin plot #67
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+943 5748 M
+1272 2447 L
+335 1185 V
+335 91 V
+334 -387 V
+335 -245 V
+335 -57 V
+335 141 V
+334 -150 V
+335 -14 V
+335 150 V
+335 -286 V
+% End plot #67
+% Begin plot #68
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2474 M
+335 -87 V
+335 708 V
+335 -18 V
+334 168 V
+335 -189 V
+335 48 V
+335 -182 V
+334 -71 V
+335 181 V
+335 91 V
+335 208 V
+% End plot #68
+% Begin plot #69
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2365 M
+327 3383 V
+18 0 R
+1607 2916 L
+335 259 V
+334 -160 V
+335 -96 V
+335 178 V
+335 39 V
+334 -80 V
+335 19 V
+335 42 V
+335 -120 V
+% End plot #69
+% Begin plot #70
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+996 5748 M
+1272 3553 L
+335 -172 V
+335 -90 V
+334 49 V
+335 -260 V
+335 -99 V
+335 182 V
+334 -139 V
+335 62 V
+335 -10 V
+335 -91 V
+% End plot #70
+% Begin plot #71
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4695 M
+1272 2074 L
+335 557 V
+335 46 V
+334 290 V
+335 72 V
+335 79 V
+335 -131 V
+334 7 V
+335 88 V
+335 23 V
+335 81 V
+% End plot #71
+% Begin plot #72
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1515 V
+335 -570 V
+335 200 V
+334 370 V
+335 -71 V
+335 -49 V
+335 59 V
+334 39 V
+335 -17 V
+335 -200 V
+335 -298 V
+% End plot #72
+% Begin plot #73
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4887 M
+1272 3749 L
+335 -245 V
+335 81 V
+334 -155 V
+335 -188 V
+335 -120 V
+335 100 V
+334 29 V
+335 -143 V
+335 -163 V
+335 -215 V
+% End plot #73
+% Begin plot #74
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4759 M
+1272 3270 L
+335 -54 V
+335 151 V
+334 -256 V
+335 -17 V
+335 78 V
+335 -33 V
+334 -47 V
+335 76 V
+335 -113 V
+335 -275 V
+% End plot #74
+% Begin plot #75
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2969 M
+335 1007 V
+335 -366 V
+335 -145 V
+334 -144 V
+335 -101 V
+335 -113 V
+335 39 V
+334 -135 V
+335 -44 V
+335 38 V
+335 168 V
+% End plot #75
+% Begin plot #76
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2120 M
+335 992 V
+335 349 V
+335 -40 V
+334 -323 V
+335 -16 V
+335 -71 V
+335 -45 V
+334 103 V
+335 -5 V
+335 33 V
+335 5 V
+% End plot #76
+% Begin plot #77
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4931 M
+1272 3383 L
+335 363 V
+335 -414 V
+334 -120 V
+335 -106 V
+335 -75 V
+335 33 V
+334 -66 V
+335 89 V
+335 58 V
+335 -202 V
+% End plot #77
+% Begin plot #78
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2408 M
+335 230 V
+335 240 V
+335 699 V
+334 -226 V
+335 -404 V
+335 1 V
+335 20 V
+334 22 V
+335 73 V
+335 59 V
+335 80 V
+% End plot #78
+% Begin plot #79
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 0 V
+335 2007 V
+335 -664 V
+334 47 V
+335 -117 V
+335 163 V
+335 -100 V
+334 36 V
+335 43 V
+335 -85 V
+335 -164 V
+% End plot #79
+% Begin plot #80
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2761 M
+335 2237 V
+1607 3647 L
+335 -565 V
+334 -114 V
+335 5 V
+335 86 V
+335 162 V
+334 -374 V
+335 -67 V
+335 321 V
+335 534 V
+% End plot #80
+% Begin plot #81
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2724 M
+335 929 V
+335 164 V
+335 -53 V
+334 -402 V
+335 -291 V
+335 230 V
+335 -142 V
+334 -161 V
+335 -248 V
+335 156 V
+335 705 V
+% End plot #81
+% Begin plot #82
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2400 M
+335 1043 V
+335 -305 V
+335 -240 V
+334 -173 V
+335 440 V
+335 -223 V
+335 160 V
+334 -1 V
+335 -127 V
+335 139 V
+335 68 V
+% End plot #82
+% Begin plot #83
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2248 M
+335 634 V
+335 149 V
+335 136 V
+334 -283 V
+335 160 V
+335 -133 V
+335 108 V
+334 55 V
+335 87 V
+335 -48 V
+335 -90 V
+% End plot #83
+% Begin plot #84
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1718 V
+335 -164 V
+335 -45 V
+334 -193 V
+335 -183 V
+335 134 V
+335 -45 V
+334 13 V
+335 21 V
+335 105 V
+335 366 V
+% End plot #84
+% Begin plot #85
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3635 M
+1272 2098 L
+335 1004 V
+335 281 V
+334 -262 V
+335 -107 V
+335 9 V
+335 121 V
+334 -157 V
+335 75 V
+335 -6 V
+335 111 V
+% End plot #85
+% Begin plot #86
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2657 M
+335 663 V
+335 -59 V
+335 145 V
+334 -57 V
+335 -164 V
+335 -137 V
+335 186 V
+334 36 V
+335 -201 V
+335 -161 V
+335 -8 V
+% End plot #86
+% Begin plot #87
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 306 V
+335 1132 V
+335 152 V
+334 -11 V
+335 -132 V
+335 -49 V
+335 -32 V
+334 -15 V
+335 122 V
+335 -123 V
+335 -293 V
+% End plot #87
+% Begin plot #88
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5707 M
+1272 3071 L
+335 908 V
+1942 2963 L
+334 110 V
+335 44 V
+335 145 V
+335 -147 V
+334 33 V
+335 -145 V
+335 39 V
+335 -58 V
+% End plot #88
+% Begin plot #89
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3744 M
+335 -237 V
+335 -660 V
+335 495 V
+334 -72 V
+335 -185 V
+335 124 V
+335 -79 V
+334 -14 V
+335 -128 V
+335 26 V
+335 62 V
+% End plot #89
+% Begin plot #90
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+999 5748 M
+1272 3178 L
+335 -4 V
+335 44 V
+334 -51 V
+335 11 V
+335 -153 V
+335 212 V
+334 3 V
+335 -140 V
+335 -79 V
+335 -233 V
+% End plot #90
+% Begin plot #91
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5207 M
+1272 2752 L
+335 649 V
+335 132 V
+334 -38 V
+335 -417 V
+335 33 V
+335 119 V
+334 -49 V
+335 -67 V
+335 -111 V
+335 -188 V
+% End plot #91
+% Begin plot #92
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 0 V
+335 1371 V
+335 -87 V
+334 0 V
+335 35 V
+335 -26 V
+335 28 V
+334 -22 V
+335 18 V
+335 16 V
+335 161 V
+% End plot #92
+% Begin plot #93
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 462 V
+335 1812 V
+335 -922 V
+334 447 V
+335 -197 V
+335 -233 V
+335 86 V
+334 -217 V
+335 154 V
+335 20 V
+335 -424 V
+% End plot #93
+% Begin plot #94
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+967 5748 M
+1272 2820 L
+335 681 V
+335 -388 V
+334 232 V
+335 -355 V
+335 125 V
+335 -98 V
+334 -20 V
+335 27 V
+335 19 V
+335 177 V
+% End plot #94
+% Begin plot #95
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5075 M
+1272 2291 L
+335 902 V
+335 44 V
+334 25 V
+335 -314 V
+335 112 V
+335 31 V
+334 54 V
+335 -97 V
+335 -45 V
+335 113 V
+% End plot #95
+% Begin plot #96
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3377 M
+1272 1850 L
+335 1271 V
+335 73 V
+334 121 V
+335 -404 V
+335 21 V
+335 139 V
+334 -4 V
+335 98 V
+335 -77 V
+335 -110 V
+% End plot #96
+% Begin plot #97
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 574 V
+335 750 V
+335 149 V
+334 -191 V
+335 -163 V
+335 93 V
+335 23 V
+334 -124 V
+335 23 V
+335 251 V
+335 703 V
+% End plot #97
+% Begin plot #98
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3170 M
+335 -304 V
+335 752 V
+335 -406 V
+334 219 V
+335 -314 V
+335 -12 V
+335 8 V
+334 18 V
+335 -56 V
+335 -14 V
+335 -225 V
+% End plot #98
+% Begin plot #99
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1524 V
+335 -518 V
+335 117 V
+334 233 V
+335 -176 V
+335 181 V
+335 -76 V
+334 39 V
+335 55 V
+335 -23 V
+335 6 V
+% End plot #99
+% Begin plot #100
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1211 5748 M
+61 -953 V
+1607 3453 L
+335 -447 V
+334 199 V
+335 188 V
+335 -278 V
+335 -50 V
+334 -43 V
+335 94 V
+335 -81 V
+335 -99 V
+% End plot #100
+% Begin plot #101
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 2026 V
+335 -398 V
+335 -98 V
+334 -482 V
+335 218 V
+335 -133 V
+335 166 V
+334 -59 V
+335 208 V
+335 -27 V
+335 -57 V
+% End plot #101
+% Begin plot #102
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4543 M
+1272 1731 L
+335 2201 V
+1942 2521 L
+334 1218 V
+335 -776 V
+335 193 V
+335 -191 V
+334 -78 V
+335 302 V
+335 -51 V
+335 -235 V
+% End plot #102
+% Begin plot #103
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1111 5748 M
+1272 1731 L
+335 1519 V
+335 -272 V
+334 573 V
+335 -185 V
+335 -270 V
+335 15 V
+334 30 V
+335 -27 V
+335 -74 V
+335 -290 V
+% End plot #103
+% Begin plot #104
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4373 M
+335 743 V
+1607 3075 L
+335 -18 V
+334 -228 V
+335 361 V
+335 -255 V
+335 50 V
+334 143 V
+335 29 V
+335 -81 V
+335 -82 V
+% End plot #104
+% Begin plot #105
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3013 M
+335 823 V
+335 -713 V
+335 459 V
+334 -368 V
+335 -102 V
+335 -107 V
+335 17 V
+334 76 V
+335 -69 V
+335 22 V
+335 59 V
+% End plot #105
+% Begin plot #106
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3478 M
+335 6 V
+335 304 V
+335 -843 V
+334 341 V
+335 -322 V
+335 118 V
+335 23 V
+334 -66 V
+335 -74 V
+335 77 V
+335 209 V
+% End plot #106
+% Begin plot #107
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1667 V
+335 322 V
+335 -161 V
+334 -182 V
+335 -324 V
+335 -188 V
+335 199 V
+334 69 V
+335 25 V
+335 -96 V
+335 -163 V
+% End plot #107
+% Begin plot #108
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1020 V
+335 1370 V
+1942 2958 L
+334 535 V
+335 -458 V
+335 -6 V
+335 278 V
+334 -76 V
+335 -124 V
+335 -101 V
+335 -287 V
+% End plot #108
+% Begin plot #109
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 3138 V
+1607 3688 L
+335 -552 V
+334 305 V
+335 -303 V
+335 -236 V
+335 214 V
+334 -50 V
+335 38 V
+335 -57 V
+335 -30 V
+% End plot #109
+% Begin plot #110
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 2793 V
+1607 2874 L
+335 228 V
+334 -440 V
+335 641 V
+335 -207 V
+335 4 V
+334 -75 V
+335 -4 V
+335 105 V
+335 -86 V
+% End plot #110
+% Begin plot #111
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1664 V
+335 384 V
+335 -564 V
+334 -255 V
+335 63 V
+335 -54 V
+335 148 V
+334 -44 V
+335 49 V
+335 -49 V
+335 -70 V
+% End plot #111
+% Begin plot #112
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1304 V
+335 -443 V
+335 614 V
+334 -243 V
+335 -61 V
+335 167 V
+335 57 V
+334 2 V
+335 -53 V
+335 5 V
+335 -53 V
+% End plot #112
+% Begin plot #113
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2724 M
+335 1034 V
+335 -50 V
+335 68 V
+334 -711 V
+335 58 V
+335 -49 V
+335 30 V
+334 -21 V
+335 -2 V
+335 -8 V
+335 -121 V
+% End plot #113
+% Begin plot #114
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2898 M
+335 1687 V
+1607 3432 L
+335 -41 V
+334 -23 V
+335 -347 V
+335 8 V
+335 40 V
+334 -36 V
+335 34 V
+335 21 V
+335 -52 V
+% End plot #114
+% Begin plot #115
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5455 M
+1272 4385 L
+335 -812 V
+335 -261 V
+334 -92 V
+335 -119 V
+335 -117 V
+335 47 V
+334 152 V
+335 -40 V
+335 -85 V
+335 -200 V
+% End plot #115
+% Begin plot #116
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 3881 V
+1607 2827 L
+335 604 V
+334 -461 V
+335 129 V
+335 90 V
+335 -20 V
+334 -75 V
+335 -53 V
+335 55 V
+335 -228 V
+% End plot #116
+% Begin plot #117
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+939 5748 M
+1272 2968 L
+335 -214 V
+335 180 V
+334 24 V
+335 49 V
+335 -17 V
+335 116 V
+334 81 V
+335 -80 V
+335 -13 V
+335 -189 V
+% End plot #117
+% Begin plot #118
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1203 5748 M
+69 -117 V
+1607 3087 L
+335 324 V
+334 -210 V
+335 -238 V
+335 224 V
+335 67 V
+334 -187 V
+335 -82 V
+335 -21 V
+335 218 V
+% End plot #118
+% Begin plot #119
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1552 V
+335 1294 V
+1942 2970 L
+334 227 V
+335 75 V
+335 -198 V
+335 -172 V
+334 417 V
+335 -184 V
+335 -77 V
+335 -243 V
+% End plot #119
+% Begin plot #120
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4074 M
+1272 2489 L
+335 362 V
+335 722 V
+334 -233 V
+335 -336 V
+335 37 V
+335 -120 V
+334 -83 V
+335 221 V
+335 -5 V
+335 446 V
+% End plot #120
+% Begin plot #121
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5215 M
+1272 3509 L
+335 -333 V
+335 216 V
+334 -425 V
+335 -154 V
+335 229 V
+335 -108 V
+334 45 V
+335 144 V
+335 -85 V
+335 286 V
+% End plot #121
+% Begin plot #122
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2720 M
+335 141 V
+335 300 V
+335 -25 V
+334 -166 V
+335 92 V
+335 -56 V
+335 1 V
+334 43 V
+335 80 V
+335 -23 V
+335 -69 V
+% End plot #122
+% Begin plot #123
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 745 V
+335 199 V
+335 485 V
+334 -92 V
+335 -55 V
+335 16 V
+335 81 V
+334 38 V
+335 -137 V
+335 71 V
+335 -13 V
+% End plot #123
+% Begin plot #124
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3952 M
+1272 2633 L
+335 858 V
+335 -44 V
+334 -456 V
+335 143 V
+335 36 V
+335 -182 V
+334 127 V
+335 53 V
+335 -175 V
+335 -24 V
+% End plot #124
+% Begin plot #125
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4394 M
+1272 2381 L
+335 33 V
+335 328 V
+334 220 V
+335 2 V
+335 63 V
+335 24 V
+334 63 V
+335 -14 V
+335 39 V
+335 -128 V
+% End plot #125
+% Begin plot #126
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2955 M
+335 2150 V
+1607 3599 L
+335 -548 V
+334 150 V
+335 88 V
+335 -285 V
+335 3 V
+334 83 V
+335 140 V
+335 -139 V
+335 -324 V
+% End plot #126
+% Begin plot #127
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2159 M
+335 1904 V
+335 -858 V
+335 236 V
+334 -235 V
+335 -145 V
+335 -103 V
+335 53 V
+334 -37 V
+335 26 V
+335 140 V
+335 57 V
+% End plot #127
+% Begin plot #128
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2444 M
+335 2438 V
+1607 3049 L
+335 238 V
+334 -263 V
+335 117 V
+335 -22 V
+335 34 V
+334 35 V
+335 -1 V
+335 -147 V
+335 -341 V
+% End plot #128
+% Begin plot #129
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1115 5748 M
+1272 3982 L
+335 -792 V
+335 317 V
+334 -266 V
+335 -236 V
+335 221 V
+335 -27 V
+334 -132 V
+335 78 V
+335 -27 V
+335 -423 V
+% End plot #129
+% Begin plot #130
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3436 M
+287 2312 V
+102 0 R
+1607 3704 L
+335 -72 V
+334 -221 V
+335 -260 V
+335 -58 V
+335 -89 V
+334 -101 V
+335 46 V
+335 172 V
+335 96 V
+% End plot #130
+% Begin plot #131
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1092 5748 M
+1272 3958 L
+335 -739 V
+335 51 V
+334 -6 V
+335 -270 V
+335 -24 V
+335 202 V
+334 -19 V
+335 -5 V
+335 -87 V
+335 -228 V
+% End plot #131
+% Begin plot #132
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2438 M
+335 -325 V
+335 568 V
+335 313 V
+334 22 V
+335 -180 V
+335 264 V
+335 -95 V
+334 120 V
+335 -160 V
+335 99 V
+335 250 V
+% End plot #132
+% Begin plot #133
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+1144 5748 M
+1272 2068 L
+335 540 V
+335 742 V
+334 -204 V
+335 2 V
+335 38 V
+335 -44 V
+334 23 V
+335 -296 V
+335 87 V
+335 321 V
+% End plot #133
+% Begin plot #134
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+983 5748 M
+1272 3047 L
+335 171 V
+335 43 V
+334 -152 V
+335 14 V
+335 21 V
+335 -44 V
+334 -90 V
+335 40 V
+335 22 V
+335 -11 V
+% End plot #134
+% Begin plot #135
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5332 M
+1272 3245 L
+335 1746 V
+1942 3796 L
+334 -510 V
+335 -123 V
+335 -134 V
+335 208 V
+334 -187 V
+335 206 V
+335 -276 V
+335 -312 V
+% End plot #135
+% Begin plot #136
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2798 M
+335 302 V
+335 902 V
+335 -674 V
+334 -31 V
+335 -368 V
+335 292 V
+335 -198 V
+334 85 V
+335 -104 V
+335 83 V
+335 -58 V
+% End plot #136
+% Begin plot #137
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4172 M
+335 360 V
+1607 2729 L
+335 232 V
+334 126 V
+335 -64 V
+335 -86 V
+335 214 V
+334 -17 V
+335 -32 V
+335 -30 V
+335 -97 V
+% End plot #137
+% Begin plot #138
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3388 M
+335 841 V
+335 -292 V
+335 -73 V
+334 -821 V
+335 -22 V
+335 32 V
+335 -44 V
+334 69 V
+335 37 V
+335 -27 V
+335 -129 V
+% End plot #138
+% Begin plot #139
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2537 M
+335 313 V
+335 80 V
+335 -197 V
+334 311 V
+335 44 V
+335 -64 V
+335 19 V
+334 47 V
+335 88 V
+335 -89 V
+335 -148 V
+% End plot #139
+% Begin plot #140
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1950 V
+335 -763 V
+335 463 V
+334 -405 V
+335 112 V
+335 -124 V
+335 185 V
+334 15 V
+335 9 V
+335 -102 V
+335 -212 V
+% End plot #140
+% Begin plot #141
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2843 M
+335 570 V
+335 12 V
+335 -218 V
+334 196 V
+335 -153 V
+335 -161 V
+335 27 V
+334 -95 V
+335 229 V
+335 -265 V
+335 -144 V
+% End plot #141
+% Begin plot #142
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3580 M
+335 846 V
+1607 2993 L
+335 267 V
+334 -231 V
+335 -40 V
+335 -29 V
+335 120 V
+334 -33 V
+335 37 V
+335 24 V
+335 -32 V
+% End plot #142
+% Begin plot #143
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 1131 V
+335 821 V
+335 -270 V
+334 -244 V
+335 65 V
+335 -195 V
+335 1 V
+334 -107 V
+335 140 V
+335 47 V
+335 -59 V
+% End plot #143
+% Begin plot #144
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5008 M
+1272 2234 L
+335 1309 V
+335 -378 V
+334 116 V
+335 -129 V
+335 69 V
+335 34 V
+334 -67 V
+335 -126 V
+335 -135 V
+335 -10 V
+% End plot #144
+% Begin plot #145
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3218 M
+335 -83 V
+335 -376 V
+335 249 V
+334 165 V
+335 67 V
+335 -78 V
+335 2 V
+334 -17 V
+335 -21 V
+335 -84 V
+335 -237 V
+% End plot #145
+% Begin plot #146
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2917 M
+335 1272 V
+335 -348 V
+335 -529 V
+334 -128 V
+335 -257 V
+335 121 V
+335 56 V
+334 -66 V
+335 -16 V
+335 85 V
+335 -13 V
+% End plot #146
+% Begin plot #147
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 4922 M
+1272 2317 L
+335 327 V
+335 229 V
+334 356 V
+335 -191 V
+335 91 V
+335 -31 V
+334 126 V
+335 -33 V
+335 -101 V
+335 -354 V
+% End plot #147
+% Begin plot #148
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 5429 M
+1272 3508 L
+335 -199 V
+335 179 V
+334 -333 V
+335 -114 V
+335 47 V
+335 44 V
+334 -45 V
+335 78 V
+335 -93 V
+335 -236 V
+% End plot #148
+% Begin plot #149
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2706 M
+335 323 V
+335 44 V
+335 205 V
+334 90 V
+335 -400 V
+335 174 V
+335 19 V
+334 -48 V
+335 -199 V
+335 99 V
+335 199 V
+% End plot #149
+% Begin plot #150
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 1731 M
+335 3580 V
+1607 3438 L
+335 -262 V
+334 -84 V
+335 -113 V
+335 127 V
+335 -42 V
+334 49 V
+335 48 V
+335 -57 V
+335 -280 V
+% End plot #150
+% Begin plot #151
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 2120 M
+335 2324 V
+1607 2861 L
+335 554 V
+334 -202 V
+335 -116 V
+335 10 V
+335 -45 V
+334 -63 V
+335 -108 V
+335 99 V
+335 505 V
+% End plot #151
+% Begin plot #152
+stroke
+LT0
+0.75 0.75 0.75 C /Helvetica findfont 140 scalefont setfont
+937 3233 M
+335 105 V
+335 -276 V
+335 133 V
+334 163 V
+335 -115 V
+335 -127 V
+335 42 V
+334 -17 V
+335 -184 V
+335 82 V
+335 -32 V
+% End plot #152
+% Begin plot #153
+stroke
+2.000 UL
+LTa
+/Helvetica findfont 140 scalefont setfont
+770 3070 M
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+40 0 V
+41 0 V
+% End plot #153
+% Begin plot #154
+1.300 UP
+stroke
+3.000 UL
+LT0
+0.00 0.00 1.00 C /Helvetica findfont 140 scalefont setfont
+937 3422 M
+0 343 V
+906 3422 M
+62 0 V
+-62 343 R
+62 0 V
+304 -577 R
+0 153 V
+-31 -153 R
+62 0 V
+-62 153 R
+62 0 V
+304 -93 R
+0 86 V
+-31 -86 R
+62 0 V
+-62 86 R
+62 0 V
+304 -119 R
+0 43 V
+-31 -43 R
+62 0 V
+-62 43 R
+62 0 V
+303 -101 R
+0 31 V
+-31 -31 R
+62 0 V
+-62 31 R
+62 0 V
+304 -124 R
+0 19 V
+-31 -19 R
+62 0 V
+-62 19 R
+62 0 V
+304 -38 R
+0 15 V
+-31 -15 R
+62 0 V
+-62 15 R
+62 0 V
+304 5 R
+0 16 V
+-31 -16 R
+62 0 V
+-62 16 R
+62 0 V
+303 -23 R
+0 15 V
+-31 -15 R
+62 0 V
+-62 15 R
+62 0 V
+304 -6 R
+0 15 V
+-31 -15 R
+62 0 V
+-62 15 R
+62 0 V
+304 -18 R
+0 9 V
+-31 -9 R
+62 0 V
+-62 9 R
+62 0 V
+304 -38 R
+0 41 V
+-31 -41 R
+62 0 V
+-62 41 R
+62 0 V
+937 3594 CircleF
+1272 3264 CircleF
+1607 3291 CircleF
+1942 3236 CircleF
+2276 3173 CircleF
+2611 3074 CircleF
+2946 3053 CircleF
+3281 3073 CircleF
+3615 3065 CircleF
+3950 3074 CircleF
+4285 3069 CircleF
+4620 3055 CircleF
+% End plot #154
+1.000 UL
+LTb
+770 5748 N
+0 -4017 V
+4017 0 V
+0 4017 V
+-4017 0 V
+Z stroke
+1.000 UP
+1.000 UL
+LTb
+stroke
+grestore
+end
+showpage
+%%Trailer
+%%DocumentFonts: Symbol Helvetica
+%%Pages: 1
