@@ -2,6 +2,7 @@
 
 import sys, math, pickle, random
 import config
+import numpy as np
 
 #------------------------------------------------------------------------------
 def main():
