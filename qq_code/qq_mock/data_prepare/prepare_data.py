@@ -47,7 +47,7 @@ def main():
         output_filename = data_dir + 'star_' + p.ID + '.ascii.dat'
         output_file = open(output_filename, 'w')
         # first output the total number of points
-        output_file.write('{}\n'.format(N_stars)
+        output_file.write('{}\n'.format(N_stars))
         for i in range(N_stars):
             output_file.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'
                               .format(ra_rad[i], dec_rad[i], distance[i],
