@@ -5,7 +5,7 @@ cp /fs1/mqq/Projects/StarClustering/segue/correlation/data/todo_list.dat ../data
 python convert_todo_list.py
 
 # set the bins, these bin settings will be used for correlation function calculations
-python set_bins.py
+python set_rbins.py
 
 # prepare data
 python prepare_data.py
