@@ -13,7 +13,7 @@ def main():
     todo_list = pickle.load(input_file)
     input_file.close()
 
-    sys.stderr.write('Prepare data files for correlation function calculation..\n')
+    sys.stderr.write('Prepare uniform files for correlation function calculation..\n')
 
     for p in todo_list:
 
