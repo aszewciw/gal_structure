@@ -36,7 +36,7 @@ def main():
         #                       .format(s.cartesian_x, s.cartesian_y, s.cartesian_z, s.weight))
         # output_file.close()
 
-        mock_filename = config.mock_dir + 'mock_' + p.ID + '.dat'
+        mock_filename = config.mock_dir + 'mock_' + p.ID + '.xyz.dat'
         xyz = np.genfromtxt(mock_filename, skip_header=1)
 
         # random shuffle
