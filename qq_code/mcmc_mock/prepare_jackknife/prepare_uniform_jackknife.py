@@ -26,7 +26,7 @@ def main():
         random.shuffle(uniform_list)
 
         # first output a full shuffled data set
-        output_filename = config.uniform_dir + 'uniform_' + p.ID + '_jk_all.dat'
+        output_filename = config.jk_dir + 'uniform_' + p.ID + '_jk_all.dat'
         output_file = open(output_filename, 'w')
         # first output the total number of points
         output_file.write('{}\n'.format(len(uniform_list)))
