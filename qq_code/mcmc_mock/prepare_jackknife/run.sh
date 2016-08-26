@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # use the todo list from the data
-cp /fs1/mqq/Projects/StarClustering/segue/correlation/data/todo_list.dat ../data/
+cp /fs1/mqq/Projects/StarClustering/segue/correlation/data/todo_list.dat ../data/todo/
 python convert_todo_list.py
 
 python set_rbins.py
