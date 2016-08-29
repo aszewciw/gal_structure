@@ -138,7 +138,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
         fclose(file);
 
         /* Next load DD errors */
-        snprintf(filename, 256, "%smock_%s_frac_error.dat", ERR_DIR, plist[i].ID);
+        snprintf(filename, 256, "%sstar_%s_frac_error.dat", ERR_DIR, plist[i].ID);
         if((file=fopen(filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s\n", filename);
             exit(EXIT_FAILURE);
