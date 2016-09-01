@@ -14,7 +14,7 @@ indices belonging to that bin.
 /* structure used to store the data set of particles */
 typedef struct POINT{
   double x,y,z;
-  double weight;
+  // double weight;
 } POINT;
 
 typedef struct DATA{
@@ -101,7 +101,6 @@ int main(int argc, char **argv){
       fscanf(file, "%lf", &data.points[i].x);
       fscanf(file, "%lf", &data.points[i].y);
       fscanf(file, "%lf", &data.points[i].z);
-      fscanf(file, "%lf", &data.points[i].weight);
   }
 
   fclose(file);
