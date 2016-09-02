@@ -60,13 +60,13 @@ def main():
         for i in range(N_jackknife):
             # output_list = star_list[:(N * i)] + star_list[(N * i + N):]
             cartesian_x = x[:(N*i)]
-            np.append(cartesian_x, x[(N*i+N):])
+            np.append(cartesian_x, x[(N*i+N):], axis=0)
             cartesian_y = y[:(N*i)]
-            np.append(cartesian_y, y[(N*i+N):])
+            np.append(cartesian_y, y[(N*i+N):], axis=0)
             cartesian_z = z[:(N*i)]
-            np.append(cartesian_z, z[(N*i+N):])
+            np.append(cartesian_z, z[(N*i+N):], axis=0)
             w = weight[:(N*i)]
-            np.append(w, weight[(N*i+N):])
+            np.append(w, weight[(N*i+N):], axis=0)
 
             N_stars_jk = len(cartesian_x)
             output_filename = config.data_dir + 'star_' + p.ID + '_jk_' + str(i) + '.dat'
