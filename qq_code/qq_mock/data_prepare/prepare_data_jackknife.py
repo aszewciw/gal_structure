@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+'''
+This is incredibly dumb, but I need to do some manipulation to use his files...
+'''
+
 import sys, math, pickle, random
 import config
 
@@ -15,12 +19,23 @@ def main():
 
     sys.stderr.write('Prepare data files for correlation function calculation..\n')
 
+
+    star_list = []
+
     for p in todo_list:
 
-        star_filename = config.rawdata_dir + 'star_' + p.ID + '.dat'
-        star_file = open(star_filename, 'rb')
-        star_list = pickle.load(star_file)
-        star_file.close()
+        star_filename = config.mock_dir + 'mock_' + p.ID + '.xyz.dat'
+        x,y,z = np.genfromtxt(star_filename, unpack=True, skip_header=1)
+        N_stars = len(x)
+
+        for i in range(N_stars):
+            s = Star()
+            s.cartesian_x = x[i]
+            s.cartesian_y = y[i]
+            s.cartesian_z = z[i]
+            s.weight = 1.0
+
+            star_list.append(s)
 
         # random shuffle
         random.shuffle(star_list)
