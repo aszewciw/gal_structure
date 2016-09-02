@@ -222,16 +222,16 @@ void load_step_data(STEP_DATA *step_data, int flag, int rank){
 
     if(flag==0){
         if(rank==0) fprintf(stderr, "Testing correct parameters.\n");
-        // step_data->thin_r0  = 2.34;
-        // step_data->thin_z0  = 0.233;
-        // step_data->thick_r0 = 2.51;
-        // step_data->thick_z0 = 0.674;
-        // step_data->ratio_thick_thin = 0.1;
-        step_data->thin_r0  = 2.475508;
-        step_data->thin_z0  = 0.241209;
-        step_data->thick_r0 = 2.417346;
-        step_data->thick_z0 = 0.694395;
-        step_data->ratio_thick_thin = 0.106672;
+        step_data->thin_r0  = 2.34;
+        step_data->thin_z0  = 0.233;
+        step_data->thick_r0 = 2.51;
+        step_data->thick_z0 = 0.674;
+        step_data->ratio_thick_thin = 0.1;
+        // step_data->thin_r0  = 2.475508;
+        // step_data->thin_z0  = 0.241209;
+        // step_data->thick_r0 = 2.417346;
+        // step_data->thick_z0 = 0.694395;
+        // step_data->ratio_thick_thin = 0.106672;
     }
     else if(flag==1){
         if(rank==0) fprintf(stderr, "Starting parameters greater than true.\n");
