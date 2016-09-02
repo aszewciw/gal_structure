@@ -122,6 +122,8 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             // if( p[i].rbin[j].sigma2 == 0.0 ) continue;
             if( p[i].rbin[j].DD == 0.0 ) continue;
             if( p[i].rbin[j].MM == 0.0 ) continue;
+            if( p[i].rbin[j].MM_err_jk == 0.0 ) continue;
+            if( p[i].rbin[j].DD_err_jk == 0.0 ) continue;
 
             dof++;
         }
