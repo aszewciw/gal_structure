@@ -69,6 +69,7 @@ def main():
             np.append(w, weight[(N*i+N):], axis=0)
 
             N_stars_jk = len(cartesian_x)
+            print(N_stars_jk)
             output_filename = config.data_dir + 'star_' + p.ID + '_jk_' + str(i) + '.dat'
             output_file = open(output_filename, 'w')
             # first output the total number of points
