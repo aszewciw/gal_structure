@@ -122,9 +122,14 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             // if( p[i].rbin[j].sigma2 == 0.0 ) continue;
             if( p[i].rbin[j].DD == 0.0 ) continue;
             if( p[i].rbin[j].MM == 0.0 ) continue;
-            if( p[i].rbin[j].MM_err_jk == 0.0 ) continue;
-            if( p[i].rbin[j].DD_err_jk == 0.0 ) continue;
-
+            if( p[i].rbin[j].MM_err_jk == 0.0 ){
+                fprintf(stderr, "MM error is 0 for pointing %s, bin %d \n", p[i].ID, j);
+                continue;
+            }
+            if( p[i].rbin[j].DD_err_jk == 0.0 ){
+                fprintf(stderr, "DD error is 0 for pointing %s, bin %d \n", p[i].ID, j);
+                continue;
+            }
             dof++;
         }
     }
