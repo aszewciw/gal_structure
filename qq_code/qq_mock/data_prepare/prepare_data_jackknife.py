@@ -6,6 +6,7 @@ This is incredibly dumb, but I need to do some manipulation to use his files...
 
 import sys, math, pickle, random
 import config
+import numpy as np
 
 #------------------------------------------------------------------------------
 def main():
