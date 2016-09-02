@@ -5,7 +5,7 @@ make
 
 N_procs=20;
 N_steps=50000;
-params=1;
+params=0;
 filename=mcmc_result.dat;
 
 rm ../data/mcmc_output/$filename
