@@ -26,7 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 # how many uniform points comparing to real stars
 # N_uniform = N_star * multi
-multi = 10
+multi = 20
 
 # number of jackknife samples for each line of sight
 N_jackknife = 10
