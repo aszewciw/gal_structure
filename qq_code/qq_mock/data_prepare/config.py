@@ -28,6 +28,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 # N_uniform = N_star * multi
 multi = 20
 
+
 # number of jackknife samples for each line of sight
 N_jackknife = 10
 
