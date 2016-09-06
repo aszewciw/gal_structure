@@ -19,20 +19,31 @@
 #define ZRW_DIR "../data/model_positions/"
 #define BINS_DIR "../data/rbins/"
 
+/* Arguments optionally passed via command line */
+typedef struct {
+    int N_params;       /* number of parameters */
+    double r0_thin;     /* thin disk scale length */
+    double z0_thin;     /* thin disk scale height */
+    double r0_thick;    /* thick disk scale length */
+    double z0_thick;    /* thick disk scale height */
+    double ratio;       /* thick:thin number density ratio */
+    char filename[256]; /* name of output file */
+    int max_steps;      /* max steps in MCMC chain */
+} ARGS;
 
 /* Data for each radial bin */
 typedef struct {
-  char binID[256];      /* ID for each radial bin */
-  double DD;            /* segue pair counts */
-  double MM;            /* model pair counts */
-  double corr;          /* DD/MM */
-  double DD_err_jk;     /* fractional segue jk error */
-  double MM_err_jk;     /* fractional model jk error */
-  double err2_frac;     /* fractional errors squared */
-  double sigma2;        /* sigma squared for DD/MM */
-  unsigned int N_pairs; /* number of unique pairs */
-  int * pair1;          /* array of pair1 index of length N_pairs */
-  int * pair2;          /* array of pair2 index of length N_pairs */
+    char binID[256];      /* ID for each radial bin */
+    double DD;            /* segue pair counts */
+    double MM;            /* model pair counts */
+    double corr;          /* DD/MM */
+    double DD_err_jk;     /* fractional segue jk error */
+    double MM_err_jk;     /* fractional model jk error */
+    double err2_frac;     /* fractional errors squared */
+    double sigma2;        /* sigma squared for DD/MM */
+    unsigned int N_pairs; /* number of unique pairs */
+    int * pair1;          /* array of pair1 index of length N_pairs */
+    int * pair2;          /* array of pair2 index of length N_pairs */
 } RBIN;
 
 /* Pointing line of sight in sky */
@@ -47,22 +58,23 @@ typedef struct {
 
 /* Data for each step in MCMC chain */
 typedef struct {
-  double thin_r0;           /* thin disk scale length */
-  double thin_z0;           /* thin disk scale height */
-  double thick_r0;          /* thick disk scale length */
-  double thick_z0;          /* thick disk scale height */
+  double r0_thin;           /* thin disk scale length */
+  double z0_thin;           /* thin disk scale height */
+  double r0_thick;          /* thick disk scale length */
+  double z0_thick;          /* thick disk scale height */
   double ratio_thick_thin;  /* number density ratio */
   double chi2;              /* total chi2 for step */
   double chi2_reduced;      /* chi2/DOF */
 } STEP_DATA;
 
 /* I/O functions */
+ARGS parse_command_line( int n_args, char ** arg_array );
 void load_pointingID(int *N_plist, POINTING **plist);
 int load_Nbins(void);
 void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
 void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
-void load_step_data(STEP_DATA *step_data, int flag, int rank);
+// void load_step_data(STEP_DATA *step_data, int flag, int rank);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Stats functions */
@@ -77,8 +89,8 @@ double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_nor
 void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
-void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank, int nprocs, char *file_string[256]);
+void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int max_steps,
+    int lower_ind, int upper_ind, int rank, int nprocs, char *filename[256]);
 
 /* Other */
 double sech2(double x);

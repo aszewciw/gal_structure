@@ -27,11 +27,11 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
         for(j = 0; j < p[i].N_stars; j++){
 
             p[i].weight[j] = (
-                ( sech2( p[i].Z[j] / (2.0 * params.thin_z0) )
-                    * exp( -p[i].R[j] / params.thin_r0 ) )
+                ( sech2( p[i].Z[j] / (2.0 * params.z0_thin) )
+                    * exp( -p[i].R[j] / params.r0_thin ) )
                 + params.ratio_thick_thin *
-                ( sech2( p[i].Z[j] / (2.0 * params.thick_z0) )
-                    * exp( -p[i].R[j] / params.thick_r0 ) ) );
+                ( sech2( p[i].Z[j] / (2.0 * params.z0_thick) )
+                    * exp( -p[i].R[j] / params.r0_thick ) ) );
         }
     }
 }
@@ -136,31 +136,31 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     double delta;
     STEP_DATA p_new;
 
-    double thin_r0_sigma = 0.05;
-    double thin_z0_sigma = 0.005;
-    double thick_r0_sigma = 0.05;
-    double thick_z0_sigma = 0.005;
+    double r0_thin_sigma = 0.05;
+    double z0_thin_sigma = 0.005;
+    double r0_thick_sigma = 0.05;
+    double z0_thick_sigma = 0.005;
     double ratio_thick_thin_sigma = 0.002;
 
     /* try alternate step sizes */
-    // double thin_r0_sigma = 0.2;
-    // double thin_z0_sigma = 0.01;
-    // double thick_r0_sigma = 0.25;
-    // double thick_z0_sigma = 0.025;
+    // double r0_thin_sigma = 0.2;
+    // double z0_thin_sigma = 0.01;
+    // double r0_thick_sigma = 0.25;
+    // double z0_thick_sigma = 0.025;
     // double ratio_thick_thin_sigma = 0.05;
 
     /* change the position based on Gaussian distributions.  */
-    delta = gsl_ran_gaussian(GSL_r, thin_r0_sigma);
-    p_new.thin_r0 = p.thin_r0 + delta;
+    delta = gsl_ran_gaussian(GSL_r, r0_thin_sigma);
+    p_new.r0_thin = p.r0_thin + delta;
 
-    delta = gsl_ran_gaussian(GSL_r, thin_z0_sigma);
-    p_new.thin_z0 = p.thin_z0 + delta;
+    delta = gsl_ran_gaussian(GSL_r, z0_thin_sigma);
+    p_new.z0_thin = p.z0_thin + delta;
 
-    delta = gsl_ran_gaussian(GSL_r, thick_r0_sigma);
-    p_new.thick_r0 = p.thick_r0 + delta;
+    delta = gsl_ran_gaussian(GSL_r, r0_thick_sigma);
+    p_new.r0_thick = p.r0_thick + delta;
 
-    delta = gsl_ran_gaussian(GSL_r, thick_z0_sigma);
-    p_new.thick_z0 = p.thick_z0 + delta;
+    delta = gsl_ran_gaussian(GSL_r, z0_thick_sigma);
+    p_new.z0_thick = p.z0_thick + delta;
 
     /* avoid having ratio > 1 or < 0 */
     while(1){
@@ -184,8 +184,8 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 /* ----------------------------------------------------------------------- */
 
 /* Run mcmc chain */
-void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
-    int lower_ind, int upper_ind, int rank, int nprocs, char file_string[256])
+void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int max_steps,
+    int lower_ind, int upper_ind, int rank, int nprocs, char filename[256])
 {
     int i;                  /* mcmc index */
     int eff_counter = 0;    /* number of accepted steps */
@@ -231,10 +231,10 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
     int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
     MPI_Aint disp[7];
-    disp[0] = offsetof( STEP_DATA, thin_r0 );
-    disp[1] = offsetof( STEP_DATA, thin_z0 );
-    disp[2] = offsetof( STEP_DATA, thick_r0 );
-    disp[3] = offsetof( STEP_DATA, thick_z0 );
+    disp[0] = offsetof( STEP_DATA, r0_thin );
+    disp[1] = offsetof( STEP_DATA, z0_thin );
+    disp[2] = offsetof( STEP_DATA, r0_thick );
+    disp[3] = offsetof( STEP_DATA, z0_thick );
     disp[4] = offsetof( STEP_DATA, ratio_thick_thin );
     disp[5] = offsetof( STEP_DATA, chi2 );
     disp[6] = offsetof( STEP_DATA, chi2_reduced );
@@ -245,11 +245,11 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
     MPI_Type_commit(&MPI_STEP);
 
     /* define file for output and have proc 0 open */
-    char output_filename[256];
+    // char output_filename[256];
     FILE *output_file;
-    snprintf(output_filename, 256, "%s%s", OUT_DIR, file_string);
+    // snprintf(output_filename, 256, "%s%s", OUT_DIR, file_string);
     if(rank==0){
-        output_file = fopen(output_filename, "a");
+        output_file = fopen(filename, "a");
     }
 
     /* Initialize random number to be used in MCMC */
@@ -304,8 +304,8 @@ void run_mcmc(POINTING *plist, STEP_DATA initial, int N_bins, int max_steps,
                 fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
                     i, current.chi2);
                 fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
-                    current.thin_z0, current.thin_r0, current.thick_z0,
-                    current.thick_r0, current.ratio_thick_thin);
+                    current.z0_thin, current.r0_thin, current.z0_thick,
+                    current.r0_thick, current.ratio_thick_thin);
             }
             output_mcmc(i, current, output_file);
             if(i % 50 == 0) fflush(output_file);

@@ -9,6 +9,57 @@
 
 /* ----------------------------------------------------------------------- */
 
+/* check if we passed a filename, number of steps, or parameters */
+ARGS parse_command_line( int n_args, char ** arg_array ){
+
+    /* defaults */
+    ARGS cl_args;
+    cl_args.N_params = 5;
+    cl_args.r0_thin = 3.0;
+    cl_args.z0_thin = 0.3;
+    cl_args.r0_thick = 4.0;
+    cl_args.z0_thick = 1.2;
+    cl_args.ratio = 0.12;
+    strcpy(cl_args.filename, "../data/mcmc_output/mcmc_result.dat");
+    cl_args.max_steps = 200000;
+
+    int cnt = 1;
+    while(cnt < n_args)
+    {
+        if ( !strcmp(arg_array[cnt],"-N_p") )
+            sscanf(arg_array[++cnt], "%d", &cl_args.N_params);
+        else if ( !strcmp(arg_array[cnt],"-rn") )
+            sscanf(arg_array[++cnt], "%lf", &cl_args.r0_thin);
+        else if ( !strcmp(arg_array[cnt],"-zn") )
+            sscanf(arg_array[++cnt], "%lf", &cl_args.z0_thin);
+        else if ( !strcmp(arg_array[cnt],"-rk") )
+            sscanf(arg_array[++cnt], "%lf", &cl_args.r0_thick);
+        else if ( !strcmp(arg_array[cnt],"-zk") )
+            sscanf(arg_array[++cnt], "%lf", &cl_args.z0_thick);
+        else if ( !strcmp(arg_array[cnt],"-a") )
+            sscanf(arg_array[++cnt], "%lf", &cl_args.ratio);
+        else if ( !strcmp(arg_array[cnt],"-f") )
+            sscanf(arg_array[++cnt], "%s", cl_args.filename);
+        else if ( !strcmp(arg_array[cnt],"-N_s") )
+            sscanf(arg_array[++cnt], "%d", &cl_args.max_steps);
+        else if ( !strcmp(arg_array[cnt],"--help") || !strcmp(arg_array[cnt],"-h") ) {
+            printf("Usage: ./run_mcmc [-N_p <n_parameters>] [-rn <r0_thin>] [-zn <z0_thin>] [-rk <r0_thick>] [-zk <z0_thick>] [-f <filename>] [-N_s <max_steps in chain>]\n");
+            printf("Defaults:\nN_p: 5\nrn: 2.34\nzn: 0.233\nrk: 2.51\nzk: 0.674\na: 0.1\nf: ../data/mcmc_output/mcmc_result.dat\nN_s=20");
+            exit(-1);
+        }
+        else{
+            printf("\n***Error: Uncrecognized CL option %s\n\n", arg_array[cnt]);
+            printf("Usage: ./run_mcmc [-N_p <n_parameters>] [-rn <r0_thin>] [-zn <z0_thin>] [-rk <r0_thick>] [-zk <z0_thick>] [-f <filename>] [-N_s <max_steps in chain>]\n");
+            printf("Defaults:\nN_p: 5\nrn: 2.34\nzn: 0.233\nrk: 2.51\nzk: 0.674\na: 0.1\nf: ../data/mcmc_output/mcmc_result.dat\nN_s=20");
+            exit(-1);
+        }
+        cnt++;
+    }
+
+    return cl_args;
+}
+
+
 /* Load unique ID of each pointing */
 void load_pointingID(int *N_plist, POINTING **plist){
 
@@ -217,38 +268,38 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 
 /* ----------------------------------------------------------------------- */
 
-/* Load starting data for MCMC loop */
-void load_step_data(STEP_DATA *step_data, int flag, int rank){
+// /* Load starting data for MCMC loop */
+// void load_step_data(STEP_DATA *step_data, int flag, int rank){
 
-    if(flag==0){
-        if(rank==0) fprintf(stderr, "Testing correct parameters.\n");
-        step_data->thin_r0  = 2.34;
-        step_data->thin_z0  = 0.233;
-        step_data->thick_r0 = 2.51;
-        step_data->thick_z0 = 0.674;
-        step_data->ratio_thick_thin = 0.1;
-    }
-    else if(flag==1){
-        if(rank==0) fprintf(stderr, "Starting parameters greater than true.\n");
-        step_data->thin_r0  = 3.0;
-        step_data->thin_z0  = 0.3;
-        step_data->thick_r0 = 4.0;
-        step_data->thick_z0 = 1.2;
-        step_data->ratio_thick_thin = 0.12;
-    }
-    else if(flag==-1){
-        if(rank==0) fprintf(stderr, "Starting parameters less than true.\n");
-        step_data->thin_r0  = 1.8;
-        step_data->thin_z0  = 0.1;
-        step_data->thick_r0 = 2.0;
-        step_data->thick_z0 = 0.3;
-        step_data->ratio_thick_thin = 0.5;
-    }
-    else{
-        fprintf(stderr, "Parameter flag unrecognized. Pass -1, 0, or 1.\n");
-        exit(EXIT_FAILURE);
-    }
-}
+//     if(flag==0){
+//         if(rank==0) fprintf(stderr, "Testing correct parameters.\n");
+//         step_data->r0_thin  = 2.34;
+//         step_data->z0_thin  = 0.233;
+//         step_data->r0_thick = 2.51;
+//         step_data->z0_thick = 0.674;
+//         step_data->ratio_thick_thin = 0.1;
+//     }
+//     else if(flag==1){
+//         if(rank==0) fprintf(stderr, "Starting parameters greater than true.\n");
+//         step_data->r0_thin  = 3.0;
+//         step_data->z0_thin  = 0.3;
+//         step_data->r0_thick = 4.0;
+//         step_data->z0_thick = 1.2;
+//         step_data->ratio_thick_thin = 0.12;
+//     }
+//     else if(flag==-1){
+//         if(rank==0) fprintf(stderr, "Starting parameters less than true.\n");
+//         step_data->r0_thin  = 1.8;
+//         step_data->z0_thin  = 0.1;
+//         step_data->r0_thick = 2.0;
+//         step_data->z0_thick = 0.3;
+//         step_data->ratio_thick_thin = 0.5;
+//     }
+//     else{
+//         fprintf(stderr, "Parameter flag unrecognized. Pass -1, 0, or 1.\n");
+//         exit(EXIT_FAILURE);
+//     }
+// }
 
 /* ----------------------------------------------------------------------- */
 
@@ -262,8 +313,8 @@ void output_mcmc(int index, STEP_DATA p, FILE *output_file){
     }
 
     fprintf( output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
-        index, p.chi2, p.chi2_reduced, p.thin_r0, p.thin_z0,
-        p.thick_r0, p.thick_z0, p.ratio_thick_thin );
+        index, p.chi2, p.chi2_reduced, p.r0_thin, p.z0_thin,
+        p.r0_thick, p.z0_thick, p.ratio_thick_thin );
 }
 
 /* ----------------------------------------------------------------------- */
