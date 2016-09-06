@@ -4,9 +4,10 @@ make cleanall
 make
 
 N_procs=20;
+filename="../data/mcmc_output/mcmc_test.dat";
 
-rm ../data/mcmc_output/$filename
+rm $filename
 
-time mpirun -n $N_procs ./bin/run_mcmc
+time mpirun -n $N_procs ./bin/run_mcmc -f $filename
 
 python plot_disk_params.py
