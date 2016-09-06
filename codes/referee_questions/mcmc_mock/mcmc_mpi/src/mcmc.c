@@ -196,7 +196,7 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
     double tmp;             /* temp holder */
     int DOF = 0;            /* total degrees of freedom */
     int DOF_proc;           /* d.o.f. of each process */
-    int N_params = 5;       /* number of parameters */
+    // int N_params = 5;       /* number of parameters */
     double chi2 = 0.0;      /* chi2 value for each process */
 
     if (rank == 0){
