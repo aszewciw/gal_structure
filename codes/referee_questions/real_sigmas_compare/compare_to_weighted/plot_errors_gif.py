@@ -53,14 +53,14 @@ def main():
     # png_frac_list =[]
     png_list = []
 
-    red_patch = mpatches.Patch(color='red', label=r'$DD_{mean}$')
-    org_patch = mpatches.Patch(color='#CC4F1B', label=r'$DD_{weighted}$')
+    org_patch = mpatches.Patch(color='#CC4F1B', label=r'$DD_{mean}$')
+    black_patch = mpatches.Patch(color='black', label=r'$DD_{weighted}$')
 
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
-        # if ID != '0':
-        #     continue
+        if ID != '0':
+            continue
 
         mock_file = mock_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
@@ -84,14 +84,14 @@ def main():
         plt.fill_between(bin_centers, dd_mean-std, dd_mean+std, alpha=0.5, edgecolor='#CC4F1B',
             facecolor='#FF9848')
         plt.axis([xmin, xmax, ymin, ymax])
-        plt.legend(handles=[red_patch, org_patch], loc='upper left')
+        plt.legend(handles=[org_patch, black_patch], loc='upper left')
         fig_name = plots_dir + 'real_vs_weighted_' + ID + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
 
-    gif_name = plots_dir + 'real_vs_weighted.gif'
-    GIF_MOVIE(png_list, gif_name)
+    # gif_name = plots_dir + 'real_vs_weighted.gif'
+    # GIF_MOVIE(png_list, gif_name)
 
 if __name__ == '__main__':
     main()
