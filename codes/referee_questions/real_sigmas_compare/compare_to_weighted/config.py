@@ -24,6 +24,7 @@ rawdata_dir = '../../data/'
 data_dir    = './data/'
 rbins_dir   = '../../mcmc_mock/data/rbins/'
 mock_dir    = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
+plots_dir   = '../plots/'
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
