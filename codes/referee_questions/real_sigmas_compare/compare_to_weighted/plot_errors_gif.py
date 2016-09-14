@@ -61,7 +61,7 @@ def main():
         mock_file = mock_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
-        weighted_file = data_dir + 'MWM_' + p.ID + '.dat'
+        weighted_file = data_dir + 'MWM_dd_' + ID + '.dat'
         dd_weighted = np.genfromtxt(weighted_file)
 
         plt.close()
