@@ -54,7 +54,7 @@ def main():
     png_list = []
 
     red_patch = mpatches.Patch(color='red', label=r'$DD_{mean}$')
-    blue_patch = mpatches.Patch(color='blue', label=r'$DD_{weighted}$')
+    org_patch = mpatches.Patch(color='#CC4F1B', label=r'$DD_{weighted}$')
 
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
@@ -84,7 +84,7 @@ def main():
         plt.fill_between(bin_centers, dd_mean-std, dd_mean+std, alpha=0.5, edgecolor='#CC4F1B',
             facecolor='#FF9848')
         plt.axis([xmin, xmax, ymin, ymax])
-        plt.legend(handles=[red_patch, blue_patch], loc='upper left')
+        plt.legend(handles=[red_patch, org_patch], loc='upper left')
         fig_name = plots_dir + 'real_vs_weighted_' + ID + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
