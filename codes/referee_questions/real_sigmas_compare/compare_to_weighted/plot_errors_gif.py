@@ -53,8 +53,8 @@ def main():
     # png_frac_list =[]
     png_list = []
 
-    red_patch = mpatches.Patch(color='red', label='DD_{mean}')
-    blue_patch = mpatches.Patch(color='blue', label='DD_{weighted}')
+    red_patch = mpatches.Patch(color='red', label=r'$DD_{mean}$')
+    blue_patch = mpatches.Patch(color='blue', label=r'$DD_{weighted}$')
 
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
