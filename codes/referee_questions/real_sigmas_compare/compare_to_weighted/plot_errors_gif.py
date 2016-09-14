@@ -59,8 +59,8 @@ def main():
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
-        # if ID != '0':
-        #     continue
+        if ID != '0':
+            continue
 
         mock_file = mock_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
@@ -79,8 +79,10 @@ def main():
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
         plt.ylabel('Normalized DD', fontsize=24)
-        plt.semilogx(bin_centers, dd_mean, color='red')
-        plt.semilogx(bin_centers, dd_weighted, color='blue')
+        plt.semilogx(bin_centers, dd_mean, color='#CC4F1B')
+        plt.semilogx(bin_centers, dd_weighted, color='black')
+        plt.fill_between(bin_centers, y-std, y+std, alpha=0.5, edgecolor='#CC4F1B',
+            facecolor='#FF9848')
         plt.axis([xmin, xmax, ymin, ymax])
         plt.legend(handles=[red_patch, blue_patch], loc='upper left')
         fig_name = plots_dir + 'real_vs_weighted_' + ID + '.png'
@@ -88,8 +90,8 @@ def main():
         png_list.append(fig_name)
 
 
-    gif_name = plots_dir + 'real_vs_weighted.gif'
-    GIF_MOVIE(png_list, gif_name)
+    # gif_name = plots_dir + 'real_vs_weighted.gif'
+    # GIF_MOVIE(png_list, gif_name)
 
 if __name__ == '__main__':
     main()
