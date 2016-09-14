@@ -23,6 +23,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 rawdata_dir = '../../data/'
 data_dir    = './data/'
 rbins_dir   = '../../mcmc_mock/data/rbins/'
+mock_dir    = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
