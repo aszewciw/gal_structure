@@ -73,7 +73,7 @@ def main():
         xmin = min(bin_centers)
         xmax = max(bin_centers)
         ymin = 0
-        ymax = 5
+        ymax = 0.5
 
         plt.title('Real mean vs. weighted mean l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
@@ -81,7 +81,7 @@ def main():
         plt.ylabel('Normalized DD', fontsize=24)
         plt.semilogx(bin_centers, dd_mean, color='red')
         plt.semilogx(bin_centers, dd_weighted, color='blue')
-        # plt.axis([xmin, xmax, ymin, ymax])
+        plt.axis([xmin, xmax, ymin, ymax])
         plt.legend(handles=[red_patch, blue_patch], loc='upper left')
         fig_name = plots_dir + 'real_vs_weighted_' + ID + '.png'
         plt.savefig(fig_name)
