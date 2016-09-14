@@ -59,8 +59,8 @@ def main():
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
-        if ID != '0':
-            continue
+        # if ID != '0':
+        #     continue
 
         mock_file = mock_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
@@ -90,8 +90,8 @@ def main():
         png_list.append(fig_name)
 
 
-    # gif_name = plots_dir + 'real_vs_weighted.gif'
-    # GIF_MOVIE(png_list, gif_name)
+    gif_name = plots_dir + 'real_vs_weighted.gif'
+    GIF_MOVIE(png_list, gif_name)
 
 if __name__ == '__main__':
     main()
