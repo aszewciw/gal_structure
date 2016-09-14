@@ -36,7 +36,7 @@ void pairs( POINT *data, int N_data, CORRELATION *corr, int N_corr ){
                 r1 = corr[k].r2_lower;
                 r2 = corr[k].r2_upper;
                 if(ds >= r1 && ds < r2){
-                    corr[k].DD += weight[i]*weight[j];
+                    corr[k].DD += data[i].weight*data[j].weight;
                     break;
                 }
             }
@@ -56,7 +56,7 @@ double pairs_norm( POINT *data, int N_data ){
         for( j=0; j<N_data; j++ ){
 
             if(i==j) continue;
-            total+=weight[i]*weight[j];
+            total+=data[i].weight*data[j].weight;
         }
     }
 
@@ -104,7 +104,7 @@ int main(int argc, char **argv){
         fscanf(bins_file, "%lf", &corr[k].bin_size);
         corr[k].r2_lower = corr[k].r_lower * corr[k].r_lower;
         corr[k].r2_upper = corr[k].r_upper * corr[k].r_upper;
-        corr[k].DD_N = 0; //raw pair counts
+        // corr[k].DD_N = 0; //raw pair counts
         corr[k].DD = 0.0; //normalized pair counts
     }
 
