@@ -32,7 +32,7 @@ def main():
         # N_data = len( xyz )
         # remain used to slice samples as evenly as possible
         # remain = N_data % N_jackknife
-        output_filename = config.data_dir + 'mock_' + p.ID + '_jk_all.dat'
+        output_filename = data_dir + 'mock_' + p.ID + '_jk_all.dat'
         output_file = open(output_filename, 'w')
         # first output the total number of points
         output_file.write('{}\n'.format(N_stars))
