@@ -21,7 +21,7 @@ ARGS parse_command_line( int n_args, char ** arg_array ){
     cl_args.z0_thick = 1.2;
     cl_args.ratio = 0.12;
     strcpy(cl_args.filename, "../data/mcmc_output/mcmc_result.dat");
-    cl_args.max_steps = 200000;
+    cl_args.max_steps = 100000;
 
     int cnt = 1;
     while(cnt < n_args)
