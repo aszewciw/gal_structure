@@ -77,7 +77,7 @@ def main():
         plt.ylabel(r'$\frac{\sigma_{model1}}{\sigma_{model2}}$', fontsize=24)
         plt.semilogx(bin_centers, dd_mean, color='red')
         plt.semilogx(bin_centers, dd_weighted, color='green')
-        plt.axis([xmin, xmax, ymin, ymax])
+        # plt.axis([xmin, xmax, ymin, ymax])
         fig_name = plots_dir + 'real_vs_weighted_' + ID + '.png'
         plt.savefig(fig_name)
         # png_list.append(fig_name)
