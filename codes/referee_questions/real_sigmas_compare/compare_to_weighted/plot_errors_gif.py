@@ -2,6 +2,7 @@ from config import *
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 #------------------------------------------------------------------------------#
 '''
@@ -52,6 +53,9 @@ def main():
     # png_frac_list =[]
     png_list = []
 
+    red_patch = mpatches.Patch(color='red', label='DD_{mean}')
+    blue_patch = mpatches.Patch(color='blue', label='DD_{weighted}')
+
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
@@ -74,13 +78,14 @@ def main():
         plt.title('Real mean vs. weighted mean l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
-        plt.ylabel(r'$\frac{\sigma_{model1}}{\sigma_{model2}}$', fontsize=24)
+        plt.ylabel('Normalized DD', fontsize=24)
         plt.semilogx(bin_centers, dd_mean, color='red')
-        plt.semilogx(bin_centers, dd_weighted, color='green')
+        plt.semilogx(bin_centers, dd_weighted, color='blue')
         # plt.axis([xmin, xmax, ymin, ymax])
+        plt.legend(handles=[red_patch, blue_patch])
         fig_name = plots_dir + 'real_vs_weighted_' + ID + '.png'
         plt.savefig(fig_name)
-        # png_list.append(fig_name)
+        png_list.append(fig_name)
 
 
     # gif_name = plots_dir + 'std_ratios.gif'
