@@ -43,7 +43,7 @@ double pairs(POINT *data, int N_data, CORRELATION *corr, int N_corr){
       ds = dx * dx + dy * dy + dz * dz; /* distance square */
 
       for(k = 0; k < N_corr; k++ ){
-  r1 = corr[k].r2_lower;
+        r1 = corr[k].r2_lower;
         r2 = corr[k].r2_upper;
         if(ds >= r1 && ds < r2){
           corr[k].DD_N += 1;
