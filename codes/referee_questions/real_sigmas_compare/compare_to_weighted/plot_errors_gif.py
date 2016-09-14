@@ -81,7 +81,7 @@ def main():
         plt.ylabel('Normalized DD', fontsize=24)
         plt.semilogx(bin_centers, dd_mean, color='#CC4F1B')
         plt.semilogx(bin_centers, dd_weighted, color='black')
-        plt.fill_between(bin_centers, y-std, y+std, alpha=0.5, edgecolor='#CC4F1B',
+        plt.fill_between(bin_centers, dd_mean-std, dd_mean+std, alpha=0.5, edgecolor='#CC4F1B',
             facecolor='#FF9848')
         plt.axis([xmin, xmax, ymin, ymax])
         plt.legend(handles=[red_patch, blue_patch], loc='upper left')
