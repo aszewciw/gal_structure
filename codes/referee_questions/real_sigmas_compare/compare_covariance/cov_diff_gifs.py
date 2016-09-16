@@ -110,7 +110,7 @@ def main():
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-    gif_name = plots_dir + 'cov_matrix_01.gif'
+    gif_name = plots_dir + 'cov_matrix_12.gif'
     GIF_MOVIE(png_list, gif_name)
 
 if __name__ == '__main__':
