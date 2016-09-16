@@ -58,13 +58,13 @@ def main():
         #     continue
 
         mock0_file = mock0_dir + 'stats_' + ID + '.dat'
-        dd_0, std_0 = np.genfromtxt(mock0_file, unpack=True, usecols=[0,1])
+        dd_0, var_0, std_0 = np.genfromtxt(mock0_file, unpack=True, usecols=[0,1,2])
 
         mock1_file = mock1_dir + 'stats_' + ID + '.dat'
-        dd_1, std_1 = np.genfromtxt(mock1_file, unpack=True, usecols=[0,1])
+        dd_1, var_1, std_1 = np.genfromtxt(mock1_file, unpack=True, usecols=[0,1,2])
 
         mock2_file = mock2_dir + 'stats_' + ID + '.dat'
-        dd_2, std_2 = np.genfromtxt(mock2_file, unpack=True, usecols=[0,1])
+        dd_2, var_2, std_2 = np.genfromtxt(mock2_file, unpack=True, usecols=[0,1,2])
 
         # Initialize ratio arrays
         std_ratio_10 = np.zeros(N_bins)
