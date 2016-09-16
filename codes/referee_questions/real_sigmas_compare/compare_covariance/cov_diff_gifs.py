@@ -121,7 +121,7 @@ def main():
         #             cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=1.0)
         sns.heatmap(cov_div, mask=mask, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
-                    cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=2.0)
+                    cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=3.0)
         plt.title('Covariance matrix ratio for l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         plt.ylabel('Bin Center (kpc)', fontsize=18)
