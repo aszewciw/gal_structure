@@ -76,14 +76,14 @@ def main():
         # Each row is a mock, each column is a bin
 
         # Load fiducial
-        mod0_filename = mod0_dir + 'counts_all_' + ID + '.dat'
+        mod0_filename = mod0_dir + 'normed_counts_all_' + ID + '.dat'
         DF_0 = pd.read_csv(mod0_filename, sep='\s+', names=col_names)
 
         # Calculate fiducial covariance
         cov_0 = DF_0.cov()
 
         # Load model 1
-        mod1_filename = mod1_dir + 'counts_all_' + ID + '.dat'
+        mod1_filename = mod1_dir + 'normed_counts_all_' + ID + '.dat'
         DF_1 = pd.read_csv(mod1_filename, sep='\s+', names=col_names)
 
         # Calculate fiducial covariance
