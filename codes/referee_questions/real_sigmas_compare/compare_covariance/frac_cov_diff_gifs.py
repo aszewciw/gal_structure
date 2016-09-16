@@ -133,11 +133,11 @@ def main():
         # plot first heatmap
         plt.clf()
         sns.set(style="white")
-        mask = np.zeros_like(frac_diff_10, dtype=np.bool)
-        mask[np.triu_indices_from(mask)] = True
+        # mask = np.zeros_like(frac_diff_10, dtype=np.bool)
+        # mask[np.triu_indices_from(mask)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        sns.heatmap(frac_diff_10, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(frac_diff_10, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-2.0, vmax=2.0)
         plt.title('Fractional difference in fractional covariance for l.o.s. ' + ID, fontsize=20)
@@ -150,11 +150,11 @@ def main():
         # plot second heatmap
         plt.clf()
         sns.set(style="white")
-        mask = np.zeros_like(frac_diff_20, dtype=np.bool)
-        mask[np.triu_indices_from(mask)] = True
+        # mask = np.zeros_like(frac_diff_20, dtype=np.bool)
+        # mask[np.triu_indices_from(mask)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        sns.heatmap(frac_diff_20, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(frac_diff_20, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-2.0, vmax=2.0)
         plt.title('Fractional difference in fractional covariance for l.o.s. ' + ID, fontsize=20)
@@ -167,11 +167,11 @@ def main():
         # plot heatmap of matrix
         plt.clf()
         sns.set(style="white")
-        mask = np.zeros_like(frac_diff_21, dtype=np.bool)
-        mask[np.triu_indices_from(mask)] = True
+        # mask = np.zeros_like(frac_diff_21, dtype=np.bool)
+        # mask[np.triu_indices_from(mask)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        sns.heatmap(frac_diff_21, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(frac_diff_21, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-2.0, vmax=2.0)
         plt.title('Fractional difference in fractional covariance for l.o.s. ' + ID, fontsize=20)
