@@ -101,7 +101,7 @@ def main():
         sns.heatmap(corr, mask=mask, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=1.0)
-        plt.title('Correlation Matrix for l.o.s. ' + ID, fontsize=20)
+        plt.title('Covariance matrix fractional difference for l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         plt.ylabel('Bin Center (kpc)', fontsize=18)
 
@@ -109,7 +109,7 @@ def main():
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-    gif_name = plots_dir + 'corr_matrix.gif'
+    gif_name = plots_dir + 'cov_matrix_01.gif'
     GIF_MOVIE(png_list, gif_name)
 
 if __name__ == '__main__':
