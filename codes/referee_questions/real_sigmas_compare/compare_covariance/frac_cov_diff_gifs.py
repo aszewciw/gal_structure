@@ -182,11 +182,11 @@ def main():
         png_list_21.append(fig_name)
 
     print("Plots finished. Making gifs...\n")
-    gif_name = plots_dir + 'cov_matrix_10.gif'
+    gif_name = plots_dir + 'frac_cov_10.gif'
     GIF_MOVIE(png_list_10, gif_name,removef=True)
-    gif_name = plots_dir + 'cov_matrix_20.gif'
+    gif_name = plots_dir + 'frac_cov_20.gif'
     GIF_MOVIE(png_list_20, gif_name,removef=True)
-    gif_name = plots_dir + 'cov_matrix_21.gif'
+    gif_name = plots_dir + 'frac_cov_21.gif'
     GIF_MOVIE(png_list_21, gif_name,removef=True)
 
 if __name__ == '__main__':
