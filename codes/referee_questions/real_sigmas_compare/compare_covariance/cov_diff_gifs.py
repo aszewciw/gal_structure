@@ -80,7 +80,7 @@ def main():
         DF_2 = pd.read_csv(mod2_filename, sep='\s+', names=col_names)
 
         # Calculate fiducial covariance
-        cov_0 = DF_0.cov()
+        cov_2 = DF_2.cov()
 
         # Load model 1
         mod1_filename = mod1_dir + 'normed_counts_all_' + ID + '.dat'
