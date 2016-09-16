@@ -11,7 +11,7 @@ Make a gif from the files.
 '''
 #------------------------------------------------------------------------------#
 
-rawdata_dir = '../data/'
+rawdata_dir = '../../data/'
 bins_dir    = '../../mcmc_mock/data/rbins/'
 mod0_dir    = '../../1000_mocks_cut/errors_pairs/data/'
 mod1_dir    = '../1000_mocks_1/errors_pairs/data/'
