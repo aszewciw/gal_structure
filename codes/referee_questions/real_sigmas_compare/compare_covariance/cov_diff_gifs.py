@@ -101,34 +101,41 @@ def main():
         # Calculate model 2 covariance
         cov_2 = DF_2.cov()
 
-        # cov_frac = (cov_1 - cov_2) / cov_1
         # cov_div = cov_1 / cov_0
+        # cov_frac = (cov_1 - cov_0) / cov_0
 
         cov_div = cov_2 / cov_0
+        cov_frac = (cov_2 - cov_0) / cov_0
+
 
         # cov_div = cov_2 / cov_1
+        # cov_frac = (cov_2 - cov_1) / cov_1
 
         # plot heatmap of matrix
         plt.clf()
         sns.set(style="white")
-        # mask = np.zeros_like(cov_frac, dtype=np.bool)
-        mask = np.zeros_like(cov_div, dtype=np.bool)
+        mask = np.zeros_like(cov_frac, dtype=np.bool)
+        # mask = np.zeros_like(cov_div, dtype=np.bool)
         mask[np.triu_indices_from(mask)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        # sns.heatmap(cov_frac, mask=mask, cmap=cmap,square=True, annot=True,
-        #             xticklabels=col_names, yticklabels=col_names, linewidths=.5,
-        #             cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=1.0)
-        sns.heatmap(cov_div, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(cov_frac, mask=mask, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
-                    cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=3.0)
+                    cbar_kws={"shrink": .5}, ax=ax, vmin=-2.0, vmax=2.0)
+        # sns.heatmap(cov_div, mask=mask, cmap=cmap,square=True, annot=True,
+        #             xticklabels=col_names, yticklabels=col_names, linewidths=.5,
+        #             cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=3.0)
         plt.title('Covariance matrix ratio for l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         plt.ylabel('Bin Center (kpc)', fontsize=18)
 
         # fig_name = plots_dir + 'cov_matrix_ratio_10' + ID + '.png'
-        fig_name = plots_dir + 'cov_matrix_ratio_20' + ID + '.png'
+        # fig_name = plots_dir + 'cov_matrix_ratio_20' + ID + '.png'
         # fig_name = plots_dir + 'cov_matrix_ratio_21' + ID + '.png'
+
+        # fig_name = plots_dir + 'cov_matrix_diff_10' + ID + '.png'
+        fig_name = plots_dir + 'cov_matrix_diff_20' + ID + '.png'
+        # fig_name = plots_dir + 'cov_matrix_diff_21' + ID + '.png'
 
         plt.savefig(fig_name)
         png_list.append(fig_name)
@@ -137,7 +144,7 @@ def main():
     gif_name = plots_dir + 'cov_matrix_20.gif'
     # gif_name = plots_dir + 'cov_matrix_21.gif'
 
-    GIF_MOVIE(png_list, gif_name)
+    GIF_MOVIE(png_list, gif_name, removef=True)
 
 if __name__ == '__main__':
     main()
