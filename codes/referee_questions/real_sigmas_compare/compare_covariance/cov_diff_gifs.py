@@ -69,7 +69,7 @@ def main():
     # Create list of png's for use in making gif
     png_list =[]
 
-    # Calculate correlation matrix for each l.o.s.
+    # Calculate covariance matrix for each l.o.s.
     for ID in ID_list:
 
         # Load counts from 1000 mocks with pandas
@@ -98,7 +98,7 @@ def main():
         mask[np.triu_indices_from(mask)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        sns.heatmap(corr, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(cov_frac, mask=mask, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-1.0, vmax=1.0)
         plt.title('Covariance matrix fractional difference for l.o.s. ' + ID, fontsize=20)
