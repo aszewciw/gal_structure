@@ -87,25 +87,27 @@ def main():
 
 
         # Load model 1
-        mod1_filename = mod1_dir + 'normed_counts_all_' + ID + '.dat'
-        DF_1 = pd.read_csv(mod1_filename, sep='\s+', names=col_names)
+        # mod1_filename = mod1_dir + 'normed_counts_all_' + ID + '.dat'
+        # DF_1 = pd.read_csv(mod1_filename, sep='\s+', names=col_names)
 
-        # Calculate fiducial covariance
-        cov_1 = DF_1.cov()
+        # # Calculate fiducial covariance
+        # cov_1 = DF_1.cov()
 
 
-        # # Load model 2
-        # mod2_filename = mod2_dir + 'normed_counts_all_' + ID + '.dat'
-        # DF_2 = pd.read_csv(mod2_filename, sep='\s+', names=col_names)
+        # Load model 2
+        mod2_filename = mod2_dir + 'normed_counts_all_' + ID + '.dat'
+        DF_2 = pd.read_csv(mod2_filename, sep='\s+', names=col_names)
 
-        # # Calculate model 2 covariance
-        # cov_2 = DF_2.cov()
+        # Calculate model 2 covariance
+        cov_2 = DF_2.cov()
+
+
 
         # cov_div = cov_1 / cov_0
-        cov_frac = (cov_1 - cov_0) / cov_0
+        # cov_frac = (cov_1 - cov_0) / cov_0
 
         # cov_div = cov_2 / cov_0
-        # cov_frac = (cov_2 - cov_0) / cov_0
+        cov_frac = (cov_2 - cov_0) / cov_0
 
         # cov_div = cov_2 / cov_1
         # cov_frac = (cov_2 - cov_1) / cov_1
@@ -133,15 +135,15 @@ def main():
         # fig_name = plots_dir + 'cov_matrix_ratio_20' + ID + '.png'
         # fig_name = plots_dir + 'cov_matrix_ratio_21' + ID + '.png'
 
-        fig_name = plots_dir + 'cov_matrix_diff_10' + ID + '.png'
-        # fig_name = plots_dir + 'cov_matrix_diff_20' + ID + '.png'
+        # fig_name = plots_dir + 'cov_matrix_diff_10' + ID + '.png'
+        fig_name = plots_dir + 'cov_matrix_diff_20' + ID + '.png'
         # fig_name = plots_dir + 'cov_matrix_diff_21' + ID + '.png'
 
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-    gif_name = plots_dir + 'cov_matrix_10.gif'
-    # gif_name = plots_dir + 'cov_matrix_20.gif'
+    # gif_name = plots_dir + 'cov_matrix_10.gif'
+    gif_name = plots_dir + 'cov_matrix_20.gif'
     # gif_name = plots_dir + 'cov_matrix_21.gif'
 
     GIF_MOVIE(png_list, gif_name, removef=True)
