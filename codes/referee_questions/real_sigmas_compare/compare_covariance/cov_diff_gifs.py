@@ -76,8 +76,8 @@ def main():
         # Each row is a mock, each column is a bin
 
         # Load fiducial
-        mod0_filename = mod0_dir + 'normed_counts_all_' + ID + '.dat'
-        DF_0 = pd.read_csv(mod0_filename, sep='\s+', names=col_names)
+        mod2_filename = mod2_dir + 'normed_counts_all_' + ID + '.dat'
+        DF_2 = pd.read_csv(mod2_filename, sep='\s+', names=col_names)
 
         # Calculate fiducial covariance
         cov_0 = DF_0.cov()
@@ -89,7 +89,7 @@ def main():
         # Calculate fiducial covariance
         cov_1 = DF_1.cov()
 
-        cov_frac = (cov_0 - cov_1) / cov_0
+        cov_frac = (cov_1 - cov_2) / cov_1
 
         # plot heatmap of matrix
         plt.clf()
@@ -105,7 +105,7 @@ def main():
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         plt.ylabel('Bin Center (kpc)', fontsize=18)
 
-        fig_name = plots_dir + 'cov_matrix_diff_01' + ID + '.png'
+        fig_name = plots_dir + 'cov_matrix_diff_12' + ID + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
