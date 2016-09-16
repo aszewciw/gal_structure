@@ -80,8 +80,8 @@ def main():
         # Load counts from 1000 mocks with pandas
         # Each row is a mock, each column is a bin
 
-        # # Load fiducial
-        # mod0_filename = mod0_dir + 'normed_counts_all_' + ID + '.dat'
+        # Load fiducial
+        mod0_filename = mod0_dir + 'normed_counts_all_' + ID + '.dat'
         DF_0 = pd.read_csv(mod0_filename, sep='\s+')
 
         # Calculate fiducial covariance
