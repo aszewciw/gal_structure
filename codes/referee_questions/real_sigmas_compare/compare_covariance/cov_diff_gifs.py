@@ -12,7 +12,7 @@ Make a gif from the files.
 #------------------------------------------------------------------------------#
 
 rawdata_dir = '../../data/'
-bins_dir    = '../../mcmc_mock/data/rbins/'
+rbins_dir   = '../../mcmc_mock/data/rbins/'
 mod0_dir    = '../../1000_mocks_cut/errors_pairs/data/'
 mod1_dir    = '../1000_mocks_1/errors_pairs/data/'
 mod2_dir    = '../1000_mocks_1/errors_pairs/data/'
@@ -49,7 +49,7 @@ def main():
     N_los = len(ID_list)
 
     # Load bins centers
-    bins_file   = 'rbins.ascii.dat'
+    bins_file   = rbins_dir + 'rbins.ascii.dat'
     bin_centers = np.genfromtxt(bins_file, skip_header=1, usecols=[2], unpack=True)
     N_bins      = len(bin_centers)
 
