@@ -1,9 +1,12 @@
 import numpy as np
-import seaborn as sns
 import pandas as pd
+import sys
+import PIL.Image
+sys.modules['Image'] = PIL.Image
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import seaborn as sns
 plt.rcParams.update({'figure.max_open_warning': 0})
 import os
 
