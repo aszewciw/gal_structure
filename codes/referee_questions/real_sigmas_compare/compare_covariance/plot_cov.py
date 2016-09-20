@@ -88,21 +88,21 @@ def main():
         DF_0 = pd.read_csv(mod0_filename, sep='\s+')
 
         # Calculate fiducial covariance
-        cov_0 = DF_0.cov()
+        cov_0 = DF_0.corr()
 
         # Load model 1
         mod1_filename = mod1_dir + 'normed_counts_all_' + ID + '.dat'
         DF_1 = pd.read_csv(mod1_filename, sep='\s+')
 
         # Calculate fiducial covariance
-        cov_1 = DF_1.cov()
+        cov_1 = DF_1.corr()
 
         # Load model 2
         mod2_filename = mod2_dir + 'normed_counts_all_' + ID + '.dat'
         DF_2 = pd.read_csv(mod2_filename, sep='\s+')
 
         # Calculate model 2 covariance
-        cov_2 = DF_2.cov()
+        cov_2 = DF_2.corr()
 
         # plot first heatmap
         plt.clf()
