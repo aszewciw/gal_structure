@@ -125,7 +125,7 @@ def main():
         mask[np.triu_indices_from(mask,1)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        sns.heatmap(frac_diff_20, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(cov_1, mask=mask, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-2.0, vmax=2.0)
         plt.title('Covariance matrix for l.o.s. ' + ID, fontsize=20)
@@ -142,13 +142,13 @@ def main():
         mask[np.triu_indices_from(mask,1)] = True
         f, ax = plt.subplots(figsize=(11, 9))
         cmap = sns.diverging_palette(145, 280, s=85, l=25, n=7, as_cmap=True)
-        sns.heatmap(frac_diff_21, mask=mask, cmap=cmap,square=True, annot=True,
+        sns.heatmap(cov_2, mask=mask, cmap=cmap,square=True, annot=True,
                     xticklabels=col_names, yticklabels=col_names, linewidths=.5,
                     cbar_kws={"shrink": .5}, ax=ax, vmin=-2.0, vmax=2.0)
         plt.title('Covariance matrix for l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
         plt.ylabel('Bin Center (kpc)', fontsize=18)
-        fig_name = plots_dir + 'cov1_' + ID + '.png'
+        fig_name = plots_dir + 'cov2_' + ID + '.png'
         plt.savefig(fig_name)
         png_list_2.append(fig_name)
 
