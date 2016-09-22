@@ -36,10 +36,6 @@ typedef struct {
   char binID[256];      /* ID for each radial bin */
   double DD;            /* segue pair counts */
   double MM;            /* model pair counts */
-  double corr;          /* DD/MM */
-  // double DD_err_jk;     /* fractional segue jk error */
-  // double MM_err_jk;      fractional model jk error
-  // double err2_frac;     /* fractional errors squared */
   double frac_error;    /* fractional error */
   double sigma2;        /* sigma squared for DD/MM */
   unsigned int N_pairs; /* number of unique pairs */
@@ -79,7 +75,6 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Stats functions */
-void calculate_frac_error(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 
 /* MCMC functions */
@@ -87,7 +82,7 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind);
 double normalize_MM(double *weight, int N_stars);
 double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm,
   double *weight );
-void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind);
+// void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
 void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int max_steps,

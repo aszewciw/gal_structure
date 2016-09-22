@@ -76,10 +76,6 @@ int main(int argc, char * argv[]){
     load_rbins(plist, N_bins, lower_ind, upper_ind, rank);
     load_pairs(plist, N_bins, lower_ind, upper_ind, rank);
 
-    /* Calculate fractional error in DD/MM */
-    /* Only must be done once */
-    calculate_frac_error(plist, N_bins, lower_ind, upper_ind);
-
     /* Run mcmc */
     run_mcmc(plist, cl.N_params, initial, N_bins, cl.max_steps, lower_ind, upper_ind,
         rank, nprocs, cl.filename);

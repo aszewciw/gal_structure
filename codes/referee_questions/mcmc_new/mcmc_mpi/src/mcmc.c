@@ -79,36 +79,6 @@ double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
 
 /* ----------------------------------------------------------------------- */
 
-/* Calculate correlation (DD/MM) for each bin in each l.o.s. */
-void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind){
-
-    int i, j;
-    double MM_norm;
-
-    /* Loop over l.o.s. */
-    for(i = lower_ind; i < upper_ind; i++){
-
-        MM_norm = normalize_MM(p[i].weight, p[i].N_stars);
-
-        for(j = 0; j < N_bins; j++){
-
-            p[i].rbin[j].MM = calculate_MM( p[i].rbin[j].N_pairs,
-                p[i].rbin[j].pair1, p[i].rbin[j].pair2, MM_norm,
-                p[i].weight );
-
-            /* skip where any values = 0. No chi2 contribution */
-            if( p[i].rbin[j].DD == 0.0 || p[i].rbin[j].MM == 0.0 ){
-                p[i].rbin[j].corr = 0.0;
-                continue;
-            }
-            p[i].rbin[j].corr = p[i].rbin[j].DD / p[i].rbin[j].MM;
-
-        }
-    }
-}
-
-/* ----------------------------------------------------------------------- */
-
 /* Calculate degrees of freedom -- only do once */
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
@@ -119,7 +89,9 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
         for(j = 0; j < N_bins; j++){
 
-            if( p[i].rbin[j].sigma2 == 0.0 ) continue;
+            if( p[i].rbin[j].frac_error == 0.0 ) continue;
+
+            if( p[i].rbin[j].DD == 0.0 ) continue;
 
             dof++;
         }
@@ -210,7 +182,6 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
     if(rank==0) fprintf(stderr, "Initial weights set \n");
 
     /* Calculate initial correlation value */
-    calculate_correlation(plist, N_bins, lower_ind, upper_ind);
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
     MPI_Allreduce(&chi2, &current.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 
@@ -270,7 +241,6 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
 
         /* Set weights from new parameters */
         set_weights(new, plist, lower_ind, upper_ind);
-        calculate_correlation(plist, N_bins, lower_ind, upper_ind);
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
