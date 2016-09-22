@@ -1,17 +1,9 @@
-
 '''
-As I'm working on this HPC project, I want to clean some
-files so I have the following things:
+Prepare a couple files for the mcmc:
 
-1. File containing just pointing IDs
-2. Files containing just Z, R, W, for uniform points
-3. Files containing just the fractional errors
-
-There is no need to overload my data structures with
-things I'll never use in the MCMC.
-This is a bit sloppy of a way to do this all, but for now
-my main concern is getting my mcmc to work. After that, I
-will work on data preparation files.
+1. Take todo list and output file containing each pointing ID
+2. Take uniform file and output a new file containing only Z, R, and W
+3. Output a file containing fractional standard deviation in DD (from 1000 mocks)
 '''
 
 from config import *
@@ -33,7 +25,7 @@ def main():
 
     for p in ID:
 
-        # # Repack file containing Z, R, and W=1.0 only
+        # Repack file containing Z, R, and W=1.0 only
         ZRW_file = uni_dir + 'uniform_' + p + '.ascii.dat'
         Z, R, W  = np.genfromtxt(ZRW_file, unpack=True, skip_header=1,
             usecols=[5, 6, 10], dtype=None)
@@ -46,17 +38,16 @@ def main():
                 f.write("{} {} {}\n".format(
                     str(Z[i]), str(R[i]), str(W[i])))
 
-        # Repack uniform error files
-        uni_jk_file = jk_dir + 'uniform_' + p + '_jk_error.dat'
-        uni_jk_err  = np.genfromtxt(uni_jk_file, unpack=True, usecols=[7])
-        outfile     = errors_dir + 'uniform_' + p + '_frac_error.dat'
-        np.savetxt(outfile, uni_jk_err)
+        # Repack files containing sigma/DD
+        sigma_file = sigma_dir + 'stats_' + p + '.dat'
+        DD, std = np.genfromtxt(sigma_file, unpack=True, usecols=[3,5])
+        frac_std = np.zeros(len(DD))
+        for i in range(len(DD)):
+            if DD[i] == 0.0:
+                continue
+            frac_std[i] = std[i] / DD[i]
 
-        # Repack mock error files
-        dat_jk_file = jk_dir + 'mock_' + p + '_jk_error.dat'
-        dat_jk_err  = np.genfromtxt(dat_jk_file, unpack=True, usecols=[7])
-        outfile     = errors_dir + 'mock_' + p + '_frac_error.dat'
-        np.savetxt(outfile, dat_jk_err)
+        outfile = errors_dir + 'frac_error_' + p + '.dat'
 
 if __name__ == '__main__':
     main()
