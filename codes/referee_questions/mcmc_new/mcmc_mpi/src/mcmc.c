@@ -79,6 +79,29 @@ double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
 
 /* ----------------------------------------------------------------------- */
 
+/* Updates normalized values of MM for current model */
+void update_model(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+
+    int i, j;
+    double MM_norm;
+
+    /* Loop over l.o.s. */
+    for(i = lower_ind; i < upper_ind; i++){
+
+        MM_norm = normalize_MM(p[i].weight, p[i].N_stars);
+
+        for(j = 0; j < N_bins; j++){
+
+            p[i].rbin[j].MM = calculate_MM( p[i].rbin[j].N_pairs,
+                p[i].rbin[j].pair1, p[i].rbin[j].pair2, MM_norm,
+                p[i].weight );
+
+        }
+    }
+}
+
+/* ----------------------------------------------------------------------- */
+
 /* Calculate degrees of freedom -- only do once */
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
@@ -181,6 +204,9 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
     set_weights(current, plist, lower_ind, upper_ind);
     if(rank==0) fprintf(stderr, "Initial weights set \n");
 
+    /* get initial values of MM */
+    update_model(plist, N_bins, lower_ind, upper_ind);
+
     /* Calculate initial correlation value */
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
     MPI_Allreduce(&chi2, &current.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
@@ -241,6 +267,9 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
 
         /* Set weights from new parameters */
         set_weights(new, plist, lower_ind, upper_ind);
+
+        /* get new MM values */
+        update_model(plist, N_bins, lower_ind, upper_ind);
 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);

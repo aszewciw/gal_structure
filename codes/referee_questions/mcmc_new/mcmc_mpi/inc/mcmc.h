@@ -82,6 +82,7 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind);
 double normalize_MM(double *weight, int N_stars);
 double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2, double MM_norm,
   double *weight );
+void update_model(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 // void calculate_correlation(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r);
