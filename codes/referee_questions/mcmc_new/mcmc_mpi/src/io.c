@@ -195,7 +195,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%lf", &b[j].frac_err);
+            fscanf(file, "%lf", &b[j].frac_error);
         }
         fclose(file);
 
