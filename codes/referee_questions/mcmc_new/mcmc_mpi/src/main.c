@@ -20,7 +20,7 @@ int main(int argc, char * argv[]){
 
     if(rank==0){
         fprintf(stderr, "N_parameters: %d\n", cl.N_params);
-        fprintf(stderr, "Starting parameters: r0_thin = %lf , z0_thin = %lf , \
+        fprintf(stderr, "Starting parameters: r0_thin = %lf , z0_thin = %lf , \\
             r0_thick = %lf , z0_thick = %lf , ratio = %lf\n",
             cl.r0_thin, cl.z0_thin, cl.r0_thick, cl.z0_thick, cl.ratio);
         fprintf(stderr, "%d steps in MCMC chain...\n", cl.max_steps);
