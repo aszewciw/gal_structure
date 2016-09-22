@@ -48,6 +48,7 @@ def main():
             frac_std[i] = std[i] / DD[i]
 
         outfile = errors_dir + 'frac_error_' + p + '.dat'
+        np.savetxt(outfile, frac_std)
 
 if __name__ == '__main__':
     main()
