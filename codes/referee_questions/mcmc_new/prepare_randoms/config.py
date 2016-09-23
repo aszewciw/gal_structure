@@ -22,6 +22,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir = '../../data/'
 data_dir    = '../data/uniform_dir/'
+rbins_dir   = '../../data/rbins/'
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
     """
