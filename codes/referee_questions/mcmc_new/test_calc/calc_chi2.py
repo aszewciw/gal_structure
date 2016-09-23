@@ -25,7 +25,7 @@ def main():
         dd = np.genfromtxt(dd_file)
 
         for i in range(len(dd)):
-            if frac_err[i]==0.0 or mm[i]==0.0 or dd[i]==0.0:
+            if frac_err[i]==0.0 or mm[i]==0.0:
                 continue
             sig2 = (mm[i] * frac_err[i])**2
             chi2 += ((dd[i] - mm[i])**2)/sig2
