@@ -41,11 +41,12 @@ def main():
         # Repack files containing sigma/DD
         sigma_file = sigma_dir + 'stats_' + p + '.dat'
         DD, std = np.genfromtxt(sigma_file, unpack=True, usecols=[3,5])
-        frac_std = np.zeros(len(DD))
-        for i in range(len(DD)):
-            if DD[i] == 0.0:
-                continue
-            frac_std[i] = std[i] / DD[i]
+        # frac_std = np.zeros(len(DD))
+        # for i in range(len(DD)):
+        #     if DD[i] == 0.0:
+        #         continue
+        #     frac_std[i] = std[i] / DD[i]
+        frac_std = std/DD
 
         outfile = errors_dir + 'frac_error_' + p + '.dat'
         np.savetxt(outfile, frac_std, fmt='%.6e')
