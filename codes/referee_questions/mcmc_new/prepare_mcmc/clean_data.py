@@ -49,7 +49,7 @@ def main():
         frac_std = std/DD
 
         outfile = errors_dir + 'frac_error_' + p + '.dat'
-        np.savetxt(outfile, frac_std, fmt='%.6e')
+        np.savetxt(outfile, frac_std, fmt='%.6f')
 
 if __name__ == '__main__':
     main()
