@@ -24,6 +24,7 @@ rawdata_dir = '../../data/'
 data_dir    = './data/'
 rbins_dir   = '../data/rbins/'
 errors_dir  = '../data/errors/'
+dd_dir      = '../data/mock_dd/'
 uni_dir     = '../../prepare_randoms/data/'
 #------------------------------------------------------------------------------
 def eq2cart(ra, dec, r):
