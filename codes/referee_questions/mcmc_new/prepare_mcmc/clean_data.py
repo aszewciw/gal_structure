@@ -40,7 +40,7 @@ def main():
 
         # Repack files containing sigma/DD
         sigma_file = sigma_dir + 'stats_' + p + '.dat'
-        DD, std = np.genfromtxt(sigma_file, unpack=True, usecols=[0,2])
+        DD, std = np.genfromtxt(sigma_file, unpack=True, usecols=[3,5])
         frac_std = np.zeros(len(DD))
         for i in range(len(DD)):
             if DD[i] == 0.0:
