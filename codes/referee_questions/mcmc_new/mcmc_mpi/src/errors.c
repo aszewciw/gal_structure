@@ -36,7 +36,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 / p[i].rbin[j].sigma2 );
             chi2 += chi2_temp;
             if (chi2_temp >1000){
-                fprintf(stderr, "chi2 greater than 1000 for pointing %s, bin %d\n", p[i].ID, j);
+                fprintf(stderr, "chi2 is %lf for pointing %s, bin %d\n", chi2_temp, p[i].ID, j);
             }
         }
     }
