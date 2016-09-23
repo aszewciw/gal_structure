@@ -29,15 +29,15 @@ ARGS parse_command_line( int n_args, char ** arg_array ){
         if ( !strcmp(arg_array[cnt],"-N_p") )
             sscanf(arg_array[++cnt], "%d", &cl_args.N_params);
         else if ( !strcmp(arg_array[cnt],"-rn") )
-            sscanf(arg_array[++cnt], "%lf", &cl_args.r0_thin);
+            sscanf(arg_array[++cnt], "%Lf", &cl_args.r0_thin);
         else if ( !strcmp(arg_array[cnt],"-zn") )
-            sscanf(arg_array[++cnt], "%lf", &cl_args.z0_thin);
+            sscanf(arg_array[++cnt], "%Lf", &cl_args.z0_thin);
         else if ( !strcmp(arg_array[cnt],"-rk") )
-            sscanf(arg_array[++cnt], "%lf", &cl_args.r0_thick);
+            sscanf(arg_array[++cnt], "%Lf", &cl_args.r0_thick);
         else if ( !strcmp(arg_array[cnt],"-zk") )
-            sscanf(arg_array[++cnt], "%lf", &cl_args.z0_thick);
+            sscanf(arg_array[++cnt], "%Lf", &cl_args.z0_thick);
         else if ( !strcmp(arg_array[cnt],"-a") )
-            sscanf(arg_array[++cnt], "%lf", &cl_args.ratio);
+            sscanf(arg_array[++cnt], "%Lf", &cl_args.ratio);
         else if ( !strcmp(arg_array[cnt],"-f") )
             sscanf(arg_array[++cnt], "%s", cl_args.filename);
         else if ( !strcmp(arg_array[cnt],"-N_s") )
@@ -121,9 +121,9 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
     char zrw_filename[256];
     FILE *zrw_file;
     int i, j, N;
-    double * Z;
-    double * R;
-    double * W;
+    long double * Z;
+    long double * R;
+    long double * W;
 
     /* Read star data for each poiting */
     for(i = lower_ind; i < upper_ind; i++){
@@ -136,15 +136,15 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         fscanf(zrw_file, "%d", &N); /* read in number of stars */
 
         /* Claim arrays */
-        Z = calloc(N, sizeof(double));
-        R = calloc(N, sizeof(double));
-        W = calloc(N, sizeof(double));
+        Z = calloc(N, sizeof(long double));
+        R = calloc(N, sizeof(long double));
+        W = calloc(N, sizeof(long double));
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
-            fscanf(zrw_file, "%lf", &Z[j]);
-            fscanf(zrw_file, "%lf", &R[j]);
-            fscanf(zrw_file, "%lf", &W[j]);
+            fscanf(zrw_file, "%Lf", &Z[j]);
+            fscanf(zrw_file, "%Lf", &R[j]);
+            fscanf(zrw_file, "%Lf", &W[j]);
         }
 
         fclose(zrw_file);
@@ -183,7 +183,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
             exit(EXIT_FAILURE);
         }
         for( j=0; j<N_bins; j++ ){
-            fscanf(file, "%lf", &b[j].DD);
+            fscanf(file, "%Lf", &b[j].DD);
             snprintf(b[j].binID, 256, "%d", j);
         }
         fclose(file);
@@ -195,7 +195,7 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%lf", &b[j].frac_error);
+            fscanf(file, "%Lf", &b[j].frac_error);
         }
         fclose(file);
 
@@ -266,7 +266,7 @@ void output_mcmc(int index, STEP_DATA p, FILE *output_file){
         fprintf( output_file, "step\tchi2\tchi2_red\tr0_thin\tz0_thin\tr0_thick\tz0_thick\tratio\n");
     }
 
-    fprintf( output_file, "%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+    fprintf( output_file, "%d\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\t%Lf\n",
         index, p.chi2, p.chi2_reduced, p.r0_thin, p.z0_thin,
         p.r0_thick, p.z0_thick, p.ratio_thick_thin );
 }
