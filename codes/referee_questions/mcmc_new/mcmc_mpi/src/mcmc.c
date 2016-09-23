@@ -11,7 +11,7 @@
 /* ----------------------------------------------------------------------- */
 
 /* function used to set density weights */
-double sech2(double x){
+long double sech2(long double x){
     return 1.0 / (cosh(x) * cosh(x));
 }
 
@@ -39,10 +39,10 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
 /* ----------------------------------------------------------------------- */
 
 /* Determine normalization of MM counts */
-double normalize_MM(double *weight, int N_stars){
+long double normalize_MM(long double *weight, int N_stars){
 
     int i, j;
-    double norm = 0.0;
+    long double norm = 0.0;
 
     for(i = 0; i < N_stars; i++){
 
@@ -60,11 +60,11 @@ double normalize_MM(double *weight, int N_stars){
 /* ----------------------------------------------------------------------- */
 
 /* Calculate normalized model pair counts MM for 1 bin */
-double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
-    double MM_norm, double *weight ){
+long double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
+    long double MM_norm, long double *weight ){
 
     unsigned int i;
-    double MM = 0.0;
+    long double MM = 0.0;
 
     for(i = 0; i < N_pairs; i++){
 
@@ -83,7 +83,7 @@ double calculate_MM( unsigned int N_pairs, int *pair1, int *pair2,
 void update_model(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    double MM_norm;
+    long double MM_norm;
 
     /* Loop over l.o.s. */
     for(i = lower_ind; i < upper_ind; i++){
@@ -128,21 +128,21 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 /* Take a random step in parameter space */
 STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
 
-    double delta;
+    long double delta;
     STEP_DATA p_new;
 
-    double r0_thin_sigma = 0.05;
-    double z0_thin_sigma = 0.005;
-    double r0_thick_sigma = 0.05;
-    double z0_thick_sigma = 0.005;
-    double ratio_thick_thin_sigma = 0.002;
+    long double r0_thin_sigma = 0.05;
+    long double z0_thin_sigma = 0.005;
+    long double r0_thick_sigma = 0.05;
+    long double z0_thick_sigma = 0.005;
+    long double ratio_thick_thin_sigma = 0.002;
 
     /* try alternate step sizes */
-    // double r0_thin_sigma = 0.2;
-    // double z0_thin_sigma = 0.01;
-    // double r0_thick_sigma = 0.25;
-    // double z0_thick_sigma = 0.025;
-    // double ratio_thick_thin_sigma = 0.05;
+    // long double r0_thin_sigma = 0.2;
+    // long double z0_thin_sigma = 0.01;
+    // long double r0_thick_sigma = 0.25;
+    // long double z0_thick_sigma = 0.025;
+    // long double ratio_thick_thin_sigma = 0.05;
 
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, r0_thin_sigma);
@@ -184,14 +184,14 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
 {
     int i;                  /* mcmc index */
     int eff_counter = 0;    /* number of accepted steps */
-    double eff;             /* number accepted / total */
+    long double eff;             /* number accepted / total */
     STEP_DATA current;      /* current params */
     STEP_DATA new;          /* new mcmc parameters to test */
-    double delta_chi2;      /* new - old chi2 */
-    double tmp;             /* temp holder */
+    long double delta_chi2;      /* new - old chi2 */
+    long double tmp;             /* temp holder */
     int DOF = 0;            /* total degrees of freedom */
     int DOF_proc;           /* d.o.f. of each process */
-    double chi2 = 0.0;      /* chi2 value for each process */
+    long double chi2 = 0.0;      /* chi2 value for each process */
 
     if (rank == 0){
         fprintf(stderr, "Start MCMC chain. Max steps = %d\n", max_steps);
@@ -209,22 +209,22 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
 
     /* Calculate initial correlation value */
     chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
-    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&chi2, &current.chi2, 1, MPI_long double, MPI_SUM, MPI_COMM_WORLD);
 
     /* Degrees of freedom never change -- calculate once */
     DOF_proc = degrees_of_freedom(plist, N_bins, lower_ind, upper_ind);
     MPI_Allreduce(&DOF_proc, &DOF, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
     DOF -= N_params;
-    current.chi2_reduced = current.chi2 / (double)DOF;
+    current.chi2_reduced = current.chi2 / (long double)DOF;
 
     if(rank==0){
         fprintf(stderr, "Degrees of freedom is: %d\n", DOF);
-        fprintf(stderr, "Chi2 value for intital params is %lf\n", current.chi2);
+        fprintf(stderr, "Chi2 value for intital params is %Lf\n", current.chi2);
     }
 
     /* Define MPI type to be communicated */
     MPI_Datatype MPI_STEP;
-    MPI_Datatype type[7] = { MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE };
+    MPI_Datatype type[7] = { MPI_long double, MPI_long double, MPI_long double, MPI_long double, MPI_long double, MPI_long double, MPI_long double };
     int blocklen[7] = { 1, 1, 1, 1, 1, 1, 1 };
     MPI_Aint disp[7];
     disp[0] = offsetof( STEP_DATA, r0_thin );
@@ -274,8 +274,8 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
         /* Calculate and gather chi2 */
         chi2 = calculate_chi2(plist, N_bins, lower_ind, upper_ind);
         MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-        new.chi2_reduced = new.chi2 / (double)DOF;
+        MPI_Allreduce(&chi2, &new.chi2, 1, MPI_long double, MPI_SUM, MPI_COMM_WORLD);
+        new.chi2_reduced = new.chi2 / (long double)DOF;
 
         /* If new chi2 is better, accept step.
            If not, decide to accept/reject with some probability */
@@ -289,7 +289,7 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
                 eff_counter += 1;
             }
             else{
-                tmp = (double)rand() / (double)RAND_MAX;
+                tmp = (long double)rand() / (long double)RAND_MAX;
                 if (tmp < exp( -delta_chi2 / 2.0 )){
                     current = new;
                     eff_counter += 1;
@@ -299,9 +299,9 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
                 }
             }
             if(i % 1000 == 0){
-                fprintf(stderr, "On step %d, accepted chi2 is %lf\n",
+                fprintf(stderr, "On step %d, accepted chi2 is %Lf\n",
                     i, current.chi2);
-                fprintf(stderr, "z0_thin: %lf, r0_thin: %lf, z0_thick: %lf, r0_thick: %lf, ratio: %lf\n",
+                fprintf(stderr, "z0_thin: %Lf, r0_thin: %Lf, z0_thick: %Lf, r0_thick: %Lf, ratio: %Lf\n",
                     current.z0_thin, current.r0_thin, current.z0_thick,
                     current.r0_thick, current.ratio_thick_thin);
             }
@@ -313,9 +313,9 @@ void run_mcmc(POINTING *plist, int N_params, STEP_DATA initial, int N_bins, int 
 
     /* print lines indicating end of mcmc */
     if(rank==0){
-        eff = (double)eff_counter / (double)max_steps;
+        eff = (long double)eff_counter / (long double)max_steps;
         fclose(output_file);
-        fprintf(stderr, "Efficiency of MCMC: %lf\n", eff);
+        fprintf(stderr, "Efficiency of MCMC: %Lf\n", eff);
         fprintf(stderr, "End MCMC calculation.\n");
     }
 
