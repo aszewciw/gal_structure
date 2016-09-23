@@ -14,7 +14,7 @@
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
-    long double chi2 = 0.0;
+    double chi2 = 0.0;
     // double chi2_temp;
 
     for(i = lower_ind; i < upper_ind; i++){

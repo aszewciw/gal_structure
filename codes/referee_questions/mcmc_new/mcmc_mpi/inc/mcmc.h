@@ -75,7 +75,7 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Stats functions */
-long double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
+double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind);
 
 /* MCMC functions */
 void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind);
