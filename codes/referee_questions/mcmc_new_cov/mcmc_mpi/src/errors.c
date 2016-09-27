@@ -11,14 +11,14 @@
 /* ----------------------------------------------------------------------- */
 
 /* Calculate chi2 for a process's given slice of pointings */
-double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+long double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j, k;
-    double chi2 = 0.0;
-    double corr_model_j, corr_model_k;
-    double corr_data_j, corr_data_k;
-    double sigma_j, sigma_k;
-    double chi2_temp;
+    long double chi2 = 0.0;
+    long double corr_model_j, corr_model_k;
+    long double corr_data_j, corr_data_k;
+    long double sigma_j, sigma_k;
+    long double chi2_temp;
 
     for(i = lower_ind; i < upper_ind; i++){
 
@@ -51,9 +51,9 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                     * ( ( corr_data_k - corr_model_k ) / sigma_k )
                     * p[i].invcor_row[k].invcor_col[j] );
 
-                if (chi2_temp>1000.0){
-                    fprintf(stderr, "i: %d, j: %d, k: %d, chi2: %lf \n", i, j, k, chi2_temp);
-                }
+                // if (chi2_temp>1000.0){
+                //     fprintf(stderr, "i: %d, j: %d, k: %d, chi2: %lf \n", i, j, k, chi2_temp);
+                // }
                 chi2 += chi2_temp;
             }
 
