@@ -300,12 +300,6 @@ void load_inv_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_
 
             for(k=0; k<N_bins; k++){
                 fscanf(invcor_file, "%le", &col[k]);
-                if(rank==0 && i==0){
-                    fprintf(stderr, "%le ", col[k]);
-                }
-            }
-            if(rank==0 && i==0){
-                fprintf(stderr, "\n");
             }
 
             /* assign each column element to its row */
