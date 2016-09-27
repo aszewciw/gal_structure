@@ -43,8 +43,8 @@ long double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind
                 corr_data_k = p[i].rbin[k].DD;
 
                 /* scale frac errors by current model to estimate real sigmas */
-                sigma_j = ( corr_model_j * p[i].rbin[j].frac_error );
-                sigma_k = ( corr_model_k * p[i].rbin[k].frac_error );
+                sigma_j = ( corr_data_j * p[i].rbin[j].frac_error );
+                sigma_k = ( corr_data_k * p[i].rbin[k].frac_error );
 
                 /* add contribution to chi2 from correlation matrix element */
                 chi2_temp = ( ( ( corr_data_j - corr_model_j ) / sigma_j )
