@@ -16,7 +16,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     int i, j, k;
     double chi2 = 0.0;
     double corr_model_j, corr_model_k;
-    double corr_data_j, corr_model_k;
+    double corr_data_j, corr_data_k;
     double sigma_j, sigma_k;
 
     for(i = lower_ind; i < upper_ind; i++){
