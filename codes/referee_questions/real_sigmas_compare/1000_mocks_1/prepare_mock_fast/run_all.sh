@@ -16,6 +16,6 @@ done
 make cleanall
 make
 
-N_stars=1000000;
+N_stars=20000000;
 
 time python make_mocks.py $N_stars $N_mocks $N_procs
