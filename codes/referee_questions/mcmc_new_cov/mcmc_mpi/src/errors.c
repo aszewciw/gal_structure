@@ -13,42 +13,44 @@
 /* Calculate chi2 for a process's given slice of pointings */
 double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
-    int i, j;
+    int i, j, k;
     double chi2 = 0.0;
-    double corr_model;
-    double corr_data;
-    // double chi2_temp;
+    double corr_model_j, corr_model_k;
+    double corr_data_j, corr_model_k;
+    double sigma_j, sigma_k;
 
     for(i = lower_ind; i < upper_ind; i++){
 
+        /* loop over bin rows */
         for(j = 0; j < N_bins; j++){
 
-            /* skip any bins where we have 0 counts */
-            if( p[i].rbin[j].DD == 0.0 ) continue;
-            if( p[i].rbin[j].MM == 0.0 ) continue;
-            // if( p[i].rbin[j].RR == 0.0 ) continue;
-            if( p[i].rbin[j].frac_error == 0.0 ) continue;
+            /* loop over bin column elements */
+            for(k = 0; k < N_bins; k++){
 
-            corr_model = p[i].rbin[j].MM;
-            corr_data = p[i].rbin[j].DD;
+                /* skip any bins where we have 0 counts */
+                if( p[i].rbin[j].DD == 0.0 ) continue;
+                if( p[i].rbin[j].MM == 0.0 ) continue;
+                if( p[i].rbin[j].frac_error == 0.0 ) continue;
+                if( p[i].rbin[k].DD == 0.0 ) continue;
+                if( p[i].rbin[k].MM == 0.0 ) continue;
+                if( p[i].rbin[k].frac_error == 0.0 ) continue;
 
-            /* scale frac error by current model */
-            p[i].rbin[j].sigma2 = ( corr_model * corr_model
-                * p[i].rbin[j].frac_error * p[i].rbin[j].frac_error );
-            // p[i].rbin[j].sigma2 = ( corr_data * corr_data
-            //     * p[i].rbin[j].frac_error * p[i].rbin[j].frac_error );
+                /* Set definitions for model and data */
+                corr_model_j = p[i].rbin[j].MM;
+                corr_data_j = p[i].rbin[j].DD;
+                corr_model_k = p[i].rbin[k].MM;
+                corr_data_k = p[i].rbin[k].DD;
 
-            chi2 += ( ( corr_data - corr_model )
-                * ( corr_data - corr_model )
-                / p[i].rbin[j].sigma2 );
-            // chi2_temp = ( ( p[i].rbin[j].DD - p[i].rbin[j].MM )
-            //     * ( p[i].rbin[j].DD - p[i].rbin[j].MM )
-            //     / p[i].rbin[j].sigma2 );
-            // chi2 += chi2_temp;
-            // if (chi2_temp >1000){
-            //     fprintf(stderr, "chi2 is %lf for pointing %s, bin %d\n", chi2_temp, p[i].ID, j);
-            //     fprintf(stderr, "MM value is %lf\n", p[i].rbin[j].MM);
-            // }
+                /* scale frac errors by current model to estimate real sigmas */
+                sigma_j = ( corr_model_j * p[i].rbin[j].frac_error );
+                sigma_k = ( corr_model_k * p[i].rbin[k].frac_error );
+
+                /* add contribution to covariance matrix */
+                chi2 += ( ( ( corr_data_j - corr_model_j ) / sigma_j )
+                    * ( ( corr_data_k - corr_model_k ) / sigma_k )
+                    * p[i].invcov_row[j].invcov_col[k] );
+            }
+
         }
     }
 

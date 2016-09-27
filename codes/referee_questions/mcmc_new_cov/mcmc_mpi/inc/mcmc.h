@@ -39,20 +39,26 @@ typedef struct {
   double MM;            /* model pair counts */
   // double RR;            /* uniform pair counts */
   double frac_error;    /* fractional error in model */
-  double sigma2;        /* sigma squared for MM/RR */
+  // double sigma;         /* sigma for MM, weighted by MM */
   unsigned int N_pairs; /* number of unique pairs */
   int * pair1;          /* array of pair1 index of length N_pairs */
   int * pair2;          /* array of pair2 index of length N_pairs */
 } RBIN;
 
+/* Inverted correlation matrix -- accessed as cor_row[i].cor_col[j] */
+typedef struct {
+  double * invcor_col; /* each column value corresponding to a row value */
+} INVCOR;
+
 /* Pointing line of sight in sky */
 typedef struct {
-  char ID[256];     /* Unique ID for pointing */
-  int N_stars;      /* Number of stars in model sample */
-  double * Z;       /* array of star heights above gal plane */
-  double * R;       /* array of star distances from gal center in gal plane */
-  double * weight;  /* star's density weight based on Z, R */
-  RBIN * rbin;      /* Nbins of these structures */
+  char ID[256];         /* Unique ID for pointing */
+  int N_stars;          /* Number of stars in model sample */
+  double * Z;           /* array of star heights above gal plane */
+  double * R;           /* array of star distances from gal center in gal plane */
+  double * weight;      /* star's density weight based on Z, R */
+  RBIN * rbin;          /* Nbins of these structures */
+  INVCOR * invcor_row;  /* Inverted correlation matrix: first index is a row */
 } POINTING;
 
 /* Data for each step in MCMC chain */
@@ -73,7 +79,7 @@ int load_Nbins(void);
 void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
 void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
-// void load_step_data(STEP_DATA *step_data, int flag, int rank);
+void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Stats functions */

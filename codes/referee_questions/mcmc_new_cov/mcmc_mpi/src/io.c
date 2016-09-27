@@ -268,7 +268,56 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 }
 
 /* ----------------------------------------------------------------------- */
+/* load the inverted covariance matrix from mock pair counts */
+void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank){
 
+    char invcov_filename[256];
+    FILE *invcov_file;
+    int i, j, k;
+    INVCOR *row;
+    double *col;
+
+    /* Loop over each pointing */
+    for(i=lower_ind; i<upper_ind; i++){
+
+        /* First assign covariance matrix terms */
+
+        /* Claim space for bin data */
+        row = calloc(N_bins, sizeof(INVCOR));
+
+        /* read in file */
+        snprintf(invcor_filename, 256, "%sinv_correlation_%s.dat", ERR_DIR, plist[i].ID);
+        if((invcor_file=fopen(invcor_filename,"r"))==NULL){
+            fprintf(stderr, "Error: Cannot open file %s\n", invcor_filename);
+            exit(EXIT_FAILURE);
+        }
+
+        /* loop over rows of corr matrix, reading in data */
+        for(j=0; j<N_bins; j++){
+
+            /* claim array for columns */
+            col = calloc(N_bins, sizeof(double));
+
+            for(k=0; k<N_bins; k++){
+                fscanf(invcor_file, "%le", &col[k]);
+            }
+
+            /* assign each column element to its row */
+            row[j].invcor_col = col;
+        }
+
+        fclose(invcov_file);
+
+        /* Assign values to plist elements */
+        plist[i].invcov_row = row;
+    }
+
+
+    if(rank == 0)fprintf(stderr, "Correlation matrix loaded from %s\n", ERR_DIR);
+
+}
+
+/* ----------------------------------------------------------------------- */
 
 /* Output mcmc data to a file */
 void output_mcmc(int index, STEP_DATA p, FILE *output_file){
