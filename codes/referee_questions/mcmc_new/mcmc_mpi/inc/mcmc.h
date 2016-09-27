@@ -18,6 +18,7 @@
 #define PAIRS_DIR "../data/model_pairs/"
 #define ZRW_DIR "../data/model_positions/"
 #define BINS_DIR "../data/rbins/"
+#define UNI_DIR "../data/uniform_dir/"
 
 /* Arguments optionally passed via command line */
 typedef struct {
@@ -36,8 +37,9 @@ typedef struct {
   char binID[256];      /* ID for each radial bin */
   double DD;            /* segue pair counts */
   double MM;            /* model pair counts */
-  double frac_error;    /* fractional error */
-  double sigma2;        /* sigma squared for DD/MM */
+  // double RR;            /* uniform pair counts */
+  double frac_error;    /* fractional error in model */
+  double sigma2;        /* sigma squared for MM/RR */
   unsigned int N_pairs; /* number of unique pairs */
   int * pair1;          /* array of pair1 index of length N_pairs */
   int * pair2;          /* array of pair2 index of length N_pairs */

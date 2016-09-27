@@ -15,22 +15,30 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j;
     double chi2 = 0.0;
+    double corr_model;
+    double corr_data;
     // double chi2_temp;
 
     for(i = lower_ind; i < upper_ind; i++){
 
         for(j = 0; j < N_bins; j++){
 
+            /* skip any bins where we have 0 counts */
+            if( p[i].rbin[j].DD == 0.0 ) continue;
+            if( p[i].rbin[j].MM == 0.0 ) continue;
+            // if( p[i].rbin[j].RR == 0.0 ) continue;
+            if( p[i].rbin[j].frac_error == 0.0 ) continue;
+
+            corr_model = p[i].rbin[j].MM;
+            corr_data = p[i].rbin[j].DD;
+
             /* scale frac error by current model */
-            p[i].rbin[j].sigma2 = ( p[i].rbin[j].MM * p[i].rbin[j].MM
+            p[i].rbin[j].sigma2 = ( corr_model * corr_model
                 * p[i].rbin[j].frac_error * p[i].rbin[j].frac_error );
 
-            /* ignore lines of sight with 0 counts */
-            if( p[i].rbin[j].sigma2 == 0.0 ) continue;
-            if( p[i].rbin[j].DD == 0.0 ) continue;
 
-            chi2 += ( ( p[i].rbin[j].DD - p[i].rbin[j].MM )
-                * ( p[i].rbin[j].DD - p[i].rbin[j].MM )
+            chi2 += ( ( corr_data - corr_model )
+                * ( corr_data - corr_model )
                 / p[i].rbin[j].sigma2 );
             // chi2_temp = ( ( p[i].rbin[j].DD - p[i].rbin[j].MM )
             //     * ( p[i].rbin[j].DD - p[i].rbin[j].MM )

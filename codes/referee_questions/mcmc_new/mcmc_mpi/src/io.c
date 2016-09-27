@@ -188,6 +188,18 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
         }
         fclose(file);
 
+        // /* Load RR counts */
+        // snprintf(filename, 256, "%srr_%s.dat", UNI_DIR, plist[i].ID);
+        // if((file=fopen(filename,"r"))==NULL){
+        //     fprintf(stderr, "Error: Cannot open file %s\n", filename);
+        //     exit(EXIT_FAILURE);
+        // }
+        // for( j=0; j<N_bins; j++ ){
+        //     fscanf(file, "%lf", &b[j].RR);
+        // }
+        // fclose(file);
+
+
         /* Load fractional errors */
         snprintf(filename, 256, "%sfrac_error_%s.dat", ERR_DIR, plist[i].ID);
         if((file=fopen(filename,"r"))==NULL){
