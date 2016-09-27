@@ -299,7 +299,7 @@ void load_inv_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_
             col = calloc(N_bins, sizeof(long double));
 
             for(k=0; k<N_bins; k++){
-                fscanf(invcor_file, "%le", &col[k]);
+                fscanf(invcor_file, "%Lf", &col[k]);
             }
 
             /* assign each column element to its row */
