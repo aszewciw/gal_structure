@@ -306,10 +306,10 @@ void load_inv_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_
             row[j].invcor_col = col;
         }
 
-        fclose(invcov_file);
+        fclose(invcor_file);
 
         /* Assign values to plist elements */
-        plist[i].invcov_row = row;
+        plist[i].invcor_row = row;
     }
 
 
