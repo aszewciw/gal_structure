@@ -35,7 +35,8 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             /* scale frac error by current model */
             p[i].rbin[j].sigma2 = ( corr_model * corr_model
                 * p[i].rbin[j].frac_error * p[i].rbin[j].frac_error );
-
+            // p[i].rbin[j].sigma2 = ( corr_data * corr_data
+            //     * p[i].rbin[j].frac_error * p[i].rbin[j].frac_error );
 
             chi2 += ( ( corr_data - corr_model )
                 * ( corr_data - corr_model )
