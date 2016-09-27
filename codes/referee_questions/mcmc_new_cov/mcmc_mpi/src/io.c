@@ -269,10 +269,10 @@ void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
 
 /* ----------------------------------------------------------------------- */
 /* load the inverted covariance matrix from mock pair counts */
-void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank){
+void load_inv_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank){
 
-    char invcov_filename[256];
-    FILE *invcov_file;
+    char invcor_filename[256];
+    FILE *invcor_file;
     int i, j, k;
     INVCOR *row;
     double *col;
@@ -280,7 +280,7 @@ void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_i
     /* Loop over each pointing */
     for(i=lower_ind; i<upper_ind; i++){
 
-        /* First assign covariance matrix terms */
+        /* First assign inverse correlation matrix terms */
 
         /* Claim space for bin data */
         row = calloc(N_bins, sizeof(INVCOR));

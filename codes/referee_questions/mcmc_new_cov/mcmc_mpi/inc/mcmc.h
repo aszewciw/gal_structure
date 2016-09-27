@@ -79,7 +79,7 @@ int load_Nbins(void);
 void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank);
 void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void load_pairs(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
-void load_inv_covariance(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
+void load_inv_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int rank);
 void output_mcmc(int index, STEP_DATA p, FILE *output_file);
 
 /* Stats functions */
