@@ -1,0 +1,1 @@
+initialization for mcmc data
