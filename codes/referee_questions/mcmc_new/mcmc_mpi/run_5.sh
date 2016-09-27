@@ -4,7 +4,7 @@ make cleanall
 make
 
 N_procs=20;
-filename="../data/mcmc_output/mcmc_result_4.dat";
+filename="../data/mcmc_output/mcmc_result_5.dat";
 r0_thin=4.0;
 z0_thin=3.0;
 r0_thick=3.0;
