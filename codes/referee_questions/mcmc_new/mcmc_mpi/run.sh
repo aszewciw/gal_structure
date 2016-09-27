@@ -4,7 +4,7 @@ make cleanall
 make
 
 N_procs=20;
-filename="../data/mcmc_output/mcmc_test.dat";
+filename="../data/mcmc_output/mcmc_result.dat";
 
 rm $filename
 
