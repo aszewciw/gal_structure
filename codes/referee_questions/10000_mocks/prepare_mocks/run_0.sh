@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 N_stars=1000000;
 N_mocks=625;
