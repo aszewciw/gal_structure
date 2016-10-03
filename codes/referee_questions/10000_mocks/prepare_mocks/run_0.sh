@@ -15,5 +15,5 @@ for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 do
     screen -S ${Windows_names} -X screen -t ${i}
     screen -S ${Windows_names} -p ${i} -X stuff "python make_mocks.py $N_stars $N_mocks $i"
-    screen -S ${Windows_names} -p ${i} -X stuff "\n"
+    screen -S ${Windows_names} -p ${i} -X stuff '\n'
 done
