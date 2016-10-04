@@ -92,8 +92,8 @@ def main():
 
                 # sigma_i = std[i]
                 # sigma_j = std[j]
-                sigma_i = std_frac[i]*mmw_i
-                sigma_j = std_frac[j]*mmw_j
+                sigma_i = std_frac[i]*mm_i
+                sigma_j = std_frac[j]*mm_j
 
 
                 chi2_true += ( (dd_i-mm_i) * (dd_j-mm_j) * r_ij
