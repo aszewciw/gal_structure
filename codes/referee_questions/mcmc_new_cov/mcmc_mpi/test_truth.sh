@@ -4,7 +4,7 @@
 make cleanall
 make
 
-N_procs=20;
+N_procs=12;
 N_steps=0;
 r0_thin=2.34;
 z0_thin=0.233;

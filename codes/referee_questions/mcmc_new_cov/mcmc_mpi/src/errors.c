@@ -11,14 +11,14 @@
 /* ----------------------------------------------------------------------- */
 
 /* Calculate chi2 for a process's given slice of pointings */
-long double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
+double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
     int i, j, k;
-    long double chi2 = 0.0;
-    long double corr_model_j, corr_model_k;
-    long double corr_data_j, corr_data_k;
-    long double sigma_j, sigma_k;
-    long double chi2_temp;
+    double chi2 = 0.0;
+    double corr_model_j, corr_model_k;
+    double corr_data_j, corr_data_k;
+    double sigma_j, sigma_k;
+    double chi2_temp;
 
     for(i = lower_ind; i < upper_ind; i++){
 
