@@ -45,7 +45,8 @@ def main():
     # make empty matrix to store the sums of correlation matrices
     # corr_sums = np.zeros((N_bins, N_bins))
 
-    chi2 = 0
+    chi2_true = 0
+    chi2_weighted = 0
 
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
@@ -71,6 +72,10 @@ def main():
         sigma_file = sigma_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(sigma_file, unpack=True, usecols=[0,2])
 
+        # load counts from weighted randoms
+        mm_filename = './data/mm_' + ID + '.dat'
+        mm_weighted = np.genfromtxt(mm_weighted)
+
         for i in range(N_bins):
             for j in range(N_bins):
                 dd_i = dd[i]
@@ -81,8 +86,14 @@ def main():
                 sigma_i = std[i]
                 sigma_j = std[j]
 
-                chi2 += ( (dd_i - mm_i) * (dd_j-mm_j) * r_ij / (sigma_i*sigma_j) )
+                mmw_i = mm_weighted[i]
+                mmw_j = mm_weighted[j]
 
-    print(chi2)
+                chi2_true += ( (dd_i-mm_i) * (dd_j-mm_j) * r_ij
+                    / (sigma_i*sigma_j) )
+                chi2_weighted += ( (dd_i-mmw_i) * (dd_j-mmw_j) * r_ij
+                    / (sigma_i*sigma_j) )
+    print(chi2_true)
+    print(chi2_weighted)
 if __name__ == '__main__':
     main()
