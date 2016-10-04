@@ -29,13 +29,13 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             for(k = 0; k < N_bins; k++){
 
                 /* temp line to check non-covariance calculation */
-                if(j!=k) continue;
+                // if(j!=k) continue;
 
                 /* skip any bins where we have 0 counts */
-                if( p[i].rbin[j].DD == 0.0 ) continue;
+                // if( p[i].rbin[j].DD == 0.0 ) continue;
                 if( p[i].rbin[j].MM == 0.0 ) continue;
                 if( p[i].rbin[j].frac_error == 0.0 ) continue;
-                if( p[i].rbin[k].DD == 0.0 ) continue;
+                // if( p[i].rbin[k].DD == 0.0 ) continue;
                 if( p[i].rbin[k].MM == 0.0 ) continue;
                 if( p[i].rbin[k].frac_error == 0.0 ) continue;
 
@@ -49,12 +49,12 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 sigma_j = ( corr_model_j * p[i].rbin[j].frac_error );
                 sigma_k = ( corr_model_k * p[i].rbin[k].frac_error );
 
-                chi2_temp = ( (corr_model_k - corr_data_k) * (corr_model_j - corr_data_j)
-                    / (sigma_j * sigma_k) );
+                // chi2_temp = ( (corr_model_k - corr_data_k) * (corr_model_j - corr_data_j)
+                //     / (sigma_j * sigma_k) );
                 /* add contribution to chi2 from correlation matrix element */
-                // chi2_temp = ( ( ( corr_data_j - corr_model_j ) / sigma_j )
-                //     * ( ( corr_data_k - corr_model_k ) / sigma_k )
-                //     * p[i].invcor_row[k].invcor_col[j] );
+                chi2_temp = ( ( ( corr_data_j - corr_model_j ) / sigma_j )
+                    * ( ( corr_data_k - corr_model_k ) / sigma_k )
+                    * p[i].invcor_row[k].invcor_col[j] );
 
                 // if (chi2_temp>1000.0){
                 //     fprintf(stderr, "i: %d, j: %d, k: %d, chi2: %lf \n", i, j, k, chi2_temp);
