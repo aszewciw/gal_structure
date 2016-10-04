@@ -17,7 +17,7 @@ def main():
     # N_args          = len(args_array)
     # assert(N_args   == elements_needed)
     # N_mocks         = int(args_array[1])
-    N_mocks = 1000
+    N_mocks = 10000
 
     # Load list of pointings
     input_filename = rawdata_dir + 'todo_list.dat'

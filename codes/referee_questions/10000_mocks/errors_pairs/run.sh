@@ -5,7 +5,7 @@ rm -rf ./data/mock*
 
 # make directories
 n=1;
-N_mocks=1000;
+N_mocks=10000;
 while [ "$n" -le "$N_mocks" ]; do
     mkdir "./data/mock_$n"
     n=`expr "$n" + 1`;
@@ -19,3 +19,5 @@ time python mock_pair_count.py $N_mocks
 rm -rf ./data/mean_var_std
 mkdir ./data/mean_var_std
 time python average.py $N_mocks
+
+python output_normed_counts_file.py
