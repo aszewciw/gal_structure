@@ -149,7 +149,7 @@ def main():
                     chi2_ee += ((data_i-model_est_i)/std_est_i)**2
 
 
-    print('Results of chi-squared measurements for diffferent instances:\n')
+    print('\nResults of chi-squared measurements for diffferent instances:\n')
     print('Using true mean and true stdev:')
     print('     Without covariance: {}, With covariance: {}'.format(chi2_tt, chi2_tt_cov))
     print('Using true mean and estimated stdev:')
@@ -158,6 +158,7 @@ def main():
     print('     Without covariance: {}, With covariance: {}'.format(chi2_et, chi2_et_cov))
     print('Using estimate mean and estimated stdev:')
     print('     Without covariance: {}, With covariance: {}'.format(chi2_ee, chi2_ee_cov))
+    print('\nThere were {}/{} values of dd=0 for this mock.'.format(zero_counts,all_counts))
 
 if __name__ == '__main__':
     main()
