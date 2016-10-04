@@ -105,8 +105,8 @@ def main():
                 model_true_j = dd_mean[j]
 
                 # Weighted random approximation to mean
-                model_aprx_i = mm_weighted[i]
-                model_aprx_j = mm_weighted[j]
+                model_est_i = mm_weighted[i]
+                model_est_j = mm_weighted[j]
 
                 # Inverse correlation matrix element
                 r_ij = inv_corr[i,j]
