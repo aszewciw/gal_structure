@@ -50,7 +50,7 @@ def main():
                 + ' does not exist.\n')
             continue
 
-        output_filename = data_dir + 'MWM_' + p.ID + 'xyzw.dat'
+        output_filename = data_dir + 'MWM_' + p.ID + '.xyzw.dat'
 
         x, y, z = np.genfromtxt(rand_file, skip_header=1, unpack=True)
 
