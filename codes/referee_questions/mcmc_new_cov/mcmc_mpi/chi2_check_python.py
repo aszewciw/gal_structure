@@ -1,5 +1,6 @@
 import pandas as pd
 from scipy import linalg
+import numpy as np
 
 rawdata_dir  = '../../data/'
 data_dir     = '../data/'
