@@ -116,8 +116,8 @@ def main():
                 std_true_j = std[j]
 
                 # Estimated standard deviations from 1000 mocks
-                std_est_i = std_frac[i]*model_aprx_i
-                std_est_j = std_frac[j]*model_aprx_j
+                std_est_i = std_frac[i]*model_est_i
+                std_est_j = std_frac[j]*model_est_j
 
                 # Use true means and true std
                 chi2_tt_cov += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij
