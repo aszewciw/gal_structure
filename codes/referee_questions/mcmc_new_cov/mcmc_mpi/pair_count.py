@@ -13,7 +13,7 @@ mwm_dir = './data/'
 
 def main():
 
-    input_filename = rawdata_dir + 'todo_list.ascii.dat'
+    todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID_list = np.genfromtxt(todo_file, skip_header=1, usecols=[0], unpack=True,
                             dtype=str)
     N_los = len(ID_list)
