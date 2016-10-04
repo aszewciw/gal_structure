@@ -80,6 +80,9 @@ def main():
             for j in range(N_bins):
                 dd_i = dd[i]
                 dd_j = dd[j]
+
+                if (dd_i==0.0 or dd_j==0.0):
+                    continue
                 mm_i = dd_mean[i]
                 mm_j = dd_mean[j]
                 r_ij = inv_corr[i,j]
