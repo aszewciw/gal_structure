@@ -74,7 +74,7 @@ def main():
 
         # load counts from weighted randoms
         mm_filename = './data/mm_' + ID + '.dat'
-        mm_weighted = np.genfromtxt(mm_weighted)
+        mm_weighted = np.genfromtxt(mm_filename)
 
         for i in range(N_bins):
             for j in range(N_bins):
