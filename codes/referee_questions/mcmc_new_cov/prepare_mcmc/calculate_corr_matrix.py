@@ -54,10 +54,13 @@ def main():
         corr = DD.corr().values
 
         # Invert covariance matrix and save to file
-        inv_cor = linalg.inv(corr)
+        inv_corr = linalg.inv(corr)
+
+        out_file = errors_dir + 'correlation_' + ID + '.dat'
+        np.savetxt(out_file, corr, fmt='%.6e')
 
         out_file = errors_dir + 'inv_correlation_' + ID + '.dat'
-        np.savetxt(out_file, inv_cor, fmt='%.6e')
+        np.savetxt(out_file, inv_corr, fmt='%.6e')
 
 
 if __name__ == '__main__':
