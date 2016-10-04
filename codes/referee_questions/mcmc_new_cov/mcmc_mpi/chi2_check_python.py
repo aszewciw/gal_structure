@@ -45,8 +45,19 @@ def main():
     # make empty matrix to store the sums of correlation matrices
     # corr_sums = np.zeros((N_bins, N_bins))
 
-    chi2_true = 0
-    chi2_weighted = 0
+    # Initialize different chi2 calculations
+    chi2_tt = 0
+    chi2_te = 0
+    chi2_et = 0
+    chi2_ee = 0
+    chi2_tt_cov = 0
+    chi2_te_cov = 0
+    chi2_et_cov = 0
+    chi2_ee_cov = 0
+
+    # Count instances where dd=0 and total number of data points
+    zero_counts = 0
+    all_counts = 0
 
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
@@ -80,27 +91,73 @@ def main():
         mm_filename = './data/mm_' + ID + '.dat'
         mm_weighted = np.genfromtxt(mm_filename)
 
+        # Calculate chi2 using a number of different methods
         for i in range(N_bins):
+
             for j in range(N_bins):
-                dd_i = dd[i]
-                dd_j = dd[j]
-                mm_i = dd_mean[i]
-                mm_j = dd_mean[j]
+
+                # Data points from this mock
+                data_i = dd[i]
+                data_j = dd[j]
+
+                # Means from 1000 mocks
+                model_true_i = dd_mean[i]
+                model_true_j = dd_mean[j]
+
+                # Weighted random approximation to mean
+                model_aprx_i = mm_weighted[i]
+                model_aprx_j = mm_weighted[j]
+
+                # Inverse correlation matrix element
                 r_ij = inv_corr[i,j]
-                mmw_i = mm_weighted[i]
-                mmw_j = mm_weighted[j]
 
-                # sigma_i = std[i]
-                # sigma_j = std[j]
-                sigma_i = std_frac[i]*mm_i
-                sigma_j = std_frac[j]*mm_j
+                # Actual standard deviations from 1000 mocks
+                std_true_i = std[i]
+                std_true_j = std[j]
+
+                # Estimated standard deviations from 1000 mocks
+                std_est_i = std_frac[i]*model_aprx_i
+                std_est_j = std_frac[j]*model_aprx_j
+
+                # Use true means and true std
+                chi2_tt_cov += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij
+                    / (std_true_i*std_true_j) )
+
+                # Use true means and estimated std
+                chi2_te_cov += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij
+                    / (std_est_i*std_est_j) )
+
+                # Use weighted random mm and true std
+                chi2_et_cov += ( (data_i-model_est_i) * (data_j-model_est_j) * r_ij
+                    / (std_true_i*std_true_j) )
+
+                # Use weighted random mm and estimated std
+                chi2_ee_cov += ( (data_i-model_est_i) * (data_j-model_est_j) * r_ij
+                    / (std_est_i*std_est_j) )
+
+                # Do non-covariance calculations as well
+                if(i==j):
+                    # first update counts
+                    all_counts +=1
+
+                    if data_i==0.0:
+                        zero_counts +=1
+
+                    chi2_tt += ((data_i-model_true_i)/std_true_i)**2
+                    chi2_te += ((data_i-model_true_i)/std_est_i)**2
+                    chi2_et += ((data_i-model_est_i)/std_true_i)**2
+                    chi2_ee += ((data_i-model_est_i)/std_est_i)**2
 
 
-                chi2_true += ( (dd_i-mm_i) * (dd_j-mm_j) * r_ij
-                    / (sigma_i*sigma_j) )
-                chi2_weighted += ( (dd_i-mmw_i) * (dd_j-mmw_j) * r_ij
-                    / (sigma_i*sigma_j) )
-    print(chi2_true)
-    print(chi2_weighted)
+    print('Results of chi-squared measurements for diffferent instances:\n')
+    print('Using true mean and true stdev:')
+    print('     Without covariance: {}, With covariance: {}'.format(chi2_tt, chi2_tt_cov))
+    print('Using true mean and estimated stdev:')
+    print('     Without covariance: {}, With covariance: {}'.format(chi2_te, chi2_te_cov))
+    print('Using estimated mean and true stdev:')
+    print('     Without covariance: {}, With covariance: {}'.format(chi2_et, chi2_et_cov))
+    print('Using estimate mean and estimated stdev:')
+    print('     Without covariance: {}, With covariance: {}'.format(chi2_ee, chi2_ee_cov))
+
 if __name__ == '__main__':
     main()
