@@ -83,6 +83,6 @@ def main():
 
                 chi2 += ( (dd_i - mm_i) * (dd_j-mm_j) * r_ij / (sigma_i*sigma_j) )
 
-        print(chi2)
+    print(chi2)
 if __name__ == '__main__':
     main()
