@@ -72,6 +72,10 @@ def main():
         sigma_file = sigma_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(sigma_file, unpack=True, usecols=[0,2])
 
+        # load fractional sigmas
+        err_file = errors_dir + 'frac_error_' + ID + '.dat'
+        std_frac = np.genfromtxt(err_file)
+
         # load counts from weighted randoms
         mm_filename = './data/mm_' + ID + '.dat'
         mm_weighted = np.genfromtxt(mm_filename)
@@ -80,17 +84,17 @@ def main():
             for j in range(N_bins):
                 dd_i = dd[i]
                 dd_j = dd[j]
-
-                if (dd_i==0.0 or dd_j==0.0):
-                    continue
                 mm_i = dd_mean[i]
                 mm_j = dd_mean[j]
                 r_ij = inv_corr[i,j]
-                sigma_i = std[i]
-                sigma_j = std[j]
-
                 mmw_i = mm_weighted[i]
                 mmw_j = mm_weighted[j]
+
+                # sigma_i = std[i]
+                # sigma_j = std[j]
+                sigma_i = std_frac[i]*mmw_i
+                sigma_j = std_frac[j]*mmw_j
+
 
                 chi2_true += ( (dd_i-mm_i) * (dd_j-mm_j) * r_ij
                     / (sigma_i*sigma_j) )
