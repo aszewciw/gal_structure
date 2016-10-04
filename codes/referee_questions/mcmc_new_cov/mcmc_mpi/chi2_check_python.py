@@ -68,7 +68,7 @@ def main():
         dd = np.genfromtxt(dd_filename)
 
         # load mean normalized dd counts
-        sigma_file = sigma_dir + 'stats_' + p + '.dat'
+        sigma_file = sigma_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(sigma_file, unpack=True, usecols=[0,2])
 
         for i in range(N_bins):
