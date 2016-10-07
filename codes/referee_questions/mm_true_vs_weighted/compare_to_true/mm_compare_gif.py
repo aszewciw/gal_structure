@@ -102,8 +102,8 @@ def main():
 
         plt.title('Real mean (' + N_mocks + ' mocks) vs. weighted mean l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
-        plt.ylabel(r'$\frac{MM_{weighted}-MM_{mean}}{\sigma}$', fontsize=24)
-        plt.ylabel(r'$\frac{MM_{weighted}-MM_{mean}}{MM_{mean}}$', fontsize=24)
+        # plt.ylabel(r'$\frac{MM_{weighted}-MM_{mean}}{\sigma}$', fontsize=18)
+        plt.ylabel(r'$\frac{MM_{weighted}-MM_{mean}}{MM_{mean}}$', fontsize=18)
         # plt.semilogx(bin_centers, dd_mean, color='#CC4F1B')
         # plt.semilogx(bin_centers, dd_weighted, color='black')
         # plt.fill_between(bin_centers, dd_mean-std, dd_mean+std, alpha=0.5, edgecolor='#CC4F1B',
