@@ -86,8 +86,8 @@ def main():
         plt.clf()
         xmin = min(bin_centers)
         xmax = max(bin_centers)
-        ymin = 0
-        ymax = 2
+        ymin = -0.5
+        ymax = 0.5
 
         plt.title('Real mean (1000 mocks) vs. weighted mean l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
