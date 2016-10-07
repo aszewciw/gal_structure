@@ -34,6 +34,13 @@ def GIF_MOVIE(files, output_gif, delay=60, repeat=True, removef=False):
 
 def main():
 
+    # CL Input
+    elements_needed = int(2)
+    args_array      = np.array(sys.argv)
+    N_args          = len(args_array)
+    assert(N_args == elements_needed)
+    N_mocks = args_array[1]
+
     # Load list of pointing IDs
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID_list   = np.genfromtxt(todo_file, skip_header=1, usecols=[0], unpack=True,
@@ -60,7 +67,7 @@ def main():
     # Calculate correlation matrix for each l.o.s.
     for ID in ID_list:
 
-        if ID != '0':
+        if int(ID) > 50:
             continue
 
         mock_file = mock1000_dir + 'stats_' + ID + '.dat'
@@ -89,9 +96,8 @@ def main():
         ymin = -0.5
         ymax = 0.5
 
-        plt.title('Real mean (1000 mocks) vs. weighted mean l.o.s. ' + ID, fontsize=20)
+        plt.title('Real mean (' + N_mocks + ' mocks) vs. weighted mean l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
-        # plt.ylabel(r'$\frac{\sigma_{MM}/MM}{\sigma_{RR}/RR}$', fontsize=24)
         plt.ylabel(r'$\frac{MM_{weighted}-MM_{mean}}{\sigma}$', fontsize=24)
         # plt.semilogx(bin_centers, dd_mean, color='#CC4F1B')
         # plt.semilogx(bin_centers, dd_weighted, color='black')
@@ -103,13 +109,13 @@ def main():
         plt.semilogx(bin_centers, excess_1000, color='red')
         plt.axis([xmin, xmax, ymin, ymax])
         plt.legend(handles=[black_patch, green_patch, blue_patch, red_patch], loc='upper left')
-        fig_name = plots_dir + 'real_vs_weighted_1000_' + ID + '.png'
+        fig_name = plots_dir + 'real_vs_weighted_' + N_mocks + '_' + ID + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
 
-    # gif_name = plots_dir + 'real_vs_weighted_1000.gif'
-    # GIF_MOVIE(png_list, gif_name)
+    gif_name = plots_dir + 'real_vs_weighted_' + N_mocks + '.gif'
+    GIF_MOVIE(png_list, gif_name, removef=True)
 
 if __name__ == '__main__':
     main()
