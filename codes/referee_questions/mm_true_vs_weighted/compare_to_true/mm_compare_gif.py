@@ -75,30 +75,30 @@ def main():
 
         w_10_file = pairs_dir + 'mm_10_' + ID + '.dat'
         dd_10 = np.genfromtxt(w_10_file)
-        # excess_10 = (dd_10 - dd_mean) / std
-        excess_10 = (dd_10 - dd_mean) / dd_mean
+        excess_10 = (dd_10 - dd_mean) / std
+        # excess_10 = (dd_10 - dd_mean) / dd_mean
 
         w_50_file = pairs_dir + 'mm_50_' + ID + '.dat'
         dd_50 = np.genfromtxt(w_50_file)
-        # excess_50 = (dd_50 - dd_mean) / std
-        excess_50 = (dd_50 - dd_mean) / dd_mean
+        excess_50 = (dd_50 - dd_mean) / std
+        # excess_50 = (dd_50 - dd_mean) / dd_mean
 
         w_100_file = pairs_dir + 'mm_100_' + ID + '.dat'
         dd_100 = np.genfromtxt(w_100_file)
-        # excess_100 = (dd_100 - dd_mean) / std
-        excess_100 = (dd_100 - dd_mean) / dd_mean
+        excess_100 = (dd_100 - dd_mean) / std
+        # excess_100 = (dd_100 - dd_mean) / dd_mean
 
         w_1000_file = pairs_dir + 'mm_1000_' + ID + '.dat'
         dd_1000 = np.genfromtxt(w_1000_file)
-        # excess_1000 = (dd_1000 - dd_mean) / std
-        excess_1000 = (dd_1000 - dd_mean) / dd_mean
+        excess_1000 = (dd_1000 - dd_mean) / std
+        # excess_1000 = (dd_1000 - dd_mean) / dd_mean
 
         plt.close()
         plt.clf()
         xmin = min(bin_centers)
         xmax = max(bin_centers)
-        ymin = -0.5
-        ymax = 0.5
+        ymin = -1
+        ymax = 1
 
         plt.title('Real mean (' + N_mocks + ' mocks) vs. weighted mean l.o.s. ' + ID, fontsize=20)
         plt.xlabel('Bin Center (kpc)', fontsize=18)
