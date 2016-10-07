@@ -35,7 +35,7 @@ def main():
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
             continue
 
-        output_file = data_dir + 'mm_' + p + '.dat'
+        output_file = data_dir + 'mm_' + star_factor + '_' + p + '.dat'
 
         cmd = ( './pair_count ' + in_file + ' ' + bins_file
             + ' > ' + output_file )
