@@ -41,7 +41,7 @@ def main():
     assert(N_args == elements_needed)
     N_mocks = args_array[1]
 
-    mock_dir = '../../'+ N_mocks + '_mocks_cut/errors_pairs/data/mean_var_std/'
+    # mock_dir = '../../'+ N_mocks + '_mocks_cut/errors_pairs/data/mean_var_std/'
 
     # Load list of pointing IDs
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
@@ -72,7 +72,7 @@ def main():
         if int(ID) > 50:
             continue
 
-        mock_file = mock_dir + 'stats_' + ID + '.dat'
+        mock_file = mocks10000_dir + 'stats_' + ID + '.dat'
         dd_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
         w_10_file = pairs_dir + 'mm_10_' + ID + '.dat'
