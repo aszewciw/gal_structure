@@ -28,6 +28,7 @@ rawdata_dir   = '../../data/'
 mock1000_dir  = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
 mock10000_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
 uni_dir       = '../prepare_uniform/data/'
+pairs_dir     = '../pair_count/data/'
 plots_dir     = './plots/'
 
 R_min = 0.005
