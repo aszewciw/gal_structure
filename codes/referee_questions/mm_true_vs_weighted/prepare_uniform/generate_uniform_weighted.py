@@ -226,7 +226,7 @@ def main():
         output_file.write('{}\n'.format(len(random_sample)))
         for i in random_sample:
             # output_file.write('{}\t{}\t{}\t{}\n'
-            output_file.write('{%.6e}\t{%.6e}\t{%.6e}\t{%.6e}\n'
+            output_file.write('{0:.6e}\t{1:.6e}\t{2:.6e}\t{3:.6e}\n'
                               .format(i.cartesian_x, i.cartesian_y, i.cartesian_z, i.weight))
         output_file.close()
 
