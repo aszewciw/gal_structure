@@ -220,12 +220,13 @@ def main():
         # output_file.close()
 
         # output xyzw
-        output_filename = data_dir + 'uniform_' + str(star_factor) + '_' + p.ID + '.xyz.dat'
+        output_filename = data_dir + 'uniform_' + str(star_factor) + '_' + p.ID + '.xyzw.dat'
         output_file = open(output_filename, "w")
         # first output the total number of points
         output_file.write('{}\n'.format(len(random_sample)))
         for i in random_sample:
-            output_file.write('%.6e\t%.6e\t%.6e\t%.6e\n'
+            # output_file.write('{}\t{}\t{}\t{}\n'
+            output_file.write('{%.6e}\t{%.6e}\t{%.6e}\t{%.6e}\n'
                               .format(i.cartesian_x, i.cartesian_y, i.cartesian_z, i.weight))
         output_file.close()
 
