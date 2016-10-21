@@ -136,12 +136,34 @@ def main():
             chi2_2_ee_frac += ( (mm_2[i] - DD) / STD_2 )**2
 
 
-    print(chi2_0_tt, chi2_1_tt, chi2_2_tt)
-    print(chi2_0_et, chi2_1_et, chi2_2_et)
-    print(chi2_0_te_fid, chi2_1_te_fid, chi2_2_te_fid)
-    print(chi2_0_ee_fid, chi2_1_ee_fid, chi2_2_ee_fid)
-    print(chi2_0_te_frac, chi2_1_te_frac, chi2_2_te_frac)
-    print(chi2_0_ee_frac, chi2_1_ee_frac, chi2_2_ee_frac)
+    # print(chi2_0_tt, chi2_1_tt, chi2_2_tt)
+    # print(chi2_0_et, chi2_1_et, chi2_2_et)
+    # print(chi2_0_te_fid, chi2_1_te_fid, chi2_2_te_fid)
+    # print(chi2_0_ee_fid, chi2_1_ee_fid, chi2_2_ee_fid)
+    # print(chi2_0_te_frac, chi2_1_te_frac, chi2_2_te_frac)
+    # print(chi2_0_ee_frac, chi2_1_ee_frac, chi2_2_ee_frac)
+
+    tt      = np.array([chi2_0_tt, chi2_1_tt, chi2_2_tt])
+    et      = np.array([chi2_0_et, chi2_1_et, chi2_2_et])
+    te_fid  = np.array([chi2_0_te_fid, chi2_1_te_fid, chi2_2_te_fid])
+    ee_fid  = np.array([chi2_0_ee_fid, chi2_1_ee_fid, chi2_2_ee_fid])
+    te_frac = np.array([chi2_0_te_frac, chi2_1_te_frac, chi2_2_te_frac])
+    ee_frac = np.array([chi2_0_ee_frac, chi2_1_ee_frac, chi2_2_ee_frac])
+
+    models = np.array([1,2,3])
+
+    plt.clf()
+    plt.plot(models, tt)
+    plt.plot(models, et)
+    plt.plot(models, te_fid)
+    plt.plot(models, ee_fid)
+    plt.plot(models, te_frac)
+    plt.plot(models, ee_frac)
+
+    fig_name = plots_dir + 'chi2.png'
+
+    plt.savefig(fig_name)
+
         # plt.close()
         # plt.clf()
         # xmin = min(bin_centers)
