@@ -105,12 +105,23 @@ def main():
             chi2_1_et += ( (mm_1[i] - DD) / std_1[i] )**2
             chi2_2_et += ( (mm_2[i] - DD) / std_2[i] )**2
 
+            # Using just fiducial std
+            # True est fid
+            chi2_0_te_fid += ( (mm_mean_0[i] - DD) / std_0[i] )**2
+            chi2_1_te_fid += ( (mm_mean_1[i] - DD) / std_0[i] )**2
+            chi2_2_te_fid += ( (mm_mean_2[i] - DD) / std_0[i] )**2
+
+            # est est fid
+            chi2_0_ee_fid += ( (mm_0[i] - DD) / std_0[i] )**2
+            chi2_1_ee_fid += ( (mm_1[i] - DD) / std_0[i] )**2
+            chi2_2_ee_fid += ( (mm_2[i] - DD) / std_0[i] )**2
 
 
 
     print(chi2_0_tt, chi2_1_tt, chi2_2_tt)
     print(chi2_0_et, chi2_1_et, chi2_2_et)
-
+    print(chi2_0_te_fid, chi2_1_te_fid, chi2_2_te_fid)
+    print(chi2_0_ee_fid, chi2_1_ee_fid, chi2_2_ee_fid)
 
         # plt.close()
         # plt.clf()
