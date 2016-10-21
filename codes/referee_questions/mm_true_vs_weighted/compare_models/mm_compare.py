@@ -90,8 +90,12 @@ def main():
         dd_file = dd_dir + 'dd_' + ID + '.dat'
         dd = np.genfromtxt(dd_file)
 
+        # Calculate fractional std: std/mean for fiducial
+        frac_std_0 = std_0 / mm_mean_0
+
 
         for i in range(len(dd)):
+
             if dd[i]==0.0: continue
             DD = dd[i]
 
@@ -106,23 +110,38 @@ def main():
             chi2_2_et += ( (mm_2[i] - DD) / std_2[i] )**2
 
             # Using just fiducial std
-            # True est fid
+            # True est_fid
             chi2_0_te_fid += ( (mm_mean_0[i] - DD) / std_0[i] )**2
             chi2_1_te_fid += ( (mm_mean_1[i] - DD) / std_0[i] )**2
             chi2_2_te_fid += ( (mm_mean_2[i] - DD) / std_0[i] )**2
 
-            # est est fid
+            # est est_fid
             chi2_0_ee_fid += ( (mm_0[i] - DD) / std_0[i] )**2
             chi2_1_ee_fid += ( (mm_1[i] - DD) / std_0[i] )**2
             chi2_2_ee_fid += ( (mm_2[i] - DD) / std_0[i] )**2
 
+            # Using fiducial fractional errors, weighted by estimated MM
+            STD_0 = frac_std_0[i] * mm_0[i]
+            STD_1 = frac_std_0[i] * mm_1[i]
+            STD_2 = frac_std_0[i] * mm_2[i]
+
+            # true est_frac
+            chi2_0_te_frac += ( (mm_mean_0[i] - DD) / STD_0 )**2
+            chi2_1_te_frac += ( (mm_mean_1[i] - DD) / STD_1 )**2
+            chi2_2_te_frac += ( (mm_mean_2[i] - DD) / STD_2 )**2
+
+            # est est_frac
+            chi2_0_ee_frac += ( (mm_0[i] - DD) / STD_0 )**2
+            chi2_1_ee_frac += ( (mm_1[i] - DD) / STD_1 )**2
+            chi2_2_ee_frac += ( (mm_2[i] - DD) / STD_2 )**2
 
 
     print(chi2_0_tt, chi2_1_tt, chi2_2_tt)
     print(chi2_0_et, chi2_1_et, chi2_2_et)
     print(chi2_0_te_fid, chi2_1_te_fid, chi2_2_te_fid)
     print(chi2_0_ee_fid, chi2_1_ee_fid, chi2_2_ee_fid)
-
+    print(chi2_0_te_frac, chi2_1_te_frac, chi2_2_te_frac)
+    print(chi2_0_ee_frac, chi2_1_ee_frac, chi2_2_ee_frac)
         # plt.close()
         # plt.clf()
         # xmin = min(bin_centers)
