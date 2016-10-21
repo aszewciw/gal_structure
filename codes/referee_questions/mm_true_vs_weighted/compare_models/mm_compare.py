@@ -14,15 +14,6 @@ Make a gif from the files.
 
 def main():
 
-    # CL Input
-    elements_needed = int(2)
-    args_array      = np.array(sys.argv)
-    N_args          = len(args_array)
-    assert(N_args == elements_needed)
-    N_mocks = args_array[1]
-
-    # mock_dir = '../../'+ N_mocks + '_mocks_cut/errors_pairs/data/mean_var_std/'
-
     # Load list of pointing IDs
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID_list   = np.genfromtxt(todo_file, skip_header=1, usecols=[0], unpack=True,
