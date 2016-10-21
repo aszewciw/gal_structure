@@ -94,12 +94,22 @@ def main():
         for i in range(len(dd)):
             if dd[i]==0.0: continue
             DD = dd[i]
+
+            # True true
             chi2_0_tt += ( (mm_mean_0[i] - DD) / std_0[i] )**2
             chi2_1_tt += ( (mm_mean_1[i] - DD) / std_1[i] )**2
             chi2_2_tt += ( (mm_mean_2[i] - DD) / std_2[i] )**2
 
+            # est true
+            chi2_0_et += ( (mm_0[i] - DD) / std_0[i] )**2
+            chi2_1_et += ( (mm_1[i] - DD) / std_1[i] )**2
+            chi2_2_et += ( (mm_2[i] - DD) / std_2[i] )**2
+
+
+
 
     print(chi2_0_tt, chi2_1_tt, chi2_2_tt)
+    print(chi2_0_et, chi2_1_et, chi2_2_et)
 
 
         # plt.close()
