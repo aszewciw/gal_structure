@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-rm ./data/*.dat
+# rm ./data/*.dat
 rm pair_count
 
 cp /fs1/szewciw/gal_structure/codes/referee_questions/mcmc_mock/data/rbins/*.dat ./data/
