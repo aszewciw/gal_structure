@@ -24,13 +24,16 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir   = '../../data/'
-mock1000_dir  = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
-mock10000_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
-uni_dir       = '../prepare_uniform/data/'
-pairs_dir     = '../pair_count/data/'
-plots_dir     = './plots/'
-
+rawdata_dir = '../../data/'
+uni_dir     = '../prepare_uniform/data/'
+pairs0_dir  = '../pair_count/data/'
+pairs1_dir  = '../pair_count_1/data/'
+pairs2_dir  = '../pair_count_2/data/'
+plots_dir   = './plots/'
+mod0_dir    = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
+mod1_dir    = '../../real_sigmas_compare/1000_mocks_1/errors_pairs/data/mean_var_std'
+mod2_dir    = '../../real_sigmas_compare/1000_mocks_2/errors_pairs/data/mean_var_std'
+dd_dir      = '../../mcmc_new/data/mock_dd/'
 R_min = 0.005
 R_max = 2.0
 N_rbins = 12
