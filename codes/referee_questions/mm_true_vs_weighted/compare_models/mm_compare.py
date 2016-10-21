@@ -21,7 +21,7 @@ def main():
     N_los = len(ID_list)
 
     # Load bins centers
-    bins_file   = pairs0P_dir + 'rbins.ascii.dat'
+    bins_file   = pairs0_dir + 'rbins.ascii.dat'
     bin_centers = np.genfromtxt(bins_file, skip_header=1, usecols=[2], unpack=True)
     N_bins      = len(bin_centers)
 
