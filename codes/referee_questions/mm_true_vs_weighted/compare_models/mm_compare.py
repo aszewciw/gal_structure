@@ -154,12 +154,12 @@ def main():
 
     plt.clf()
     plt.plot(models, tt, marker='*', label=r'$MM_{true}, \sigma_{true}$')
-    plt.plot(models, et, marker='^', label=r'$MM_{est}, \sigma_{true}')
+    plt.plot(models, et, marker='^', label=r'$MM_{est}, \sigma_{true}$')
     plt.plot(models, te_fid, marker='s', label=r'$MM_{true}, \sigma_{fid}$')
     plt.plot(models, ee_fid, marker='o', label=r'$MM_{est}, \sigma_{fid}$')
     plt.plot(models, te_frac, marker='h', label=r'$MM_{true}, \sigma_{est}$')
     plt.plot(models, ee_frac, marker='p', label=r'$MM_{est}, \sigma_{est}$')
-    plt.legend(numpoints=1, loc=4)
+    plt.legend(numpoints=1, loc='upper left')
 
 # plt.clf()
 # time_labels = ['10 Myr', '100 Myr', '1 Gyr', '2 Gyr', '5 Gyr', '10 Gyr']
