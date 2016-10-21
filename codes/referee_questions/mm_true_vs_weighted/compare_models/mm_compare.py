@@ -67,7 +67,7 @@ def main():
         mm_mean_0, std_0 = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
         # Load weighted random counts for model 0
-        w_10_file = pairs_dir + 'mm_10_' + ID + '.dat'
+        w_10_file = pairs0_dir + 'mm_10_' + ID + '.dat'
         mm_0 = np.genfromtxt(w_10_file)
 
         # Load stats for model 1
