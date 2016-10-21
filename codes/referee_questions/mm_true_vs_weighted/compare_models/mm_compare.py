@@ -153,6 +153,9 @@ def main():
     models = np.array([1,2,3])
 
     plt.clf()
+    plt.axis([0.5, 3.5, 1800, 3600])
+    plt.xlabel('Model type (1 is fiducial)')
+    plt.ylabel(r'$\chi^2$')
     plt.plot(models, tt, marker='*', label=r'$MM_{true}, \sigma_{true}$')
     plt.plot(models, et, marker='^', label=r'$MM_{est}, \sigma_{true}$')
     plt.plot(models, te_fid, marker='s', label=r'$MM_{true}, \sigma_{fid}$')
