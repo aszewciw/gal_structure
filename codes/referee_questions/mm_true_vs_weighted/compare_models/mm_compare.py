@@ -153,13 +153,28 @@ def main():
     models = np.array([1,2,3])
 
     plt.clf()
-    plt.plot(models, tt)
-    plt.plot(models, et)
-    plt.plot(models, te_fid)
-    plt.plot(models, ee_fid)
-    plt.plot(models, te_frac)
-    plt.plot(models, ee_frac)
+    plt.plot(models, tt, marker='*', label=r'$MM_{true}, \sigma_{true}$')
+    plt.plot(models, et, marker='^', label=r'$MM_{est}, \sigma_{true}')
+    plt.plot(models, te_fid, marker='s', label=r'$MM_{true}, \sigma_{fid}$')
+    plt.plot(models, ee_fid, marker='o', label=r'$MM_{est}, \sigma_{fid}$')
+    plt.plot(models, te_frac, marker='h', label=r'$MM_{true}, \sigma_{est}$')
+    plt.plot(models, ee_frac, marker='p', label=r'$MM_{est}, \sigma_{est}$')
+    plt.legend(numpoints=1, loc=4)
 
+# plt.clf()
+# time_labels = ['10 Myr', '100 Myr', '1 Gyr', '2 Gyr', '5 Gyr', '10 Gyr']
+# time_markers = ['*k', '*g', '*c', '*m', '*y', '*r']
+# plt.plot(color_per_bin, M_abs, 'r', label='Largest Star Color')
+# plt.plot(color_pop, M_abs, 'b', label='Population Color')
+# for i in range(len(color_array_pop)):
+#     plt.plot(color_array_pop[i], M_abs_array[i], time_markers[i], markersize=15, label=time_labels[i])
+#     plt.plot(color_array_largest[i], M_abs_array[i], time_markers[i], markersize=15)
+# plt.legend(numpoints=1, loc=4)
+# plt.xlabel('g - r color')
+# plt.ylabel('M(t) - M(0)')
+# plt.title('Color Magnitude for Passive Evolution')
+# plt.savefig('Problem3.png')
+# plt.clf()
     fig_name = plots_dir + 'chi2.png'
 
     plt.savefig(fig_name)
