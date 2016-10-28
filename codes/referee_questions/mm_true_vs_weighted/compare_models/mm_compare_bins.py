@@ -171,12 +171,12 @@ def main():
     plt.xlabel('Bin Centers (kpc)')
     plt.ylabel(r'$\chi^2$')
 
-    plt.semilogx(bin_centers, chi2_0_true, color='red', marker='*', markersize=12, label='Model 0')
-    plt.semilogx(bin_centers, chi2_0_est, color='red', marker='s', markersize=5)
-    plt.semilogx(bin_centers, chi2_1_true, color='blue', marker='*', markersize=12, label='Model 1')
-    plt.semilogx(bin_centers, chi2_1_est, color='blue', markersize=5, marker='s')
-    plt.semilogx(bin_centers, chi2_2_true, color='green', marker='*', markersize=12, label='Model 2')
-    plt.semilogx(bin_centers, chi2_2_est, color='green', marker='s', markersize=5)
+    plt.semilogx(bin_centers, chi2_0_true, color='red', marker='*', label='True, 0')
+    plt.semilogx(bin_centers, chi2_0_est, color='red', marker='s', linestyle='dashed', label='Est., 0')
+    plt.semilogx(bin_centers, chi2_1_true, color='blue', marker='*', label='True, 1')
+    plt.semilogx(bin_centers, chi2_1_est, color='blue', marker='s', linestyle='dashed', label='Est., 1')
+    plt.semilogx(bin_centers, chi2_2_true, color='green', marker='*', label='True, 2')
+    plt.semilogx(bin_centers, chi2_2_est, color='green', marker='s', linestyle='dashed', label='Est., 2')
 
     # plt.plot(models, tt, marker='*', label=r'$MM_{true}, \sigma_{true}$')
     # plt.plot(models, et, marker='^', label=r'$MM_{est}, \sigma_{true}$')
