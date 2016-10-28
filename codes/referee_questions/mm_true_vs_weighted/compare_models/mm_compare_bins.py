@@ -171,12 +171,12 @@ def main():
     plt.xlabel('Bin Centers (kpc)')
     plt.ylabel(r'$\chi^2$')
 
-    plt.semilogx(bin_centers, chi2_0_true, marker='*', label='Mod. 0, True')
-    plt.semilogx(bin_centers, chi2_0_est, marker='^', label='Mod. 0, Est')
-    plt.semilogx(bin_centers, chi2_1_true, marker='s', label='Mod. 1, True')
-    plt.semilogx(bin_centers, chi2_1_est, marker='o', label='Mod. 1, Est.')
-    plt.semilogx(bin_centers, chi2_2_true, marker='h', label='Mod. 2, True')
-    plt.semilogx(bin_centers, chi2_2_est, marker='p', label='Mod. 2, Est.')
+    plt.semilogx(bin_centers, chi2_0_true, color='red', marker='*', s=10, label='Model 0')
+    plt.semilogx(bin_centers, chi2_0_est, color='red', marker='s')
+    plt.semilogx(bin_centers, chi2_1_true, color='blue', marker='*', label='Model 1')
+    plt.semilogx(bin_centers, chi2_1_est, color='blue', marker='s')
+    plt.semilogx(bin_centers, chi2_2_true, color='green', marker='*', label='Model 2')
+    plt.semilogx(bin_centers, chi2_2_est, color='green', marker='s')
 
     # plt.plot(models, tt, marker='*', label=r'$MM_{true}, \sigma_{true}$')
     # plt.plot(models, et, marker='^', label=r'$MM_{est}, \sigma_{true}$')
@@ -184,7 +184,7 @@ def main():
     # plt.plot(models, ee_fid, marker='o', label=r'$MM_{est}, \sigma_{fid}$')
     # plt.plot(models, te_frac, marker='h', label=r'$MM_{true}, \sigma_{est}$')
     # plt.plot(models, ee_frac, marker='p', label=r'$MM_{est}, \sigma_{est}$')
-    plt.legend(numpoints=1, loc='upper left')
+    plt.legend(numpoints=1, loc='upper right')
 
     fig_name = plots_dir + 'chi2_bin_' + str(N) + '.png'
 
