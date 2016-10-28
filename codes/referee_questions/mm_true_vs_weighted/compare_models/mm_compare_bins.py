@@ -184,7 +184,7 @@ def main():
     # plt.plot(models, ee_fid, marker='o', label=r'$MM_{est}, \sigma_{fid}$')
     # plt.plot(models, te_frac, marker='h', label=r'$MM_{true}, \sigma_{est}$')
     # plt.plot(models, ee_frac, marker='p', label=r'$MM_{est}, \sigma_{est}$')
-    plt.legend(numpoints=1, loc='upper right', fontsize=10)
+    plt.legend(numpoints=1, loc='upper right', fontsize=12)
 
     fig_name = plots_dir + 'chi2_bin_' + str(N) + '.png'
 
