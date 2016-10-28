@@ -167,7 +167,7 @@ def main():
     # models = np.array([1,2,3])
 
     plt.clf()
-    # plt.axis([0.5, 3.5, 1800, 3600])
+    plt.axis([0.005, 2.0, 0, 600])
     plt.xlabel('Bin Centers (kpc)')
     plt.ylabel(r'$\chi^2$')
 
