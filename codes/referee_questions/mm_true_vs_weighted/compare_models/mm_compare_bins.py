@@ -171,7 +171,7 @@ def main():
     plt.xlabel('Bin Centers (kpc)')
     plt.ylabel(r'$\chi^2$')
 
-    plt.semilogx(bin_centers, chi2_0_true, color='red', marker='*', s=10, label='Model 0')
+    plt.semilogx(bin_centers, chi2_0_true, color='red', marker='*', markersize=10, label='Model 0')
     plt.semilogx(bin_centers, chi2_0_est, color='red', marker='s')
     plt.semilogx(bin_centers, chi2_1_true, color='blue', marker='*', label='Model 1')
     plt.semilogx(bin_centers, chi2_1_est, color='blue', marker='s')
