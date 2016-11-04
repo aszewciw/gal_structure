@@ -91,7 +91,7 @@ def main():
         dd = np.genfromtxt(dd_file)
 
         # Calculate fractional std: std/mean for fiducial
-        frac_std = std_A / mm_mean_A
+        frac_std_A = std_A / mm_mean_A
 
 
         for i in range(len(dd)):
