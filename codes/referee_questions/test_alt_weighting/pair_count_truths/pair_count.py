@@ -22,7 +22,7 @@ def main():
     for p in ID_list:
 
         # First do counts for A
-        in_file = mockA_dir + 'mock_' + p + '.xyzw.dat'
+        in_file = mock_A_dir + 'mock_' + p + '.xyzw.dat'
 
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
@@ -36,7 +36,7 @@ def main():
 
 
         # Next do B
-        in_file = mockB_dir + 'mock_' + p + '.xyzw.dat'
+        in_file = mock_B_dir + 'mock_' + p + '.xyzw.dat'
 
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
@@ -50,7 +50,7 @@ def main():
 
 
         # Last do C
-        in_file = mockC_dir + 'mock_' + p + '.xyzw.dat'
+        in_file = mock_C_dir + 'mock_' + p + '.xyzw.dat'
 
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
