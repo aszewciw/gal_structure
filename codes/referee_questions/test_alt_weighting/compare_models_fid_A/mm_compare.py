@@ -146,6 +146,7 @@ def main():
     models = np.array([1,2,3])
 
     plt.clf()
+    plt.figure(1)
     plt.axis([0.5, 3.5, 1800, 3600])
     plt.xlabel('Model type (1 is fiducial)')
     plt.ylabel(r'$\chi^2$')
