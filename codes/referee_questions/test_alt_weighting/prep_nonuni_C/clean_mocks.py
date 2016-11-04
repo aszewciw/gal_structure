@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 #-----------------------------------------------------------------------------#
 '''
 Take mocks, which have unshuffled thin and thick disks upon creation, with more
