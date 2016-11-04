@@ -147,7 +147,7 @@ def main():
 
     plt.clf()
     plt.figure(1)
-    plt.axis([0.5, 3.5, 1800, 3600])
+    plt.axis([0.5, 3.5, 1700, 3400])
     plt.xlabel('Model type (1 is fiducial)')
     plt.ylabel(r'$\chi^2$')
     plt.plot(models, tt, marker='*', label=r'$MM_{true}, \sigma_{true}$')
