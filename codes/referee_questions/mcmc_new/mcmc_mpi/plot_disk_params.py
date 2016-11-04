@@ -15,7 +15,7 @@ My MCMC files output the following columns:
     z0_thin
     r0_thick
     z0_thick
-    thick_thin_ratio
+    ratio
 '''
 
 # from custom_plotting import mcmc_plot as mcpl
@@ -81,7 +81,7 @@ def plot_mcmc_steps(DF, outfile, ticks):
 def main():
 
     # Create list of files for which we want plots
-    filenames = ['mcmc_result.dat']
+    filenames = ['mcmc_result_4.dat']
 
     # path to files
     data_path = '../data/mcmc_output/'
@@ -108,7 +108,7 @@ def main():
 
         # Cut a fraction of the data as "burn-in"
         # Could improve method for deciding on this fraction
-        frac_cut = 0.05
+        frac_cut = 0.2
         N_drop   = len(MCMC) * frac_cut
         MCMC     = MCMC[MCMC['step']>N_drop]
 
@@ -117,38 +117,51 @@ def main():
         levels = 1.0 - np.exp(-0.5*signif_levels**2)
 
         print('Beginning Plotting...')
-        # Plot scale heights
-        plt.clf()
+
+
+        # Plot all 5 params on one graph
         x = np.column_stack((MCMC['z0_thin'].values, MCMC['z0_thick'].values))
-        fig = corner.corner(x, levels=levels, labels=["$Z_{0,thin}$", "$Z_{0,thick}$"],
-            truths=[z0_thin_true, z0_thick_true])
-        fig.suptitle(r"Mock MCMC Results (same $N_{stars}$ per l.o.s.)")
-        plot_name = plot_path + file_prefix + '_z0.png'
+        y = np.column_stack((MCMC['r0_thin'].values, MCMC['r0_thick'].values))
+        z = np.column_stack((x,y))
+        z = np.column_stack((z, MCMC['ratio']))
+        fig = corner.corner(z, levels=levels, labels=["$Z_{0,thin}$", "$Z_{0,thick}$", "$R_{0,thin}$", "$R_{0,thick}$", "a"],
+            truths=[z0_thin_true, z0_thick_true, r0_thin_true, r0_thick_true, ratio_true])
+        fig.suptitle("Mock MCMC Results")
+        plot_name = plot_path + file_prefix + '_params.png'
         plt.savefig(plot_name)
 
-        print('Finished plotting Scale Heights')
+        # # Plot scale heights
+        # plt.clf()
+        # x = np.column_stack((MCMC['z0_thin'].values, MCMC['z0_thick'].values))
+        # fig = corner.corner(x, levels=levels, labels=["$Z_{0,thin}$", "$Z_{0,thick}$"],
+        #     truths=[z0_thin_true, z0_thick_true])
+        # fig.suptitle(r"Mock MCMC Results (same $N_{stars}$ per l.o.s.)")
+        # plot_name = plot_path + file_prefix + '_z0.png'
+        # plt.savefig(plot_name)
 
-        # Plot scale lengths
-        plt.clf()
-        x = np.column_stack((MCMC['r0_thin'].values, MCMC['r0_thick'].values))
-        fig = corner.corner(x, levels=levels, labels=["$R_{0,thin}$", "$R_{0,thick}$"],
-            truths=[r0_thin_true, r0_thick_true])
-        fig.suptitle(r"Mock MCMC Results (same $N_{stars}$ per l.o.s.)")
-        plot_name = plot_path + file_prefix + '_r0.png'
-        plt.savefig(plot_name)
+        # print('Finished plotting Scale Heights')
 
-        print('Finished plotting Scale Lengths')
+        # # Plot scale lengths
+        # plt.clf()
+        # x = np.column_stack((MCMC['r0_thin'].values, MCMC['r0_thick'].values))
+        # fig = corner.corner(x, levels=levels, labels=["$R_{0,thin}$", "$R_{0,thick}$"],
+        #     truths=[r0_thin_true, r0_thick_true])
+        # fig.suptitle(r"Mock MCMC Results (same $N_{stars}$ per l.o.s.)")
+        # plot_name = plot_path + file_prefix + '_r0.png'
+        # plt.savefig(plot_name)
 
-        # Plot steps
-        # Create ticks
-        tick_start = 0
-        tick_end   = MCMC['step'].values[-1]
-        tick_size  = 100000
-        step_ticks = np.arange(tick_start, tick_end, tick_size)
-        plot_name  = plot_path + file_prefix + '_steps.png'
-        # plot_mcmc_steps(MCMC, plot_name, step_ticks)
+        # print('Finished plotting Scale Lengths')
 
-        print('Finished plotting Steps...or did I? Welp, I am done plotting.')
+        # # Plot steps
+        # # Create ticks
+        # tick_start = 0
+        # tick_end   = MCMC['step'].values[-1]
+        # tick_size  = 100000
+        # step_ticks = np.arange(tick_start, tick_end, tick_size)
+        # plot_name  = plot_path + file_prefix + '_steps.png'
+        # # plot_mcmc_steps(MCMC, plot_name, step_ticks)
+
+        print('Finished plotting.')
 
 
 if __name__ == '__main__':
