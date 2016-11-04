@@ -131,9 +131,9 @@ def main():
             chi2_C_te_frac += ( (mm_mean_C[i] - DD) / STD_C )**2
 
             # est est_frac
-            chi2_A_ee_frac += ( (mm_A[i] - DD) / std_A )**2
-            chi2_B_ee_frac += ( (mm_B[i] - DD) / std_B )**2
-            chi2_C_ee_frac += ( (mm_C[i] - DD) / std_C )**2
+            chi2_A_ee_frac += ( (mm_A[i] - DD) / STD_A )**2
+            chi2_B_ee_frac += ( (mm_B[i] - DD) / STD_B )**2
+            chi2_C_ee_frac += ( (mm_C[i] - DD) / STD_C )**2
 
 
     tt      = np.array([chi2_A_tt, chi2_B_tt, chi2_C_tt])
@@ -156,12 +156,13 @@ def main():
     # plt.plot(models, ee_fid, marker='o', label=r'$MM_{est}, \sigma_{fid}$')
     plt.plot(models, te_frac, marker='h', label=r'$MM_{true}, \sigma_{est}$')
     plt.plot(models, ee_frac, marker='p', label=r'$MM_{est}, \sigma_{est}$')
-    # plt.legend(numpoints=1, loc='upper left')
+    plt.legend(numpoints=1, loc='upper left')
 
     fig_name = plots_dir + 'chi2_fidA_true_' + mod_true + '.png'
 
     plt.savefig(fig_name)
 
+    plt.clf()
 
 if __name__ == '__main__':
     main()
