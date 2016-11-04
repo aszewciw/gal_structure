@@ -161,7 +161,7 @@ void get_params( PARAMS *p, unsigned long int N ){
 
 /* output stars' cartesian coordinates to a file */
 void output_star( FILE *output_file, STAR s){
-    fprintf( output_file, "%lf\t%lf\t%lf\n", s.x, s.y, s.z );
+    fprintf( output_file, "%lf\t%lf\t%lf\t%lf\n", s.x, s.y, s.z, 1.0 );
 }
 
 /* ----------------------------------------------------------------------- */
