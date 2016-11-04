@@ -10,14 +10,6 @@ import numpy as np
 
 def main():
 
-    # CL Input
-    # star_factor = N_random / N_data in each l.o.s.
-    elements_needed = int(2)
-    args_array      = np.array(sys.argv)
-    N_args          = len(args_array)
-    assert(N_args == elements_needed)
-    star_factor     = args_array[1]
-
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID_list = np.genfromtxt(todo_file, skip_header=1, usecols=[0], unpack=True,
                             dtype=str)
@@ -29,13 +21,42 @@ def main():
 
     for p in ID_list:
 
-        in_file = uni_dir + 'uniform_' + star_factor + '_' + p + '.xyzw.dat'
+        # First do counts for A
+        in_file = mockA_dir + 'mock_' + p + '.xyzw.dat'
 
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
             continue
 
-        output_file = data_dir + 'mm_' + star_factor + '_' + p + '.dat'
+        output_file = data_dir + 'mod_A_mm_' + p + '.dat'
+
+        cmd = ( './pair_count ' + in_file + ' ' + bins_file
+            + ' > ' + output_file )
+        os.system(cmd)
+
+
+        # Next do B
+        in_file = mockB_dir + 'mock_' + p + '.xyzw.dat'
+
+        if not os.path.isfile(in_file):
+            sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
+            continue
+
+        output_file = data_dir + 'mod_B_mm_' + p + '.dat'
+
+        cmd = ( './pair_count ' + in_file + ' ' + bins_file
+            + ' > ' + output_file )
+        os.system(cmd)
+
+
+        # Last do C
+        in_file = mockC_dir + 'mock_' + p + '.xyzw.dat'
+
+        if not os.path.isfile(in_file):
+            sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
+            continue
+
+        output_file = data_dir + 'mod_C_mm_' + p + '.dat'
 
         cmd = ( './pair_count ' + in_file + ' ' + bins_file
             + ' > ' + output_file )
