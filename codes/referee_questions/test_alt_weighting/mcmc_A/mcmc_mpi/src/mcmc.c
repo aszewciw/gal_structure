@@ -90,13 +90,13 @@ void update_model(POINTING *p, int N_bins, int lower_ind, int upper_ind){
     /* Loop over l.o.s. */
     for(i = lower_ind; i < upper_ind; i++){
 
-        MM_norm = normalize_MM(p[i].weight, p[i].N_stars);
+        MM_norm = normalize_MM(p[i].weight_mod, p[i].N_stars);
 
         for(j = 0; j < N_bins; j++){
 
             p[i].rbin[j].MM = calculate_MM( p[i].rbin[j].N_pairs,
                 p[i].rbin[j].pair1, p[i].rbin[j].pair2, MM_norm,
-                p[i].weight );
+                p[i].weight_mod );
 
         }
     }
