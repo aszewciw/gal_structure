@@ -24,7 +24,7 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir  = '../../data/'
+rawdata_dir  = '../../../data/'
 data_dir     = '../data/'
 mock_dir     = '../prep_mock_A/'
 uni_dir      = '../prep_nonuni_A/'
