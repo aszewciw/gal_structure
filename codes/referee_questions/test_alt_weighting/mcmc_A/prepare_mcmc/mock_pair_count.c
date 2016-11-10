@@ -4,6 +4,7 @@
 
 typedef struct POINT{
     double x, y, z;
+    double weight;
 } POINT;
 
 typedef struct CORRELATION{
@@ -125,6 +126,7 @@ int main(int argc, char **argv){
         fscanf(data_file, "%lf", &data[i].x);
         fscanf(data_file, "%lf", &data[i].y);
         fscanf(data_file, "%lf", &data[i].z);
+        fscanf(data_file, "%lf", &data[i].weight);
     }
 
     fprintf(stderr, "Read %d stars. \n", N_data);
