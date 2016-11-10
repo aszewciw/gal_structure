@@ -26,8 +26,8 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../../data/'
 data_dir     = '../data/'
-mock_dir     = '../prep_mock_A/'
-uni_dir      = '../prep_nonuni_A/'
+mock_dir     = '../prep_mock_A/data/'
+uni_dir      = '../prep_nonuni_A/data/'
 errors_dir   = data_dir + 'errors/'
 mcmc_out_dir = data_dir + 'mcmc_output/'
 mock_dd_dir  = data_dir + 'mock_dd/'
