@@ -3,9 +3,9 @@
 make cleanall
 make
 
-N_procs=30;
-N_steps=200000;
-filename="../data/mcmc_output/mcmc_result_50random.dat";
+N_procs=20;
+N_steps=300000;
+filename="../data/mcmc_output/mcmc_result_nonuniform.dat";
 
 rm $filename
 
