@@ -26,8 +26,8 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 data_dir     = '../data/'
-mock_dir     = '../../prepare_mock/data/'
-uni_dir      = '../../prepare_randoms/data/'
+mock_dir     = '../prep_mock_A/'
+uni_dir      = '../prep_nonuni_A/'
 errors_dir   = data_dir + 'errors/'
 mcmc_out_dir = data_dir + 'mcmc_output/'
 mock_dd_dir  = data_dir + 'mock_dd/'
@@ -39,11 +39,6 @@ sigma_dir    = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
 
 
 # create array of bins evenly spaced in log
-# Nbins   = 12
-# bin_min = 0.005
-# bin_max = 2
-# bins    = np.linspace(math.log10(bin_min), math.log10(bin_max), Nbins + 1)
-# bins    = np.power(10, bins)
 R_min = 0.005
 R_max = 2.0
 N_rbins = 12
