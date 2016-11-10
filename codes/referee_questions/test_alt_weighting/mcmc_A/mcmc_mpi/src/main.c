@@ -88,7 +88,8 @@ int main(int argc, char * argv[]){
         free(plist[i].rbin);
         free(plist[i].Z);
         free(plist[i].R);
-        free(plist[i].weight);
+        free(plist[i].weight_fid);
+        free(plist[i].weight_mod);
     }
     free(plist);
     if(rank==0) fprintf(stderr, "Allocated space cleared. \n");
