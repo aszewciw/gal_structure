@@ -10,7 +10,7 @@
 #include <mpi.h>
 
 /* I/O directories */
-#define RAW_DIR "../../data/"
+#define RAW_DIR "../../../data/"
 #define DATA_DIR "../data/"
 #define DD_DIR "../data/mock_dd/"
 #define ERR_DIR "../data/errors/"
