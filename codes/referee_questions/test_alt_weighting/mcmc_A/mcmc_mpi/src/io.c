@@ -147,7 +147,7 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
             fscanf(zrw_file, "%lf", &Z[j]);
             fscanf(zrw_file, "%lf", &R[j]);
             fscanf(zrw_file, "%lf", &W_fid[j]);
-            W_mod[j] = 1.0
+            W_mod[j] = 1.0;
         }
 
         fclose(zrw_file);
