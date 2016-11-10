@@ -42,8 +42,6 @@ def main():
 
     for p in todo_list:
 
-        if int(p.ID)<66: continue
-
         in_file = uni_dir + 'mock_' + p.ID + '.xyzw.dat'
         if not os.path.isfile(in_file):
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
