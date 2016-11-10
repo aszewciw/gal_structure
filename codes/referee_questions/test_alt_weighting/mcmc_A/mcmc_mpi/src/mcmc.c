@@ -26,12 +26,14 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
 
         for(j = 0; j < p[i].N_stars; j++){
 
-            p[i].weight[j] = (
+            p[i].weight_mod[j] = (
                 ( sech2( p[i].Z[j] / (2.0 * params.z0_thin) )
                     * exp( -p[i].R[j] / params.r0_thin ) )
                 + params.ratio_thick_thin *
                 ( sech2( p[i].Z[j] / (2.0 * params.z0_thick) )
                     * exp( -p[i].R[j] / params.r0_thick ) ) );
+
+            p[i].weight_mod[j] = p[i].weight_mod[j] / p[i].weight_fid[j];
         }
     }
 }

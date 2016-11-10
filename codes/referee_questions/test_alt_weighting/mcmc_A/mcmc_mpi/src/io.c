@@ -123,7 +123,8 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
     int i, j, N;
     double * Z;
     double * R;
-    double * W;
+    double * W_fid;
+    double * W_mod;
 
     /* Read star data for each poiting */
     for(i = lower_ind; i < upper_ind; i++){
@@ -138,13 +139,15 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         /* Claim arrays */
         Z = calloc(N, sizeof(double));
         R = calloc(N, sizeof(double));
-        W = calloc(N, sizeof(double));
+        W_fid = calloc(N, sizeof(double));
+        W_mod = calloc(N, sizeof(double));
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
             fscanf(zrw_file, "%lf", &Z[j]);
             fscanf(zrw_file, "%lf", &R[j]);
-            fscanf(zrw_file, "%lf", &W[j]);
+            fscanf(zrw_file, "%lf", &W_fid[j]);
+            W_mod[j] = 1.0
         }
 
         fclose(zrw_file);
@@ -153,7 +156,8 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         plist[i].N_stars = N;
         plist[i].Z = Z;
         plist[i].R = R;
-        plist[i].weight = W;
+        plist[i].weight_fid = W_fid;
+        plist[i].weight_mod = W_mod;
     }
 
     if(rank==0) fprintf(stderr, "Model data loaded from %s\n", ZRW_DIR);
