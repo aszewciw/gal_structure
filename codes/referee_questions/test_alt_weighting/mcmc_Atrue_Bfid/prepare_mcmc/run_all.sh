@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-cp ../../mcmc_A/data/rbins/*.dat ./
+cp ../../mcmc_A/data/rbins/*.dat ../data/rbins/
 
 bash run_mock_dd.sh
 
