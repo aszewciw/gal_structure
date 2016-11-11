@@ -34,7 +34,7 @@ mock_dd_dir  = data_dir + 'mock_dd/'
 pairs_dir    = data_dir + 'model_pairs/'
 zrw_dir      = data_dir + 'model_positions/'
 rbins_dir    = data_dir + 'rbins/'
-sigma_dir = '../../real_sigmas_compare/1000_mocks_1/errors_pairs/data/mean_var_std/'
+sigma_dir = '../../../real_sigmas_compare/1000_mocks_1/errors_pairs/data/mean_var_std/'
 
 
 
