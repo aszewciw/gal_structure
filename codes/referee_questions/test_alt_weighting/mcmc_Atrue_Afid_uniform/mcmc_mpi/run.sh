@@ -4,8 +4,8 @@ make cleanall
 make
 
 N_procs=20;
-N_steps=300000;
-filename="../data/mcmc_output/mcmc_result_nonuniform.dat";
+N_steps=200000;
+filename="../data/mcmc_output/mcmc_result_uniform.dat";
 
 rm $filename
 
