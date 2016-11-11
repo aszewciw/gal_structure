@@ -81,7 +81,7 @@ def plot_mcmc_steps(DF, outfile, ticks):
 def main():
 
     # Create list of files for which we want plots
-    filenames = ['mcmc_result_nonuniform.dat']
+    filenames = ['mcmc_result_uniform.dat']
 
     # path to files
     data_path = '../data/mcmc_output/'
