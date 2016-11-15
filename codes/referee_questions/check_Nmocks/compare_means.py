@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import os
 
 mocks_dir = '../10000_mocks/errors_pairs/data/'
 todo_dir  = '../data/'
@@ -47,37 +48,37 @@ def main():
 
     for ID in ID_list:
 
-        counts_file = mocks_dir + 'normed_counts_all_' + ID + '.dat'
+        # counts_file = mocks_dir + 'normed_counts_all_' + ID + '.dat'
 
-        dd = np.genfromtxt(counts_file)
+        # dd = np.genfromtxt(counts_file)
 
-        plt.clf()
-        plt.figure(1)
+        # plt.clf()
+        # plt.figure(1)
 
-        dd_mean_true = np.mean(dd, axis=0)
+        # dd_mean_true = np.mean(dd, axis=0)
 
-        for i in range(len(Nmock_list)):
+        # for i in range(len(Nmock_list)):
 
-            color=color_list[i]
+        #     color=color_list[i]
 
-            N = Nmock_list[i]
+        #     N = Nmock_list[i]
 
-            np.random.shuffle(dd)
+        #     np.random.shuffle(dd)
 
-            dd_new = dd[:N]
+        #     dd_new = dd[:N]
 
-            dd_mean = np.mean(dd_new, axis=0)
+        #     dd_mean = np.mean(dd_new, axis=0)
 
-            dd_mean_frac = (dd_mean - dd_mean_true) / dd_mean_true
+        #     dd_mean_frac = (dd_mean - dd_mean_true) / dd_mean_true
 
-            plt.semilogx(bin_cent, dd_mean_frac, color=color, label='N='+str(N))
+        #     plt.semilogx(bin_cent, dd_mean_frac, color=color, label='N='+str(N))
 
-        plt.legend(loc='upper left', fontsize=10)
-        plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
+        # plt.legend(loc='upper left', fontsize=10)
+        # plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
         figname='mean_' + ID + '.png'
-        plt.xlabel('Bin Center (kpc)', fontsize=10)
-        plt.ylabel(r'$\frac{\bar{DD_{N}}-\bar{DD_{10000}}}{\bar{DD_{10000}}}$', fontsize=18)
-        plt.savefig(figname)
+        # plt.xlabel('Bin Center (kpc)', fontsize=10)
+        # plt.ylabel(r'$\frac{\bar{DD_{N}}-\bar{DD_{10000}}}{\bar{DD_{10000}}}$', fontsize=18)
+        # plt.savefig(figname)
 
         file_list.append(figname)
 
