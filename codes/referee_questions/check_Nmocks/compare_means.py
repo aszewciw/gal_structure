@@ -79,9 +79,10 @@ def main():
         plt.ylabel(r'$\frac{\bar{DD_{N}}-\bar{DD_{10000}}}{\bar{DD_{10000}}}$', fontsize=18)
         plt.savefig(figname)
 
-        file_list.append(figname, removef=True)
+        file_list.append(figname)
 
     gif_name = 'means.gif'
+    GIF_MOVIE(file_list, gif_name, removef=True)
 
 
 
