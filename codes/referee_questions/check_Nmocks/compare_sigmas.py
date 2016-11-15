@@ -16,8 +16,8 @@ def main():
     bin_cent = np.genfromtxt(bins_file, skip_header=1, unpack=True, usecols=[2])
     bin_cent = np.round(bin_cent, 3)
 
-    Nmock_list = [50, 100, 500, 1000, 5000, 10000]
-    color_list = ['red', 'green', 'cyan', 'blue', 'black', 'magenta']
+    Nmock_list = [50, 100, 500, 1000, 5000]
+    color_list = ['red', 'green', 'cyan', 'blue', 'black']
 
     np.random.seed()
 
@@ -33,6 +33,9 @@ def main():
         plt.clf()
         plt.figure(1)
 
+        dd_mean_true = np.mean(dd, axis=0)
+        dd_std_true = np.std(dd, axis=0)
+
         for i in range(len(Nmock_list)):
 
             color=color_list[i]
@@ -45,13 +48,14 @@ def main():
 
             dd_mean = np.mean(dd_new, axis=0)
             dd_std  = np.std(dd_new, axis=0)
-            print(dd_mean)
 
-            plt.semilogx(bin_cent, dd_std, color=color, label='N='+str(N))
+            dd_std_frac = (dd_std - dd_std_true) / dd_std_true
+
+            plt.semilogx(bin_cent, dd_std_frac, color=color, label='N='+str(N))
 
         plt.legend(loc='upper left')
         # plt.axis([min(bin_cent), max(bin_cent), 0, 0.25])
-        plt.axis([min(bin_cent), max(bin_cent), 0, 0.025])
+        # plt.axis([min(bin_cent), max(bin_cent), 0, 0.025])
         figname='std_' + ID + '.png'
         plt.savefig(figname)
 
