@@ -53,7 +53,7 @@ def main():
 
             plt.semilogx(bin_cent, dd_std_frac, color=color, label='N='+str(N))
 
-        plt.legend(loc='upper left')
+        plt.legend(loc='lower right', fontsize=10)
         # plt.axis([min(bin_cent), max(bin_cent), 0, 0.25])
         # plt.axis([min(bin_cent), max(bin_cent), 0, 0.025])
         figname='std_' + ID + '.png'
