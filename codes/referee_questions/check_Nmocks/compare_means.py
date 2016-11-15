@@ -75,7 +75,7 @@ def main():
         plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
         figname='mean_' + ID + '.png'
         plt.xlabel('Bin Center (kpc)', fontsize=10)
-        plt.ylabel(r'$\frac{\overline{DD_{N}}-\overline{DD_{10000}}}{\overline{DD_{10000}}}$', fontsize=18)
+        plt.ylabel(r'$\frac{\overline{DD}_{N}-\overline{DD}_{10000}}{\overline{DD}_{10000}}$', fontsize=18)
         plt.tight_layout()
         plt.savefig(figname)
 
