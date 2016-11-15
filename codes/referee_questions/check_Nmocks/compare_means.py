@@ -40,7 +40,7 @@ def main():
     bin_cent = np.round(bin_cent, 3)
 
     Nmock_list = [50, 100, 500, 1000, 5000]
-    color_list = ['red', 'yellow', 'green', 'blue', 'magenta']
+    color_list = ['red', 'green', 'blue', 'cyan', 'magenta']
 
     file_list = []
 
@@ -48,48 +48,45 @@ def main():
 
     for ID in ID_list:
 
-        # counts_file = mocks_dir + 'normed_counts_all_' + ID + '.dat'
+        print('On pointing number ' + ID)
 
-        # dd = np.genfromtxt(counts_file)
+        counts_file = mocks_dir + 'normed_counts_all_' + ID + '.dat'
 
-        # plt.clf()
-        # plt.figure(1)
+        dd = np.genfromtxt(counts_file)
 
-        # dd_mean_true = np.mean(dd, axis=0)
+        plt.clf()
+        plt.figure(1)
 
-        # for i in range(len(Nmock_list)):
+        dd_mean_true = np.mean(dd, axis=0)
 
-        #     color=color_list[i]
+        for i in range(len(Nmock_list)):
 
-        #     N = Nmock_list[i]
+            color=color_list[i]
 
-        #     np.random.shuffle(dd)
+            N = Nmock_list[i]
 
-        #     dd_new = dd[:N]
+            np.random.shuffle(dd)
 
-        #     dd_mean = np.mean(dd_new, axis=0)
+            dd_new = dd[:N]
 
-        #     dd_mean_frac = (dd_mean - dd_mean_true) / dd_mean_true
+            dd_mean = np.mean(dd_new, axis=0)
 
-        #     plt.semilogx(bin_cent, dd_mean_frac, color=color, label='N='+str(N))
+            dd_mean_frac = (dd_mean - dd_mean_true) / dd_mean_true
 
-        # plt.legend(loc='upper left', fontsize=10)
-        # plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
+            plt.semilogx(bin_cent, dd_mean_frac, color=color, label='N='+str(N))
+
+        plt.legend(loc='upper left', fontsize=10)
+        plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
         figname='mean_' + ID + '.png'
-        # plt.xlabel('Bin Center (kpc)', fontsize=10)
-        # plt.ylabel(r'$\frac{\bar{DD_{N}}-\bar{DD_{10000}}}{\bar{DD_{10000}}}$', fontsize=18)
-        # plt.savefig(figname)
+        plt.xlabel('Bin Center (kpc)', fontsize=10)
+        plt.ylabel(r'$\frac{\bar{DD_{N}}-\bar{DD_{10000}}}{\bar{DD_{10000}}}$', fontsize=18)
+        plt.tight_layout()
+        plt.savefig(figname)
 
         file_list.append(figname)
 
     gif_name = 'means.gif'
     GIF_MOVIE(file_list, gif_name, removef=True)
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
