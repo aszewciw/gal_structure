@@ -47,10 +47,10 @@ def main():
             dd_std  = np.std(dd_new, axis=0)
             print(dd_mean)
 
-            plt.semilogx(bin_cent, dd_mean, color=color, label='N='+str(N))
+            plt.semilogx(bin_cent, dd_std, color=color, label='N='+str(N))
 
         plt.legend(loc='upper left')
-        figname='mean_' + ID + '.png'
+        figname='std_' + ID + '.png'
         plt.savefig(figname)
 
 
