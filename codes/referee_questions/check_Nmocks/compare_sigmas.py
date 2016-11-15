@@ -46,7 +46,7 @@ def main():
 
             plt.semilogx(bin_cent, dd_mean, color=color, label='N='+str(N))
 
-        plt.legend()
+        plt.legend(loc='upper left')
         figname='mean_' + ID + '.png'
         plt.savefig(figname)
 
