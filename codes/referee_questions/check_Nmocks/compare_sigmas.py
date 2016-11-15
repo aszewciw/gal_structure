@@ -57,7 +57,7 @@ def main():
         plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
         # plt.axis([min(bin_cent), max(bin_cent), 0, 0.025])
         figname='std_' + ID + '.png'
-        plt.xlabel('Bin Center (kpc)', fontsize=18)
+        plt.xlabel('Bin Center (kpc)', fontsize=14)
         plt.ylabel(r'$\frac{\sigma_{N}-\sigma_{10000}}{\sigma_{10000}}$', fontsize=18)
         plt.savefig(figname)
 
