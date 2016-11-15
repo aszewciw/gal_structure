@@ -65,7 +65,7 @@ def main():
 
             dd_new = dd[:N]
 
-            dd_std = np.mean(dd_new, axis=0)
+            dd_std = np.std(dd_new, axis=0)
 
             dd_std_frac = (dd_std - dd_std_true) / dd_std_true
 
@@ -75,7 +75,7 @@ def main():
         plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
         figname='sigma_' + ID + '.png'
         plt.xlabel('Bin Center (kpc)', fontsize=10)
-        plt.ylabel(r'$\frac{\overline{\sigma_{N}}-\overline{\sigma_{10000}}}{\overline{\sigma_{10000}}}$', fontsize=18)
+        plt.ylabel(r'$\frac{\overline{\sigma}_{N}-\overline{\sigma}_{10000}}{\overline{\sigma}_{10000}}$', fontsize=18)
         plt.tight_layout()
         plt.savefig(figname)
 
