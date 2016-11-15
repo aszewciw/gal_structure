@@ -55,7 +55,7 @@ def main():
         plt.clf()
         plt.figure(1)
 
-        dd_mean_true = np.std(dd, axis=0)
+        dd_std_true = np.std(dd, axis=0)
 
         for i in range(len(Nmock_list)):
 
