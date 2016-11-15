@@ -39,7 +39,7 @@ def main():
     bin_cent = np.round(bin_cent, 3)
 
     Nmock_list = [50, 100, 500, 1000, 5000]
-    color_list = ['red', 'yellow', 'green', 'blue', 'magneta']
+    color_list = ['red', 'yellow', 'green', 'blue', 'magenta']
 
     file_list = []
 
