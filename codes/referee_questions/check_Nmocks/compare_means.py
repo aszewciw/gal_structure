@@ -44,8 +44,6 @@ def main():
 
     file_list = []
 
-    np.random.seed()
-
     for ID in ID_list:
 
         print('On pointing number ' + ID)
@@ -65,8 +63,6 @@ def main():
 
             N = Nmock_list[i]
 
-            np.random.shuffle(dd)
-
             dd_new = dd[:N]
 
             dd_mean = np.mean(dd_new, axis=0)
@@ -79,7 +75,7 @@ def main():
         plt.axis([min(bin_cent), max(bin_cent), -0.2, 0.2])
         figname='mean_' + ID + '.png'
         plt.xlabel('Bin Center (kpc)', fontsize=10)
-        plt.ylabel(r'$\frac{\bar{DD_{N}}-\bar{DD_{10000}}}{\bar{DD_{10000}}}$', fontsize=18)
+        plt.ylabel(r'$\frac{\overline{DD_{N}}-\overline{DD_{10000}}}{\overline{DD_{10000}}}$', fontsize=18)
         plt.tight_layout()
         plt.savefig(figname)
 
