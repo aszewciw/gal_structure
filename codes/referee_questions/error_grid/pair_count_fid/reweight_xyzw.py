@@ -9,7 +9,7 @@ import numpy as np
 
 #--------------------------------------------------------------------------
 
-def gal_weights(Z, R, model):
+def gal_weights(Z, R):
     '''
     Returns a weight based on a particular model of the MW.
     For now we will use a two-disk model with the form below.
