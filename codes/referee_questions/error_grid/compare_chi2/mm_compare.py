@@ -42,7 +42,7 @@ def main():
         dd = np.genfromtxt(dd_file)
 
         mocks_fid_dir = '../500_mocks_fid/errors_pairs/data/mean_var_std/'
-        mock_fid_file = modA_err_dir + 'stats_' + ID + '.dat'
+        mock_fid_file = mocks_fid_dir + 'stats_' + ID + '.dat'
         mm_mean_fid, std_fid = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
         frac_std = std_fid / mm_mean_fid
@@ -54,7 +54,7 @@ def main():
             if Z=='233': Z=='fid'
 
             mocks_dir = '../500_mocks_' + Z + '/errors_pairs/data/mean_var_std/'
-            mock_file = modA_err_dir + 'stats_' + ID + '.dat'
+            mock_file = mocks_dir + 'stats_' + ID + '.dat'
             mm_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
             pairs_dir = 'pair_count_' + Z + '/data/'
