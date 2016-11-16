@@ -86,7 +86,7 @@ def main():
     chi2_nonuni_frac = (chi2_nonuni - chi2_true / chi2_true)
 
     z0_thin = np.asarray(z0_thin)
-    z0_thin /= 1000.
+    z0_thin /= 1000.0
 
     plt.clf()
     plt.figure(1)
