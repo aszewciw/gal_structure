@@ -51,7 +51,7 @@ def main():
 
             Z = str(z0_thin[j])
 
-            if Z=='233': Z=='fid'
+            if Z=='233': Z='fid'
 
             mocks_dir = '../500_mocks_' + Z + '/errors_pairs/data/mean_var_std/'
             mock_file = mocks_dir + 'stats_' + ID + '.dat'
