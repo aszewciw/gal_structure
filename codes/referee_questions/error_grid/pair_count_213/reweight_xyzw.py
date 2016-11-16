@@ -23,7 +23,7 @@ def gal_weights(Z, R):
     # Parameters
     thick_s_height = 0.674
     thick_s_length = 2.51
-    thin_s_height = 0.233
+    thin_s_height = 0.213
     thin_s_length = 2.34
     a = 0.1
 
