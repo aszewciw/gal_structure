@@ -43,7 +43,7 @@ def main():
 
         mocks_fid_dir = '../500_mocks_fid/errors_pairs/data/mean_var_std/'
         mock_fid_file = mocks_fid_dir + 'stats_' + ID + '.dat'
-        mm_mean_fid, std_fid = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
+        mm_mean_fid, std_fid = np.genfromtxt(mock_fid_file, unpack=True, usecols=[0,2])
 
         frac_std = std_fid / mm_mean_fid
 
