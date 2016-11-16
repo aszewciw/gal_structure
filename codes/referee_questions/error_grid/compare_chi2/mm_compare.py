@@ -57,7 +57,7 @@ def main():
             mock_file = mocks_dir + 'stats_' + ID + '.dat'
             mm_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
-            pairs_dir = 'pair_count_' + Z + '/data/'
+            pairs_dir = '../pair_count_' + Z + '/data/'
             uni_file = pairs_dir + 'mm_uni_' + ID + '.dat'
             mm_uni = np.genfromtxt(uni_file)
 
