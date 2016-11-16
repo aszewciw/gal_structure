@@ -47,8 +47,8 @@ def main():
     for ID in ID_list:
 
         # Load dd counts from whichever model we deemed "truth"
-        dd_file = dd_dir + 'mod_mm_' + ID + '.dat'
-        dd = np.genfromtxt(dd_file)
+        dd_file = dd_dir + 'mock_pairs_' + ID + '.dat'
+        dd = np.genfromtxt(dd_file, unpack=True, usecols=[5])
 
         mocks_fid_dir = '../500_mocks_fid/errors_pairs/data/mean_var_std/'
         mock_fid_file = mocks_fid_dir + 'stats_' + ID + '.dat'
