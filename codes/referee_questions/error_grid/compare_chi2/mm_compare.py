@@ -82,8 +82,8 @@ def main():
                 chi2_nonuni[j] += ( (mm_nonuni[i] - DD) / std_est )**2
 
 
-    chi2_uni_frac = (chi2_uni - chi2_true / chi2_true)
-    chi2_nonuni_frac = (chi2_nonuni - chi2_true / chi2_true)
+    chi2_uni_frac = (chi2_uni - chi2_true) / chi2_true
+    chi2_nonuni_frac = (chi2_nonuni - chi2_true) / chi2_true
 
     z0_thin = np.asarray(z0_thin)
     z0_thin = z0_thin/1000.0
