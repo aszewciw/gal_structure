@@ -90,19 +90,26 @@ def main():
 
     plt.clf()
     plt.figure(1)
-    # plt.axis([0.5, 3.5, 1700, 3400])
     plt.xlabel('z0_{thin}')
     plt.ylabel(r'$\frac{(\chi_{est}^2-\chi_{true}^2)}{\chi_{true}^2}$',fontsize=20)
     plt.plot(z0_thin, chi2_uni_frac, marker='*', label='uniform')
     plt.plot(z0_thin, chi2_nonuni_frac, marker='^', label='nonuniform')
     plt.legend(numpoints=1, loc='upper left')
     plt.tight_layout()
-
     fig_name = plots_dir + 'chi2_z0_thin.png'
-
     plt.savefig(fig_name)
 
     plt.clf()
+    plt.figure(2)
+    plt.xlabel('z0_{thin}')
+    plt.ylabel(r'$\chi^2$')
+    plt.plot(z0_thin, chi2_uni, marker='*', label='uniform')
+    plt.plot(z0_thin, chi2_nonuni, marker='^', label='nonuniform')
+    plt.plot(z0_thin, chi2_true, marker='s', label='true')
+    plt.legend(numpoints=1, loc='upper left')
+    plt.tight_layout()
+    fig_name = plots_dir + 'chi2_z0_thin.png'
+    plt.savefig(fig_name)
 
 if __name__ == '__main__':
     main()
