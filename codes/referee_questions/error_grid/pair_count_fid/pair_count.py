@@ -28,12 +28,24 @@ def main():
             sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
             continue
 
-        output_file = data_dir + 'mm_' + p + '.dat'
+        output_file = data_dir + 'mm_nonuni_' + p + '.dat'
 
         cmd = ( './pair_count ' + in_file + ' ' + bins_file
             + ' > ' + output_file )
         os.system(cmd)
 
+        # uniform
+        in_file = data_dir + 'uni_reweighted_' + p + '.xyzw.dat'
+
+        if not os.path.isfile(in_file):
+            sys.stderr.write('Error: ' + in_file + ' does not exist.\n')
+            continue
+
+        output_file = data_dir + 'mm_uni_' + p + '.dat'
+
+        cmd = ( './pair_count ' + in_file + ' ' + bins_file
+            + ' > ' + output_file )
+        os.system(cmd)
 
 if __name__ == '__main__':
     main()
