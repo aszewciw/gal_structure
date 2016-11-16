@@ -14,6 +14,15 @@ Make a gif from the files.
 
 def main():
 
+    elements_needed = int(2)
+    args_array      = np.array(sys.argv)
+    N_args          = len(args_array)
+    assert(N_args == elements_needed)
+    zthin_flag = args_array[1]
+    mock_num   = args_array[2]
+
+    dd_dir = '../500_mocks_' + zthin_flag + '/errors_pairs/data/mock_' + mock_num + '/'
+
     # Load list of pointing IDs
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID_list   = np.genfromtxt(todo_file, skip_header=1, usecols=[0], unpack=True,
@@ -96,7 +105,7 @@ def main():
     plt.plot(z0_thin, chi2_nonuni_frac, marker='^', label='nonuniform')
     plt.legend(numpoints=1, loc='upper left')
     plt.tight_layout()
-    fig_name = plots_dir + 'chi2_frac_z0_thin.png'
+    fig_name = plots_dir + 'chi2_frac_z' + zthin_flag + '_m' + mock_num + '.png'
     plt.savefig(fig_name)
 
     plt.clf()
@@ -108,7 +117,7 @@ def main():
     plt.plot(z0_thin, chi2_true, marker='s', label='true')
     plt.legend(numpoints=1, loc='upper left')
     plt.tight_layout()
-    fig_name = plots_dir + 'chi2_z0_thin.png'
+    fig_name = plots_dir + 'chi2_z' + zthin_flag + '_m' + mock_num + '.png'
     plt.savefig(fig_name)
 
 if __name__ == '__main__':
