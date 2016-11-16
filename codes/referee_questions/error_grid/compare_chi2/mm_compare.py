@@ -61,7 +61,7 @@ def main():
             uni_file = pairs_dir + 'mm_uni_' + ID + '.dat'
             mm_uni = np.genfromtxt(uni_file)
 
-            nonuni_file = pairs_dir + 'mm_uni_' + ID + '.dat'
+            nonuni_file = pairs_dir + 'mm_nonuni_' + ID + '.dat'
             mm_nonuni = np.genfromtxt(nonuni_file)
 
 
