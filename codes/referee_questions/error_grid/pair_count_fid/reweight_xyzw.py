@@ -74,9 +74,10 @@ def main():
 
         for i in range(len(x_u)):
 
-            Z, R = xyz_to_ZR(x[i],y[i],z[i])
-            w_u_new[i] = gal_weights(Z,R)
-            w_n_new[i] = w_u_new[i] / w_n[i]
+            Z_u, R_u = xyz_to_ZR(x_u[i],y_u[i],z_u[i])
+            Z_n, R_n = xyz_to_ZR(x_n[i],y_n[i],z_n[i])
+            w_u_new[i] = gal_weights(Z_u, R_u)
+            w_n_new[i] = gal_weights(Z_n, R_n) / w_n[i]
 
         # output xyzw
         output_filename = data_dir + 'nonuni_reweighted_'+ p + '.xyzw.dat'
