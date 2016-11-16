@@ -24,9 +24,9 @@ PLATE_RADIUS_RADIANS = math.radians(PLATE_RADIUS_DEGREES)
 INNER_DISTANCE_LIMIT = 1.0
 OUTER_DISTANCE_LIMIT = 3.0
 
-rawdata_dir = '../../data/'
-bins_dir    = '../../mcmc_mock/data/rbins/'
-mock_dir    = '../prepare_mocks/data/'
+rawdata_dir = '../../../data/'
+bins_dir    = '../../../mcmc_mock/data/rbins/'
+mock_dir    = '../../prepare_mocks/data/'
 data_dir    = './data/'
 stats_dir   = data_dir + 'mean_var_std/'
 
