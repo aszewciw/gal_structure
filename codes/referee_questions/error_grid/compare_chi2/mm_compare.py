@@ -96,7 +96,7 @@ def main():
     plt.plot(z0_thin, chi2_nonuni_frac, marker='^', label='nonuniform')
     plt.legend(numpoints=1, loc='upper left')
     plt.tight_layout()
-    fig_name = plots_dir + 'chi2_z0_thin.png'
+    fig_name = plots_dir + 'chi2_frac_z0_thin.png'
     plt.savefig(fig_name)
 
     plt.clf()
