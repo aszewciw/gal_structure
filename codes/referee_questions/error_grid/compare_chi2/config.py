@@ -26,6 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 plots_dir    = './plots/'
+rbins_dir = '../../mcmc_mock/data/rbins/'
 dd_dir       = '../pair_count_mock/data/'
 
 R_min = 0.005
