@@ -58,9 +58,9 @@ def main():
     png_list = []
     png_frac_list = []
 
-    for z in z0_thin:
+    for k in range(len(z0_thin)):
 
-        z = str(z)
+        z = str(z0_thin[k])
         if z=='233': z='fid'
 
         dd_dir = '../500_mocks_' + z + '/errors_pairs/data/mock_' + mock_num + '/'
@@ -125,10 +125,12 @@ def main():
 
         plt.clf()
         plt.figure(1)
-        plt.xlabel('z0_{thin}')
+        plt.xlabel(r'$z0_{thin}$')
         plt.ylabel(r'$\frac{(\chi_{est}^2-\chi_{true}^2)}{\chi_{true}^2}$',fontsize=20)
-        plt.plot(z0, chi2_uni_frac, marker='*', label='uniform')
-        plt.plot(z0, chi2_nonuni_frac, marker='^', label='nonuniform')
+        plt.plot(z0, chi2_uni_frac, marker='*', color='blue', label='uniform')
+        plt.plot(z0[k], chi2_uni_frac[k], marker='o', color='cyan', size=15)
+        plt.plot(z0, chi2_nonuni_frac, marker='^', color='green', label='nonuniform')
+        plt.plot(z0[k], chi2_nonuni_frac[k], marker='o', color='cyan', size=15)
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         fig_name = plots_dir + 'chi2_frac_z' + z + '_m' + mock_num + '.png'
@@ -137,11 +139,14 @@ def main():
 
         plt.clf()
         plt.figure(2)
-        plt.xlabel('z0_{thin}')
+        plt.xlabel(r'$z0_{thin}$')
         plt.ylabel(r'$\chi^2$')
-        plt.plot(z0, chi2_uni, marker='*', label='uniform')
-        plt.plot(z0, chi2_nonuni, marker='^', label='nonuniform')
-        plt.plot(z0, chi2_true, marker='s', label='true')
+        plt.plot(z0, chi2_uni, marker='*', color='blue', label='uniform')
+        plt.plot(z0[k], chi2_uni[k], marker='o', color='cyan', size=15)
+        plt.plot(z0, chi2_nonuni, marker='^', color='green', label='nonuniform')
+        plt.plot(z0[k], chi2_nonuni[k], marker='o', color='cyan', size=15)
+        plt.plot(z0, chi2_true, marker='s', color='red', label='true')
+        plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', size=15)
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
@@ -151,8 +156,8 @@ def main():
     frac_gif = plots_dir + 'chi2_frac_m' + mock_num + '.gif'
     chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
-    GIF_MOVIE(png_frac_list, frac_gif, removef=True)
-    GIF_MOVIE(png_list, chi2_gif, removef=True)
+    GIF_MOVIE(png_frac_list, frac_gif, delay=120, removef=True)
+    GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
 
 if __name__ == '__main__':
     main()
