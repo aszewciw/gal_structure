@@ -119,15 +119,15 @@ def main():
         chi2_uni_frac = (chi2_uni - chi2_true) / chi2_true
         chi2_nonuni_frac = (chi2_nonuni - chi2_true) / chi2_true
 
-        z0_thin = np.asarray(z0_thin)
-        z0_thin = z0_thin/1000.0
+        z0 = np.asarray(z0_thin)
+        z0 = z0_thin/1000.0
 
         plt.clf()
         plt.figure(1)
         plt.xlabel('z0_{thin}')
         plt.ylabel(r'$\frac{(\chi_{est}^2-\chi_{true}^2)}{\chi_{true}^2}$',fontsize=20)
-        plt.plot(z0_thin, chi2_uni_frac, marker='*', label='uniform')
-        plt.plot(z0_thin, chi2_nonuni_frac, marker='^', label='nonuniform')
+        plt.plot(z0, chi2_uni_frac, marker='*', label='uniform')
+        plt.plot(z0, chi2_nonuni_frac, marker='^', label='nonuniform')
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         fig_name = plots_dir + 'chi2_frac_z' + z + '_m' + mock_num + '.png'
@@ -138,9 +138,9 @@ def main():
         plt.figure(2)
         plt.xlabel('z0_{thin}')
         plt.ylabel(r'$\chi^2$')
-        plt.plot(z0_thin, chi2_uni, marker='*', label='uniform')
-        plt.plot(z0_thin, chi2_nonuni, marker='^', label='nonuniform')
-        plt.plot(z0_thin, chi2_true, marker='s', label='true')
+        plt.plot(z0, chi2_uni, marker='*', label='uniform')
+        plt.plot(z0, chi2_nonuni, marker='^', label='nonuniform')
+        plt.plot(z0, chi2_true, marker='s', label='true')
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
