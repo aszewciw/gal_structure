@@ -61,6 +61,7 @@ def main():
     for z in z0_thin:
 
         z = str(z)
+        if z=='233': z='fid'
 
         dd_dir = '../500_mocks_' + z + '/errors_pairs/data/mock_' + mock_num + '/'
 
