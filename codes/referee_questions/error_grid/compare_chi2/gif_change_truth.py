@@ -152,7 +152,7 @@ def main():
     chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
     GIF_MOVIE(png_frac_list, frac_gif, removef=True)
-    GIF_MOVIE(png_list, frac_gif, removef=True)
+    GIF_MOVIE(png_list, chi2_gif, removef=True)
 
 if __name__ == '__main__':
     main()
