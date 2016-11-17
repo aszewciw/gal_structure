@@ -120,7 +120,7 @@ def main():
         chi2_nonuni_frac = (chi2_nonuni - chi2_true) / chi2_true
 
         z0 = np.asarray(z0_thin)
-        z0 = z0_thin/1000.0
+        z0 = z0/1000.0
 
         plt.clf()
         plt.figure(1)
