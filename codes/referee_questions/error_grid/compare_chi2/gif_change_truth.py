@@ -125,7 +125,7 @@ def main():
 
         plt.clf()
         plt.figure(1)
-        plt.xlabel(r'$z0_{thin}$')
+        plt.xlabel(r'$z_{0,thin}$')
         plt.ylabel(r'$\frac{(\chi_{est}^2-\chi_{true}^2)}{\chi_{true}^2}$',fontsize=20)
         plt.plot(z0, chi2_uni_frac, marker='*', color='blue', label='uniform')
         plt.plot(z0[k], chi2_uni_frac[k], marker='o', color='cyan', markersize=15)
@@ -139,7 +139,7 @@ def main():
 
         plt.clf()
         plt.figure(2)
-        plt.xlabel(r'$z0_{thin}$')
+        plt.xlabel(r'$z_{0,thin}$')
         plt.ylabel(r'$\chi^2$')
         plt.plot(z0, chi2_uni, marker='*', color='blue', label='uniform')
         plt.plot(z0[k], chi2_uni[k], marker='o', color='cyan', markersize=15)
