@@ -32,11 +32,15 @@ def GIF_MOVIE(files, output_gif, delay=60, repeat=True, removef=False):
 
 def main():
 
-    elements_needed = int(2)
+    elements_needed = int(3)
     args_array      = np.array(sys.argv)
     N_args          = len(args_array)
     assert(N_args == elements_needed)
     z0_true   = args_array[1]
+    N_frames = int(args_array[2])
+
+    if N_frames > 100:
+        N_frames = 50
 
     # Load list of pointing IDs
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
@@ -59,15 +63,11 @@ def main():
 
     if z0_true=='233': z0_true='fid'
 
-    dd_dir = '../500_mocks_' + z0_true + '/errors_pairs/data/mock_' + mock_num + '/'
+    for k in range(1, N_frames):
 
+        mock_num = str(k)
 
-    for k in range(len(z0_thin)):
-
-        z = str(z0_thin[k])
-        if z=='233': z='fid'
-
-        dd_dir = '../500_mocks_' + z + '/errors_pairs/data/mock_' + mock_num + '/'
+        dd_dir = '../500_mocks_' + z0_true + '/errors_pairs/data/mock_' + mock_num + '/'
 
         chi2_true = np.zeros(len(z0_thin))
         chi2_uni  = np.zeros(len(z0_thin))
@@ -137,7 +137,7 @@ def main():
         plt.plot(z0[k], chi2_nonuni_frac[k], marker='o', color='cyan', markersize=15)
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
-        fig_name = plots_dir + 'chi2_frac_z' + z + '_m' + mock_num + '.png'
+        fig_name = plots_dir + 'chi2_data_frac_z' + z0_true + '_m' + mock_num + '.png'
         plt.savefig(fig_name)
         png_frac_list.append(fig_name)
 
@@ -154,15 +154,15 @@ def main():
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
-        fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
+        fig_name = plots_dir + 'chi2_data_z' + z0_true + '_m' + mock_num + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-    frac_gif = plots_dir + 'chi2_frac_m' + mock_num + '.gif'
-    chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
+    frac_gif = plots_dir + 'chi2_data_frac_z' + z0_true + '_m' + str(N_frames) + '.gif'
+    chi2_gif = plots_dir + 'chi2_data_z' + z0_true + '_m' + str(N_frames) + '.gif'
 
-    GIF_MOVIE(png_frac_list, frac_gif, delay=120, removef=True)
-    GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
+    GIF_MOVIE(png_frac_list, frac_gif, removef=True)
+    GIF_MOVIE(png_list, chi2_gif, removef=True)
 
 if __name__ == '__main__':
     main()
