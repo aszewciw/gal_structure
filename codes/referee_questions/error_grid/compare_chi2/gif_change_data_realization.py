@@ -58,6 +58,11 @@ def main():
 
     z0_thin = [183, 193, 203, 213, 223, 233, 243, 253, 263, 273, 283, 293, 303, 313, 323]
 
+    for i in range(len(z0_thin)):
+        if z0_thin[i]==int(z0_true):
+            true_index = i
+            break
+
     png_list = []
     png_frac_list = []
 
@@ -132,9 +137,9 @@ def main():
         plt.xlabel(r'$z_{0,thin}$', fontsize=18)
         plt.ylabel(r'$\frac{(\chi_{est}^2-\chi_{true}^2)}{\chi_{true}^2}$',fontsize=20)
         plt.plot(z0, chi2_uni_frac, marker='*', color='blue', label='uniform')
-        plt.plot(z0[k], chi2_uni_frac[k], marker='o', color='cyan', markersize=15)
+        plt.plot(z0[true_index], chi2_uni_frac[true_index], marker='o', color='cyan', markersize=15)
         plt.plot(z0, chi2_nonuni_frac, marker='^', color='green', label='nonuniform')
-        plt.plot(z0[k], chi2_nonuni_frac[k], marker='o', color='cyan', markersize=15)
+        plt.plot(z0[true_index], chi2_nonuni_frac[true_index], marker='o', color='cyan', markersize=15)
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         fig_name = plots_dir + 'chi2_data_frac_z' + z0_true + '_m' + mock_num + '.png'
@@ -146,11 +151,11 @@ def main():
         plt.xlabel(r'$z_{0,thin}$', fontsize=18)
         plt.ylabel(r'$\chi^2$', fontsize=18)
         plt.plot(z0, chi2_uni, marker='*', color='blue', label='uniform')
-        plt.plot(z0[k], chi2_uni[k], marker='o', color='cyan', markersize=15)
+        plt.plot(z0[true_index], chi2_uni[true_index], marker='o', color='cyan', markersize=15)
         plt.plot(z0, chi2_nonuni, marker='^', color='green', label='nonuniform')
-        plt.plot(z0[k], chi2_nonuni[k], marker='o', color='cyan', markersize=15)
+        plt.plot(z0[true_index], chi2_nonuni[true_index], marker='o', color='cyan', markersize=15)
         plt.plot(z0, chi2_true, marker='s', color='red', label='true')
-        plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
+        plt.plot(z0[true_index], chi2_true[true_index], marker='o', color='cyan', markersize=15)
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
