@@ -22,7 +22,7 @@ def main():
     input_file.close()
 
     # Load bins information -- this is made in a separate place
-    bins_file = bins_dir + 'rbins.ascii.dat'
+    bins_file = rbins_dir + 'rbins.ascii.dat'
     if not os.path.isfile(bins_file):
         sys.stderr.write('Error: ' + bins_file + ' does not exist.\n')
 
