@@ -81,7 +81,7 @@ def main():
             np.savetxt(output_filename, DD_all, fmt='%.6e')
 
             # Reload data as a pandas df because I'm stupid
-            DF = pd.read_csv(counts_filename, sep='\s+', names=col_names)
+            DF = pd.read_csv(output_filename, sep='\s+', names=col_names)
 
             corr = DF.corr()
             output_filename = out_dir + 'z0thin_' + str(z) + 'corr_mat_' + p.ID + '.dat'
