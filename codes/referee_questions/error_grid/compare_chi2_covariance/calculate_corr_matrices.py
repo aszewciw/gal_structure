@@ -1,4 +1,5 @@
 from config import *
+import pandas as pd
 
 '''
 output file containing all normalized pair counts for use in pandas calculation
