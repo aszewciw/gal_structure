@@ -113,9 +113,9 @@ def main():
             corr_fid = np.genfromtxt(corr_filename)
             inv_corr_fid = linalg.inv(corr_fid)
 
-            for j in range(len(z0_thin)):
+            for f in range(len(z0_thin)):
 
-                Z = str(z0_thin[j])
+                Z = str(z0_thin[f])
 
                 # Load real mean and std
                 mocks_dir = '../5000_mocks_' + Z + '/errors_pairs/data/mean_var_std/'
@@ -165,11 +165,11 @@ def main():
                         std_est_j = frac_std[j]*model_est_j
 
                         # uniform estimated
-                        chi2_true[j] += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij
+                        chi2_true[f] += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij
                             / (std_true_i*std_true_j) )
 
                         # nonuniform estimated
-                        chi2_nonuni[j] += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
+                        chi2_nonuni[f] += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
                             / (std_est_i*std_est_j) )
 
                         # # Use weighted random mm and true std
