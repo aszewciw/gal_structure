@@ -76,7 +76,7 @@ def main():
                             usecols=[5] )
 
             # Output data
-            output_filename = ( out_dir + 'z0thin_' + str(z) + 'normed_counts_all_'
+            output_filename = ( out_dir + 'z0thin_' + str(z) + '_normed_counts_all_'
                                 + p.ID + '.dat')
             np.savetxt(output_filename, DD_all, fmt='%.6e')
 
@@ -84,7 +84,7 @@ def main():
             DF = pd.read_csv(output_filename, sep='\s+', names=col_names)
 
             corr = DF.corr()
-            output_filename = out_dir + 'z0thin_' + str(z) + 'corr_mat_' + p.ID + '.dat'
+            output_filename = out_dir + 'z0thin_' + str(z) + '_corr_mat_' + p.ID + '.dat'
             np.savetxt(output_filename, corr.values, fmt='%.6e')
 
 if __name__ == '__main__':
