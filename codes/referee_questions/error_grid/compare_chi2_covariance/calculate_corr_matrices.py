@@ -44,7 +44,7 @@ def main():
     col_names = np.asarray(col_names)
 
     # param_list = [183, 193, 203, 213, 223, 233, 243, 253, 263, 273]
-    param_list = [283]
+    param_list = [183, 283]
 
 
     for z in param_list:
