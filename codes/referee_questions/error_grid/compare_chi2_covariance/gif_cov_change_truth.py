@@ -109,7 +109,7 @@ def main():
             frac_std = std_fid / mm_mean_fid
 
             # Load correlation matrix of fiducial and invert
-            corr_filename = out_dir + 'z0thin_233_corr_mat_' + p.ID + '.dat'
+            corr_filename = out_dir + 'z0thin_233_corr_mat_' + ID + '.dat'
             corr_fid = np.genfromtxt(corr_filename)
             inv_corr_fid = linalg.inv(corr_fid)
 
@@ -125,7 +125,7 @@ def main():
                 mm_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
                 # Load real correlation matrix
-                corr_filename = out_dir + 'z0thin_' + str(z) + '_corr_mat_' + p.ID + '.dat'
+                corr_filename = out_dir + 'z0thin_' + str(z) + '_corr_mat_' + ID + '.dat'
                 corr = np.genfromtxt(corr_filename)
                 inv_corr = linalg.inv(corr)
 
