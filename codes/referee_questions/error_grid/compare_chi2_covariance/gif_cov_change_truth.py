@@ -200,6 +200,9 @@ def main():
         plt.savefig(fig_name)
         # png_list.append(fig_name)
 
+        print(chi2_true)
+        print(chi2_nonuni)
+
     # chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
     # GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
