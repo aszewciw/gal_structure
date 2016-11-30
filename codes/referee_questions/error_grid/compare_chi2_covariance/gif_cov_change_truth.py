@@ -79,9 +79,10 @@ def main():
 
     for k in range(len(z0_thin)):
 
-        if k>0: continue
+        # if k>0: continue
 
         z = str(z0_thin[k])
+        print('On truth being ' + z)
 
         dd_dir = '../5000_mocks_' + z + '/errors_pairs/data/mock_' + mock_num + '/'
 
