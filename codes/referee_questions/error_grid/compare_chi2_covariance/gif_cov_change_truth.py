@@ -130,8 +130,8 @@ def main():
                 inv_corr = linalg.inv(corr)
 
                 # Load nonuniform estimated mean
-                pairs_dir = '../pair_count_' + Z + '/data/'
                 if Z == '233': Z = 'fid'
+                pairs_dir = '../pair_count_' + Z + '/data/'
                 nonuni_file = pairs_dir + 'mm_nonuni_' + ID + '.dat'
                 mm_nonuni = np.genfromtxt(nonuni_file)
 
