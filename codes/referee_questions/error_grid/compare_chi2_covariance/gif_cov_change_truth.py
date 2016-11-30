@@ -43,6 +43,12 @@ def GIF_MOVIE(files, output_gif, delay=60, repeat=True, removef=False):
 
 def main():
 
+    elements_needed = int(2)
+    args_array      = np.array(sys.argv)
+    N_args          = len(args_array)
+    assert(N_args == elements_needed)
+    mock_num   = args_array[1]
+
     # Load list of pointing IDs
     todo_file = rawdata_dir + 'todo_list.ascii.dat'
     ID_list   = np.genfromtxt(todo_file, skip_header=1, usecols=[0], unpack=True,
