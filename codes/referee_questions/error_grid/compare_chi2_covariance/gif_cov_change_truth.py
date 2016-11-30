@@ -198,14 +198,14 @@ def main():
         # plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
         fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
         plt.savefig(fig_name)
-        # png_list.append(fig_name)
+        png_list.append(fig_name)
 
-        print(chi2_true)
-        print(chi2_nonuni)
+        # print(chi2_true)
+        # print(chi2_nonuni)
 
-    # chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
+    chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
-    # GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
+    GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
 
 
         # print('\nResults of chi-squared measurements for diffferent instances:\n')
