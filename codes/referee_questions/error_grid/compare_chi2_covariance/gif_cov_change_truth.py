@@ -169,7 +169,7 @@ def main():
                             / (std_true_i*std_true_j) )
 
                         # nonuniform estimated
-                        chi2_nonuni[f] += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
+                        chi2_nonuni[f] += ( (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
                             / (std_est_i*std_est_j) )
 
                         # # Use weighted random mm and true std
