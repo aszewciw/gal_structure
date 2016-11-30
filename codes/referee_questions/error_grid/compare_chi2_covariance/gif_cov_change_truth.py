@@ -73,7 +73,7 @@ def main():
     # Recast as array
     col_names = np.asarray(col_names)
 
-    z0_thin = [183, 193, 203, 213, 223, 233, 243, 253, 263, 273]
+    z0_thin = [183, 193, 203, 213, 223, 233, 243, 253, 263, 273, 283]
 
     png_list = []
 
