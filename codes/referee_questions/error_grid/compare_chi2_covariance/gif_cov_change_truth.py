@@ -183,7 +183,8 @@ def main():
         plt.plot(z0, chi2_true, marker='s', color='red', label='true')
         plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
         plt.plot(z0, chi2_fid, marker='s', color='blue', label='fiducial')
-        plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)        plt.legend(numpoints=1, loc='upper left')
+        plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)
+        plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         # plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
         fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
