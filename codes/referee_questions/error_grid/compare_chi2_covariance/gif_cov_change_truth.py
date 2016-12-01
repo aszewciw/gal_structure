@@ -62,7 +62,7 @@ def main():
 
     png_list = []
 
-    chi2_best = []
+    chi2_dof = []
 
     for k in range(len(z0_thin)):
 
@@ -194,7 +194,7 @@ def main():
         png_list.append(fig_name)
 
         # print(chi2_true[k])
-        chi2_best.append(chi2_true[k])
+        chi2_dof.append(chi2_true[k]/(152*12))
 
     chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
@@ -202,10 +202,10 @@ def main():
 
     plt.clf()
     plt.figure(2)
-    plt.title(r'$\chi^2$ of truth')
+    plt.title(r'$\frac{\chi^2}{d.o.f.}$ of truth')
     plt.xlabel(r'$z_{0,thin}$', fontsize=18)
-    plt.ylabel(r'$\chi^2$', fontsize=18)
-    plt.plot(z0, chi2_best)
+    plt.ylabel(r'$\frac{\chi^2}{d.o.f.}$', fontsize=18)
+    plt.plot(z0, chi2_dof)
     plt.savefig(plots_dir + 'chi2_truths_m' + mock_num + '.png')
 
         # print('\nResults of chi-squared measurements for diffferent instances:\n')
