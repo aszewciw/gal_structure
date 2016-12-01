@@ -206,6 +206,7 @@ def main():
     plt.xlabel(r'$z_{0,thin}$', fontsize=18)
     plt.ylabel(r'$\frac{\chi^2}{d.o.f.}$', fontsize=18)
     plt.plot(z0, chi2_dof)
+    plt.tight_layout()
     plt.savefig(plots_dir + 'chi2_truths_m' + mock_num + '.png')
 
         # print('\nResults of chi-squared measurements for diffferent instances:\n')
