@@ -194,7 +194,7 @@ def main():
         png_list.append(fig_name)
 
         # print(chi2_true[k])
-        chi2_best.append(chi_true[k])
+        chi2_best.append(chi2_true[k])
 
     chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
