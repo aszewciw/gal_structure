@@ -5,21 +5,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-# rawdata_dir  = '../../data/'
-# data_dir     = '../data/'
-# mock_dir     = '../../prepare_mock/data/'
-# uni_dir      = '../../prepare_randoms/data/'
-# errors_dir   = data_dir + 'errors/'
-# mcmc_out_dir = data_dir + 'mcmc_output/'
-# mock_dd_dir  = data_dir + 'mock_dd/'
-# pairs_dir    = data_dir + 'model_pairs/'
-# zrw_dir      = data_dir + 'model_positions/'
-# rbins_dir    = data_dir + 'rbins/'
-# # sigma_dir    = '../../1000_mocks_cut/errors_pairs/data/mean_var_std/'
-# # counts_dir   = '../../1000_mocks_cut/errors_pairs/data/'
-# sigma_dir    = '../../10000_mocks/errors_pairs/data/mean_var_std/'
-# counts_dir   = '../../10000_mocks/errors_pairs/data/'
-
 #------------------------------------------------------------------------------#
 def GIF_MOVIE(files, output_gif, delay=60, repeat=True, removef=False):
     """
@@ -90,8 +75,8 @@ def main():
             dd_dir = '../../10000_mocks/errors_pairs/data/mock_' + mock_num + '/'
 
         chi2_true = np.zeros(len(z0_thin))
-        # chi2_uni  = np.zeros(len(z0_thin))
         chi2_nonuni = np.zeros(len(z0_thin))
+        chi2_fid = np.zeros(len(z0_thin))
 
         # Calculate correlation matrix for each l.o.s.
         for ID in ID_list:
@@ -165,21 +150,24 @@ def main():
                         std_est_i = frac_std[i]*model_est_i
                         std_est_j = frac_std[j]*model_est_j
 
+                        # Fiducial standard deviation
+                        std_fid_i = std[i]
+                        std_fid_j = std[j]
+
                         # uniform estimated
-                        chi2_true[f] += ( (data_i-model_true_i) * (data_j-model_true_j) * r_ij
+                        chi2_true[f] += (
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij
                             / (std_true_i*std_true_j) )
 
                         # nonuniform estimated
-                        chi2_nonuni[f] += ( (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
+                        chi2_nonuni[f] += (
+                            (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
                             / (std_est_i*std_est_j) )
 
-                        # # Use weighted random mm and true std
-                        # chi2_et_cov += ( (data_i-model_est_i) * (data_j-model_est_j) * r_ij
-                        #     / (std_true_i*std_true_j) )
+                        chi2_fid[f] += (
+                            (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
+                            / (std_fid_i*std_fid_j) )
 
-                        # # Use weighted random mm and estimated std
-                        # chi2_ee_cov += ( (data_i-model_est_i) * (data_j-model_est_j) * r_ij
-                        #     / (std_est_i*std_est_j) )
 
         z0 = np.asarray(z0_thin)
         z0 = z0/1000.0
@@ -194,7 +182,8 @@ def main():
         plt.plot(z0[k], chi2_nonuni[k], marker='o', color='cyan', markersize=15)
         plt.plot(z0, chi2_true, marker='s', color='red', label='true')
         plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
-        plt.legend(numpoints=1, loc='upper left')
+        plt.plot(z0, chi2_fid, marker='s', color='blue', label='fiducial')
+        plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)        plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         # plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
         fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
