@@ -202,7 +202,7 @@ def main():
 
     plt.clf()
     plt.figure(2)
-    plt.title(r'$\frac{\chi^2}{d.o.f.}$ of truth')
+    plt.title(r'$\chi^2$/d.o.f. of truth')
     plt.xlabel(r'$z_{0,thin}$', fontsize=18)
     plt.ylabel(r'$\frac{\chi^2}{d.o.f.}$', fontsize=18)
     plt.plot(z0, chi2_dof)
