@@ -62,6 +62,8 @@ def main():
 
     png_list = []
 
+    chi2_best = []
+
     for k in range(len(z0_thin)):
 
         # if k>0: continue
@@ -191,12 +193,20 @@ def main():
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-        print(chi2_true[k])
+        # print(chi2_true[k])
+        chi2_best.append(chi_true[k])
 
     chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
     GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
 
+    plt.clf()
+    plt.figure(2)
+    plt.title(r'$\chi^2$ of truth')
+    plt.xlabel(r'$z_{0,thin}$', fontsize=18)
+    plt.ylabel(r'$\chi^2$', fontsize=18)
+    plt.plot(z0, chi2_best)
+    plt.savefig(plots_dir + 'chi2_truths_m' + mock_num + '.png')
 
         # print('\nResults of chi-squared measurements for diffferent instances:\n')
         # print('Using true mean and true stdev:')
