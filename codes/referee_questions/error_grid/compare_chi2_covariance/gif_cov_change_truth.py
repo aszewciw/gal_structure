@@ -191,8 +191,7 @@ def main():
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
-        # print(chi2_true)
-        # print(chi2_nonuni)
+        print(chi2_true[k])
 
     chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
 
