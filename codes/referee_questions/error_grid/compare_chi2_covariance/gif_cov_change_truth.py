@@ -141,8 +141,8 @@ def main():
                         model_est_j = mm_nonuni[j]
 
                         # Inverse correlation matrix element
-                        r_ij_fid = inv_corr_fid[i,j]
-                        r_ij = inv_corr[i,j]
+                        r_ij_fid  = inv_corr_fid[i,j]
+                        r_ij_true = inv_corr[i,j]
 
                         # Actual standard deviations from 1000 mocks
                         std_true_i = std[i]
@@ -153,12 +153,12 @@ def main():
                         std_est_j = frac_std[j]*model_est_j
 
                         # Fiducial standard deviation
-                        std_fid_i = std[i]
-                        std_fid_j = std[j]
+                        std_fid_i = std_fid[i]
+                        std_fid_j = std_fid[j]
 
                         # uniform estimated
                         chi2_true[f] += (
-                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij_true
                             / (std_true_i*std_true_j) )
 
                         # nonuniform estimated
@@ -208,17 +208,6 @@ def main():
     plt.plot(z0, chi2_dof)
     plt.tight_layout()
     plt.savefig(plots_dir + 'chi2_truths_m' + mock_num + '.png')
-
-        # print('\nResults of chi-squared measurements for diffferent instances:\n')
-        # print('Using true mean and true stdev:')
-        # print('     Without covariance: {}, With covariance: {}'.format(chi2_tt, chi2_tt_cov))
-        # print('Using true mean and estimated stdev:')
-        # print('     Without covariance: {}, With covariance: {}'.format(chi2_te, chi2_te_cov))
-        # print('Using estimated mean and true stdev:')
-        # print('     Without covariance: {}, With covariance: {}'.format(chi2_et, chi2_et_cov))
-        # print('Using estimate mean and estimated stdev:')
-        # print('     Without covariance: {}, With covariance: {}'.format(chi2_ee, chi2_ee_cov))
-        # print('\nThere were {}/{} values of dd=0 for this mock.'.format(zero_counts,all_counts))
 
 if __name__ == '__main__':
     main()
