@@ -80,6 +80,30 @@ def main():
         chi2_nonuni = np.zeros(len(z0_thin))
         chi2_fid = np.zeros(len(z0_thin))
 
+        '''
+        Each chi2 naming convention is the following:
+        t - true
+        e - estimated
+        f - fiducial
+
+        1st letter: model
+        2nd letter: correlation matrix element
+        3rd letter: standard deviation
+        '''
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+        chi2_ttt = np.zeros(len(z0_thin))
+
+
         # Calculate correlation matrix for each l.o.s.
         for ID in ID_list:
 
@@ -156,7 +180,8 @@ def main():
                         std_fid_i = std_fid[i]
                         std_fid_j = std_fid[j]
 
-                        # uniform estimated
+
+                        #
                         chi2_true[f] += (
                             (data_i-model_true_i) * (data_j-model_true_j) * r_ij_true
                             / (std_true_i*std_true_j) )
@@ -180,10 +205,10 @@ def main():
         plt.ylabel(r'$\chi^2$', fontsize=18)
         # plt.plot(z0, chi2_uni, marker='*', color='blue', label='uniform')
         # plt.plot(z0[k], chi2_uni[k], marker='o', color='cyan', markersize=15)
-        plt.plot(z0, chi2_nonuni, marker='^', color='green', label='nonuniform')
-        plt.plot(z0[k], chi2_nonuni[k], marker='o', color='cyan', markersize=15)
-        plt.plot(z0, chi2_true, marker='s', color='red', label='true')
-        plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
+        # plt.plot(z0, chi2_nonuni, marker='^', color='green', label='nonuniform')
+        # plt.plot(z0[k], chi2_nonuni[k], marker='o', color='cyan', markersize=15)
+        # plt.plot(z0, chi2_true, marker='s', color='red', label='true')
+        # plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
         plt.plot(z0, chi2_fid, marker='s', color='blue', label='fiducial')
         plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)
         plt.legend(numpoints=1, loc='upper left')
