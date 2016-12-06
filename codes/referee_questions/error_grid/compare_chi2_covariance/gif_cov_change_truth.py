@@ -171,9 +171,13 @@ def main():
                         std_true_i = std[i]
                         std_true_j = std[j]
 
-                        # Estimated standard deviations from 1000 mocks
-                        std_est_i = frac_std[i]*model_est_i
-                        std_est_j = frac_std[j]*model_est_j
+                        # Estimated standard deviations using true model
+                        std_est_mtrue_i = frac_std[i]*model_true_i
+                        std_est_mtrue_j = frac_std[j]*model_true_j
+
+                        # Estimated standard deviations using estimated model
+                        std_est_mest_i = frac_std[i]*model_est_i
+                        std_est_mest_j = frac_std[j]*model_est_j
 
                         # Fiducial standard deviation
                         std_fid_i = std_fid[i]
@@ -196,7 +200,7 @@ def main():
                         # True mean, true correlation, estimated stdev
                         chi2_tte[f] += (
                             (data_i-model_true_i) * (data_j-model_true_j) * r_ij_true
-                            / (std_est_i*std_est_j) )
+                            / (std_est_mtrue_i*std_est_mtrue_j) )
 
                         # True mean, true correlation, fid stdev
                         chi2_ttf[f] += (
@@ -217,7 +221,7 @@ def main():
                         # True mean, fid correlation, estimated stdev
                         chi2_tfe[f] += (
                             (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
-                            / (std_est_i*std_est_j) )
+                            / (std_est_mtrue_i*std_est_mtrue_j) )
 
                         # True mean, fid correlation, fid stdev
                         chi2_tff[f] += (
@@ -238,7 +242,7 @@ def main():
                         # Estimated mean, true correlation, estimated stdev
                         chi2_ete[f] += (
                             (data_i-model_est_i) * (data_j-model_est_j) * r_ij_true
-                            / (std_est_i*std_est_j) )
+                            / (std_est_mest_i*std_est_mest_j) )
 
                         # Estimated mean, true correlation, fid stdev
                         chi2_etf[f] += (
@@ -259,7 +263,7 @@ def main():
                         # Estimated mean, true correlation, estimated stdev
                         chi2_efe[f] += (
                             (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
-                            / (std_est_i*std_est_j) )
+                            / (std_est_mest_i*std_est_mest_j) )
 
                         # Estimated mean, true correlation, fid stdev
                         chi2_eff[f] += (
