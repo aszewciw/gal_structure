@@ -91,18 +91,17 @@ def main():
         3rd letter: standard deviation
         '''
         chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-        chi2_ttt = np.zeros(len(z0_thin))
-
+        chi2_tte = np.zeros(len(z0_thin))
+        chi2_ttf = np.zeros(len(z0_thin))
+        chi2_tft = np.zeros(len(z0_thin))
+        chi2_tfe = np.zeros(len(z0_thin))
+        chi2_tff = np.zeros(len(z0_thin))
+        chi2_ett = np.zeros(len(z0_thin))
+        chi2_ete = np.zeros(len(z0_thin))
+        chi2_etf = np.zeros(len(z0_thin))
+        chi2_eft = np.zeros(len(z0_thin))
+        chi2_efe = np.zeros(len(z0_thin))
+        chi2_eff = np.zeros(len(z0_thin))
 
         # Calculate correlation matrix for each l.o.s.
         for ID in ID_list:
@@ -181,36 +180,169 @@ def main():
                         std_fid_j = std_fid[j]
 
 
-                        #
-                        chi2_true[f] += (
+                        # Calculate all possible chi2 things here
+
+                        #############
+                        '''
+                        True mean, true correlation.
+                        '''
+                        #############
+
+                        # True mean, true correlation, true stdev
+                        chi2_ttt[f] += (
                             (data_i-model_true_i) * (data_j-model_true_j) * r_ij_true
                             / (std_true_i*std_true_j) )
 
-                        # nonuniform estimated
-                        chi2_nonuni[f] += (
+                        # True mean, true correlation, estimated stdev
+                        chi2_tte[f] += (
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij_true
+                            / (std_est_i*std_est_j) )
+
+                        # True mean, true correlation, fid stdev
+                        chi2_ttf[f] += (
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij_true
+                            / (std_fid_i*std_fid_j) )
+
+                        #############
+                        '''
+                        True mean, fiducial correlation.
+                        '''
+                        #############
+
+                        # True mean, fid correlation, true stdev
+                        chi2_tft[f] += (
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
+                            / (std_true_i*std_true_j) )
+
+                        # True mean, fid correlation, estimated stdev
+                        chi2_tfe[f] += (
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
+                            / (std_est_i*std_est_j) )
+
+                        # True mean, fid correlation, fid stdev
+                        chi2_tff[f] += (
+                            (data_i-model_true_i) * (data_j-model_true_j) * r_ij_fid
+                            / (std_fid_i*std_fid_j) )
+
+                        #############
+                        '''
+                        Estimated mean, true correlation.
+                        '''
+                        #############
+
+                        # Estimated mean, true correlation, true stdev
+                        chi2_ett[f] += (
+                            (data_i-model_est_i) * (data_j-model_est_j) * r_ij_true
+                            / (std_true_i*std_true_j) )
+
+                        # Estimated mean, true correlation, estimated stdev
+                        chi2_ete[f] += (
+                            (data_i-model_est_i) * (data_j-model_est_j) * r_ij_true
+                            / (std_est_i*std_est_j) )
+
+                        # Estimated mean, true correlation, fid stdev
+                        chi2_etf[f] += (
+                            (data_i-model_est_i) * (data_j-model_est_j) * r_ij_true
+                            / (std_fid_i*std_fid_j) )
+
+                        #############
+                        '''
+                        Estimated mean, fid correlation.
+                        '''
+                        #############
+
+                        # Estimated mean, true correlation, true stdev
+                        chi2_eft[f] += (
+                            (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
+                            / (std_true_i*std_true_j) )
+
+                        # Estimated mean, true correlation, estimated stdev
+                        chi2_efe[f] += (
                             (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
                             / (std_est_i*std_est_j) )
 
-                        chi2_fid[f] += (
+                        # Estimated mean, true correlation, fid stdev
+                        chi2_eff[f] += (
                             (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
                             / (std_fid_i*std_fid_j) )
+
+
+                        # chi2_nonuni[f] += (
+                        #     (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
+                        #     / (std_est_i*std_est_j) )
+
+                        # chi2_fid[f] += (
+                        #     (data_i-model_est_i) * (data_j-model_est_j) * r_ij_fid
+                        #     / (std_fid_i*std_fid_j) )
 
 
         z0 = np.asarray(z0_thin)
         z0 = z0/1000.0
 
+        '''
+        Plot all lines for now. Give them the following properties:
+
+            True mean -         solid line
+            Estimated mean -    dashed line
+
+            True correlation -  stars
+            Fid correlation -   squares
+
+            True std -  blue
+            Est std -   red
+            Fid std -   green
+
+        '''
         plt.clf()
         plt.figure(1)
         plt.xlabel(r'$z_{0,thin}$', fontsize=18)
         plt.ylabel(r'$\chi^2$', fontsize=18)
+
+        plt.plot(z0, chi2_ttt, marker='*', color='blue', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{true}$')
+        plt.plot(z0[k], chi2_ttt[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_tte, marker='*', color='red', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{est}$')
+        plt.plot(z0[k], chi2_tte[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_ttf, marker='*', color='green', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{fid}$')
+        plt.plot(z0[k], chi2_ttf[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_tft, marker='s', color='blue', linestyle='-', label=r'$MM_{true}, R_{fid}, \sigma_{true}$')
+        plt.plot(z0[k], chi2_tft[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_tfe, marker='s', color='red', linestyle='-', label=r'$MM_{true}, R_{fid}, \sigma_{est}$')
+        plt.plot(z0[k], chi2_tfe[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_tff, marker='s', color='green', linestyle='-', label=r'$MM_{true}, R_{fid}, \sigma_{fid}$')
+        plt.plot(z0[k], chi2_tff[k], marker='o', color='cyan', markersize=15)
+
+
+
+        plt.plot(z0, chi2_ett, marker='*', color='blue', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{true}$')
+        plt.plot(z0[k], chi2_ett[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_ete, marker='*', color='red', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{est}$')
+        plt.plot(z0[k], chi2_ete[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_etf, marker='*', color='green', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{fid}$')
+        plt.plot(z0[k], chi2_etf[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_eft, marker='s', color='blue', linestyle='--', label=r'$MM_{est}, R_{fid}, \sigma_{true}$')
+        plt.plot(z0[k], chi2_eft[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_efe, marker='s', color='red', linestyle='--', label=r'$MM_{est}, R_{fid}, \sigma_{est}$')
+        plt.plot(z0[k], chi2_efe[k], marker='o', color='cyan', markersize=15)
+
+        plt.plot(z0, chi2_eff, marker='s', color='green', linestyle='--', label=r'$MM_{est}, R_{fid}, \sigma_{fid}$')
+        plt.plot(z0[k], chi2_eff[k], marker='o', color='cyan', markersize=15)
         # plt.plot(z0, chi2_uni, marker='*', color='blue', label='uniform')
         # plt.plot(z0[k], chi2_uni[k], marker='o', color='cyan', markersize=15)
         # plt.plot(z0, chi2_nonuni, marker='^', color='green', label='nonuniform')
         # plt.plot(z0[k], chi2_nonuni[k], marker='o', color='cyan', markersize=15)
         # plt.plot(z0, chi2_true, marker='s', color='red', label='true')
         # plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
-        plt.plot(z0, chi2_fid, marker='s', color='blue', label='fiducial')
-        plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)
+        # plt.plot(z0, chi2_fid, marker='s', color='blue', label='fiducial')
+        # plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)
         plt.legend(numpoints=1, loc='upper left')
         plt.tight_layout()
         # plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
