@@ -298,13 +298,13 @@ def main():
         plt.xlabel(r'$z_{0,thin}$', fontsize=18)
         plt.ylabel(r'$\chi^2$', fontsize=18)
 
-        plt.plot(z0, chi2_ttt, marker='*', color='blue', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{true}$')
+        plt.plot(z0, chi2_ttt, marker='*', markersize=12, color='blue', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{true}$')
         plt.plot(z0[k], chi2_ttt[k], marker='o', color='cyan', markersize=15)
 
-        plt.plot(z0, chi2_tte, marker='*', color='red', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{est}$')
+        plt.plot(z0, chi2_tte, marker='*', markersize=12, color='red', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{est}$')
         plt.plot(z0[k], chi2_tte[k], marker='o', color='cyan', markersize=15)
 
-        plt.plot(z0, chi2_ttf, marker='*', color='green', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{fid}$')
+        plt.plot(z0, chi2_ttf, marker='*', markersize=12, color='green', linestyle='-', label=r'$MM_{true}, R_{true}, \sigma_{fid}$')
         plt.plot(z0[k], chi2_ttf[k], marker='o', color='cyan', markersize=15)
 
         plt.plot(z0, chi2_tft, marker='s', color='blue', linestyle='-', label=r'$MM_{true}, R_{fid}, \sigma_{true}$')
@@ -318,13 +318,13 @@ def main():
 
 
 
-        plt.plot(z0, chi2_ett, marker='*', color='blue', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{true}$')
+        plt.plot(z0, chi2_ett, marker='*', markersize=12, color='blue', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{true}$')
         plt.plot(z0[k], chi2_ett[k], marker='o', color='cyan', markersize=15)
 
-        plt.plot(z0, chi2_ete, marker='*', color='red', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{est}$')
+        plt.plot(z0, chi2_ete, marker='*', markersize=12, color='red', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{est}$')
         plt.plot(z0[k], chi2_ete[k], marker='o', color='cyan', markersize=15)
 
-        plt.plot(z0, chi2_etf, marker='*', color='green', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{fid}$')
+        plt.plot(z0, chi2_etf, marker='*', markersize=12, color='green', linestyle='--', label=r'$MM_{est}, R_{true}, \sigma_{fid}$')
         plt.plot(z0[k], chi2_etf[k], marker='o', color='cyan', markersize=15)
 
         plt.plot(z0, chi2_eft, marker='s', color='blue', linestyle='--', label=r'$MM_{est}, R_{fid}, \sigma_{true}$')
@@ -343,7 +343,7 @@ def main():
         # plt.plot(z0[k], chi2_true[k], marker='o', color='cyan', markersize=15)
         # plt.plot(z0, chi2_fid, marker='s', color='blue', label='fiducial')
         # plt.plot(z0[k], chi2_fid[k], marker='o', color='cyan', markersize=15)
-        plt.legend(numpoints=1, loc='upper left')
+        plt.legend(numpoints=1, loc='upper left', fontsize=8)
         plt.tight_layout()
         # plt.axis([z0[0]-0.01,z0[-1]+0.01,1500,3000])
         fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
