@@ -353,7 +353,7 @@ def main():
         # print(chi2_true[k])
         chi2_dof.append(chi2_true[k]/(152*12))
 
-    chi2_gif = plots_dir + 'chi2_m' + mock_num + '.gif'
+    chi2_gif = plots_dir + 'chi2_alt_m' + mock_num + '.gif'
 
     GIF_MOVIE(png_list, chi2_gif, delay=120, removef=True)
 
