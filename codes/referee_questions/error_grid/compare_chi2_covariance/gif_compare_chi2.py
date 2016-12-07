@@ -213,9 +213,9 @@ def main():
 
     # Dictionary of chi2 values for each thing we want to plot
     # Each line will have one chi2 value for each element of z0_thin
-    CHI2 = {}
-    for l in line_list:
-        CHI2[l] = np.zeros(len(z0_thin))
+    # CHI2 = {}
+    # for l in line_list:
+    #     CHI2[l] = np.zeros(len(z0_thin))
 
     # Empty png list for plotting gif
     png_list = []
@@ -226,6 +226,9 @@ def main():
 
     # Loop over different values of "data"
     for k in range(len(z0_thin)):
+        CHI2 = {}
+        for l in line_list:
+            CHI2[l] = np.zeros(len(z0_thin))
 
         # Establish directories
         z = str(z0_thin[k])
