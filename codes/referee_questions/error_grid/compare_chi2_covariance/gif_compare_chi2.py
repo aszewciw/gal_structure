@@ -316,7 +316,7 @@ def main():
 
                         for l in line_list:
                             chi2_temp = calc_chi2(
-                                dict_key=l, di = data_i, dj=data_j,
+                                dict_key=l, di=data_i, dj=data_j,
                                 mm_ti=model_true_i, mm_tj=model_true_j,
                                 mm_ei=model_est_i, mm_ej=model_est_j,
                                 r_fid=r_ij_fid, r_true=r_ij_true,
@@ -326,7 +326,7 @@ def main():
                                 i=i, j=j
                                 )
 
-                            CHI2[l][k] += chi2_temp
+                            CHI2[l][f] += chi2_temp
 
 
         z0 = np.asarray(z0_thin)
