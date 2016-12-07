@@ -86,7 +86,7 @@ def plot_chi2_vs_z0thin(fignum, z0, chi2, truth_index, dict_key):
 #------------------------------------------------------------------------------#
 
 def calc_chi2(dict_key, di, dj, mm_ti, mm_tj, mm_ei, mm_ej, r_fid, r_true, std_ti, std_tj,
-    frac_std_i, frac_std_i, std_fid_i, std_fid_j, i, j):
+    frac_std_i, frac_std_j, std_fid_i, std_fid_j, i, j):
 
     # Check the dictionary key to understand how to calculate chi2
     if dict_key[0]=='t':
@@ -321,7 +321,7 @@ def main():
                                 mm_ei=model_est_i, mm_ej=model_est_j,
                                 r_fid=r_ij_fid, r_true=r_ij_true,
                                 std_ti=std_true_i, std_tj=std_true_j,
-                                frac_std_i=frac_std_i, frac_std_j=frac_std_i,
+                                frac_std_i=frac_std_i, frac_std_j=frac_std_j,
                                 std_fid_i=std_fid_i, std_fid_j=std_fid_j,
                                 i=i, j=j
                                 )
