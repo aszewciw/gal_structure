@@ -57,10 +57,10 @@ def main():
         inv_corr = linalg.inv(corr)
 
         out_file = errors_dir + 'correlation_' + ID + '.dat'
-        np.savetxt(out_file, cov, fmt='%.6e')
+        np.savetxt(out_file, corr, fmt='%.6e')
 
         out_file = errors_dir + 'inv_correlation_' + ID + '.dat'
-        np.savetxt(out_file, inv_cov, fmt='%.6e')
+        np.savetxt(out_file, inv_corr, fmt='%.6e')
 
 if __name__ == '__main__':
     main()

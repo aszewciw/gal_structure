@@ -26,7 +26,7 @@ OUTER_DISTANCE_LIMIT = 3.0
 
 rawdata_dir  = '../../data/'
 mock_dir     = '../prepare_mock/data/'
-nonuni_dir   = '../../prepare_nonuni/data/'
+nonuni_dir   = '../../prep_nonuni/data/'
 sigma_dir    = '../../10000_mocks/errors_pairs/data/mean_var_std/'
 counts_dir   = '../../10000_mocks/errors_pairs/data/'
 data_dir     = '../data/'
