@@ -87,7 +87,7 @@ int main( int argc, char **argv ){
             N_mock = plist[i].N_mock;
             N_data = plist[i].N_data;
 
-            if(N_mock<(N_data*10)){
+            if(N_mock<(N_data)){
                 /* indicate that we need more stars */
                 loop_flag         = 0;
                 plist[i].flag     = 0;
