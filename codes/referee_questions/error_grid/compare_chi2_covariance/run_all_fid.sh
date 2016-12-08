@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
-plt='all_no_cov';
-N=6;
+plt='all_fid';
+N=4;
 mock=$1;
-lines='tnt tne tnf ent ene enf'
+lines='tff eff tnf enf'
 python gif_compare_chi2.py $N $mock $plt $lines
