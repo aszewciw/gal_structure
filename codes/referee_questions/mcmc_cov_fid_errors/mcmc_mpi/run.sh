@@ -4,7 +4,7 @@ make cleanall
 make
 
 N_procs=20;
-steps=500000;
+steps=200000;
 filename="../data/mcmc_output/mcmc_result_nocov.dat";
 
 rm $filename
