@@ -123,12 +123,13 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
     int i, j, N;
     double * Z;
     double * R;
+    double * W_f;
     double * W;
 
     /* Read star data for each poiting */
     for(i = lower_ind; i < upper_ind; i++){
 
-        snprintf(zrw_filename, 256, "%suniform_ZRW_%s.dat", ZRW_DIR, plist[i].ID);
+        snprintf(zrw_filename, 256, "%snonuniform_%s.zrw.dat", ZRW_DIR, plist[i].ID);
         if((zrw_file=fopen(zrw_filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s \n", zrw_filename);
             exit(EXIT_FAILURE);
@@ -138,13 +139,14 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         /* Claim arrays */
         Z = calloc(N, sizeof(double));
         R = calloc(N, sizeof(double));
+        W_f = calloc(N, sizeof(double));
         W = calloc(N, sizeof(double));
 
         /* Read file for zrw data */
         for(j=0; j<N; j++){
             fscanf(zrw_file, "%lf", &Z[j]);
             fscanf(zrw_file, "%lf", &R[j]);
-            fscanf(zrw_file, "%lf", &W[j]);
+            fscanf(zrw_file, "%lf", &W_f[j]);
         }
 
         fclose(zrw_file);
@@ -153,6 +155,7 @@ void load_ZRW(POINTING *plist, int lower_ind, int upper_ind, int rank){
         plist[i].N_stars = N;
         plist[i].Z = Z;
         plist[i].R = R;
+        plist[i].weight_fid = W_f;
         plist[i].weight = W;
     }
 
@@ -189,13 +192,13 @@ void load_rbins(POINTING *plist, int N_bins, int lower_ind, int upper_ind, int r
         fclose(file);
 
         /* Load fractional errors */
-        snprintf(filename, 256, "%sfrac_error_%s.dat", ERR_DIR, plist[i].ID);
+        snprintf(filename, 256, "%sfid_std_%s.dat", ERR_DIR, plist[i].ID);
         if((file=fopen(filename,"r"))==NULL){
             fprintf(stderr, "Error: Cannot open file %s\n", filename);
             exit(EXIT_FAILURE);
         }
         for(j=0; j<N_bins; j++){
-            fscanf(file, "%lf", &b[j].frac_error);
+            fscanf(file, "%lf", &b[j].sigma);
         }
         fclose(file);
 
@@ -299,7 +302,6 @@ void load_inv_correlation(POINTING *plist, int N_bins, int lower_ind, int upper_
         /* Assign values to plist elements */
         plist[i].invcor_row = row;
     }
-
 
     if(rank == 0)fprintf(stderr, "Correlation matrix loaded from %s\n", ERR_DIR);
 

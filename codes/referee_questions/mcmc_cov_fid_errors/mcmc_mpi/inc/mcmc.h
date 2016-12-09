@@ -37,7 +37,8 @@ typedef struct {
   char binID[256];      /* ID for each radial bin */
   double DD;            /* segue pair counts */
   double MM;            /* model pair counts */
-  double frac_error;    /* fractional error in model */
+  // double frac_error;    /* fractional error in model */
+  double sigma;         /* standard deviation of model */
   unsigned int N_pairs; /* number of unique pairs */
   int * pair1;          /* array of pair1 index of length N_pairs */
   int * pair2;          /* array of pair2 index of length N_pairs */
@@ -55,6 +56,7 @@ typedef struct {
   double * Z;           /* array of star heights above gal plane */
   double * R;           /* array of star distances from gal center in gal plane */
   double * weight;      /* star's density weight based on Z, R */
+  double * weight_fid;  /* star's density weight based on Z, R */
   RBIN * rbin;          /* Nbins of these structures */
   INVCOR * invcor_row;  /* Inverted correlation matrix: first index is a row */
 } POINTING;

@@ -32,6 +32,9 @@ void set_weights(STEP_DATA params, POINTING *p, int lower_ind, int upper_ind){
                 + params.ratio_thick_thin *
                 ( sech2( p[i].Z[j] / (2.0 * params.z0_thick) )
                     * exp( -p[i].R[j] / params.r0_thick ) ) );
+
+            /* divide by fiducial */
+            p[i].weight[j] /= p[i].weight_fid[j];
         }
     }
 }
@@ -112,7 +115,7 @@ int degrees_of_freedom(POINTING *p, int N_bins, int lower_ind, int upper_ind){
 
         for(j = 0; j < N_bins; j++){
 
-            if( p[i].rbin[j].frac_error == 0.0 ) continue;
+            if( p[i].rbin[j].sigma == 0.0 ) continue;
 
             if( p[i].rbin[j].DD == 0.0 ) continue;
 
