@@ -12,4 +12,4 @@ r0_thick=2.3;
 z0_thick=0.6;
 ratio=0.15;
 
-time mpirun -n $N_procs ./bin/run_mcmc -N_s $N_steps -rn $r0_thin -zn $z0_thin -rk $r0_thick -zk $z0_thick -a $ratio
+time mpirun -n $N_procs ./bin/run_mcmc -N_s $N_steps -rn $r0_thin -zn $z0_thin -rk $r0_thick -zk $z0_thick -a $ratio -f test_truth.dat

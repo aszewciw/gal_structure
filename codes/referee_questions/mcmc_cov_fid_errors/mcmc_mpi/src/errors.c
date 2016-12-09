@@ -29,7 +29,7 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
             for(k = 0; k < N_bins; k++){
 
                 /* temp line to check non-covariance calculation */
-                // if(j!=k) continue;
+                if(j!=k) continue;
 
                 /* skip any bins where we have 0 counts */
                 if( p[i].rbin[j].DD == 0.0 ) continue;
