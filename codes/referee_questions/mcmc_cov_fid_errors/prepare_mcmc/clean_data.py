@@ -14,7 +14,7 @@ def main():
     ID        = np.genfromtxt(todo_file, unpack=True, skip_header=1,
         usecols=[0], dtype=str)
 
-    Repack file of just pointing IDs
+    # Repack file of just pointing IDs
     outfile   = rawdata_dir + 'pointing_ID.dat'
     with open(outfile, 'w') as f:
         f.write(str(len(ID)))
