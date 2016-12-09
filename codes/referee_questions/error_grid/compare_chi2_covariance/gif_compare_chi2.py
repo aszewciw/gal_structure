@@ -273,7 +273,7 @@ def main():
                 mm_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
                 # Load real correlation matrix
-                corr_filename = out_dir + 'z0thin_' + str(z) + '_corr_mat_' + ID + '.dat'
+                corr_filename = out_dir + 'z0thin_' + str(Z) + '_corr_mat_' + ID + '.dat'
                 corr = np.genfromtxt(corr_filename)
                 inv_corr = linalg.inv(corr)
 
