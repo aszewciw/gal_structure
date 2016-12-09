@@ -25,7 +25,7 @@ def main():
     for p in ID:
 
         # move nonuniform zrw files
-        nonuni_file = nonuni_dir + 'nonuniform_' + p.ID + '.zrw.dat'
+        nonuni_file = nonuni_dir + 'nonuniform_' + p + '.zrw.dat'
         cmd = ('cp ' + nonuni_file + ' ' + zrw_dir)
         os.system(cmd)
 
