@@ -34,10 +34,10 @@ double calculate_chi2(POINTING *p, int N_bins, int lower_ind, int upper_ind){
                 /* skip any bins where we have 0 counts */
                 if( p[i].rbin[j].DD == 0.0 ) continue;
                 if( p[i].rbin[j].MM == 0.0 ) continue;
-                if( p[i].rbin[j].frac_error == 0.0 ) continue;
+                if( p[i].rbin[j].sigma == 0.0 ) continue;
                 if( p[i].rbin[k].DD == 0.0 ) continue;
                 if( p[i].rbin[k].MM == 0.0 ) continue;
-                if( p[i].rbin[k].frac_error == 0.0 ) continue;
+                if( p[i].rbin[k].sigma == 0.0 ) continue;
 
                 /* Set definitions for model and data */
                 corr_model_j = p[i].rbin[j].MM;
