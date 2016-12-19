@@ -107,7 +107,7 @@ void get_params( PARAMS *p, unsigned long int N ){
     double density_const;
 
     /* Disk params */
-    p->z0_thin  = 0.223;
+    p->z0_thin  = 0.233;
     p->r0_thin  = 2.34;
     p->z0_thick = 0.674;
     p->r0_thick = 2.51;
