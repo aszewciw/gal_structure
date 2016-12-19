@@ -9,7 +9,7 @@ def main():
     while i<5001:
 
         print('Copying folder ' + str(i))
-        folder = file_dir + 'mock_' + '/' + str(i)
+        folder = file_dir + '/mock_' + str(i)
         cmd = 'cp -rp ' + folder + ' ./'
 
         os.system(cmd)
