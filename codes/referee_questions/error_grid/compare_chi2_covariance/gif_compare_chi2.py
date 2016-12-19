@@ -252,7 +252,7 @@ def main():
 
             # Load fiducial mean and standard deviation
             # mocks_fid_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
-            mocks_fid_dir = '../5000_mocks_233/mean_var_std/'
+            mocks_fid_dir = '../5000_mocks_233/errors_pairs/data/mean_var_std/'
             mock_fid_file = mocks_fid_dir + 'stats_' + ID + '.dat'
             mm_mean_fid, std_fid = np.genfromtxt(mock_fid_file, unpack=True, usecols=[0,2])
 
