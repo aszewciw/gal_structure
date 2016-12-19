@@ -234,7 +234,7 @@ def main():
 
         # Establish directories
         z_data = str(z0_thin[k])
-        print('True z0_thin is 0.' + z)
+        print('True z0_thin is 0.' + z_data)
 
         dd_dir = '../5000_mocks_' + z_data + '/errors_pairs/data/mock_' + mock_num + '/'
 
