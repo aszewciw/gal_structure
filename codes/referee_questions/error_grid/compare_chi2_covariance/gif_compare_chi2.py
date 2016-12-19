@@ -12,7 +12,7 @@ Describe what this does.
 #------------------------------------------------------------------------------#
 def GIF_MOVIE(files, output_gif, delay=60, repeat=True, removef=False):
     """
-    Given a list if 'files', it creates a gif file, and deletes temp files.
+    Given a list of 'files', it creates a gif file, and deletes temp files.
 
     Parameters
     ----------
@@ -226,19 +226,21 @@ def main():
 
     # Loop over different values of "data"
     for k in range(len(z0_thin)):
+
         CHI2 = {}
+
         for l in line_list:
             CHI2[l] = np.zeros(len(z0_thin))
 
         # Establish directories
-        z = str(z0_thin[k])
+        z_data = str(z0_thin[k])
         print('True z0_thin is 0.' + z)
 
-        dd_dir = '../5000_mocks_' + z + '/errors_pairs/data/mock_' + mock_num + '/'
+        dd_dir = '../5000_mocks_' + z_data + '/errors_pairs/data/mock_' + mock_num + '/'
 
         # This directory is in a different place...
-        if z=='233':
-            dd_dir = '../../10000_mocks/errors_pairs/data/mock_' + mock_num + '/'
+        # if z=='233':
+        #     dd_dir = '../../10000_mocks/errors_pairs/data/mock_' + mock_num + '/'
 
         # Calculate correlation matrix for each l.o.s.
         for ID in ID_list:
@@ -249,7 +251,8 @@ def main():
             dd = np.genfromtxt(dd_file, unpack=True, usecols=[5])
 
             # Load fiducial mean and standard deviation
-            mocks_fid_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
+            # mocks_fid_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
+            mocks_fid_dir = '../5000_mocks_233/mean_var_std/'
             mock_fid_file = mocks_fid_dir + 'stats_' + ID + '.dat'
             mm_mean_fid, std_fid = np.genfromtxt(mock_fid_file, unpack=True, usecols=[0,2])
 
@@ -263,23 +266,23 @@ def main():
 
             for f in range(len(z0_thin)):
 
-                Z = str(z0_thin[f])
+                z_model = str(z0_thin[f])
 
                 # Load real mean and std
-                mocks_dir = '../5000_mocks_' + Z + '/errors_pairs/data/mean_var_std/'
-                if Z == '233':
-                    mocks_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
+                mocks_dir = '../5000_mocks_' + z_model + '/errors_pairs/data/mean_var_std/'
+                # if Z == '233':
+                #     mocks_dir = '../../10000_mocks/errors_pairs/data/mean_var_std/'
                 mock_file = mocks_dir + 'stats_' + ID + '.dat'
                 mm_mean, std = np.genfromtxt(mock_file, unpack=True, usecols=[0,2])
 
                 # Load real correlation matrix
-                corr_filename = out_dir + 'z0thin_' + str(Z) + '_corr_mat_' + ID + '.dat'
+                corr_filename = out_dir + 'z0thin_' + str(z_model) + '_corr_mat_' + ID + '.dat'
                 corr = np.genfromtxt(corr_filename)
                 inv_corr = linalg.inv(corr)
 
                 # Load nonuniform estimated mean
-                if Z == '233': Z = 'fid'
-                pairs_dir = '../pair_count_' + Z + '/data/'
+                # if Z == '233': Z = 'fid'
+                pairs_dir = '../pair_count_' + z_model + '/data/'
                 nonuni_file = pairs_dir + 'mm_nonuni_' + ID + '.dat'
                 mm_nonuni = np.genfromtxt(nonuni_file)
 
@@ -316,7 +319,6 @@ def main():
                         std_fid_i = std_fid[i]
                         std_fid_j = std_fid[j]
 
-
                         for l in line_list:
                             chi2_temp = calc_chi2(
                                 dict_key=l, di=data_i, dj=data_j,
@@ -330,7 +332,6 @@ def main():
                                 )
 
                             CHI2[l][f] += chi2_temp
-
 
         z0 = np.asarray(z0_thin)
         z0 = z0/1000.0
@@ -346,7 +347,7 @@ def main():
 
         plt.legend(numpoints=1, loc='upper left', fontsize=8)
         plt.tight_layout()
-        fig_name = plots_dir + 'chi2_z' + z + '_m' + mock_num + '.png'
+        fig_name = plots_dir + 'chi2_z' + z_data + '_m' + mock_num + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
 

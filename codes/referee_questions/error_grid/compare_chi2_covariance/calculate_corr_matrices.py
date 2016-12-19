@@ -51,8 +51,8 @@ def main():
 
         mock_dir = '../5000_mocks_' + str(z) + '/errors_pairs/data/'
 
-        if z == fid:
-            mock_dir = '../../10000_mocks/errors_pairs/data/'
+        # if z == fid:
+        #     mock_dir = '../../10000_mocks/errors_pairs/data/'
 
         # loop over each l.o.s.
 
