@@ -1,1 +1,0 @@
-Density in however many radial bins for each l.o.s. Calculated as #points / vol.
