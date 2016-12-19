@@ -15,7 +15,7 @@ standard deviation.
 def main():
 
     # Number of mocks
-    N_mocks = 1000
+    N_mocks = 10000
 
     # Load list of pointings
     input_filename = rawdata_dir + 'todo_list.dat'
