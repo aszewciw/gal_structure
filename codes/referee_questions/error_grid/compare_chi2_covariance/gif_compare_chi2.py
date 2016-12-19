@@ -347,7 +347,7 @@ def main():
 
         plt.legend(numpoints=1, loc='upper left', fontsize=8)
         plt.tight_layout()
-        fig_name = plots_dir + 'chi2_z' + z_data + '_m' + mock_num + '.png'
+        fig_name = plots_dir + plt_string + '_chi2_z' + z_data + '_m' + mock_num + '.png'
         plt.savefig(fig_name)
         png_list.append(fig_name)
 
