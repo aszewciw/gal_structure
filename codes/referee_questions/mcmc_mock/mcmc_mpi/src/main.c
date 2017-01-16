@@ -15,26 +15,6 @@ int main(int argc, char * argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    // if (argc!=4){
-    //     fprintf(stderr, "Usage: %s\n", argv[0]);
-    //     exit(EXIT_FAILURE);
-    // }
-
-    // /* number of steps in mcmc */
-    // int max_steps;
-    // /* flag to indicate starting parameters */
-    // int param_flag;
-    // /* name of file to output -- not including path */
-    // char file_string[256];
-
-    // sscanf(argv[1], "%d", &max_steps);
-    // sscanf(argv[2], "%d", &param_flag);
-    // if(rank==0) fprintf(stderr, "%d steps in mcmc chain.\n", max_steps);
-    // sscanf(argv[3], "%s", file_string);
-
-    // /* -- Initialize parameters --*/
-    // STEP_DATA initial;
-    // load_step_data(&initial, param_flag, rank);
 
     /* parse command line for starting params, steps, and filename */
     ARGS cl = parse_command_line( argc, argv );
