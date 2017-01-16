@@ -141,13 +141,12 @@ STEP_DATA update_parameters(STEP_DATA p, gsl_rng * GSL_r){
     // double ratio_thick_thin_sigma = 0.002;
 
     /* try alternate step sizes */
-    /* I got these by running a chain first, so they're approximately true */
-    /* Note: they're true for the non-covariance case */
-    double r0_thin_sigma = 0.4;
-    double z0_thin_sigma = 0.07;
-    double r0_thick_sigma = 0.15;
-    double z0_thick_sigma = 0.01;
-    double ratio_thick_thin_sigma = 0.065;
+    /* I got these by running a chain first; then I cut the sigmas in half */
+    double r0_thin_sigma = 0.2;
+    double z0_thin_sigma = 0.03;
+    double r0_thick_sigma = 0.07;
+    double z0_thick_sigma = 0.005;
+    double ratio_thick_thin_sigma = 0.03;
 
     /* change the position based on Gaussian distributions.  */
     delta = gsl_ran_gaussian(GSL_r, r0_thin_sigma);
