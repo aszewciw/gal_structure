@@ -3,7 +3,7 @@ import numpy as np
 
 def main():
 
-    data_dir = './prepare_mocks/data/'
+    data_dir = './prepare_mock/data/'
     comp_file = data_dir + 'all_stars.dat'
     samp_file = data_dir + 'selected_stars.dat'
 
