@@ -48,24 +48,38 @@ def main():
 
 
 
-    # disk_all, Z_all, R_all = np.genfromtxt(comp_file, unpack=True)
+    disk_all, Z_all, R_all = np.genfromtxt(comp_file, unpack=True)
 
-    # thin_ind  = np.where(disk_all==0)[0]
-    # thick_ind = np.where(disk_all==1)[0]
+    thin_ind  = np.where(disk_all==0)[0]
+    thick_ind = np.where(disk_all==1)[0]
 
-    # Zthinall  = Z_all[thin_ind]
-    # Rthinall  = R_all[thin_ind]
-    # Zthickall = Z_all[thick_ind]
-    # Rthickall = R_all[thick_ind]
+    Zthinall  = Z_all[thin_ind]
+    Rthinall  = R_all[thin_ind]
+    Zthickall = Z_all[thick_ind]
+    Rthickall = R_all[thick_ind]
 
-    # plt.figure(3)
-    # n, bins, patches = plt.hist(Zthinall, 50, facecolor='green', alpha=0.5)
-    # n, bins, patches = plt.hist(Zthickall, 50, facecolor='red', alpha=0.5)
-    # plt.savefig('zall.png')
-    # plt.figure(4)
-    # n, bins, patches = plt.hist(Rthinall, 50, facecolor='green', alpha=0.5)
-    # n, bins, patches = plt.hist(Rthickall, 50, facecolor='red', alpha=0.5)
-    # plt.savefig('rall.png')
+    thin_frac = len(thin_ind) / len(disk_all)
+    thick_frac = len(thick_ind) / len(disk_all)
+
+    thin_label = 'Thin: ' + str(np.round(thin_frac, 3))
+    thick_label = 'Thick: ' + str(np.round(thick_frac, 3))
+
+    plt.figure(3)
+    n, bins, patches = plt.hist(Zthinall, 50, facecolor='green', alpha=0.5, label=thin_label)
+    n, bins, patches = plt.hist(Zthickall, 50, facecolor='red', alpha=0.5, label=thick_label)
+    plt.xlabel('Z (kpc)')
+    plt.ylabel(r'$N_{stars}$', fontsize=16)
+    plt.legend(loc=0)
+    plt.title('Full Distribution')
+    plt.savefig('zall.png')
+    plt.figure(4)
+    n, bins, patches = plt.hist(Rthinall, 50, facecolor='green', alpha=0.5, label=thin_label)
+    n, bins, patches = plt.hist(Rthickall, 50, facecolor='red', alpha=0.5, label=thick_label)
+    plt.xlabel('R (kpc)')
+    plt.ylabel(r'$N_{stars}$', fontsize=16)
+    plt.legend(loc=0)
+    plt.title('Full Distribution')
+    plt.savefig('rall.png')
 
 if __name__ == '__main__':
     main()
