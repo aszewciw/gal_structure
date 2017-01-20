@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -18,9 +20,18 @@ def main():
     Zthicksamp = Z_samp[thick_ind]
     Rthicksamp = R_samp[thick_ind]
 
+    plt.clf()
     plt.figure(1)
     n, bins, patches = plt.hist(Zthinsamp, 50, facecolor='green', alpha=0.75)
     plt.savefig('zthinsamp.png')
-
+    plt.figure(2)
+    n, bins, patches = plt.hist(Rthinsamp, 50, facecolor='red', alpha=0.75)
+    plt.savefig('rthinsamp.png')
+    plt.figure(3)
+    n, bins, patches = plt.hist(Zthicksamp, 50, facecolor='blue', alpha=0.75)
+    plt.savefig('zthicksamp.png')
+    plt.figure(4)
+    n, bins, patches = plt.hist(Rthicksamp, 50, facecolor='black', alpha=0.75)
+    plt.savefig('rthicksamp.png')
 if __name__ == '__main__':
     main()
