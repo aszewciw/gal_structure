@@ -22,16 +22,13 @@ def main():
 
     plt.clf()
     plt.figure(1)
-    n, bins, patches = plt.hist(Zthinsamp, 50, facecolor='green', alpha=0.75)
-    plt.savefig('zthinsamp.png')
+    n, bins, patches = plt.hist(Zthinsamp, 50, facecolor='green', alpha=0.5)
+    n, bins, patches = plt.hist(Zthicksamp, 50, facecolor='red', alpha=0.5)
+    plt.savefig('zsamp.png')
     plt.figure(2)
-    n, bins, patches = plt.hist(Rthinsamp, 50, facecolor='red', alpha=0.75)
-    plt.savefig('rthinsamp.png')
-    plt.figure(3)
-    n, bins, patches = plt.hist(Zthicksamp, 50, facecolor='blue', alpha=0.75)
-    plt.savefig('zthicksamp.png')
-    plt.figure(4)
-    n, bins, patches = plt.hist(Rthicksamp, 50, facecolor='black', alpha=0.75)
-    plt.savefig('rthicksamp.png')
+    n, bins, patches = plt.hist(Rthinsamp, 50, facecolor='green', alpha=0.5)
+    n, bins, patches = plt.hist(Rthicksamp, 50, facecolor='red', alpha=0.5)
+    plt.savefig('rsamp.png')
+
 if __name__ == '__main__':
     main()
