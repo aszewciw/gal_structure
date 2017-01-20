@@ -5,4 +5,4 @@ rm ./data/*.dat
 make cleanall
 make
 
-time ./bin/make_galaxy 30000000
+time ./bin/make_galaxy 5000000
