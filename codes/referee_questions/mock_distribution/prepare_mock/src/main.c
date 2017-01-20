@@ -117,10 +117,10 @@ int main( int argc, char **argv ){
     file = fopen(filename, "a");
     fprintf(file, "# disk\tgal_Z\tgal_R\n");
     for(i=0;i<params.N_thin;i++){
-        fprintf(file, "%d\t%lf\t%lf\n", thin[i].disk_type, thin[i].gal_z, thin[i].gal_r);
+        fprintf(file, "%d\t%lf\t%lf\n", thin[i].disk_type, fabs(thin[i].gal_z), thin[i].gal_r);
     }
     for(i=0;i<params.N_thick;i++){
-        fprintf(file, "%d\t%lf\t%lf\n", thick[i].disk_type, thick[i].gal_z, thick[i].gal_r);
+        fprintf(file, "%d\t%lf\t%lf\n", thick[i].disk_type, fabs(thick[i].gal_z), thick[i].gal_r);
     }
     fclose(file);
 

@@ -184,7 +184,7 @@ void separate_sample(POINTING *p, STAR *s, int N_p, unsigned long int N_s){
                 /* add 1 to number of stars */
                 p[i].N_mock+=1;
                 /* write star to file */
-                fprintf(file, "%d\t%lf\t%lf\n", s[j].disk_type, s[j].gal_z, s[j].gal_r);
+                fprintf(file, "%d\t%lf\t%lf\n", s[j].disk_type, fabs(s[j].gal_z), s[j].gal_r);
             }
         }
     }
