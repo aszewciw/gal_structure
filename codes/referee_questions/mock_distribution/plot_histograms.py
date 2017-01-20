@@ -36,10 +36,15 @@ def main():
     plt.legend(loc=0)
     plt.title('Sample Distribution')
     plt.savefig('zsamp.png')
-    # plt.figure(2)
-    # n, bins, patches = plt.hist(Rthinsamp, 50, facecolor='green', alpha=0.5)
-    # n, bins, patches = plt.hist(Rthicksamp, 50, facecolor='red', alpha=0.5)
-    # plt.savefig('rsamp.png')
+
+    plt.figure(2)
+    n, bins, patches = plt.hist(Rthinsamp, 50, facecolor='green', alpha=0.5, label=thin_label)
+    n, bins, patches = plt.hist(Rthicksamp, 50, facecolor='red', alpha=0.5, label=thick_label)
+    plt.xlabel('R (kpc)')
+    plt.ylabel(r'$N_{stars}$', fontsize=16)
+    plt.legend(loc=0)
+    plt.title('Sample Distribution')
+    plt.savefig('rsamp.png')
 
 
 
