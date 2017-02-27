@@ -78,11 +78,19 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
         sys.exit()
 
     la = r'$MM_{' + MM + '}, R_{' + R + '}, \sigma_{' + std + '}$'
-    # plt.figure(fignum)
     plt.subplot(plt_num)
     plt.plot(z0, chi2, marker=m, markersize=ms, color=c, linestyle=ls,
         label=la)
     plt.plot(z0[truth_index], chi2[truth_index], marker='o', color='cyan', markersize=13)
+
+    if plt_num==334:
+        plt.ylabel(r'$\chi^2$', fontsize=18)
+    if plt_num==338:
+        plt.xlabel(r'$z_{0,thin}$', fontsize=18)
+    if plt_num%3!=1:
+        plt.yticks([])
+    if int(plt_num/337)!=1:
+        plt.xticks([])
 
 #------------------------------------------------------------------------------#
 
@@ -225,7 +233,7 @@ def main():
     plt_num = 330
     plt.clf()
     plt.figure(1)
-    plt.subplots(nrows=3, ncols=3, sharex=True, sharey=True, figsize=(6, 6))
+    # plt.subplots(nrows=3, ncols=3, sharex=True, sharey=True, figsize=(6, 6))
 
     ############################################################################
     ################################ Main Loop #################################
@@ -364,8 +372,6 @@ def main():
         # plt.savefig(fig_name)
         # png_list.append(fig_name)
 
-    plt.text(0.5, 0.04, 'common X', ha='center')
-    plt.text(0.04, 0.5, 'common Y', va='center', rotation='vertical')
     fig_name = plots_dir + plt_string + '_m' + mock_num + '.png'
     plt.savefig(fig_name)
     # chi2_gif = plots_dir + plt_string + '_m' + mock_num + '.gif'
