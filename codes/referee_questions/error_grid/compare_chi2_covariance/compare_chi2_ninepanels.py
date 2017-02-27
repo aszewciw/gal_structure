@@ -50,15 +50,15 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
     if R == 't':
         R = 'true'
         m = '*'
-        ms = 12
+        ms = 7
     elif R == 'f':
         R = 'fid'
         m = 's'
-        ms = 8
+        ms = 5
     elif R == 'n':
         R = 'none'
         m = 'p'
-        ms = 9
+        ms = 6
     else:
         sys.stderr.write('Error! Invalid option for R!\n')
         sys.exit()
@@ -81,7 +81,7 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
     plt.subplot(plt_num)
     plt.plot(z0, chi2, marker=m, markersize=ms, color=c, linestyle=ls,
         label=la)
-    plt.plot(z0[truth_index], chi2[truth_index], marker='o', color='cyan', markersize=13)
+    plt.plot(z0[truth_index], chi2[truth_index], marker='o', color='cyan', markersize=6)
 
     if plt_num==334:
         plt.ylabel(r'$\chi^2$', fontsize=18)
