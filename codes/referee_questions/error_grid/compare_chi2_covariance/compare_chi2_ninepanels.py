@@ -225,6 +225,7 @@ def main():
     plt_num = 330
     plt.clf()
     plt.figure(1)
+    plt.subplots(nrows=3, ncols=3, sharex=True, sharey=True, figsize=(6, 6))
 
     ############################################################################
     ################################ Main Loop #################################
@@ -357,12 +358,14 @@ def main():
             plot_chi2_vs_z0thin(plt_num=plt_num, z0=z0, chi2=CHI2[l], truth_index=k,
                 dict_key=l)
 
-        plt.legend(numpoints=1, loc='upper left', fontsize=8)
+        # plt.legend(numpoints=1, loc='upper left', fontsize=2)
         plt.tight_layout()
         # fig_name = plots_dir + plt_string + '_chi2_z' + z_data + '_m' + mock_num + '.png'
         # plt.savefig(fig_name)
         # png_list.append(fig_name)
 
+    plt.text(0.5, 0.04, 'common X', ha='center')
+    plt.text(0.04, 0.5, 'common Y', va='center', rotation='vertical')
     fig_name = plots_dir + plt_string + '_m' + mock_num + '.png'
     plt.savefig(fig_name)
     # chi2_gif = plots_dir + plt_string + '_m' + mock_num + '.gif'
