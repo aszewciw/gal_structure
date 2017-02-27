@@ -93,6 +93,7 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
     if int(plt_num/337)!=1:
         plt.xticks(z0, ' ')
         # plt.xticklabels([])
+    plt.subplots_adjust(bottom=0.15)
 
 #------------------------------------------------------------------------------#
 
