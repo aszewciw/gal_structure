@@ -79,8 +79,7 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
 
     la = r'$MM_{' + MM + '}, R_{' + R + '}, \sigma_{' + std + '}$'
     plt.subplot(plt_num)
-    plt.plot(z0, chi2, marker=m, markersize=ms, color=c, linestyle=ls,
-        label=la)
+    plt.plot(z0, chi2, marker=m, markersize=ms, color=c, linestyle=ls, label=la)
     plt.plot(z0[truth_index], chi2[truth_index], marker='o', color='cyan', markersize=6)
 
     if plt_num==334:
@@ -94,7 +93,11 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
         plt.xticks(z0, ' ')
         # plt.xticklabels([])
     else:
-        plt.xticks([0.193, 0.233, 0.273], ['0.193', '0.233', '0.273'])
+        plt.xticks([0.193, 0.233, 0.273], ['0.193', '0.233', '0.273'], fontsize=8)
+
+    if plt_num==331:
+        plt.legend(numpoints=1, loc='upper left', fontsize=2)
+
 
 #------------------------------------------------------------------------------#
 
