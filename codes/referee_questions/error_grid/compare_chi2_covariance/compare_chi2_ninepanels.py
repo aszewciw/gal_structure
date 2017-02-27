@@ -87,11 +87,11 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
         plt.ylabel(r'$\chi^2$', fontsize=18)
     if plt_num==338:
         plt.xlabel(r'$z_{0,thin}$', fontsize=18)
-    if plt_num%3!=1:
-        # plt.yticks([])
-        plt.yticklabels([])
+    # if plt_num%3!=1:
+    #     plt.yticks(len(z0), ' ')
+    #     # plt.yticklabels([])
     if int(plt_num/337)!=1:
-        # plt.xticks([])
+        plt.xticks(len(z0), ' ')
         plt.xticklabels([])
 
 #------------------------------------------------------------------------------#
