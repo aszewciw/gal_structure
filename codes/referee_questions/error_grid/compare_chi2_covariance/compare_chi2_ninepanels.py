@@ -95,8 +95,8 @@ def plot_chi2_vs_z0thin(plt_num, z0, chi2, truth_index, dict_key):
     else:
         plt.xticks([0.193, 0.233, 0.273], fontsize=8)
 
-    if plt_num==331:
-        plt.legend(numpoints=1, loc='upper left', fontsize=8)
+    # if plt_num==331:
+    #     plt.legend(numpoints=1, loc='upper left', fontsize=8)
 
     plt.yticks(fontsize=8)
 
